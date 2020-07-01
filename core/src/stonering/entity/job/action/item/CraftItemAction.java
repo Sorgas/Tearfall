@@ -2,7 +2,7 @@ package stonering.entity.job.action.item;
 
 import stonering.entity.building.aspects.FuelConsumerAspect;
 import stonering.entity.job.action.FuelingAciton;
-import stonering.entity.job.action.equipment.PutItemToContainerAction;
+import stonering.entity.job.action.equipment.use.PutItemToContainerAction;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.Entity;
 import stonering.entity.building.aspects.WorkbenchAspect;

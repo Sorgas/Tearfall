@@ -8,7 +8,7 @@ import stonering.entity.item.Item;
 import stonering.entity.item.aspects.SeedAspect;
 import stonering.entity.item.selectors.SeedItemSelector;
 import stonering.entity.job.action.equipment.EquipmentAction;
-import stonering.entity.job.action.equipment.ObtainItemAction;
+import stonering.entity.job.action.equipment.obtain.ObtainItemAction;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.plant.Plant;
 import stonering.game.GameMvc;

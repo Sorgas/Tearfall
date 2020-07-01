@@ -32,6 +32,22 @@ public class TaskStatusSystem {
     }
 
     public void update() {
+        for (TaskList list : container.tasks.values()) {
+            for (Iterator<Task> iterator = list.tasks.iterator(); iterator.hasNext(); ) {
+                Task task = iterator.next();
+                switch (task.status) {
+                    case ACTIVE:
+                    case COMPLETE:
+                    case FAILED:
+                        Logger.TASKS.logError(task + " with status " + task.status + " in unassigned tasks");
+                        break;
+                    case CANCELED: // remove task canceled by player
+                        iterator.remove();
+                        if (task.designation != null) container.designations.remove(task.designation.position); // remove designation
+                        break;
+                }
+            }
+        }
         for (Iterator<Task> iterator = container.assignedTasks.iterator(); iterator.hasNext(); ) {
             Task task = iterator.next();
             switch (task.status) {
@@ -42,7 +58,7 @@ public class TaskStatusSystem {
                 case CANCELED: // canceled designation are removed in designations system
                     iterator.remove();
                     break;
-                case FAILED: // failed tasks are reset to be taken again
+                case FAILED: // failed tasks are removed
                     iterator.remove();
                     if (task.designation != null) { // designation tasks are reopened
                         GameMvc.model().get(UnitContainer.class).planningSystem.removeTaskFromUnit(task.performer); // free performer from task
@@ -51,23 +67,6 @@ public class TaskStatusSystem {
                         container.addTask(task);
                     }
                     break;
-            }
-        }
-        // only OPEN tasks are valid here
-        for (TaskList list : container.tasks.values()) {
-            for (Iterator<Task> iterator = list.tasks.iterator(); iterator.hasNext(); ) {
-                Task task = iterator.next();
-                switch (task.status) {
-                    case ACTIVE:
-                    case COMPLETE:
-                    case FAILED:
-                        Logger.TASKS.logError(task + " with status " + task.status + " in unassigned tasks");
-                        break;
-                    case CANCELED:
-                        iterator.remove();
-                        if (task.designation != null) container.designations.remove(task.designation.position); // remove designation
-                        break;
-                }
             }
         }
     }

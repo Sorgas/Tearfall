@@ -1,9 +1,9 @@
-package stonering.entity.job.action.equipment;
+package stonering.entity.job.action.equipment.use;
 
 import stonering.entity.item.Item;
-import stonering.entity.job.action.Action;
+import stonering.entity.job.action.equipment.EquipmentAction;
+import stonering.entity.job.action.equipment.obtain.ObtainItemAction;
 import stonering.entity.job.action.target.ActionTarget;
-import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 
@@ -14,7 +14,7 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.*;
  * @author Alexander on 12.04.2020
  */
 public abstract class PutItemToDestinationAction extends EquipmentAction {
-    protected Item targetItem;
+    public Item targetItem;
 
     protected PutItemToDestinationAction(ActionTarget target, Item targetItem) {
         super(target);
@@ -25,5 +25,7 @@ public abstract class PutItemToDestinationAction extends EquipmentAction {
             if (equipment().itemBuffer == targetItem) return OK; // performer has item
             return addPreAction(new ObtainItemAction(targetItem));
         };
+
+        onStart = () -> maxProgress = 20;
     }
 }

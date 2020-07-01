@@ -29,10 +29,12 @@ public class OnMapItemsSystem extends EntitySystem<Item> {
     }
 
     public void addItemToMap(Item item, Position position) {
+        if(item == null) return;
         Logger.ITEMS.logDebug("Putting item " + item + " to map");
         validateBeforeAdding(item);
         item.position = position;
         container.itemMap.computeIfAbsent(position, pos -> new ArrayList<>()).add(item);
+        container.onMapItemsSet.add(item);
     }
 
     public void removeItemFromMap(Item item) {
@@ -41,6 +43,7 @@ public class OnMapItemsSystem extends EntitySystem<Item> {
         List<Item> list = container.itemMap.get(item.position);
         list.remove(item);
         if (list.isEmpty()) container.itemMap.remove(item.position); // last item on the tile
+        container.onMapItemsSet.remove(item);
         item.position = null;
     }
 

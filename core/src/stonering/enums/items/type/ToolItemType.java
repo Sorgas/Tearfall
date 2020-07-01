@@ -11,9 +11,9 @@ import java.util.ArrayList;
  * @author Alexander Kuzyakov on 11.09.2018.
  */
 public class ToolItemType {
-    private ArrayList<ToolAction> actions;  // some job, (mining, lumbering) require tools with specific name.
-    private ArrayList<ToolAttack> attacks;  // creatures will choose tools with best attack characteristics to use in combat.
-    private String usedSkill; //TODO replace with enum
+    public final ArrayList<ToolAction> actions;  // some job, (mining, lumbering) require tools with specific name.
+    public final ArrayList<ToolAttack> attacks;  // creatures will choose tools with best attack characteristics to use in combat.
+    public String usedSkill; //TODO replace with enum
     
     
     public ToolItemType() {
@@ -34,29 +34,5 @@ public class ToolItemType {
         public String damageType; //TODO replace with enum
         public String ammo; // ammo item name
         public String part;
-    }
-
-    public String getUsedSkill() {
-        return usedSkill;
-    }
-
-    public void setUsedSkill(String usedSkill) {
-        this.usedSkill = usedSkill;
-    }
-
-    public ArrayList<ToolAction> getActions() {
-        return actions;
-    }
-
-    public void setActions(ArrayList<ToolAction> actions) {
-        this.actions = actions;
-    }
-
-    public ArrayList<ToolAttack> getAttacks() {
-        return attacks;
-    }
-
-    public void setAttacks(ArrayList<ToolAttack> attacks) {
-        this.attacks = attacks;
     }
 }

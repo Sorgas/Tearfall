@@ -53,28 +53,30 @@ public class CreatureEquipmentSystem extends EntitySystem<Unit> {
     }
 
     public void fillGrabSlot(EquipmentAspect equipment, GrabEquipmentSlot slot, @NotNull Item item) {
-        if(slot.grabbedItem != null) Logger.EQUIPMENT.logError("filling not empty grab slot");
+        if (slot.grabbedItem != null) Logger.EQUIPMENT.logError("filling not empty grab slot");
         slot.aspect.items.add(item);
         slot.grabbedItem = item; // add to wear slot
         itemContainer().equippedItemsSystem.itemEquipped(item, equipment);
     }
 
     public Item freeSlot(EquipmentSlot slot) {
-        return Optional.ofNullable(slot.item).stream()
-                .peek(itemContainer().equippedItemsSystem::itemUnequipped)
-                .peek(item -> slot.item = null)
-                .peek(slot.aspect.items::remove)
-                .findFirst().orElse(null);
+        Item item = slot.item;
+        if (item == null) return null;
+        slot.item = null;
+        slot.aspect.items.remove(item);
+        itemContainer().equippedItemsSystem.itemUnequipped(item);
+        return item;
     }
 
     public Item freeGrabSlot(GrabEquipmentSlot slot) {
-        return Optional.ofNullable(slot.grabbedItem).stream()
-                .peek(itemContainer().equippedItemsSystem::itemUnequipped)
-                .peek(item -> slot.grabbedItem = null)
-                .peek(slot.aspect.items::remove) // tool items are in
-                .findFirst().orElse(null);
+        Item item = slot.grabbedItem;
+        if (item == null) return null;
+        slot.grabbedItem = null;
+        slot.aspect.items.remove(item);
+        itemContainer().equippedItemsSystem.itemUnequipped(item);
+        return item;
     }
-    
+
     public boolean removeItem(EquipmentAspect equipment, Item item) {
         EquipmentSlot itemSlot = equipment.getSlotWithItem(item).orElse(null);
         if (itemSlot != null) {
@@ -93,20 +95,7 @@ public class CreatureEquipmentSystem extends EntitySystem<Unit> {
         return false;
         //TODO remove item from worn containers
     }
-    
-    public void putItemToBuffer(Item item, EquipmentAspect equipment) {
-        itemContainer().equippedItemsSystem.itemEquipped(item, equipment);
-        equipment.items.add(item);
-        equipment.itemBuffer = item;
-    }
-    
-    public void removeItemFromBuffer(EquipmentAspect equipment) {
-        Item item = equipment.itemBuffer;
-        equipment.itemBuffer = null;
-        equipment.items.remove(item);
-        itemContainer().equippedItemsSystem.itemUnequipped(item);
-    }
-    
+
     private ItemContainer itemContainer() {
         return container == null ? container = GameMvc.model().get(ItemContainer.class) : container;
     }

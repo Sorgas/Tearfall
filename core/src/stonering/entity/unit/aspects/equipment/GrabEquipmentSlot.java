@@ -16,16 +16,11 @@ public class GrabEquipmentSlot extends EquipmentSlot {
         super(name, limbs, aspect);
     }
 
-    /**
-     * Tool item are also suitable for this slot
-     */
-    @Override
-    public boolean isSuitableFor(Item item) {
-        return super.isSuitableFor(item) || item.type.tool != null;
+    public boolean isGrabFree() {
+        return grabbedItem == null;
     }
 
-    @Override
-    public boolean canUnequip(Item item) {
-        return grabbedItem == item || super.canUnequip(item);
+    public boolean isToolGrabbed() {
+        return !isGrabFree() && grabbedItem.type.tool != null;
     }
 }

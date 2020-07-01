@@ -45,10 +45,11 @@ public class EquipmentAspect extends Aspect {
     }
 
     public boolean toolWithActionEquipped(String action) {
-        return items.stream()
-                .map(item -> item.type.tool)
+        return grabSlotStream()
+                .filter(GrabEquipmentSlot::isToolGrabbed)
+                .map(slot -> slot.grabbedItem.type.tool)
                 .filter(Objects::nonNull)
-                .flatMap(toolType -> toolType.getActions().stream())
+                .flatMap(toolType -> toolType.actions.stream())
                 .anyMatch(toolAction -> Objects.equals(toolAction.action, action));
     }
 

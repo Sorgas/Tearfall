@@ -4,7 +4,7 @@ import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
-import stonering.entity.job.action.equipment.PutItemToPositionAction;
+import stonering.entity.job.action.equipment.use.PutItemToPositionAction;
 import stonering.enums.ZoneTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;

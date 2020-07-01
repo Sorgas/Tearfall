@@ -1,5 +1,7 @@
 package stonering.entity.item.selectors;
 
+import java.util.Optional;
+
 import stonering.entity.item.Item;
 
 /**
@@ -19,7 +21,8 @@ public class ToolWithActionItemSelector extends ItemSelector {
      */
     @Override
     public boolean checkItem(Item item) {
-        return item.type.tool != null && item.type.tool.getActions().stream()
+        return Optional.ofNullable(item.type.tool).stream()
+                .flatMap(tool -> tool.actions.stream())
                 .map(action -> action.action)
                 .anyMatch(actionName::equals);
     }

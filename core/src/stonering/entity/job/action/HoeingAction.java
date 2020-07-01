@@ -1,6 +1,6 @@
 package stonering.entity.job.action;
 
-import stonering.entity.job.action.equipment.EquipToolItemAction;
+import stonering.entity.job.action.equipment.use.EquipToolItemAction;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;

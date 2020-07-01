@@ -3,7 +3,7 @@ package stonering.entity.job.action.item;
 import stonering.entity.building.BuildingOrder;
 import stonering.entity.item.Item;
 import stonering.entity.job.action.ActionConditionStatusEnum;
-import stonering.entity.job.action.equipment.PutItemToPositionAction;
+import stonering.entity.job.action.equipment.use.PutItemToPositionAction;
 import stonering.entity.job.action.target.BuildingActionTarget;
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.enums.buildings.BuildingType;

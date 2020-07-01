@@ -22,32 +22,4 @@ public class EquipmentSlot {
         this.limbs = new ArrayList<>(limbs);
         this.aspect = aspect;
     }
-
-    /**
-     * Checks that item is appropriate for slot. Does not check slot status. 
-     */
-    public boolean isSuitableFor(Item item) {
-        return item != null
-                && item.getOptional(WearAspect.class).map(wear -> wear.slot.equals(name)).orElse(false);
-    }
-
-    /**
-     * Checks that item can be equipped.
-     * TODO handle layers, item can be equipped, if upper layers are 
-     */
-    public boolean canEquip(Item item) {
-        return this.item == null;
-    }
-    
-    /**
-     * Item is equipped in this slot.
-     * TODO mvp
-     */
-    public boolean canUnequip(Item item) {
-        return item == this.item;
-    }
-    
-    public boolean has(Item item) {
-        return this.item == item;
-    }
 }
