@@ -2,7 +2,7 @@ package stonering.entity.job;
 
 import stonering.entity.item.Item;
 import stonering.entity.job.designation.Designation;
-import stonering.enums.unit.JobsEnum;
+import stonering.enums.unit.JobMap;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.entity.job.action.Action;
 import stonering.entity.unit.Unit;
@@ -14,7 +14,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static stonering.enums.action.ActionStatusEnum.COMPLETE;
-import static stonering.enums.unit.JobsEnum.NONE;
 
 /**
  * Task object for unit behavior in the game.
@@ -34,7 +33,7 @@ public class Task {
     public Unit performer;
     public Designation designation; // some tasks are displayed on map (e.g. digging)
     public TaskStatusEnum status; // TaskContainer uses this
-    public JobsEnum job; // used to filter tasks, when task is selected for unit
+    public String job; // used to filter tasks, when task is selected for unit
     public final List<Item> lockedItems;
     public int priority; // Unit selects task with max priority (e.g. labor vs needs)
 
@@ -49,7 +48,7 @@ public class Task {
         this.priority = priority;
         initialAction.task = this;
         status = TaskStatusEnum.OPEN;
-        job = NONE;
+        job = null;
         lockedItems = new ArrayList<>();
         updateNextAction();
     }

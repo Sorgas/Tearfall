@@ -28,6 +28,7 @@ public class FileUtil {
     public final static String TREES_PATH = "resources/plants/trees.json";
     public final static String SUBSTRATES_PATH = "resources/plants/substrates.json";
     public final static String SEASONS_PATH = "resources/seasons.json";
+    public final static String JOBS_PATH = "resources/creatures/jobs.json";
 
     public final static String BLUEPRINTS_PATH = "resources/blueprints/blueprints.json";
     public final static String BUILDINGS_PATH = "resources/buildings";

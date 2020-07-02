@@ -1,5 +1,7 @@
 package stonering.desktop.demo;
 
+import java.awt.*;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -7,6 +9,9 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 
 import stonering.entity.item.Item;
@@ -37,7 +42,7 @@ public class UiDemo extends Game {
 
             {
                 stage.interceptInput = false;
-                Container<Tree> container = createContainer3();
+                Container<Tree> container = createContainer4();
                 stage.addActor(container);
                 stage.addListener(new InputListener() {
                     @Override
@@ -105,6 +110,15 @@ public class UiDemo extends Game {
         return container;
     }
 
+    private Container createContainer4() {
+        Container container = new Container();
+        CheckBox checkBox = new CheckBox("Lumberjack", StaticSkin.skin());
+        container.setActor(checkBox);
+        container.size(200, 200);
+        container.setFillParent(true);
+        return container;
+    }
+    
     private Tree createTree() {
         Tree<Tree.Node, String> tree = new Tree(StaticSkin.getSkin());
         tree.getStyle().plus.setMinWidth(30);

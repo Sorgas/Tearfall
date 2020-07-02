@@ -11,7 +11,7 @@ import stonering.entity.unit.aspects.job.JobsAspect;
 import stonering.entity.unit.aspects.TaskAspect;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.unit.CreatureType;
-import stonering.enums.unit.JobsEnum;
+import stonering.enums.unit.JobMap;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.MainGameModel;
@@ -63,7 +63,7 @@ class CreaturePlanningSystemTest {
     void testCannotSelectNewTask() {
         Action action = new MoveAction(new Position(4, 4, 0));
         Task task = new Task("test_task", action, 1);
-        task.job = JobsEnum.MINER; // unit is not a miner and will not be assigned to this task
+        task.job = JobMap.MINER; // unit is not a miner and will not be assigned to this task
         taskContainer.addTask(task);
         unitContainer.planningSystem.update(unit);
         assert (aspect.task == null);
