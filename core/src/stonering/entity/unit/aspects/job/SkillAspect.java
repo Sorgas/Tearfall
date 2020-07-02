@@ -2,7 +2,7 @@ package stonering.entity.unit.aspects.job;
 
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
-import stonering.enums.unit.SkillsMap;
+import stonering.enums.unit.SkillMap;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +31,7 @@ public class SkillAspect extends Aspect {
 
         public SkillValue(String skill) {
             this.skill = skill;
-            state = new LeveledValue(SkillsMap.instance().getSkill(skill).levels);
+            state = new LeveledValue(SkillMap.instance().getSkill(skill).levels);
         }
     }
 }

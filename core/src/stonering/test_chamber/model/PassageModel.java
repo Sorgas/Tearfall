@@ -40,17 +40,17 @@ public class PassageModel extends TestModel {
         LocalMap localMap = get(LocalMap.class);
         MaterialMap materialMap = MaterialMap.instance();
         for (int y = 0; y < MAP_SIZE; y++) {
-            localMap.blockType.setBlock(MAP_SIZE / 2, y, 2, BlockTypeEnum.WALL, materialMap.getId("soil"));
-            localMap.blockType.setBlock(MAP_SIZE / 2, y, 3, BlockTypeEnum.WALL, materialMap.getId("soil"));
-            localMap.blockType.setBlock(MAP_SIZE / 2, y, 4, BlockTypeEnum.WALL, materialMap.getId("soil"));
-            localMap.blockType.setBlock(MAP_SIZE / 2, y, 5, BlockTypeEnum.FLOOR, materialMap.getId("soil"));
+            localMap.blockType.setBlock(MAP_SIZE / 2, y, 2, BlockTypeEnum.WALL, MaterialMap.getId("soil"));
+            localMap.blockType.setBlock(MAP_SIZE / 2, y, 3, BlockTypeEnum.WALL, MaterialMap.getId("soil"));
+            localMap.blockType.setBlock(MAP_SIZE / 2, y, 4, BlockTypeEnum.WALL, MaterialMap.getId("soil"));
+            localMap.blockType.setBlock(MAP_SIZE / 2, y, 5, BlockTypeEnum.FLOOR, MaterialMap.getId("soil"));
         }
         for (int z = 2; z < 5; z++) {
-            localMap.blockType.setBlock(MAP_SIZE / 2 + 1, MAP_SIZE / 2, z, BlockTypeEnum.STAIRS, materialMap.getId("marble"));
-            localMap.blockType.setBlock(MAP_SIZE / 2 - 1, MAP_SIZE / 2, z, BlockTypeEnum.STAIRS, materialMap.getId("marble"));
+            localMap.blockType.setBlock(MAP_SIZE / 2 + 1, MAP_SIZE / 2, z, BlockTypeEnum.STAIRS, MaterialMap.getId("marble"));
+            localMap.blockType.setBlock(MAP_SIZE / 2 - 1, MAP_SIZE / 2, z, BlockTypeEnum.STAIRS, MaterialMap.getId("marble"));
         }
-        localMap.blockType.setBlock(MAP_SIZE / 2 + 1, MAP_SIZE / 2, 5, BlockTypeEnum.DOWNSTAIRS, materialMap.getId("marble"));
-        localMap.blockType.setBlock(MAP_SIZE / 2 - 1, MAP_SIZE / 2, 5, BlockTypeEnum.DOWNSTAIRS, materialMap.getId("marble"));
+        localMap.blockType.setBlock(MAP_SIZE / 2 + 1, MAP_SIZE / 2, 5, BlockTypeEnum.DOWNSTAIRS, MaterialMap.getId("marble"));
+        localMap.blockType.setBlock(MAP_SIZE / 2 - 1, MAP_SIZE / 2, 5, BlockTypeEnum.DOWNSTAIRS, MaterialMap.getId("marble"));
     }
 
     private Unit createUnit() {
@@ -58,6 +58,6 @@ public class PassageModel extends TestModel {
     }
 
     private Task createTask() {
-        return new Task("move", new MoveAction(new Position(10, 10, 2)), 1);
+        return new Task(new MoveAction(new Position(10, 10, 2)));
     }
 }

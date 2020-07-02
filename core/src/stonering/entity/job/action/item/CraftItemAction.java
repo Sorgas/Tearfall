@@ -12,7 +12,7 @@ import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.job.SkillAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
-import stonering.enums.unit.SkillsMap;
+import stonering.enums.unit.SkillMap;
 import stonering.generators.items.ItemGenerator;
 import stonering.util.geometry.Position;
 import stonering.util.logging.Logger;
@@ -66,7 +66,7 @@ public class CraftItemAction extends ItemConsumingAction {
             float performanceBonus = Optional.ofNullable(task.performer.get(HealthAspect.class))
                     .map(aspect -> aspect.properties.get("performance"))
                     .orElse(0f);
-            float skillBonus = Optional.ofNullable(SkillsMap.getSkill(this.skill))
+            float skillBonus = Optional.ofNullable(SkillMap.getSkill(this.skill))
                     .map(skill -> Optional.ofNullable(task.performer.get(SkillAspect.class))
                             .map(aspect -> aspect.getSkill(this.skill).state.getLevel())
                             .map(level -> level * skill.speed)

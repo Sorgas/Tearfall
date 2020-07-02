@@ -17,7 +17,7 @@ import stonering.util.logging.Logger;
  *
  * @author Alexander on 16.10.2019.
  */
-public class TaskCreator {
+public class DesignationTaskCreator {
 
     public Task createTaskForDesignation(Designation designation, int priority) {
         if(designation instanceof OrderDesignation) {
@@ -34,26 +34,21 @@ public class TaskCreator {
 
     private Action selectActionByDesignation(OrderDesignation designation) {
         switch (designation.type) {
-            case D_NONE:
-                return null;
             case D_DIG:
             case D_RAMP:
             case D_STAIRS:
-            case D_CHANNEL: {
+            case D_CHANNEL:
                 return new DigAction(designation);
-            }
             case D_CUT:
-            case D_CHOP: {
+            case D_CHOP:
                 //TODO split actions
                 return new ChopTreeAction(designation);
-            }
-            case D_HARVEST: {
+            case D_HARVEST:
                 //TODO probably create multiple tasks for all tree blocks
                 PlantBlock block = GameMvc.model().get(PlantContainer.class).getPlantBlock(designation.position);
                 //TODO add product aspect to plants
 //                if (block.getPlant().isHarvestable()) action = new PlantHarvestAction(block.getPlant());
                 return null;
-            }
             default:
                 return null;
         }
@@ -73,7 +68,7 @@ public class TaskCreator {
     }
 
     private Task createTask(Action action, Designation designation, int priority) {
-        Task task = new Task(designation.type.TEXT + " task", action, priority);
+        Task task = new Task(action, designation.type.JOB);
         task.designation = designation;
         designation.task = task;
         return task;

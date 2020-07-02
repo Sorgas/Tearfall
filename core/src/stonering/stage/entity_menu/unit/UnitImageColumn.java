@@ -2,6 +2,7 @@ package stonering.stage.entity_menu.unit;
 
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 
+import stonering.entity.job.Task;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.TaskAspect;
 import stonering.entity.RenderAspect;
@@ -44,9 +45,9 @@ public class UnitImageColumn extends Table {
     }
 
     private String getUnitCurrentTask(Unit unit) {
-        return Optional.ofNullable(unit.get(TaskAspect.class))
+        return unit.getOptional(TaskAspect.class)
                 .map(aspect -> aspect.task)
-                .map(task -> task.name)
+                .map(Task::toString)
                 .orElse("Doing nothing");
     }
 

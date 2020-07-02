@@ -72,7 +72,6 @@ public class ActionTargetTest {
     void testNearTargetSuccess() {
         actionTarget = new PositionActionTarget(targetPosition, ActionTargetTypeEnum.NEAR);
         Action action = new MoveAction(new Position());
-        Task task = new Task("test_task", action, 1);
         actionTarget.setAction(action);
         dummy.position = targetPosition;
         assertEquals(ActionTargetStatusEnum.NEW, actionTarget.check(dummy)); // new action should be created when checking from same position

@@ -20,7 +20,7 @@ public class TaskTest {
     @BeforeAll
     void prepare() {
         initialAction = new MoveAction(new Position());
-        task = new Task("test_name", initialAction, 1);
+        task = new Task(initialAction);
     }
 
     @Test

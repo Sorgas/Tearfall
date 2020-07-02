@@ -16,7 +16,7 @@ import java.util.*;
  * @author Alexander Kuzyakov on 31.01.2018.
  */
 public class JobsAspect extends Aspect {
-    public Set<Job> enabledJobs;
+    public Set<String> enabledJobs;
     public Map<String, LeveledValue> skills; // skill name to level.
 
     public JobsAspect(Entity entity) {

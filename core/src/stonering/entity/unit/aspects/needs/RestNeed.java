@@ -62,7 +62,8 @@ public class RestNeed extends Need {
             case LIFE:
                 //TODO fall asleep at current place
                 return selectBuildingToSleep(unit.position)
-                        .map(building -> createTaskToSleep(building, priority))
+                        .map(SleepInBedAction::new)
+                        .map(action -> new Task(action, priority.VALUE))
                         .orElse(null);
         }
         return null;
@@ -79,6 +80,6 @@ public class RestNeed extends Need {
 
     private Task createTaskToSleep(Building building, TaskPriorityEnum priority) {
         Action restAction = new SleepInBedAction(building);
-        return new Task("sleep", restAction, priority.VALUE);
+        return new Task(restAction, priority.VALUE);
     }
 }

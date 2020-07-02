@@ -8,13 +8,13 @@ package stonering.enums.unit;
  */
 public class Job {
     public String name;
-    public String skillName;
+    public String skill;
 
     public Job() {
     }
 
-    public Job(String name, String skillName) {
+    public Job(String name, String skill) {
         this.name = name;
-        this.skillName = skillName;
+        this.skill = skill;
     }
 }

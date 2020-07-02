@@ -49,8 +49,7 @@ public class CreatureActionPerformingTest {
 
     @Test
     void testNothingOnWait() {
-        Action action = new MoveAction(new Position(4, 4, 0));
-        Task task = new Task("test_task", action, 1);
+        Task task = new Task(new MoveAction(new Position(4, 4, 0)));
         aspect.task = task;
         task.status = ACTIVE;
         task.performer = unit;
@@ -59,8 +58,7 @@ public class CreatureActionPerformingTest {
 
     @Test
     void testFailUnreachableTarget() {
-        Action action = new MoveAction(new Position(5, 4, 0)); // out of map
-        Task task = new Task("test_task", action, 1);
+        Task task = new Task(new MoveAction(new Position(5, 4, 0)));
         aspect.task = task;
         task.status = ACTIVE;
         task.performer = unit;
@@ -75,7 +73,7 @@ public class CreatureActionPerformingTest {
     @Test
     void testCheckActionsBeforeAndAfterPerforming() {
         Action action = new MoveAction(new Position(0, 0, 0));
-        Task task = new Task("test_task", action, 1);
+        Task task = new Task(action);
         task.addFirstPostAction(new MoveAction(new Position(4, 4, 0)));
         task.performer = unit;
         task.status = ACTIVE;

@@ -44,7 +44,7 @@ public class FarmZone extends Zone {
         super(name, ZoneTypesEnum.FARM);
         taskMap = new HashMap<>();
     }
-    
+
     /**
      * Observes all tiles and creates tasks.
      * 1. Designates unprepared soil floor tiles for hoeing.
@@ -128,15 +128,12 @@ public class FarmZone extends Zone {
      */
     private Task createTaskForPlanting(Position tile, PlantType type) {
         Logger.ZONES.logDebug("Creating planting task on farm");
-        PlantingAction action = new PlantingAction(new PositionActionTarget(tile, ActionTargetTypeEnum.ANY), seedSelector);
-        Task task = new Task("plant " + type.name, action, 1);
-        return task;
+        return new Task(new PlantingAction(createTarget(tile), seedSelector));
     }
 
     private Task createTaskForHoeing(Position tile) {
-        HoeingAction action = new HoeingAction(new PositionActionTarget(tile, ActionTargetTypeEnum.ANY));
-        Task task = new Task("hoe", action, 1);
-        return task;
+        Logger.ZONES.logDebug("Creating hoeing task on farm");
+        return new Task(new HoeingAction(createTarget(tile)));
     }
 
     private void addTask(Task task, Position tile) {
@@ -155,5 +152,9 @@ public class FarmZone extends Zone {
 
     public PlantType getPlantType() {
         return plantType;
+    }
+
+    private PositionActionTarget createTarget(Position tile) {
+        return new PositionActionTarget(tile, ActionTargetTypeEnum.ANY);
     }
 }

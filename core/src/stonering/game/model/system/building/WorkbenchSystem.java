@@ -153,7 +153,7 @@ public class WorkbenchSystem extends EntitySystem<Building> {
         failAspectTask(aspect);
         Logger.BUILDING.logDebug("Creating task for order " + order.recipe.name);
         CraftItemAction action = new CraftItemAction(order, aspect.entity);
-        aspect.currentTask = new Task(order.recipe.name, action, 1);
+        aspect.currentTask = new Task(action);
         GameMvc.model().get(TaskContainer.class).addTask(aspect.currentTask);
     }
 

@@ -1,134 +1,62 @@
 [
   {
-    "title": "cook"
+    "name": "cook",
+    "skill": "cooking"
   },
   {
-    "title": "woodcutting"
+    "name": "brewer",
+    "skill": "brewing"
   },
   {
-    "title": "carpentry"
+    "name": "carpenter",
+    "skill": "carpentry"
   },
   {
-    "title": "cooking"
+    "name": "mason",
+    "skill": "masonry"
   },
   {
-    "title": "brewing"
+    "name": "mechanic",
+    "skill": "mechanics"
   },
   {
-    "title": "masonry"
+    "name": "butcher",
+    "skill": "cook"
   },
   {
-    "title": "construction"
+    "name": "tailor",
+    "skill": "tailoring"
   },
   {
-    "title": "mechanicks"
+    "name": "weaver",
+    "skill": "weaving"
   },
   {
-    "title": "butchery"
+    "name": "armorsmith",
+    "skill": "armorsmithing"
   },
   {
-    "title": "farming"
+    "name": "weaponsmith",
+    "skill": "weaponsmithing"
   },
   {
-    "title": "tailoring"
+    "name": "blacksmith",
+    "skill": "blacksmithing"
   },
   {
-    "title": "weavering"
+    "name": "jeweler",
+    "skill": "jewelry"
   },
   {
-    "title": "armorsmith"
+    "name": "leaverworking",
+    "skill": "leatherworking"
   },
   {
-    "title": "weaponsmith"
+    "name": "alchemist",
+    "skill": "alchemy"
   },
   {
-    "title": "blacksmith"
-  },
-  {
-    "title": "jewelry"
-  },
-  {
-    "title": "jewilsmith"
-  },
-  {
-    "title": "leaverworking"
-  },
-  {
-    "title": "lightwatcher"
-  },
-  {
-    "title": "fisher"
-  },
-  {
-    "title": "hunter"
-  },
-  {
-    "title": ""
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
-  },
-  {
-    "title": "digging"
+    "name": "enchanter",
+    "skill": "enchanting"
   }
 ]

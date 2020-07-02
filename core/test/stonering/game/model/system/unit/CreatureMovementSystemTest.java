@@ -87,7 +87,7 @@ public class CreatureMovementSystemTest {
 
     private void createTask() {
         MoveAction action = new MoveAction(new Position(4, 4, 0));
-        Task task = new Task("test_task", action, 1);
+        Task task = new Task(action);
         taskAspect.task = task;
         taskAspect.actionChecked = false;
     }

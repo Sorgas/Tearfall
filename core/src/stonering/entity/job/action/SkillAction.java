@@ -4,7 +4,7 @@ import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.job.SkillAspect;
 import stonering.enums.unit.Skill;
-import stonering.enums.unit.SkillsMap;
+import stonering.enums.unit.SkillMap;
 
 /**
  * Action that uses particular skill.
@@ -19,7 +19,7 @@ public class SkillAction extends Action {
     protected SkillAction(ActionTarget actionTarget, String skillName) {
         super(actionTarget);
         SKILL_NAME = skillName;
-        skill = SkillsMap.getSkill(SKILL_NAME);
+        skill = SkillMap.getSkill(SKILL_NAME);
 
         onStart = () -> {
             speed = 1 + getSpeedBonus() + getUnitPerformance(); // 1 for non-trained not tired worker

@@ -1,5 +1,7 @@
 package stonering.enums.designations;
 
+import stonering.enums.unit.JobMap;
+import stonering.util.logging.Logger;
 import stonering.util.validation.DiggingChannelValidator;
 import stonering.util.validation.DiggingValidator;
 import stonering.util.validation.PositionValidator;
@@ -17,16 +19,16 @@ import static stonering.enums.blocks.BlockTypeEnum.*;
  * @author Alexander Kuzyakov
  */
 public enum DesignationTypeEnum {
-    D_NONE(0, "none", position -> true, 1),                                     // for removing simple designations
-    D_DIG(1, "digging", new DiggingValidator(FLOOR), 2),                        // removes walls and ramps. leaves floor
-    D_STAIRS(2, "cutting stairs", new DiggingValidator(STAIRS), 3),             // cuts stairs from wall.
-    D_DOWNSTAIRS(4, "cutting downstairs", new DiggingValidator(DOWNSTAIRS), 4), // cuts combined stairs from wall. assigned automatically.
-    D_RAMP(5, "cutting ramp", new DiggingValidator(RAMP), 5),                   // digs ramp and upper cell.
-    D_CHANNEL(6, "digging channel", new DiggingChannelValidator(), 6),          // digs cell and ramp on lower level
-    D_CHOP(2, "chopping trees", new TreeChoppingValidator(), 7),                // chop trees in th area
-    D_CUT(3, "cutting plants", position -> true, 8),                            // cut plants
-    D_HARVEST(4, "harvesting plants", position -> true, 9),                     // harvest plants
-    D_BUILD(5, "building", position -> true, 10),                               // build construction or building
+    D_NONE(0, "none", position -> true, 1, null),                                     // for removing simple designations
+    D_DIG(1, "digging", new DiggingValidator(FLOOR), 2, "miner"),                        // removes walls and ramps. leaves floor
+    D_STAIRS(2, "cutting stairs", new DiggingValidator(STAIRS), 3, "miner"),             // cuts stairs from wall.
+    D_DOWNSTAIRS(4, "cutting downstairs", new DiggingValidator(DOWNSTAIRS), 4, "miner"), // cuts combined stairs from wall. assigned automatically.
+    D_RAMP(5, "cutting ramp", new DiggingValidator(RAMP), 5, "miner"),                   // digs ramp and upper cell.
+    D_CHANNEL(6, "digging channel", new DiggingChannelValidator(), 6, "miner"),          // digs cell and ramp on lower level
+    D_CHOP(2, "chopping trees", new TreeChoppingValidator(), 7, "lumberjack"),                // chop trees in th area
+    D_CUT(3, "cutting plants", position -> true, 8, "herbalist"),                            // cut plants
+    D_HARVEST(4, "harvesting plants", position -> true, 9, "herbalist"),                     // harvest plants
+    D_BUILD(5, "building", position -> true, 10, "builder"),                               // build construction or building
     ;
 
     private static HashMap<Integer, DesignationTypeEnum> map;
@@ -34,6 +36,7 @@ public enum DesignationTypeEnum {
     public final String TEXT;
     public final PositionValidator VALIDATOR;
     public final int TOOL_SPRITE; // atlas x for sprite
+    public final String JOB;
 
     static {
         map = new HashMap<>();
@@ -42,11 +45,13 @@ public enum DesignationTypeEnum {
         }
     }
 
-    DesignationTypeEnum(int code, String text, PositionValidator validator, int toolSprite) {
-        this.CODE = (byte) code;
-        this.TEXT = text;
-        this.VALIDATOR = validator;
-        this.TOOL_SPRITE = toolSprite;
+    DesignationTypeEnum(int code, String text, PositionValidator validator, int toolSprite, String job) {
+        CODE = (byte) code;
+        TEXT = text;
+        VALIDATOR = validator;
+        TOOL_SPRITE = toolSprite;
+        if(JobMap.get(job) == null) Logger.LOADING.logWarn("Designation job " + job + " not found.");
+        JOB = job;
     }
 
     public DesignationTypeEnum getType(int code) {

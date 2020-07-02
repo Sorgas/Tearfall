@@ -1,7 +1,5 @@
 package stonering.stage.entity_menu.unit;
 
-import java.util.Arrays;
-
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -26,9 +24,10 @@ public class UnitJobsTab extends Table {
     public UnitJobsTab(Unit unit) {
         aspect = unit.get(JobsAspect.class);
         aspect.enabledJobs.forEach(job -> addRowForJob(job, true));
-        Arrays.stream(JobMap.values())
-                .filter(job -> aspect.enabledJobs.contains(job))
-                .forEach(job -> addRowForJob(job, false));
+        JobMap.all().stream()
+                .map(job -> job.name)
+                .filter(jobName -> aspect.enabledJobs.contains(jobName))
+                .forEach(jobName -> addRowForJob(jobName, false));
 //         list assigned jobs
 //         list other jobs
         defaults().width(300).top().left();
@@ -42,9 +41,9 @@ public class UnitJobsTab extends Table {
         left();
     }
 
-    private void addRowForJob(Job job, boolean enabled) {
-        if(job == null) return;
-        add(new Label(job.name, StaticSkin.skin()));
+    private void addRowForJob(String jobName, boolean enabled) {
+        if(jobName == null) return;
+        add(new Label(jobName, StaticSkin.skin()));
         CheckBox checkBox = new CheckBox(null, StaticSkin.getSkin());
         checkBox.setChecked(enabled);
         checkBox.addListener(new ChangeListener() {
@@ -52,9 +51,9 @@ public class UnitJobsTab extends Table {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if(checkBox.isChecked()) {
-                    aspect.enabledJobs.add(job);
+                    aspect.enabledJobs.add(jobName);
                 } else {
-                    aspect.enabledJobs.remove(job);
+                    aspect.enabledJobs.remove(jobName);
                 }
             }
         });

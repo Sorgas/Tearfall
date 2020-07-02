@@ -56,7 +56,7 @@ public class FoodNeed extends Need {
                 .map(this::getPredicate)
                 .map(predicate -> findFoodItem(unit, predicate))
                 .map(EatAction::new)
-                .map(action -> new Task("eat", action, priority.VALUE))
+                .map(action -> new Task(action, priority.VALUE))
                 .orElse(null);
     }
 

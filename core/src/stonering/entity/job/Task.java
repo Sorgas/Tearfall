@@ -2,7 +2,6 @@ package stonering.entity.job;
 
 import stonering.entity.item.Item;
 import stonering.entity.job.designation.Designation;
-import stonering.enums.unit.JobMap;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.entity.job.action.Action;
 import stonering.entity.unit.Unit;
@@ -14,6 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static stonering.enums.action.ActionStatusEnum.COMPLETE;
+import static stonering.enums.action.TaskStatusEnum.*;
 
 /**
  * Task object for unit behavior in the game.
@@ -29,33 +29,39 @@ import static stonering.enums.action.ActionStatusEnum.COMPLETE;
  * @author Alexander Kuzyakov
  */
 public class Task {
-    public final String name;
+    public TaskStatusEnum status = OPEN;
+    public Designation designation;                             // some tasks are displayed on map (e.g. digging)
     public Unit performer;
-    public Designation designation; // some tasks are displayed on map (e.g. digging)
-    public TaskStatusEnum status; // TaskContainer uses this
-    public String job; // used to filter tasks, when task is selected for unit
-    public final List<Item> lockedItems;
-    public int priority; // Unit selects task with max priority (e.g. labor vs needs)
+    public String job;                                          // used to filter tasks, when task is selected for unit
+    public int priority = 1;                                    // Unit selects task with max priority (e.g. labor vs needs)
+    public final List<Item> lockedItems = new ArrayList<>();
 
     public final Action initialAction;
     private final LinkedList<Action> preActions = new LinkedList<>();
     private final LinkedList<Action> postActions = new LinkedList<>();
     public Action nextAction; // points to first action in whole task
 
-    public Task(String name, Action initialAction, int priority) {
-        this.name = name;
-        this.initialAction = initialAction;
+    public Task(Action initialAction, String job, int priority) {
+        this(initialAction, job);
         this.priority = priority;
+    }
+
+    public Task(Action initialAction, int priority) {
+        this(initialAction, null);
+        this.priority = priority;
+    }
+
+    public Task(Action initialAction, String job) {
+        this(initialAction);
+        this.job = job != null ? job : "none";
+    }
+
+    public Task(Action initialAction) {
+        this.initialAction = initialAction;
         initialAction.task = this;
-        status = TaskStatusEnum.OPEN;
-        job = null;
-        lockedItems = new ArrayList<>();
         updateNextAction();
     }
 
-    /**
-     * Resets this task to the state after creation.
-     */
     public void reset() {
         Logger.TASKS.logDebug("Resetting task " + this);
         initialAction.reset();
@@ -117,6 +123,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return name;
+        return "Task of:" + initialAction;
     }
 }

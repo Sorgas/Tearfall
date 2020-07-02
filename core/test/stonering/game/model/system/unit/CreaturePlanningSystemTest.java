@@ -52,8 +52,7 @@ class CreaturePlanningSystemTest {
 
     @Test
     void testSelectNewTask() {
-        Action action = new MoveAction(new Position(4, 4, 0));
-        Task task = new Task("test_task", action, 1);
+        Task task = new Task(new MoveAction(new Position(4, 4, 0)));
         taskContainer.addTask(task);
         unitContainer.planningSystem.update(unit);
         assert (aspect.task == task);
@@ -61,9 +60,8 @@ class CreaturePlanningSystemTest {
 
     @Test
     void testCannotSelectNewTask() {
-        Action action = new MoveAction(new Position(4, 4, 0));
-        Task task = new Task("test_task", action, 1);
-        task.job = JobMap.MINER; // unit is not a miner and will not be assigned to this task
+        Task task = new Task(new MoveAction(new Position(4, 4, 0)));
+        task.job = "Miner"; // unit is not a miner and will not be assigned to this task
         taskContainer.addTask(task);
         unitContainer.planningSystem.update(unit);
         assert (aspect.task == null);
@@ -71,8 +69,7 @@ class CreaturePlanningSystemTest {
 
     @Test
     void testOpenTask() {
-        Action action = new MoveAction(new Position(4, 4, 0));
-        Task task = new Task("test_task", action, 1);
+        Task task = new Task(new MoveAction(new Position(4, 4, 0)));
         taskContainer.addTask(task);
         taskContainer.claimTask(task);
         aspect.task = task;
@@ -83,8 +80,7 @@ class CreaturePlanningSystemTest {
 
     @Test
     void testFailedTask() {
-        Action action = new MoveAction(new Position(4, 4, 0));
-        Task task = new Task("test_task", action, 1);
+        Task task = new Task(new MoveAction(new Position(4, 4, 0)));
         taskContainer.addTask(task);
         taskContainer.claimTask(task);
         aspect.task = task;
@@ -96,8 +92,7 @@ class CreaturePlanningSystemTest {
 
     @Test
     void testCompleteTask() {
-        Action action = new MoveAction(new Position(4, 4, 0));
-        Task task = new Task("test_task", action, 1);
+        Task task = new Task(new MoveAction(new Position(4, 4, 0)));
         taskContainer.addTask(task);
         taskContainer.claimTask(task);
         aspect.task = task;

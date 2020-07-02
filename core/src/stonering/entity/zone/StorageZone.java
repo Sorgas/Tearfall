@@ -14,6 +14,7 @@ import stonering.game.model.system.task.TaskContainer;
 import stonering.util.geometry.Position;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Zone that generates tasks for hauling items and dropping them into it.
@@ -52,10 +53,10 @@ public class StorageZone extends Zone {
      * Creates task for hauling item to the tile.
      */
     private void createHaulingTask(Item item, Position tile) {
-        if (item == null) return;
-        Action action = new PutItemToPositionAction(item, tile);
-        Task task = new Task("Store " + item.title, action, 1);
-        GameMvc.model().get(TaskContainer.class).addTask(task);
+        Optional.ofNullable(item)
+                .map(item1 -> new PutItemToPositionAction(item, tile))
+                .map(Task::new)
+                .ifPresent(GameMvc.model().get(TaskContainer.class)::addTask);
     }
 
     /**

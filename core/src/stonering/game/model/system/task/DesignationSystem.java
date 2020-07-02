@@ -5,7 +5,6 @@ import stonering.entity.job.Task;
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.designation.OrderDesignation;
-import stonering.enums.action.TaskStatusEnum;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.util.geometry.Position;
@@ -25,19 +24,16 @@ import java.util.Optional;
  */
 public class DesignationSystem {
     private TaskContainer container;
-    private TaskCreator taskCreator;
+    private DesignationTaskCreator designationTaskCreator;
 
     public DesignationSystem(TaskContainer container) {
         this.container = container;
-        taskCreator = new TaskCreator();
+        designationTaskCreator = new DesignationTaskCreator();
     }
 
     public void update() {
         // remove finished designations
-        container.designations.entrySet().removeIf(entry -> {
-            TaskStatusEnum status = entry.getValue().task.status;
-            return status == COMPLETE || status == CANCELED;
-        });
+        container.designations.entrySet().removeIf(entry -> entry.getValue().isFinished());
         for (Designation designation : container.designations.values()) {
             if (designation instanceof BuildingDesignation) {
                 if (!((BuildingDesignation) designation).checkSite()) {
@@ -46,13 +42,9 @@ public class DesignationSystem {
                 }
             }
             if (designation.task == null) {
-                createTaskForDesignation(designation);
+                container.addTask(designationTaskCreator.createTaskForDesignation(designation, 1));
             }
         }
-    }
-
-    private void createTaskForDesignation(Designation designation) {
-        container.addTask(taskCreator.createTaskForDesignation(designation, 1));
     }
 
     /**
@@ -86,10 +78,10 @@ public class DesignationSystem {
         if (!PlaceValidatorsEnum.getValidator(order.blueprint.placing).apply(order.position)) return;
         System.out.println("validation passed");
         BuildingDesignation designation = new BuildingDesignation(order);
-        Task task = taskCreator.createBuildingTask(designation, priority);
+        Task task = designationTaskCreator.createBuildingTask(designation, priority);
         designation.task = task;
         container.addTask(task);
         container.designations.put(designation.position, designation);
-        Logger.TASKS.log(task.name + " designated");
+        Logger.TASKS.log(task + " designated");
     }
 }

@@ -14,17 +14,17 @@ import java.util.Map;
  *
  * @author Alexander_Kuzyakov on 03.07.2019.
  */
-public class SkillsMap {
-    private static SkillsMap instance;
+public class SkillMap {
+    private static SkillMap instance;
     private final Map<String, Skill> skills;
 
-    private SkillsMap() {
+    private SkillMap() {
         skills = new HashMap<>();
         loadTemplates();
     }
 
-    public static SkillsMap instance() {
-        if (instance == null) instance = new SkillsMap();
+    public static SkillMap instance() {
+        if (instance == null) instance = new SkillMap();
         return instance;
     }
 

@@ -9,6 +9,7 @@ import stonering.entity.unit.aspects.job.JobsAspect;
 import stonering.entity.unit.aspects.needs.NeedsAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.time.TimeUnitEnum;
+import stonering.enums.unit.Job;
 import stonering.enums.unit.JobMap;
 import stonering.game.GameMvc;
 import stonering.util.global.Updatable;
@@ -31,7 +32,7 @@ import java.util.*;
  * @author Alexander Kuzyakov
  */
 public class TaskContainer implements ModelComponent, Updatable {
-    public Map<JobMap, TaskList> tasks; // task job to all tasks with this job
+    public Map<String, TaskList> tasks; // task job to all tasks with this job
     public final Set<Task> assignedTasks; // tasks, taken by some unit.
     public final HashMap<Position, Designation> designations; //this map is for rendering and modifying designations
     public final DesignationSystem designationSystem;
@@ -39,7 +40,7 @@ public class TaskContainer implements ModelComponent, Updatable {
 
     public TaskContainer() {
         tasks = new HashMap<>();
-        Arrays.stream(JobMap.values()).forEach(value -> tasks.put(value, new TaskList()));
+        JobMap.all().forEach(job -> tasks.put(job.name, new TaskList()));
         assignedTasks = new HashSet<>();
         designations = new HashMap<>();
         designationSystem = new DesignationSystem(this);
@@ -62,8 +63,9 @@ public class TaskContainer implements ModelComponent, Updatable {
         if (aspect == null)
             return Logger.TASKS.logError("Creature " + unit + " without jobs aspect gets task from container", null);
         PassageMap map = GameMvc.model().get(LocalMap.class).passageMap;
-        for (JobMap enabledJob : aspect.enabledJobs) {
-            for (Task task : tasks.get(enabledJob).tasks) {
+
+        for (String jobName : aspect.enabledJobs) {
+            for (Task task : tasks.get(jobName).tasks) {
                 ActionTarget target = task.nextAction.target;
                 if (map.util.positionReachable(unit.position, target.getPosition(), target.targetType != ActionTargetTypeEnum.EXACT)) {
                     //TODO add selecting nearest task.

@@ -62,7 +62,7 @@ public class WearNeed extends Need {
         ItemSelector itemSelector = new WearForSlotItemSelector(equipmentSlot.name);
         return Optional.ofNullable(GameMvc.model().get(ItemContainer.class).util.getItemAvailableBySelector(itemSelector, entity.position))
                 .map(EquipWearItemAction::new)
-                .map(action -> new Task("Equip item " + action.targetItem.title, action, GET_WEAR_PRIORITY))
+                .map(Task::new)
                 .orElse(null);
     }
 }
