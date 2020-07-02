@@ -57,15 +57,13 @@ public class TaskStatusSystem {
                 case COMPLETE: // complete designations are removed by actions
                 case CANCELED: // canceled designation are removed in designations system
                     iterator.remove();
+                    if (task.designation != null)
+                        container.designationSystem.removeDesignation(task.designation.position);
                     break;
                 case FAILED: // failed tasks are removed
                     iterator.remove();
-                    if (task.designation != null) { // designation tasks are reopened
-                        GameMvc.model().get(UnitContainer.class).planningSystem.removeTaskFromUnit(task.performer); // free performer from task
-                        task.reset();
-                        task.status = OPEN;
-                        container.addTask(task);
-                    }
+                    if (task.designation != null)
+                        task.designation.task = null;
                     break;
             }
         }

@@ -5,6 +5,7 @@ import stonering.entity.job.Task;
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.designation.OrderDesignation;
+import stonering.enums.action.TaskStatusEnum;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.util.geometry.Position;
@@ -32,16 +33,22 @@ public class DesignationSystem {
     }
 
     public void update() {
-        container.designations.values().forEach(designation -> {
-                    if (designation.task == null) createTaskForDesignation(designation);
-                    if (designation instanceof BuildingDesignation) {
-                        if (!((BuildingDesignation) designation).checkSite()) {
-                            Logger.BUILDING.logWarn("Place for building became invalid.");
-                            designation.task.status = CANCELED;
-                        }
-                    }
+        // remove finished designations
+        container.designations.entrySet().removeIf(entry -> {
+            TaskStatusEnum status = entry.getValue().task.status;
+            return status == COMPLETE || status == CANCELED;
+        });
+        for (Designation designation : container.designations.values()) {
+            if (designation instanceof BuildingDesignation) {
+                if (!((BuildingDesignation) designation).checkSite()) {
+                    Logger.BUILDING.logWarn("Place for building became invalid.");
+                    designation.task.status = CANCELED;
                 }
-        );
+            }
+            if (designation.task == null) {
+                createTaskForDesignation(designation);
+            }
+        }
     }
 
     private void createTaskForDesignation(Designation designation) {

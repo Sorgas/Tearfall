@@ -96,7 +96,8 @@ public class CreatureActionPerformingSystem extends EntitySystem<Unit> {
      */
     private boolean checkAction(Task task, TaskAspect planning) {
         ActionConditionStatusEnum result = task.nextAction.startCondition.get();
-        if (result == FAIL) task.status = FAILED; // task will be removed
+        if (result == FAIL)
+            task.status = FAILED; // task will be removed
         return planning.actionChecked = (result == OK); // action is checked and did not generate sub actions
     }
 }

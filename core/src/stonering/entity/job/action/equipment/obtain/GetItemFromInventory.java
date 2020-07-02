@@ -28,6 +28,7 @@ public class GetItemFromInventory extends EquipmentAction {
         onFinish = () -> {
             itemContainer.equippedItemsSystem.removeItemFromEquipment(item);
             equipment().itemBuffer = item;
+            System.out.println(item + " got from inventory");
         };
     }
 }

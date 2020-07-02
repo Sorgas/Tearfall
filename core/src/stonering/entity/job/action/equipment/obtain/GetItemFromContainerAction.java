@@ -37,6 +37,7 @@ public class GetItemFromContainerAction extends EquipmentAction {
         onFinish = () -> {
             itemContainer.containedItemsSystem.removeItemFromContainer(item); // remove from container
             equipment().itemBuffer = item;
+            System.out.println(item + " got from container");
         };
     }
 
