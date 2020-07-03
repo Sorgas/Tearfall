@@ -1,10 +1,8 @@
 package stonering.widget;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -15,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 
 import stonering.util.global.Initable;
 import stonering.util.global.Pair;
@@ -27,55 +26,48 @@ import stonering.widget.util.KeyNotifierListener;
  * @author Alexander on 5/13/2020
  */
 public class TabbedPane extends Table implements Initable {
-    public final Table buttonTable;
-    public final Image separator;
-    public final Container<Actor> contentContainer;
-    private Map<String, Pair<TextButton, Actor>> contentMap;
-    private List<String> tabList;
-    private ButtonGroup<TextButton> buttonGroup;
-    private String selectedContent;
+    private final Table buttonTable;
+    private final ButtonGroup<TextButton> buttonGroup = new ButtonGroup<>();
+    private final Container<Actor> contentContainer;
     
-    public TabbedPane(int width) {
-        defaults().width(width);
-        add(buttonTable = new Table()).left().row();
-        add(separator = new Image()).fillX().row();
-        add(contentContainer = new Container<>());
+    private final Map<String, Pair<TextButton, Actor>> contentMap = new HashMap<>();
+    private final List<String> tabList = new ArrayList<>();
+    private String selectedContent;
+
+    public TabbedPane() {
+        add(buttonTable = new Table()).expandX().left().row();
         buttonTable.defaults().size(100, 25).fill();
         buttonTable.left();
-        contentMap = new HashMap<>();
-        tabList = new ArrayList<>();
-        buttonGroup = new ButtonGroup<>();
-        addListener(new KeyNotifierListener(this::getSelectedContent) {
+        add(new Image()).growX().row();
+        add(contentContainer = new Container<>().fill()).grow().align(Align.topLeft);
+        addListener(new InputListener() { // listener that switches tabs
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                if (keycode != Input.Keys.TAB) return super.keyDown(event, keycode);
-                int index = tabList.indexOf(selectedContent);
-                if (index != -1) {
-                    index = (index < tabList.size() - 1) ? ++index : 0; // get next or first tab
-                    selectTab(tabList.get(index));
-                }
+                if (keycode != Input.Keys.TAB || tabList.isEmpty()) return false;
+                switchTab(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? -1 : 1); // move to next or previous
                 return true;
             }
         });
+        addListener(new KeyNotifierListener(this::getSelected)); // listener that passes input to content
     }
-    
+
     public void add(String tabTitle, Actor content) {
         tabList.add(tabTitle);
         TextButton button = new TextButton(tabTitle, StaticSkin.getSkin());
         button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                selectTab(tabTitle);
+                select(tabTitle);
             }
         });
         buttonGroup.add(button);
         buttonTable.add(button);
         Pair<TextButton, Actor> pair = new Pair<>(button, content);
         contentMap.put(tabTitle, pair);
-        if (contentMap.size() == 1) selectTab(tabTitle);
+        if (contentMap.size() == 1) select(tabTitle);
     }
 
-    public void selectTab(String title) {
+    public void select(String title) {
         if (!contentMap.containsKey(title)) return;
         Actor previousActor = contentContainer.getActor();
         if (previousActor instanceof Restoreable) {
@@ -90,8 +82,15 @@ public class TabbedPane extends Table implements Initable {
         }
     }
 
-    public Actor getSelectedContent() {
+    public Actor getSelected() {
         return contentMap.get(selectedContent).getValue();
+    }
+
+    public void switchTab(int delta) {
+        int index = tabList.indexOf(selectedContent);
+        if (index < 0) index = tabList.size() - 1; // loop tabs
+        if (index >= tabList.size()) index = 0;
+        select(tabList.get(index));
     }
     
     @Override

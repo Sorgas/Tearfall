@@ -3,13 +3,12 @@ package stonering.stage.entity_menu.unit;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
 
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.job.JobsAspect;
-import stonering.enums.unit.Job;
 import stonering.enums.unit.JobMap;
 import stonering.util.global.StaticSkin;
 
@@ -20,30 +19,28 @@ import stonering.util.global.StaticSkin;
  */
 public class UnitJobsTab extends Table {
     private JobsAspect aspect;
-
+    private ScrollPane pane;
+    private Table listTable;
+    
     public UnitJobsTab(Unit unit) {
+        // header
+        add(new Label("Assign jobs to unit.", StaticSkin.skin())).height(80).growX().row();
+        
+        listTable = new Table();
+        add(pane = new ScrollPane(listTable)).grow();
         aspect = unit.get(JobsAspect.class);
         aspect.enabledJobs.forEach(job -> addRowForJob(job, true));
         JobMap.all().stream()
                 .map(job -> job.name)
-                .filter(jobName -> aspect.enabledJobs.contains(jobName))
+                .filter(jobName -> !aspect.enabledJobs.contains(jobName))
                 .forEach(jobName -> addRowForJob(jobName, false));
-//         list assigned jobs
-//         list other jobs
-        defaults().width(300).top().left();
-        Label label = new Label("Equipped items", StaticSkin.skin());
-        label.setAlignment(Align.center);
-        add(label).height(100).center();
-        label = new Label("Hauled items", StaticSkin.skin());
-        label.setAlignment(Align.center);
-        add(label).height(100).center().row();
-//        add(createHauledList()).height(775);
-        left();
+        top();
+        setDebug(true, true);
     }
 
     private void addRowForJob(String jobName, boolean enabled) {
         if(jobName == null) return;
-        add(new Label(jobName, StaticSkin.skin()));
+        listTable.add(new Label(jobName, StaticSkin.skin()));
         CheckBox checkBox = new CheckBox(null, StaticSkin.getSkin());
         checkBox.setChecked(enabled);
         checkBox.addListener(new ChangeListener() {
@@ -57,6 +54,6 @@ public class UnitJobsTab extends Table {
                 }
             }
         });
-        add(checkBox).row();
+        listTable.add(checkBox).row();
     }
 }

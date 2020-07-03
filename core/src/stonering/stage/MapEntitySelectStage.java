@@ -94,7 +94,7 @@ public class MapEntitySelectStage extends UiStage {
     }
 
     private void tryShowBuildingStage(@NotNull BuildingBlock block) {
-        TabbedPane pane = new TabbedPane(900);
+        TabbedPane pane = new TabbedPane();
         //TODO building description
         if (block.building.get(WorkbenchAspect.class) != null) {
             pane.add("Orders", new WorkbenchMenu(block.building));

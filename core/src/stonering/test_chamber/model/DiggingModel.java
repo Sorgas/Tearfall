@@ -52,7 +52,7 @@ public class DiggingModel extends TestModel {
     }
 
     private Unit createUnit() {
-        Unit unit =  new CreatureGenerator().generateUnit(new Position(3, 3, 10), "human");
+        Unit unit =  new CreatureGenerator().generateUnit(new Position(5, 5, 10), "human");
         unit.get(JobsAspect.class).enabledJobs.add("miner");
         return unit;
     }

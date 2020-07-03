@@ -10,6 +10,7 @@ import stonering.entity.unit.Unit;
 import stonering.game.GameMvc;
 import stonering.util.global.StaticSkin;
 import stonering.widget.TabbedPane;
+import stonering.widget.util.KeyNotifierListener;
 
 /**
  * Menu for unit.
@@ -32,9 +33,9 @@ public class UnitMenu extends Container<Table> {
         Table table = new Table();
         table.add(new UnitImageColumn(unit)).size(300, 900);
         TabbedPane pane;
-        table.add(pane = new TabbedPane(600));
-        pane.contentContainer.left();
+        table.add(pane = new TabbedPane()).size(600, 900).fill();
         pane.add("equipment", new UnitEquipmentTab(unit));
+        pane.add("jobs", new UnitJobsTab(unit));
         // TODO add other tabs
         addListener(new InputListener() {
             @Override
@@ -44,6 +45,7 @@ public class UnitMenu extends Container<Table> {
                 return true;
             }
         });
+        addListener(new KeyNotifierListener(() -> pane));
         pane.setBackground(StaticSkin.generator.generate(StaticSkin.background));
         setActor(table);
     }

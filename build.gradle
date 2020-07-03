@@ -41,6 +41,7 @@ project(":desktop") {
 
     dependencies {
         compile project(":core")
+        compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.0'
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
@@ -64,6 +65,7 @@ project(":core") {
         testImplementation project(":core")
         testRuntimeOnly project(":core")
 
+        compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.0'
         compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
