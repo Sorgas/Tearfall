@@ -69,7 +69,11 @@ public class WorkbenchSystem extends EntitySystem<Building> {
     }
 
     private void handleOpenOrder(ItemOrder order, WorkbenchAspect aspect) {
-        createTaskForOrder(order, aspect);
+        Logger.BUILDING.logDebug("Creating task for order " + order.recipe.name);
+        if(aspect.currentTask != null) System.out.println("failing previous task " + aspect.currentTask);
+        failAspectTask(aspect); // cancel previous task
+        aspect.currentTask = new Task(new CraftItemAction(order, aspect.entity), order.recipe.job);
+        GameMvc.model().get(TaskContainer.class).addTask(aspect.currentTask);
         order.status = ACTIVE;
     }
 
@@ -144,17 +148,6 @@ public class WorkbenchSystem extends EntitySystem<Building> {
     public void setOrderRepeated(WorkbenchAspect aspect, ItemOrder order, boolean value) {
         Logger.TASKS.logDebug("Setting order " + order.toString() + " in " + aspect.entity.toString() + " repeated: " + value);
         order.repeated = value;
-    }
-
-    /**
-     * Creates task and adds it to given entry and {@link TaskContainer}.
-     */
-    private void createTaskForOrder(ItemOrder order, WorkbenchAspect aspect) {
-        failAspectTask(aspect);
-        Logger.BUILDING.logDebug("Creating task for order " + order.recipe.name);
-        CraftItemAction action = new CraftItemAction(order, aspect.entity);
-        aspect.currentTask = new Task(action);
-        GameMvc.model().get(TaskContainer.class).addTask(aspect.currentTask);
     }
 
     /**

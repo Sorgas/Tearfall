@@ -63,7 +63,7 @@ public class TabbedPanelDemo extends Game {
 
     private Container createContainer() {
         container = new Container();
-        TabbedPane pane = new TabbedPane(400);
+        TabbedPane pane = new TabbedPane();
         Image image = new Image(StaticSkin.getColorDrawable(Color.RED));
         image.getDrawable().setMinWidth(200);
         image.getDrawable().setMinHeight(200);

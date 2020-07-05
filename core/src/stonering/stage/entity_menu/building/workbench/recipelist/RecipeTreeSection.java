@@ -48,25 +48,26 @@ public class RecipeTreeSection extends MenuSection {
      * Creates buttons for categories. These cannot be hidden.
      */
     private void createTree() {
-        recipeTree = new NavigableTree(StaticSkin.getSkin());
+        recipeTree = new NavigableTree<>(StaticSkin.getSkin());
         recipeTree.getStyle().plus.setMinHeight(50);
         recipeTree.getStyle().plus.setMinWidth(50);
         recipeTree.getStyle().minus.setMinHeight(50);
         recipeTree.getStyle().minus.setMinWidth(50);
         float categoryNodeWidth = sectionWidth - recipeTree.getStyle().plus.getMinWidth();
         float recipeNodeWidth = categoryNodeWidth - recipeTree.getIndentSpacing();
-        for (String category : recipeMap.keySet()) {
-            RecipeCategoryNode categoryNode = new RecipeCategoryNode(category, categoryNodeWidth);
-            recipeTree.add(categoryNode);
-            for (Recipe recipe : recipeMap.get(category)) {
-                categoryNode.add(new RecipeNode(recipe, this, recipeNodeWidth));
-            }
-        }
+        recipeMap.keySet().stream()
+                .map(category -> new RecipeCategoryNode(category, categoryNodeWidth))
+                .peek(recipeTree::add)
+                .forEach(categoryNode -> {
+                    recipeMap.get(categoryNode.category).stream()
+                            .map(recipe -> new RecipeNode(recipe, this, recipeNodeWidth))
+                            .forEach(categoryNode::add);
+                });
         recipeTree.setSelectionConsumer(node -> {
-            if(node instanceof RecipeCategoryNode) {
+            if (node instanceof RecipeCategoryNode) {
                 RecipeCategoryNode categoryNode = (RecipeCategoryNode) node;
                 categoryNode.setExpanded(!categoryNode.isExpanded()); // expand/collapse categories
-            } else if(node instanceof RecipeNode) {
+            } else if (node instanceof RecipeNode) {
                 createNewOrder(((RecipeNode) node).recipe);
             } else {
                 Logger.UI.logError("Invalid node type in recipe tree.");
@@ -80,7 +81,7 @@ public class RecipeTreeSection extends MenuSection {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 ControlActionsEnum action = ControlActionsEnum.getAction(keycode);
-                if(action == CANCEL) {
+                if (action == CANCEL) {
                     menu.setFocus(menu.orderListSection); // go to order list
                 } else {
                     recipeTree.accept(action);

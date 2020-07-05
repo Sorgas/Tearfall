@@ -42,24 +42,23 @@ public class Task {
     public Action nextAction; // points to first action in whole task
 
     public Task(Action initialAction, String job, int priority) {
-        this(initialAction, job);
+        this.initialAction = initialAction;
+        this.job = job != null ? job : "none";
         this.priority = priority;
+        initialAction.task = this;
+        updateNextAction();
     }
 
     public Task(Action initialAction, int priority) {
-        this(initialAction, null);
-        this.priority = priority;
+        this(initialAction, null, priority);
     }
 
     public Task(Action initialAction, String job) {
-        this(initialAction);
-        this.job = job != null ? job : "none";
+        this(initialAction, job, 1);
     }
 
     public Task(Action initialAction) {
-        this.initialAction = initialAction;
-        initialAction.task = this;
-        updateNextAction();
+        this(initialAction, null, 1);
     }
 
     public void reset() {

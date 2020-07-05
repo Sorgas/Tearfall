@@ -48,7 +48,8 @@
     "newTag" : "prepared",
     "removeTag" : "raw",
     "iconName": "roast_meal",
-    "workAmount": "500"
+    "workAmount": "500",
+    "job": "cook"
 }, {
     "name": "boil_meal",
     "title": "Cook soup",

@@ -12,8 +12,11 @@ import stonering.widget.BackgroundGenerator;
  * @author Alexander on 25.04.2020
  */
 public class RecipeCategoryNode extends Tree.Node {
+    public final String category;
+
     public RecipeCategoryNode(String category, float width) {
         super(new Table());
+        this.category = category;
         Label label = new Label(category, StaticSkin.getSkin());
         label.setAlignment(Align.left);
         Table table = (Table) getActor();
