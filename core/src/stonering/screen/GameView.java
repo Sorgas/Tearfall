@@ -20,8 +20,8 @@ import stonering.util.view.MultiStageScreen;
  */
 public class GameView extends MultiStageScreen {
     public final OverlayStage overlayStage;
-    public final LocalWorldStage localWorldStage;
     public final ToolbarStage toolbarStage;
+    public final LocalWorldStage localWorldStage;
     public final StageInputAdapter stageInputAdapter;
     public boolean showOverlay = true;
     

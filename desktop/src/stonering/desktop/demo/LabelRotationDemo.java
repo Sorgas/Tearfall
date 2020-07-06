@@ -1,5 +1,8 @@
 package stonering.desktop.demo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -9,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.Tree;
 import com.badlogic.gdx.utils.Align;
 
 import stonering.stage.UiStage;
@@ -22,11 +24,12 @@ import stonering.util.view.SimpleScreen;
  *
  * @author Alexander on 19.02.2019.
  */
-public class UiDemo extends Game {
-    private Container container2;
-    
+public class LabelRotationDemo extends Game {
+    private Table table;
+    private List<Container> containers = new ArrayList<>();
+
     public static void main(String[] args) {
-        new LwjglApplication(new UiDemo());
+        new LwjglApplication(new LabelRotationDemo());
     }
 
     @Override
@@ -36,17 +39,28 @@ public class UiDemo extends Game {
 
             {
                 stage.interceptInput = false;
-                Container<Tree> container = createContainer();
+                Container container = createContainer();
                 stage.addActor(container);
                 stage.addListener(new InputListener() {
                     @Override
                     public boolean keyDown(InputEvent event, int keycode) {
-                        if (keycode == Input.Keys.ESCAPE) {
-                            Gdx.app.exit();
-                        } else {
-                            System.out.println(container.getWidth());
-                            container.width(container.getWidth() + 20);
-                        }
+                        if (keycode != Input.Keys.ESCAPE) return false;
+                        Gdx.app.exit();
+                        return true;
+                    }
+                });
+
+                stage.addListener(new InputListener() {
+                    @Override
+                    public boolean keyTyped(InputEvent event, char character) {
+                        containers.forEach(container1 -> {
+                            container1.setOrigin(Align.center);
+                            container1.rotateBy(90);
+//                            System.out.println("size " + container1.getPrefWidth() + " " + container1.getPrefHeight());
+                        });
+                        table.invalidate();
+                        table.layout();
+                        System.out.println(table.getWidth() + " " + table.getHeight());
                         return true;
                     }
                 });
@@ -70,19 +84,22 @@ public class UiDemo extends Game {
     }
 
     private Container createContainer() {
-        Label label = new Label("qwer", StaticSkin.skin());
-        label.setAlignment(Align.center);
-        
-        container2 = new Container(label).fill();
-        
-        Table table = new Table();
-        table.add(container2).pad(5);
-
-        Container container = new Container(table);
-        container.size(200, 200);
+        Container container = new Container();
+        table = new Table();
+        for (int i = 0; i < 4; i++) {
+            Label label = new Label("qwer12345", StaticSkin.skin());
+            Container container1 = new Container();
+            table.add(container1);
+            container1.setTransform(true);
+            container1.setOrigin(Align.center);
+            container1.rotateBy(90);
+            containers.add(container1);
+            container1.setActor(label);
+        }
+        table.setTransform(true);
+        container.setActor(table);
+        container.setTransform(true);
         container.setFillParent(true);
-        container.setDebug(true, true);
-        table.setDebug(true);
         return container;
     }
 }

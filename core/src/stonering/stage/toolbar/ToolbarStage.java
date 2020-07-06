@@ -16,6 +16,7 @@ import stonering.widget.TileStatusBar;
 public class ToolbarStage extends UiStage {
     public Toolbar toolbar;
     private TileStatusBar tileStatusBar;
+    private RightBar rightBar;
     private final Container<Actor> tabContainer;
     public BuildingMaterialTab buildingTab;
 
@@ -24,6 +25,7 @@ public class ToolbarStage extends UiStage {
         addActor(toolbar = new Toolbar());
         addActor(tileStatusBar = new TileStatusBar());
         addActor(tabContainer = new Container<>());
+        addActor(rightBar = new RightBar());
         tabContainer.setFillParent(true);
         tabContainer.align(Align.bottomRight);
         setKeyboardFocus(toolbar);
