@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.job.JobsAspect;
@@ -27,6 +28,8 @@ public class UnitJobsTab extends Table {
         add(new Label("Assign jobs to unit.", StaticSkin.skin())).height(80).growX().row();
         
         listTable = new Table();
+        listTable.defaults().height(25).pad(5);
+        listTable.align(Align.topLeft);
         add(pane = new ScrollPane(listTable)).grow();
         aspect = unit.get(JobsAspect.class);
         aspect.enabledJobs.forEach(job -> addRowForJob(job, true));
@@ -40,9 +43,16 @@ public class UnitJobsTab extends Table {
 
     private void addRowForJob(String jobName, boolean enabled) {
         if(jobName == null) return;
-        listTable.add(new Label(jobName, StaticSkin.skin()));
+        Table rowTable = new Table();
+        rowTable.add(new Label(jobName, StaticSkin.skin())).width(200);
         CheckBox checkBox = new CheckBox(null, StaticSkin.getSkin());
         checkBox.setChecked(enabled);
+        
+        checkBox.getStyle().checkboxOff.setMinWidth(25);
+        checkBox.getStyle().checkboxOff.setMinHeight(25);
+        checkBox.getStyle().checkboxOn.setMinWidth(25);
+        checkBox.getStyle().checkboxOn.setMinHeight(25);
+        
         checkBox.addListener(new ChangeListener() {
 
             @Override
@@ -54,6 +64,8 @@ public class UnitJobsTab extends Table {
                 }
             }
         });
-        listTable.add(checkBox).row();
+        rowTable.add(checkBox).width(25);
+        rowTable.setBackground(StaticSkin.generator.generate(StaticSkin.backgroundFocused));
+        listTable.add(rowTable).row();
     }
 }

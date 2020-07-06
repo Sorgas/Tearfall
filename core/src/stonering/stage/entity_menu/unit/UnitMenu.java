@@ -27,15 +27,16 @@ import stonering.widget.util.KeyNotifierListener;
  * @author Alexander on 18.12.2019.
  */
 public class UnitMenu extends Container<Table> {
-
+    private Table table;
+    
     public UnitMenu(Unit unit) {
         super();
-        Table table = new Table();
+        setActor(table = new Table());
         table.add(new UnitImageColumn(unit)).size(300, 900);
-        TabbedPane pane;
-        table.add(pane = new TabbedPane()).size(600, 900).fill();
+        TabbedPane pane = new TabbedPane();
         pane.add("equipment", new UnitEquipmentTab(unit));
         pane.add("jobs", new UnitJobsTab(unit));
+        table.add(pane).size(600, 900).fill();
         // TODO add other tabs
         addListener(new InputListener() {
             @Override
@@ -47,6 +48,5 @@ public class UnitMenu extends Container<Table> {
         });
         addListener(new KeyNotifierListener(() -> pane));
         pane.setBackground(StaticSkin.generator.generate(StaticSkin.background));
-        setActor(table);
     }
 }

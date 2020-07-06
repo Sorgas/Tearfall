@@ -87,7 +87,7 @@ public class TabbedPane extends Table implements Initable {
     }
 
     public void switchTab(int delta) {
-        int index = tabList.indexOf(selectedContent);
+        int index = tabList.indexOf(selectedContent) + delta;
         if (index < 0) index = tabList.size() - 1; // loop tabs
         if (index >= tabList.size()) index = 0;
         select(tabList.get(index));
