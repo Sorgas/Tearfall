@@ -1,10 +1,10 @@
 package stonering.game.model.system.task;
 
+import static stonering.enums.action.TaskStatusEnum.FAILED;
 import static stonering.enums.action.TaskStatusEnum.OPEN;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import stonering.entity.job.Task;
 import stonering.enums.time.TimeUnitEnum;
@@ -19,20 +19,18 @@ import stonering.util.logging.Logger;
  */
 public class TaskList implements Updatable {
     public LinkedList<Task> tasks = new LinkedList<>();
-    public List<Task> reopenedTasks = new ArrayList<>();
+    public Map<Task, Integer> reopenedTasks = new HashMap<>(); // task to time counter
+    private int delayLimit = 12;
 
     @Override
     public void update(TimeUnitEnum unit) {
-        if(unit == TimeUnitEnum.MINUTE) checkTaskStatuses();
-
-        for (Task task : reopenedTasks) {
-            System.out.println(task + " is reopened");
-            add(task);
-        }
+        if (unit != TimeUnitEnum.MINUTE) return;
+        checkTaskStatuses();
+        rollTimers();
     }
 
     public void add(Task task) {
-        if(tasks.size() == 0) {
+        if (tasks.size() == 0) {
             tasks.add(task);
         } else {
             for (int i = 0; i < tasks.size(); i++) {
@@ -45,21 +43,37 @@ public class TaskList implements Updatable {
     }
 
     public void addReopenedTask(Task task) {
-        reopenedTasks.add(task);
+        reopenedTasks.put(task, 0);
     }
 
     public boolean remove(Task task) {
-        return tasks.remove(task) || reopenedTasks.remove(task);
+        return tasks.remove(task) || reopenedTasks.remove(task) != null;
     }
 
     private void checkTaskStatuses() {
         for (Task task : tasks) {
             if (task.performer != null) Logger.TASKS.logError("Task " + task + " with performer is in open map.");
-            if (task.status != OPEN) Logger.TASKS.logError("Task " + task + " with status " + task.status + " is in open map.");
+            if (task.status != OPEN)
+                Logger.TASKS.logError("Task " + task + " with status " + task.status + " is in open map.");
         }
-        for (Task task : reopenedTasks) {
-            if (task.performer != null) Logger.TASKS.logError("Reopened task " + task + " with performer is in open map.");
-            if (task.status != OPEN) Logger.TASKS.logError("Reopened task " + task + " with status " + task.status + " is in open map.");
+        for (Task task : reopenedTasks.keySet()) {
+            if (task.performer != null)
+                Logger.TASKS.logError("Reopened task " + task + " with performer is in reopened map.");
+            if (task.status != FAILED)
+                Logger.TASKS.logError("Reopened task " + task + " with status " + task.status + " is in reopened map.");
         }
+    }
+
+    private void rollTimers() {
+        List<Task> removed = reopenedTasks.entrySet().stream()
+                .peek(entry -> entry.setValue(entry.getValue() + 1))
+                .filter(entry -> entry.getValue() >= delayLimit)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+        removed.forEach(task -> {
+            reopenedTasks.remove(task);
+            task.status = OPEN;
+            tasks.add(task);
+        });
     }
 }

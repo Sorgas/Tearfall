@@ -52,6 +52,7 @@ public class TaskContainer implements ModelComponent, Updatable {
     public void update(TimeUnitEnum unit) {
         designationSystem.update();
         taskStatusSystem.update();
+        tasks.values().forEach(list -> list.update(unit));
     }
 
     /**
@@ -91,6 +92,10 @@ public class TaskContainer implements ModelComponent, Updatable {
                 });
     }
 
+    /**
+     * Adds task to special list for failed tasks, which should be reopened after a delay.
+     * Task should be OPEN and have no performer.
+     */
     public void addReopenedTask(Task task) {
         Optional.ofNullable(task)
                 .map(task1 -> tasks.get(task1.job))

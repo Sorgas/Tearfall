@@ -43,7 +43,8 @@ public class TaskStatusSystem {
                         break;
                     case CANCELED: // remove task canceled by player
                         iterator.remove();
-                        if (task.designation != null) container.designations.remove(task.designation.position); // remove designation
+                        if (task.designation != null)
+                            container.designations.remove(task.designation.position); // remove designation
                         break;
                 }
             }
@@ -62,8 +63,12 @@ public class TaskStatusSystem {
                     break;
                 case FAILED: // failed tasks are removed
                     iterator.remove();
-                    if (task.designation != null)
-                        task.designation.task = null;
+                    if (task.designation != null) {
+                        System.out.println("reopening task");
+                        task.reset();
+                        container.addReopenedTask(task);
+                    }
+//                        task.designation.task = null;
                     break;
             }
         }
