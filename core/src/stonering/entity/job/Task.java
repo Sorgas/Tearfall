@@ -1,6 +1,7 @@
 package stonering.entity.job;
 
 import stonering.entity.item.Item;
+import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.designation.Designation;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.entity.job.action.Action;
@@ -88,27 +89,9 @@ public class Task {
         return action;
     }
 
-    public void addLastPreAction(Action action) {
-        preActions.add(action);
-        actionAdded(action);
-    }
-
-    public void addFirstPostAction(Action action) {
-        postActions.add(0, action);
-        actionAdded(action);
-    }
-
-    public void addLastPostAction(Action action) {
-        postActions.add(action);
-        actionAdded(action);
-    }
-
     private void actionAdded(Action action) {
-//        Logger.TASKS.logDebug("Action " + action + " added to task " + name);
         action.task = this;
         updateNextAction();
-//        Logger.TASKS.logDebug("Actions count pre: " + preActions.size() + " post: " + postActions.size());
-//        Logger.TASKS.logDebug("Next action is: " + nextAction);
     }
 
     /**
@@ -123,5 +106,9 @@ public class Task {
     @Override
     public String toString() {
         return "Task of:" + initialAction;
+    }
+
+    public ActionTarget initialTarget() {
+        return initialAction.target;
     }
 }

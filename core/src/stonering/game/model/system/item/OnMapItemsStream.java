@@ -81,7 +81,7 @@ public class OnMapItemsStream extends EntityStream<Item> {
     }
 
     public OnMapItemsStream filterByReachability(ActionTarget target) {
-        return (OnMapItemsStream) super.filterByReachability(target.getPosition(), target.targetType != ActionTargetTypeEnum.EXACT);
+        return (OnMapItemsStream) super.filterByReachability(target.getPosition(), target.type != ActionTargetTypeEnum.EXACT);
     }
 
     @Override

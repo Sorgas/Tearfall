@@ -49,7 +49,7 @@ public class ContainedItemsStream {
 
     public ContainedItemsStream filterByReachability(ActionTarget target) {
         LocalMap map = GameMvc.model().get(LocalMap.class);
-        stream = stream.filter(entry -> map.passageMap.util.positionReachable(target.getPosition(), entry.getValue().entity.position, target.targetType != ActionTargetTypeEnum.EXACT));
+        stream = stream.filter(entry -> map.passageMap.util.positionReachable(target.getPosition(), entry.getValue().entity.position, target.type != ActionTargetTypeEnum.EXACT));
         return this;
     }
 

@@ -61,12 +61,12 @@ public class BuildingActionTarget extends ActionTarget {
                     .filter(position -> area.get(position) == builderArea)
                     .findFirst().orElse(null);
         }
-        if (builderPosition != null) targetType = EXACT;
+        if (builderPosition != null) type = EXACT;
         return builderPosition != null;
     }
 
     public void reset() {
         builderPosition = null;
-        targetType = NEAR;
+        type = NEAR;
     }
 }

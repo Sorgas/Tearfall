@@ -11,6 +11,7 @@ import stonering.widget.TileStatusBar;
 
 /**
  * Contains toolbar and status bar.
+ * TODO add hotkeys for rightbar
  *
  * @author Alexander Kuzyakov on 12.10.2017.
  */

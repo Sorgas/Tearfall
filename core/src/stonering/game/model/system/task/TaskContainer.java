@@ -1,5 +1,7 @@
 package stonering.game.model.system.task;
 
+import static stonering.enums.action.ActionTargetTypeEnum.EXACT;
+
 import org.jetbrains.annotations.NotNull;
 
 import stonering.entity.job.action.target.ActionTarget;
@@ -7,9 +9,7 @@ import stonering.entity.job.designation.Designation;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.job.JobsAspect;
 import stonering.entity.unit.aspects.needs.NeedsAspect;
-import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.time.TimeUnitEnum;
-import stonering.enums.unit.Job;
 import stonering.enums.unit.JobMap;
 import stonering.game.GameMvc;
 import stonering.util.global.Updatable;
@@ -37,6 +37,7 @@ public class TaskContainer implements ModelComponent, Updatable {
     public final HashMap<Position, Designation> designations; //this map is for rendering and modifying designations
     public final DesignationSystem designationSystem;
     public final TaskStatusSystem taskStatusSystem;
+    private PassageMap map;
 
     public TaskContainer() {
         tasks = new HashMap<>();
@@ -62,18 +63,14 @@ public class TaskContainer implements ModelComponent, Updatable {
         JobsAspect aspect = unit.get(JobsAspect.class);
         if (aspect == null)
             return Logger.TASKS.logError("Creature " + unit + " without jobs aspect gets task from container", null);
-        PassageMap map = GameMvc.model().get(LocalMap.class).passageMap;
 
-        for (String jobName : aspect.enabledJobs) {
-            for (Task task : tasks.get(jobName).tasks) {
-                ActionTarget target = task.nextAction.target;
-                if (map.util.positionReachable(unit.position, target.getPosition(), target.targetType != ActionTargetTypeEnum.EXACT)) {
-                    //TODO add selecting nearest task.
-                    return task;
-                }
-            }
-        }
-        return null;
+
+        return tasks.entrySet().stream()
+                .filter(entry -> aspect.enabledJobs.contains(entry.getKey())) // allowed unit jobs
+                .flatMap(entry -> entry.getValue().tasks.stream())
+                .filter(task -> taskTargetReachable(unit, task)) // tasks with reachable targets
+                .min(Comparator.comparingInt(task -> task.initialAction.target.getPosition().fastDistance(unit.position)))// nearest target
+                .orElse(null);
     }
 
     /**
@@ -106,5 +103,13 @@ public class TaskContainer implements ModelComponent, Updatable {
 
     public boolean removeTask(Task task) {
         return assignedTasks.remove(task) || tasks.get(task.job).remove(task);
+    }
+
+    private boolean taskTargetReachable(Unit unit, Task task) {
+        return map().util.positionReachable(unit.position, task.initialTarget().getPosition(), task.initialTarget().type != EXACT);
+    }
+
+    private PassageMap map() {
+        return map == null ? map = GameMvc.model().get(LocalMap.class).passageMap : map;
     }
 }

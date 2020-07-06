@@ -13,13 +13,13 @@ import java.util.Random;
 import static stonering.entity.job.action.target.ActionTargetStatusEnum.*;
 
 public abstract class ActionTarget {
-    public ActionTargetTypeEnum targetType;
+    public ActionTargetTypeEnum type;
 
     protected Action action;
     private Random random;
 
-    public ActionTarget(ActionTargetTypeEnum targetType) {
-        this.targetType = targetType;
+    public ActionTarget(ActionTargetTypeEnum type) {
+        this.type = type;
         random = new Random();
     }
 
@@ -35,7 +35,7 @@ public abstract class ActionTarget {
         Position targetPosition = getPosition();
         int distance = getDistance(performerPosition);
         if (distance > 1) return WAIT; // target not yet reached
-        switch (targetType) {
+        switch (type) {
             case EXACT:
                 return distance == 0 ? READY : WAIT;
             case NEAR:
@@ -43,7 +43,7 @@ public abstract class ActionTarget {
             case ANY:
                 return READY; // distance is 0 or 1 here
             default: { // should never be reached
-                Logger.PATH.logError("checking action target with " + targetType + " and " + performerPosition + " to " + targetPosition + " failed.");
+                Logger.PATH.logError("checking action target with " + type + " and " + performerPosition + " to " + targetPosition + " failed.");
                 return FAIL;
             }
         }
