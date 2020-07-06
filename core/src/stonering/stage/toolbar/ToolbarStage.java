@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Align;
 import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.stage.UiStage;
 import stonering.stage.entity_menu.building.BuildingMaterialTab;
+import stonering.stage.toolbar.rightbar.RightBar;
 import stonering.widget.TileStatusBar;
 
 /**
@@ -16,7 +17,7 @@ import stonering.widget.TileStatusBar;
 public class ToolbarStage extends UiStage {
     public Toolbar toolbar;
     private TileStatusBar tileStatusBar;
-    private RightBar rightBar;
+    public RightBar rightBar;
     private final Container<Actor> tabContainer;
     public BuildingMaterialTab buildingTab;
 

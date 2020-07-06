@@ -1,4 +1,4 @@
-package stonering.stage.job_menu;
+package stonering.stage.toolbar.rightbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,34 +26,33 @@ import stonering.widget.util.WrappedLabel;
  * 
  * @author Alexander on 06.07.2020.
  */
-public class UnitJobMenu extends Table {
+public class GlobalJobsMenu extends Table {
     private List<Job> jobList;
     
-    public UnitJobMenu() {
+    public GlobalJobsMenu() {
         jobList = new ArrayList<>(JobMap.all());
         createHeaders();
         row();
         fill();
+        setBackground(StaticSkin.generator.generate(StaticSkin.background));
     }
     
     private void fill() {
-        for (Unit object : GameMvc.model().get(UnitContainer.class).objects) {
-            createUnitRow(object);
-            row();
-        }
+        GameMvc.model().get(UnitContainer.class).objects.forEach(this::createUnitRow);
     }
     
     private void createHeaders() {
         add();
-        for (Job job : jobList) {
-            WrappedLabel label = new WrappedLabel(job.name);
-            add(label);
-        }
+        jobList.stream()
+                .map(job -> new WrappedLabel(job.name))
+                .forEach(this::add);
     }
     
     private void createUnitRow(Unit unit) {
         JobsAspect jobsAspect = unit.get(JobsAspect.class);
-        String name = unit.getOptional(NameAspect.class).map(aspect -> aspect.name).orElse(unit.toString());
+        String name = unit.getOptional(NameAspect.class)
+                .map(aspect -> aspect.name)
+                .orElse(unit.toString());
         add(new Label(name, StaticSkin.skin()));
         jobList.forEach(job -> {
             boolean enabled = jobsAspect.enabledJobs.contains(job.name);
@@ -73,6 +72,8 @@ public class UnitJobMenu extends Table {
                     }
                 }
             });
+            add(checkBox);
         });
+        row();
     }
 }

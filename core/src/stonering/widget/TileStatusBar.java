@@ -34,7 +34,7 @@ public class TileStatusBar extends Container<Table> {
         super();
         setActor(createTable());
         setFillParent(true);
-        align(Align.bottomRight);
+        align(Align.topRight);
     }
 
     private Table createTable() {

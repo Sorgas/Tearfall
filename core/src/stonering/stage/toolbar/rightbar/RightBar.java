@@ -1,4 +1,6 @@
-package stonering.stage.toolbar;
+package stonering.stage.toolbar.rightbar;
+
+import java.util.function.Supplier;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -8,7 +10,6 @@ import com.badlogic.gdx.utils.Align;
 
 import stonering.enums.images.DrawableMap;
 import stonering.game.GameMvc;
-import stonering.stage.job_menu.UnitJobMenu;
 import stonering.widget.lists.IconTextButton;
 
 /**
@@ -17,16 +18,27 @@ import stonering.widget.lists.IconTextButton;
 public class RightBar extends Container<Table> {
     private Table rowTable;
     private Container<Actor> menu;
+    private RightBarMenuEnum shownMenu;
 
     public RightBar() {
         createLayout();
-        
-        IconTextButton button = new IconTextButton(DrawableMap.ICON.getDrawable("units_button"), null);
+        createButton(RightBarMenuEnum.UNITS_MENU);
+    }
+
+    private void createButton(RightBarMenuEnum type) {
+        IconTextButton button = new IconTextButton(DrawableMap.ICON.getDrawable(type.ICON_NAME), null);
         button.addListener(new ChangeListener() {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                menu.setActor(new UnitJobMenu());
+                GameMvc.view().toolbarStage.toolbar.reset();
+                if (shownMenu != type) {
+                    menu.setActor(type.SUPPLIER.get());
+                    shownMenu = type;
+                } else {
+                    menu.setActor(null);
+                    shownMenu = null;
+                }
             }
         });
         rowTable.add(button);
@@ -35,7 +47,7 @@ public class RightBar extends Container<Table> {
     private void createLayout() {
         Table table = new Table();
         table.defaults().align(Align.bottomRight);
-        table.add(menu = new Container<>());
+        table.add(menu = new Container<>()).row();
         table.add(rowTable = new Table());
         rowTable.defaults().size(80, 80);
         align(Align.bottomRight);
