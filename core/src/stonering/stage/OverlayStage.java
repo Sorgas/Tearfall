@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 
 import stonering.screen.util.CounterLabel;
+import stonering.stage.util.UiStage;
 
 /**
  * Stage with FPS counter.

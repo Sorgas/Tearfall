@@ -14,9 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 
-import stonering.stage.UiStage;
+import stonering.stage.util.UiStage;
 import stonering.util.global.StaticSkin;
-import stonering.util.view.SimpleScreen;
+import stonering.screen.SimpleScreen;
 
 /**
  * Demo with some UI elements.

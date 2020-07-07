@@ -3,13 +3,12 @@ package stonering.screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.game.controller.inputProcessors.StageInputAdapter;
 import stonering.stage.OverlayStage;
-import stonering.stage.UiStage;
+import stonering.stage.util.UiStage;
 import stonering.stage.toolbar.ToolbarStage;
 import stonering.stage.MapEntitySelectStage;
 import stonering.stage.pause.PauseMenuStage;
 import stonering.stage.localworld.LocalWorldStage;
 import stonering.util.geometry.Int3dBounds;
-import stonering.util.view.MultiStageScreen;
 
 /**
  * Main game screen.

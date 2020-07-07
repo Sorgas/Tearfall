@@ -8,14 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.TearFall;
-import stonering.stage.UiStage;
+import stonering.stage.util.UiStage;
 import stonering.util.global.StaticSkin;
-import stonering.util.view.SimpleScreen;
 
 import java.io.File;
 
 /**
- * Main screen screen of the game.
+ * Main screen of the game.
  *
  * @author Alexander Kuzyakov on 02.04.2017.
  */

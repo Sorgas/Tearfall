@@ -31,7 +31,7 @@ public class ToolbarSubMenuMenu extends ToolbarButtonMenu {
         createButton(identifier, iconName, hotkey, () -> {
             toolbar.removeSubMenus(thisMenu);
             toolbar.addMenu(menu);
-        }, true);
+        });
         menus.put(identifier, menu);
     }
 
@@ -41,7 +41,7 @@ public class ToolbarSubMenuMenu extends ToolbarButtonMenu {
      */
     public void addItem(String lastButtonText, String iconName, Runnable action, List<String> path) {
         if (path == null || path.isEmpty()) { //create button
-            createButton(lastButtonText, iconName, sequence.getNext(), action, true);
+            createButton(lastButtonText, iconName, sequence.getNext(), action);
         } else { // create submenu
             String currentStep = path.remove(0);
             if (!menus.containsKey(currentStep)) {    // no submenu for this step, create submenu

@@ -37,6 +37,6 @@ public class ToolbarPlantsMenu extends ToolbarSubMenuMenu {
         createButton(text, iconName, hotKey, () -> {
             SelectionTools.DESIGNATION.setType(type);
             GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(SelectionTools.DESIGNATION);
-        }, true);
+        });
     }
 }

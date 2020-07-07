@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.utils.Align;
 import stonering.entity.zone.FarmZone;
 import stonering.game.model.entity_selector.EntitySelector;
-import stonering.stage.UiStage;
+import stonering.stage.util.UiStage;
 
 /**
  * Stage for showing menu for selected zone.

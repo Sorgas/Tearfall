@@ -1,4 +1,4 @@
-package stonering.util.view;
+package stonering.screen;
 
 import com.badlogic.gdx.Screen;
 

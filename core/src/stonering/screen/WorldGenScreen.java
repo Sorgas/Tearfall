@@ -23,7 +23,7 @@ import java.util.Random;
 /**
  * @author Alexander Kuzyakov on 06.03.2017.
  */
-public class WorldGenScreen implements Screen {
+public class WorldGenScreen extends SimpleScreen {
     private WorldGeneratorContainer worldGeneratorContainer;
     private World world;
     private long seed; // gets updated from ui
@@ -224,25 +224,5 @@ public class WorldGenScreen implements Screen {
 
     public void setGame(TearFall game) {
         this.game = game;
-    }
-
-    @Override
-    public void show() {
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void hide() {
-    }
-
-    @Override
-    public void dispose() {
     }
 }

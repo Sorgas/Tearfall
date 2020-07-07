@@ -3,7 +3,7 @@ package stonering.stage.entity_menu.unit;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.utils.Align;
 import stonering.entity.unit.Unit;
-import stonering.stage.UiStage;
+import stonering.stage.util.UiStage;
 import stonering.util.logging.Logger;
 
 /**

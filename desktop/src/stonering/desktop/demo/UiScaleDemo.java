@@ -4,9 +4,9 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
-import stonering.stage.UiStage;
+import stonering.stage.util.UiStage;
 import stonering.util.global.StaticSkin;
-import stonering.util.view.SimpleScreen;
+import stonering.screen.SimpleScreen;
 
 /**
  * @author Alexander on 03.04.2020

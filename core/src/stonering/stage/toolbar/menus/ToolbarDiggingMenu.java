@@ -38,6 +38,6 @@ public class ToolbarDiggingMenu extends ToolbarButtonMenu {
         super.createButton(text, hotKey, () -> {
             SelectionTools.DESIGNATION.setType(type);
             GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(SelectionTools.DESIGNATION);
-        }, true);
+        });
     }
 }

@@ -6,12 +6,11 @@ import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
-import stonering.stage.UiStage;
+import stonering.stage.util.UiStage;
 import stonering.widget.lists.PlaceHolderSelectBox;
 import stonering.test_chamber.TestChamberGame;
 import stonering.test_chamber.model.*;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

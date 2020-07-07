@@ -24,6 +24,8 @@ import stonering.stage.entity_menu.item.ItemMenu;
 import stonering.stage.entity_menu.unit.UnitStage;
 import stonering.stage.entity_menu.building.item_container.ItemContainerMenu;
 import stonering.stage.entity_menu.building.workbench.WorkbenchMenu;
+import stonering.stage.util.SingleActorShadedStage;
+import stonering.stage.util.UiStage;
 import stonering.stage.zone.ZoneMenuStage;
 import stonering.util.geometry.Int3dBounds;
 import stonering.widget.TabbedPane;
@@ -103,7 +105,7 @@ public class MapEntitySelectStage extends UiStage {
             pane.add("Items", new ItemContainerMenu(block.building.get(ItemContainerAspect.class)));
         }
         pane.add("Overview", new BuildingOverviewMenu(block.building));
-        GameMvc.view().addStage(new SingleWindowStage<>(pane, false, true));
+        GameMvc.view().addStage(new SingleActorShadedStage<>(pane, false));
     }
 
     private void tryShowZoneStage(@NotNull Zone zone) {
@@ -111,7 +113,7 @@ public class MapEntitySelectStage extends UiStage {
     }
 
     private void tryShowItemStage(@NotNull Item item) {
-        GameMvc.view().addStage(new SingleWindowStage<>(new ItemMenu(item), false, true));
+        GameMvc.view().addStage(new SingleActorShadedStage<>(new ItemMenu(item), false));
     }
 
     private void tryShowUnitStage(@NotNull Unit unit) {

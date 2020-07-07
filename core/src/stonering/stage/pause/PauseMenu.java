@@ -2,11 +2,9 @@ package stonering.stage.pause;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import stonering.game.GameMvc;
-import stonering.stage.SingleWindowStage;
+import stonering.stage.util.SingleActorShadedStage;
 import stonering.widget.ButtonMenu;
 import stonering.util.saving.GameSaver;
 
@@ -34,15 +32,15 @@ public class PauseMenu extends ButtonMenu {
         createButton("Resume", Input.Keys.Q, () -> {
             GameMvc.model().setPaused(false);
             hide();
-        }, true);
+        });
         createButton("Options", Input.Keys.O, () -> {
-            GameMvc.view().addStage(new SingleWindowStage<>(new SettingsMenu(), true, false));
-        }, true);
-        createButton("Save", Input.Keys.S, this::saveGame, true);
+            GameMvc.view().addStage(new SingleActorShadedStage<>(new SettingsMenu(), true));
+        });
+        createButton("Save", Input.Keys.S, this::saveGame);
         createButton("Save & Quit", Input.Keys.ESCAPE, () -> {
             saveGame();
             quitGame();
-        }, true);
+        });
     }
 
     private void saveGame() {

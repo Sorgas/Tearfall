@@ -11,9 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Tree;
 
-import stonering.stage.UiStage;
+import stonering.stage.util.UiStage;
 import stonering.util.global.StaticSkin;
-import stonering.util.view.SimpleScreen;
+import stonering.screen.SimpleScreen;
 import stonering.widget.TabbedPane;
 
 /**

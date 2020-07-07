@@ -2,7 +2,7 @@ package stonering.stage.pause;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import stonering.game.GameMvc;
-import stonering.stage.UiStage;
+import stonering.stage.util.UiStage;
 import stonering.util.global.Initable;
 
 /**

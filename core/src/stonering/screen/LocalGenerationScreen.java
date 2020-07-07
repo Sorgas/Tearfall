@@ -19,7 +19,6 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.screen.ui_components.LabeledProgressBar;
 import stonering.util.global.StaticSkin;
-import stonering.util.view.SingleStageScreen;
 
 /**
  * Local generation screen to be shown during local generation.
