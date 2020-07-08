@@ -6,15 +6,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.Tree;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 
 import stonering.stage.util.UiStage;
 import stonering.util.global.StaticSkin;
-import stonering.screen.SimpleScreen;
+import stonering.screen.util.SimpleScreen;
 
 /**
  * Demo with some UI elements.
@@ -36,7 +33,7 @@ public class UiDemo extends Game {
 
             {
                 stage.interceptInput = false;
-                Container<Tree> container = createContainer();
+                Container container = createContainer();
                 stage.addActor(container);
                 stage.addListener(new InputListener() {
                     @Override
@@ -70,19 +67,14 @@ public class UiDemo extends Game {
     }
 
     private Container createContainer() {
-        Label label = new Label("qwer", StaticSkin.skin());
-        label.setAlignment(Align.center);
-        
-        container2 = new Container(label).fill();
-        
         Table table = new Table();
-        table.add(container2).pad(5);
-
+        table.add(new Label("qwer1", StaticSkin.skin())).size(100, 100).row();
+        table.add().expandY().row();
+        table.add(new Label("qwer2", StaticSkin.skin())).size(100, 100);
         Container container = new Container(table);
-        container.size(200, 200);
         container.setFillParent(true);
+        container.fill();
         container.setDebug(true, true);
-        table.setDebug(true);
         return container;
     }
 }

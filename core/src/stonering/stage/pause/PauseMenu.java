@@ -25,7 +25,7 @@ public class PauseMenu extends ButtonMenu {
         setDebug(true, true);
         setWidth(600);
         setHeight(400);
-        table.defaults().center().top().height(50).width(600).padBottom(15);
+        defaults().center().top().height(50).width(600).padBottom(15);
     }
 
     private void addButtons() {
@@ -52,8 +52,7 @@ public class PauseMenu extends ButtonMenu {
     }
 
     @Override
-    public boolean hide() {
+    public void hide() {
         GameMvc.view().removeStage(getStage());
-        return true;
     }
 }

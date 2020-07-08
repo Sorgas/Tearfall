@@ -6,13 +6,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Align;
 
 import stonering.entity.world.World;
 import stonering.game.GameMvc;
 import stonering.screen.*;
+import stonering.screen.util.SingleStageScreen;
 import stonering.stage.menu.MainMenu;
+import stonering.stage.menu.WorldGenMenu;
 import stonering.stage.util.SingleActorStage;
 import stonering.util.geometry.Position;
 import stonering.widget.GameWithCustomCursor;
@@ -23,7 +24,6 @@ import stonering.widget.GameWithCustomCursor;
  * @author Alexander Kuzyakov on 08.04.2017.
  */
 public class TearFall extends GameWithCustomCursor {
-    private WorldGenScreen worldGenScreen;
     private SelectWorldScreen selectWorldScreen;
     private SelectLocationMenu selectLocationMenu;
     private PrepareExpeditionMenu prepareExpeditionMenuMvc;
@@ -42,8 +42,8 @@ public class TearFall extends GameWithCustomCursor {
     }
 
     public void switchWorldGenMenu() {
-        if (worldGenScreen == null) worldGenScreen = new WorldGenScreen(this);
-        setScreen(worldGenScreen);
+        Optional.ofNullable(getScreen()).ifPresent(Screen::dispose);
+        showMenuScreen(new WorldGenMenu(this));
     }
 
     public void switchWorldsSelectMenu() {
@@ -71,7 +71,7 @@ public class TearFall extends GameWithCustomCursor {
 
     private void showMenuScreen(Actor menu) {
         SingleActorStage<Actor> stage = new SingleActorStage<>(menu, false);
-        stage.container.align(Align.bottomLeft);
+        stage.setDebugAll(true);
         setScreen(new SingleStageScreen(stage));
         Gdx.input.setInputProcessor(stage);
     }

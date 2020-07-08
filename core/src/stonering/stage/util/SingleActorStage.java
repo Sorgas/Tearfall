@@ -18,7 +18,7 @@ public class SingleActorStage<T extends Actor> extends UiStage implements Initab
         this.actor = actor;
         this.interceptInput = interceptInput;
         addActor(container = new Container<>(actor));
-        container.setFillParent(true);
+        container.fill().setFillParent(true);
         setKeyboardFocus(actor);
     }
 

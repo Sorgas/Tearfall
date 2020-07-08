@@ -5,11 +5,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import stonering.entity.world.TectonicPlate;
-import stonering.screen.WorldGenScreen;
 import stonering.generators.worldgen.WorldGenContainer;
 import stonering.entity.world.WorldMap;
 import stonering.entity.world.Edge;
 import stonering.entity.world.Mountain;
+import stonering.stage.menu.WorldGenMenu;
 import stonering.util.geometry.Position;
 
 import java.util.Iterator;
@@ -21,8 +21,8 @@ import java.util.List;
  * Can perform detailed render of world map for debug purposes
  */
 public class MapDrawer {
-    private WorldGenScreen model;
     private WorldGenContainer container;
+    private WorldGenMenu menu;
     private float tileSize = 2f;
     private float tileScale = 1f;
     private int tileOffsetX = 400;
@@ -220,7 +220,7 @@ public class MapDrawer {
         spriteBatch.draw(new TextureRegion(tiles, tileX * 8, tileY * 8, 8, 8), tileOffsetX + x * 8 * tileScale, tileOffsetY + y * 8 * tileScale, 8 * tileScale, 8 * tileScale);
     }
 
-    public void setModel(WorldGenScreen model) {
-        this.model = model;
+    public void setModel(WorldGenMenu menu) {
+        this.menu = menu;
     }
 }

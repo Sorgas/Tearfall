@@ -23,12 +23,12 @@ import stonering.widget.util.WrappedLabel;
  * Menu for assigning jobs for all units in the settlement. Shows unit/job table with checkboxes.
  * High-level skills are highlighted gold.
  * Forgetting skills are highlighted red.
- * 
+ *
  * @author Alexander on 06.07.2020.
  */
 public class GlobalJobsMenu extends Table {
     private List<Job> jobList;
-    
+
     public GlobalJobsMenu() {
         jobList = new ArrayList<>(JobMap.all());
         createHeaders();
@@ -36,18 +36,19 @@ public class GlobalJobsMenu extends Table {
         fill();
         setBackground(StaticSkin.generator.generate(StaticSkin.background));
     }
-    
+
     private void fill() {
         GameMvc.model().get(UnitContainer.class).objects.forEach(this::createUnitRow);
     }
-    
+
     private void createHeaders() {
+        add(new Label("qwer", StaticSkin.skin())).colspan(jobList.size() + 1).row();
         add();
         jobList.stream()
                 .map(job -> new WrappedLabel(job.name))
                 .forEach(this::add);
     }
-    
+
     private void createUnitRow(Unit unit) {
         JobsAspect jobsAspect = unit.get(JobsAspect.class);
         String name = unit.getOptional(NameAspect.class)
@@ -65,7 +66,7 @@ public class GlobalJobsMenu extends Table {
             checkBox.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    if(checkBox.isChecked()) {
+                    if (checkBox.isChecked()) {
                         jobsAspect.enabledJobs.add(job.name);
                     } else {
                         jobsAspect.enabledJobs.remove(job.name);

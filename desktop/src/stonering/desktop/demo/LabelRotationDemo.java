@@ -16,7 +16,7 @@ import com.badlogic.gdx.utils.Align;
 
 import stonering.stage.util.UiStage;
 import stonering.util.global.StaticSkin;
-import stonering.screen.SimpleScreen;
+import stonering.screen.util.SimpleScreen;
 
 /**
  * Demo with some UI elements.

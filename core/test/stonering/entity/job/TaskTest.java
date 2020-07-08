@@ -30,12 +30,4 @@ public class TaskTest {
         task.addFirstPreAction(preAction);
         assertEquals(task.nextAction, preAction);
     }
-
-    @Test
-    void testAddPostAction() {
-        assertEquals(task.nextAction, initialAction);
-        Action postAction = new MoveAction(new Position());
-        task.addFirstPostAction(postAction);
-        assertEquals(task.nextAction, initialAction);
-    }
 }

@@ -16,6 +16,7 @@ import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGeneratorContainer;
 import stonering.game.model.local_map.LocalMap;
+import stonering.screen.util.SingleStageScreen;
 import stonering.util.geometry.Position;
 import stonering.screen.ui_components.LabeledProgressBar;
 import stonering.util.global.StaticSkin;

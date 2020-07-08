@@ -21,6 +21,10 @@ public class KeyNotifierListener extends InputListener {
         this.eventTargetSupplier = eventTargetSupplier;
     }
 
+    public KeyNotifierListener(Actor actor) { // to use when actor never changes
+        this(() -> actor);
+    }
+    
     @Override
     public boolean keyDown(InputEvent event, int keycode) {
         return handle(event);

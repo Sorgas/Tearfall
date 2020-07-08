@@ -13,6 +13,7 @@ import stonering.TearFall;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.entity.world.World;
+import stonering.screen.util.SimpleScreen;
 import stonering.util.geometry.Position;
 import stonering.util.global.StaticSkin;
 

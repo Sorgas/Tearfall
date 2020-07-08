@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.utils.Align;
-import stonering.screen.SimpleScreen;
+import stonering.screen.util.SimpleScreen;
 import stonering.util.global.StaticSkin;
 
 /**

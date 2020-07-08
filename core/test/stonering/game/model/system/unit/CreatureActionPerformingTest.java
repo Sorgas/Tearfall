@@ -65,23 +65,4 @@ public class CreatureActionPerformingTest {
         unitContainer.taskSystem.update(unit); // target is not reachable
         assertEquals(FAILED, task.status);
     }
-
-    /**
-     * Actions are checked by system right before performing,
-     * and when unit starts to move to next action(after finishing previous one).
-     */
-    @Test
-    void testCheckActionsBeforeAndAfterPerforming() {
-        Action action = new MoveAction(new Position(0, 0, 0));
-        Task task = new Task(action);
-        task.addFirstPostAction(new MoveAction(new Position(4, 4, 0)));
-        task.performer = unit;
-        task.status = ACTIVE;
-        aspect.task = task;
-        unitContainer.taskSystem.update(unit); // ok check before performing
-        assertTrue(aspect.actionChecked);
-        unitContainer.taskSystem.update(unit); // perform and finish first action
-        assertNotEquals(action, task.nextAction);
-        assertFalse(aspect.actionChecked);
-    }
 }

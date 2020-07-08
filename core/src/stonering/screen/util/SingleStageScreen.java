@@ -1,4 +1,4 @@
-package stonering.screen;
+package stonering.screen.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
