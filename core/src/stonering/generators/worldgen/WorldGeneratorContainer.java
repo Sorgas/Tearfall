@@ -12,10 +12,8 @@ import stonering.generators.worldgen.generators.temperature.TemperatureGenerator
  * Holds world generators and runs them in a right order.
  */
 public class WorldGeneratorContainer {
-    private boolean rejected;
-
-    private WorldGenContainer worldGenContainer;
-
+    private WorldGenContainer worldGenContainer; // container for generation intermediate results 
+    
     private PlateGenerator plateGenerator;
     private MountainGenerator mountainGenerator;
     private ValleyGenerator valleyGenerator;
@@ -36,7 +34,7 @@ public class WorldGeneratorContainer {
     private BiomeGenerator biomeGenerator;
     private CelestialBodiesGenerator celestialBodiesGenerator;
 
-    public void init(WorldGenConfig config) {
+    public WorldGeneratorContainer(WorldGenConfig config) {
         worldGenContainer = new WorldGenContainer(config);
         plateGenerator = new PlateGenerator(worldGenContainer);
         mountainGenerator = new MountainGenerator(worldGenContainer);
@@ -60,6 +58,7 @@ public class WorldGeneratorContainer {
     }
 
     public void runContainer() {
+        boolean rejected;
         do {
             rejected = runGenerators();
             if (rejected) {

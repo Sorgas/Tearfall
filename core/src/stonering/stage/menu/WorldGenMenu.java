@@ -25,7 +25,7 @@ import stonering.widget.util.KeyNotifierListener;
 
 /**
  * Menu for generating worlds. Has left side with world settings and left with world map.
- * 
+ *
  * @author Alexander on 08.07.2020.
  */
 public class WorldGenMenu extends Table {
@@ -40,9 +40,7 @@ public class WorldGenMenu extends Table {
     private ButtonMenu bottomMenu;
     private TextButton randomizeSeedButton;
     private TextField seedField;
-
-    private Label worldInfoLabel;
-
+    
     public WorldGenMenu(TearFall game) {
         this.game = game;
         seed = random.nextLong();
@@ -52,44 +50,35 @@ public class WorldGenMenu extends Table {
         createListener();
         setDebug(true, true);
     }
-    
-    private void checkInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            minimap.moveFocus(1, 0);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            minimap.moveFocus(-1, 0);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            minimap.moveFocus(0, 1);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            minimap.moveFocus(0, -1);
-        }
-    }
-
-    private void updateWorldInfoToLabel() {
-        if (world != null) {
-            int x = minimap.getFocus().x;
-            int y = minimap.getFocus().y;
-            worldInfoLabel.setText(worldCellInfo.getCellInfo(x, y, Math.round(world.getWorldMap().getElevation(x, y)),
-                    world.getWorldMap().getSummerTemperature(x, y),
-                    world.getWorldMap().getRainfall(x, y)));
-        }
-    }
 
     private void generateWorld() {
         WorldGenConfig config = new WorldGenConfig(seed, worldSize, worldSize);
-        worldGeneratorContainer = new WorldGeneratorContainer();
-        worldGeneratorContainer.init(config);
+        worldGeneratorContainer = new WorldGeneratorContainer(config);
         worldGeneratorContainer.runContainer();
         world = worldGeneratorContainer.getWorld();
     }
 
     private Table createLeftPanel() {
-        Table menuTable = new Table();
-        menuTable.add(new Label("Generate new world", StaticSkin.skin())).size(300, 80).colspan(2).row(); // caption
-        menuTable.add(new Label("Seed: ", StaticSkin.skin())).size(300, 50).colspan(2).row(); // caption 2
-        menuTable.add(seedField = new TextField(Long.toString(seed), StaticSkin.skin())).size(240, 50).fillX();
-        menuTable.add(randomizeSeedButton = new TextButton("R", StaticSkin.skin())).size(50, 50).padLeft(10).row();
+        Table table = new Table();
+        table.defaults().size(300, 50);
+        table.add(new Label("Generate new world", StaticSkin.skin())).row(); // caption
+        table.add(new Label("Seed: ", StaticSkin.skin())).row(); // caption 2
+        table.add(createSeedTable()).row();
+        table.add(new Label("World size: ", StaticSkin.skin())).row(); // caption 2
+        table.add(createWorldSizeTable()).row();
+        
+//        table.add(worldInfoLabel = new Label("", StaticSkin.skin())).row();
+        
+        table.add().expandY().row();
+        ButtonMenu menu = createBottomMenu(); 
+        table.add(menu).size(menu.getPrefWidth(), menu.getPrefHeight());
+        return table;
+    }
+
+    private Table createSeedTable() {
+        Table table = new Table();
+        table.add(seedField = new TextField(Long.toString(seed), StaticSkin.skin())).size(240, 50).fillX();
+        table.add(randomizeSeedButton = new TextButton("R", StaticSkin.skin())).size(50, 50).padLeft(10).row();
         randomizeSeedButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -97,28 +86,27 @@ public class WorldGenMenu extends Table {
                 seedField.setText(Long.toString(seed));
             }
         });
-        
-        menuTable.add(new Label("World size: ", StaticSkin.skin())).size(300, 50).colspan(2).row(); // caption 2
-        Slider worldSizeSlider = new Slider(100, 500, 100, false, StaticSkin.skin());
-        worldSizeSlider.setValue(worldSize);
-        Label worldSizeLabel = new Label(Integer.toString(worldSize), StaticSkin.skin());
-        worldSizeSlider.addListener(new ChangeListener() {
+        return table;
+    }
+
+    private Table createWorldSizeTable() {
+        Table table = new Table();
+        Slider slider = new Slider(100, 500, 100, false, StaticSkin.skin());
+        slider.setValue(worldSize);
+        Label label = new Label(Integer.toString(worldSize), StaticSkin.skin());
+        slider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 int size = Math.round(((Slider) actor).getValue());
                 worldSize = size;
-                worldSizeLabel.setText(Integer.toString(size));
+                label.setText(Integer.toString(size));
             }
         });
-        menuTable.add(worldSizeSlider).size(200, 50);
-        menuTable.add(worldSizeLabel).size(90, 50).padLeft(10).row();
-        worldInfoLabel = new Label("", StaticSkin.skin());
-        menuTable.add(worldInfoLabel).colspan(2).row();
-        menuTable.add().expandY().colspan(2).row();
-        menuTable.add(createBottomMenu()).fill().colspan(2);
-        return menuTable;
+        table.add(slider).size(200, 50);
+        table.add(label).size(90, 50).padLeft(10).row();
+        return table;
     }
-    
+
     private ButtonMenu createBottomMenu() {
         bottomMenu = new ButtonMenu();
         bottomMenu.defaults().height(50).width(300).pad(10, 0, 0, 0);
@@ -134,19 +122,19 @@ public class WorldGenMenu extends Table {
         bottomMenu.createButton("Q: Back", Input.Keys.Q, () -> game.switchMainMenu());
         return bottomMenu;
     }
-    
+
     private MiniMap createMinimap() {
         minimap = new MiniMap(new Texture("sprites/map_tiles.png"));
         minimap.setWorld(world);
         return minimap;
     }
-    
+
     private void createListener() {
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                switch(keycode) {
-                    case Input.Keys.R : {
+                switch (keycode) {
+                    case Input.Keys.R: {
                         randomizeSeedButton.toggle();
                         return true;
                     }
