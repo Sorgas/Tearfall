@@ -107,7 +107,7 @@ public class WorldGenMenu extends Table {
     }
 
     private ButtonMenu createBottomMenu() {
-        bottomMenu = new ButtonMenu();
+        bottomMenu = new ButtonMenu(50);
         bottomMenu.defaults().height(50).width(300).pad(10, 0, 0, 0);
         bottomMenu.pad(10);
         bottomMenu.createButton("G: Generate", Input.Keys.G, () -> {

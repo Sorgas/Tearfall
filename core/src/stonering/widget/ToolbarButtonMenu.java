@@ -14,9 +14,9 @@ public abstract class ToolbarButtonMenu extends ButtonMenu {
     protected Toolbar toolbar;
 
     public ToolbarButtonMenu(Toolbar toolbar) {
-        super();
+        super(50);
         this.toolbar = toolbar;
-        defaults().height(40).pad(5).padBottom(10);
+        defaults().height(40).pad(5).padBottom(10).growX();
         bottom();
     }
     

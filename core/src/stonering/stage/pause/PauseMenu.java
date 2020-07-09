@@ -15,7 +15,7 @@ import stonering.util.saving.GameSaver;
 public class PauseMenu extends ButtonMenu {
 
     public PauseMenu() {
-        super();
+        super(50);
         createTable();
         addButtons();
         forbidEventPass = true;

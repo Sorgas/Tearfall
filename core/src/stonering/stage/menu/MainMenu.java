@@ -31,7 +31,7 @@ public class MainMenu extends Table {
     }
 
     private ButtonMenu createMenu(TearFall game) {
-        menu = new ButtonMenu();
+        menu = new ButtonMenu(50);
         menu.defaults().height(50).width(300).pad(10, 0, 0, 0);
         menu.pad(0, 10, 10, 10);
         menu.align(Align.bottomLeft);

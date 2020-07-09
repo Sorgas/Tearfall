@@ -23,8 +23,10 @@ import java.util.HashMap;
 public class ButtonMenu extends Table {
     private HashMap<Integer, Button> buttons;
     protected boolean forbidEventPass = false; // if true, key events will be handled further
+    private final int iconSize;
 
-    public ButtonMenu() {
+    public ButtonMenu(int iconSize) {
+        this.iconSize = iconSize;
         buttons = new HashMap<>();
         addListener(new InputListener() {
             @Override
@@ -44,7 +46,7 @@ public class ButtonMenu extends Table {
 
     public void createButton(String text, String iconName, int hotKey, Runnable action) {
         Drawable drawable = iconName != null ? DrawableMap.ICON.getDrawable(iconName) : null;
-        IconTextButton button = new IconTextButton(drawable, text);
+        Button button = new IconTextButton(drawable, text, iconSize);
         if (action != null) button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
