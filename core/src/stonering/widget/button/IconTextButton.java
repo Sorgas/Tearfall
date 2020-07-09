@@ -1,5 +1,6 @@
 package stonering.widget.button;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.sun.istack.Nullable;
@@ -18,11 +19,19 @@ public class IconTextButton extends Button {
 
     public IconTextButton(@Nullable Drawable drawable, @Nullable String text) {
         super(StaticSkin.getSkin());
-        add(stack = new Stack()).grow();
-        Table innerTable = new Table();
-        if (drawable != null) imageCell = innerTable.add(new Image(drawable)).size(Value.percentHeight(1f, this));
-        if (text != null) labelCell = innerTable.add(new Label(text, StaticSkin.skin())).expandX().left();
-        stack.add(innerTable);
+        Button q = this;
+        Image image = new Image(drawable);
+        if (drawable != null) imageCell = add(image);
+        if (text != null) labelCell = add(new Label(text, StaticSkin.skin())).growX().left();
+        setSize(getPrefWidth(), getPrefHeight());
+        imageCell.size(new Value() {
+            @Override
+            public float get(Actor context) {
+                return q.getHeight();
+            }
+        });
         setDebug(true, true);
     }
+    
+    
 }

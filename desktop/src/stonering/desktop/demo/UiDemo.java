@@ -21,7 +21,8 @@ import stonering.widget.button.IconTextHotkeyButton;
  */
 public class UiDemo extends Game {
     private Container container2;
-    
+    IconTextHotkeyButton button;
+
     public static void main(String[] args) {
         new LwjglApplication(new UiDemo());
     }
@@ -41,7 +42,11 @@ public class UiDemo extends Game {
                         if (keycode == Input.Keys.ESCAPE) {
                             Gdx.app.exit();
                         } else {
-                            System.out.println(container.getWidth());
+                            System.out.println(button);
+                            System.out.println(button.imageCell.getPrefWidth() + " " + button.imageCell.getPrefHeight());
+                            System.out.println(button.labelCell.getPrefWidth() + " " + button.labelCell.getPrefHeight());
+                            System.out.println(button.getPrefWidth() + " " + button.getPrefHeight());
+                            System.out.println(button.getWidth() + " " + button.getHeight());
                             container.width(container.getWidth() + 20);
                         }
                         return true;
@@ -67,8 +72,12 @@ public class UiDemo extends Game {
     }
 
     private Container createContainer() {
-        IconTextHotkeyButton button = new IconTextHotkeyButton(DrawableMap.ICON.getDrawable("plants_menu"), "qwerqwer", "1234");
-        Container container = new Container(button).size(300, 80);
+        Table table = new Table();
+        table.defaults().height(40);
+        button = new IconTextHotkeyButton(DrawableMap.ICON.getDrawable("plants_menu"), "qwerqwer", "1234");
+//        button.setSize(button.getPrefWidth(), button.getPrefHeight());
+        table.add(button).row();
+        Container container = new Container(table);
         container.setFillParent(true);
 //        container.fill();
         container.setDebug(true, true);

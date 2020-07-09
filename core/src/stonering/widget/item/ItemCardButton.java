@@ -23,8 +23,8 @@ public class ItemCardButton extends IconTextButton {
     public ItemCardButton(Item item, int number) {
         super(new TextureRegionDrawable(AtlasesEnum.items.getBlockTile(item.type.atlasXY)), item.title);
         this.number = number;
-        imageCell.size(32,32);
-        labelCell.size(200, 32);
+//        imageCell.size(32,32);
+//        labelCell.size(200, 32);
         add(numberLabel = new Label(String.valueOf(number), StaticSkin.getSkin()));
         selector = new SimpleItemSelector(item.type.name, item.material, number);
     }

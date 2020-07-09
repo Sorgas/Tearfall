@@ -18,7 +18,7 @@ public class IconTextHotkeyButton extends IconTextButton {
     
     public IconTextHotkeyButton(Drawable drawable, String text, String hotkey) {
         super(drawable, text);
-        if (hotkey != null) stack.add(createHotKey(hotkey));
+//        if (hotkey != null) stack.add(createHotKey(hotkey));
     }
 
     public IconTextHotkeyButton(Drawable drawable, String text, int hotkey) {
