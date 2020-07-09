@@ -36,7 +36,8 @@ public abstract class Buff implements Cloneable {
      * Decreases buff timer. returns true, if buff expired.
      */
     public boolean decrease(Unit unit) {
-        return expired() || ((ticksLeft > 0) && (ticksLeft-- == 0));
+        ticksLeft--;
+        return expired();
     }
 
     /**

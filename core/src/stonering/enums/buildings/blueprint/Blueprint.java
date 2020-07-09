@@ -28,6 +28,7 @@ public class Blueprint {
     public final Map<String, Ingredient> ingredients = new HashMap<>();
     public final Map<String, MaterialSelectionConfig> configMap;
     public final boolean construction; // blueprint has no building type
+    public final String icon;
 
     public Blueprint(RawBlueprint rawBlueprint) {
         name = rawBlueprint.name;
@@ -37,5 +38,6 @@ public class Blueprint {
         menuPath = rawBlueprint.menuPath;
         configMap = new HashMap<>();
         construction = "construction".equals(placing);
+        icon = rawBlueprint.icon;
     }
 }

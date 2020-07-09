@@ -8,7 +8,10 @@ import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.system.EntitySystem;
 import stonering.util.logging.Logger;
 
-import java.util.Iterator;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import com.sun.istack.Nullable;
 
 /**
  * System for updating creatures {@link Buff}s.
@@ -28,51 +31,54 @@ public class CreatureBuffSystem extends EntitySystem<Unit> {
      */
     @Override
     public void update(Unit unit) {
-        if (!unit.has(BuffAspect.class)) return;
-        for (Iterator<Buff> iterator = unit.get(BuffAspect.class).buffs.values().iterator(); iterator.hasNext(); ) {
-            Buff buff = iterator.next();
-            if (!buff.decrease(unit)) continue; // skip active buffs
-            unapplyBuff(unit, buff);
-            iterator.remove();
-        }
+        unit.getOptional(BuffAspect.class)
+                .ifPresent(aspect ->
+                        aspect.buffs.values().stream()
+                                .peek(buff -> buff.decrease(unit)) // roll time for buffs
+                                .filter(Buff::expired)
+                                .map(buff -> buff.tag)
+                                .collect(Collectors.toList())
+                                .forEach(aspect.buffs::remove)); // remove expired buffs
     }
 
     /**
      * Adds new buff to unit, applies its effect, adds buff's icon.
      */
-    public boolean addBuff(Unit unit, Buff buff) {
+    public boolean addBuff(Unit unit, @Nullable Buff buff) {
         Logger.UNITS.logDebug("Adding buff " + buff + " to creature " + unit);
         if (buff == null) return true;
-        if (!unit.has(BuffAspect.class)) return failWithLog("Creature " + unit + " has no BuffAspect");
-        if (!applyBuff(unit, buff)) return false;
-        unit.get(BuffAspect.class).buffs.put(buff.tag, buff);
-        return true;
+
+        if (unit.has(BuffAspect.class)) {
+            if (!applyBuff(unit, buff)) return false;
+            unit.get(BuffAspect.class).buffs.put(buff.tag, buff);
+            return true;
+        }
+        return false;
     }
 
     public boolean removeBuff(Unit unit, String tag) {
         Logger.UNITS.logDebug("Removing buff with tag " + tag + " to creature " + unit);
-        if (!unit.has(BuffAspect.class)) return failWithLog("Creature " + unit + " has no BuffAspect");
+        if (!unit.has(BuffAspect.class)) return Logger.UNITS.logError("Creature " + unit + " has no BuffAspect", false);
         Buff buff = unit.get(BuffAspect.class).buffs.get(tag);
-        if (buff == null) return failWithLog("Buff with tag " + tag + " not found on creature " + unit);
-        if (!unapplyBuff(unit, buff)) return false;
-        unit.get(BuffAspect.class).buffs.remove(tag);
-        return true;
+        if (buff != null) {
+            if (!unapplyBuff(unit, buff)) return false;
+            unit.get(BuffAspect.class).buffs.remove(tag);
+            return true;
+        }
+        return false;
     }
 
     private boolean applyBuff(Unit unit, Buff buff) {
-        if (!buff.apply(unit)) return failWithLog("Failed to apply buff " + buff + " to creature " + unit);
+        if (!buff.apply(unit))
+            return Logger.UNITS.logError("Failed to apply buff " + buff + " to creature " + unit, false);
         if (buff.icon != null) unit.get(RenderAspect.class).icons.add(buff.icon);
         return true;
     }
 
     private boolean unapplyBuff(Unit unit, Buff buff) {
-        if (!buff.unapply(unit)) return failWithLog("Failed to unapply buff " + buff + " to creature " + unit);
+        if (!buff.unapply(unit))
+            return Logger.UNITS.logError("Failed to unapply buff " + buff + " to creature " + unit, false);
         if (buff.icon != null) unit.get(RenderAspect.class).icons.remove(buff.icon);
         return true;
-    }
-
-    private boolean failWithLog(String message) {
-        Logger.UNITS.logError(message);
-        return false;
     }
 }

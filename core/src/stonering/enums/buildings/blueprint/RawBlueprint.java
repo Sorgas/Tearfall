@@ -15,4 +15,5 @@ public class RawBlueprint {
     public String placing = "floor"; // maps to position validator for place selecting and task checking.
     public List<String> menuPath = new ArrayList<>(); // button path in toolbar
     public List<String> ingredients = new ArrayList<>();
+    public String icon;
 }
