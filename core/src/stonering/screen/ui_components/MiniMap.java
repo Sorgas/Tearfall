@@ -7,13 +7,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+
 import stonering.entity.world.World;
 import stonering.entity.world.WorldMap;
 import stonering.util.geometry.Position;
 import stonering.screen.util.TileChooser;
 
 /**
- * UI component which renders minimap
+ * UI component which renders world map.
  *
  * @author Alexander Kuzyakov on 19.04.2017.
  */
@@ -39,29 +40,21 @@ public class MiniMap extends Table {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        if (map != null) {
-            if (debugMode) {
-                drawDebug(batch);
-            } else {
-                drawTiles(batch);
-            }
+        if (map == null) return;
+        if (debugMode) {
+            drawDebug(batch);
+        } else {
+            drawTiles(batch);
         }
     }
 
     private void drawTiles(Batch batch) {
-        if (map != null) {
-            updateSize();
-            int xStart = Math.max(focus.x - (size.x / 2), 0);
-            xStart = Math.min(xStart, map.getWidth() - size.x);
-            int yStart = Math.max(focus.y - (size.y / 2), 0);
-            yStart = Math.min(yStart, map.getHeight() - size.y);
-            for (int x = 0; x < size.x; x++) {
-                for (int y = 0; y < size.y; y++) {
-                    drawTile(batch, tileChooser.getTile(xStart + x, yStart + y), x, y);
-                }
-            }
-            drawTile(batch, tileChooser.getCross(), focus.x - xStart, focus.y - yStart);
-        }
+        if (map == null) return;
+        updateSize();
+        int xStart = Math.min(Math.max(focus.x - (size.x / 2), 0), map.getWidth() - size.x);
+        int yStart = Math.min(Math.max(focus.y - (size.y / 2), 0), map.getHeight() - size.y);
+        map.bounds().iterate((x, y) -> drawTile(batch, tileChooser.getTile(xStart + x, yStart + y), x, y));
+        drawTile(batch, tileChooser.getCross(), focus.x - xStart, focus.y - yStart);
     }
 
     private void drawDebug(Batch batch) {
@@ -130,88 +123,64 @@ public class MiniMap extends Table {
     }
 
     private void drawElevationDebug(int screenOffsetX) {
-        if (map != null) {
-            for (int x = 0; x < map.getWidth(); x++) {
-                for (int y = 0; y < map.getHeight(); y++) {
-                    shapeRenderer.setColor(getElevationColor(x, y));
-                    shapeRenderer.rect(screenOffsetX + baseScreenOffsetX + x * pixelSize, screenOffsetY + y * pixelSize, pixelSize, pixelSize);
-                }
-            }
-        }
+        if (map != null) map.bounds().iterate((x, y) -> {
+            shapeRenderer.setColor(getElevationColor(x, y));
+            shapeRenderer.rect(screenOffsetX + baseScreenOffsetX + x * pixelSize, screenOffsetY + y * pixelSize, pixelSize, pixelSize);
+        });
     }
 
     private void drawTemperatureDebug(int screenOffsetX) {
-        if (map != null) {
-            for (int x = 0; x < map.getWidth(); x++) {
-                for (int y = 0; y < map.getHeight(); y++) {
-                    shapeRenderer.setColor(getTemperatureColor(x, y));
-                    shapeRenderer.rect(baseScreenOffsetX + screenOffsetX + x * pixelSize, screenOffsetY + y * pixelSize, pixelSize, pixelSize);
-                }
-            }
-        }
+        if (map != null) map.bounds().iterate((x, y) -> {
+            shapeRenderer.setColor(getTemperatureColor(x, y));
+            shapeRenderer.rect(baseScreenOffsetX + screenOffsetX + x * pixelSize, screenOffsetY + y * pixelSize, pixelSize, pixelSize);
+        });
     }
 
     private void drawRainfallDebug(int screenOffsetX) {
-        if (map != null) {
-            for (int x = 0; x < map.getWidth(); x++) {
-                for (int y = 0; y < map.getHeight(); y++) {
-                    float rainfall = map.getRainfall(x, y);
-                    shapeRenderer.setColor(getRainfallColor(rainfall));
-                    shapeRenderer.rect(baseScreenOffsetX + screenOffsetX + x * pixelSize, screenOffsetY + y * pixelSize, pixelSize, pixelSize);
-                }
-            }
-        }
+        if (map != null) map.bounds().iterate((x, y) -> {
+            float rainfall = map.getRainfall(x, y);
+            shapeRenderer.setColor(getRainfallColor(rainfall));
+            shapeRenderer.rect(baseScreenOffsetX + screenOffsetX + x * pixelSize, screenOffsetY + y * pixelSize, pixelSize, pixelSize);
+        });
     }
 
     private void drawDrainageDebug(int screenOffsetX) {
-        if (map != null) {
-            for (int x = 0; x < map.getWidth(); x++) {
-                for (int y = 0; y < map.getHeight(); y++) {
-                    float drainage = map.getDrainage(x, y);
-                    shapeRenderer.setColor(new Color(0, drainage, 0, 0));
-                    shapeRenderer.rect(baseScreenOffsetX + screenOffsetX + x * pixelSize, screenOffsetY + y * pixelSize, pixelSize, pixelSize);
-                }
-            }
-        }
+        if (map != null) map.bounds().iterate((x, y) -> {
+            float drainage = map.getDrainage(x, y);
+            shapeRenderer.setColor(new Color(0, drainage, 0, 0));
+            shapeRenderer.rect(baseScreenOffsetX + screenOffsetX + x * pixelSize, screenOffsetY + y * pixelSize, pixelSize, pixelSize);
+        });
     }
 
     private void drawRiverVectorsDebug(int screenOffsetX) {
         Color blue = new Color(0, 0, 1, 1);
         Color green = new Color(0, 1, 0, 1);
-        for (int x = 0; x < map.getWidth(); x++) {
-            for (int y = 0; y < map.getHeight(); y++) {
-                Vector2 river = map.getRiver(x, y);
-                Vector2 brook = map.getBrook(x, y);
-                int bx = baseScreenOffsetX + screenOffsetX + x * pixelSize;
-                int by = screenOffsetY + y * pixelSize;
-                if (river != null) {
-                    shapeRenderer.line(bx, by, bx + (river.x * pixelSize * 10), by + (river.y * pixelSize * 10), blue, blue);
-                }
-                if (brook != null) {
-                    shapeRenderer.line(bx, by, bx + (brook.x * pixelSize), by + (brook.y * pixelSize), green, green);
-                }
+        if (map != null) map.bounds().iterate((x, y) -> {
+            Vector2 river = map.getRiver(x, y);
+            Vector2 brook = map.getBrook(x, y);
+            int bx = baseScreenOffsetX + screenOffsetX + x * pixelSize;
+            int by = screenOffsetY + y * pixelSize;
+            if (river != null) {
+                shapeRenderer.line(bx, by, bx + (river.x * pixelSize * 10), by + (river.y * pixelSize * 10), blue, blue);
             }
-        }
+            if (brook != null) {
+                shapeRenderer.line(bx, by, bx + (brook.x * pixelSize), by + (brook.y * pixelSize), green, green);
+            }
+        });
         shapeRenderer.setColor(1, 0, 0, 1);
         map.getLakes().forEach(position ->
                 shapeRenderer.rect(baseScreenOffsetX + screenOffsetX + position.x * pixelSize,
                         screenOffsetY + position.y * pixelSize,
                         pixelSize, pixelSize)
-
         );
-
     }
 
     private void drawBiomesDebug(int screenOffsetX) {
-        if (map != null) {
-            for (int x = 0; x < map.getWidth(); x++) {
-                for (int y = 0; y < map.getHeight(); y++) {
-                    int biome = map.getBiome(x, y);
-                    shapeRenderer.setColor(getBiomeColor(biome));
-                    shapeRenderer.rect(baseScreenOffsetX + screenOffsetX + x * pixelSize, screenOffsetY + y * pixelSize, pixelSize, pixelSize);
-                }
-            }
-        }
+        if (map != null) map.bounds().iterate((x, y) -> {
+            int biome = map.getBiome(x, y);
+            shapeRenderer.setColor(getBiomeColor(biome));
+            shapeRenderer.rect(baseScreenOffsetX + screenOffsetX + x * pixelSize, screenOffsetY + y * pixelSize, pixelSize, pixelSize);
+        });
     }
 
     private Color getElevationColor(int x, int y) {
@@ -291,12 +260,11 @@ public class MiniMap extends Table {
     }
 
     public void setWorld(World world) {
-        if (world != null) {
-            this.map = world.getWorldMap();
-            tileChooser.setMap(world.getWorldMap());
-            focus.x = map.getWidth() / 2;
-            focus.y = map.getHeight() / 2;
-            updateSize();
-        }
+        if (world == null) return;
+        this.map = world.getWorldMap();
+        tileChooser.setMap(world.getWorldMap());
+        focus.x = map.getWidth() / 2;
+        focus.y = map.getHeight() / 2;
+        updateSize();
     }
 }

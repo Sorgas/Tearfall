@@ -1,27 +1,29 @@
 package stonering.entity.world;
 
 import com.badlogic.gdx.math.Vector2;
+
+import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.Position;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class WorldMap implements Serializable {
-    private float[][] elevation;
-    private float[][] drainage;
-    private float[][] summerTemperature;
-    private float[][] winterTemperature;
-    private float[][] rainfall;
-    private Vector2[][] rivers;
-    private Vector2[][] brooks;
-    private Vector2[][] debug;
-    private int[][] biome;
+    public float[][] elevation;
+    public float[][] drainage;
+    public float[][] summerTemperature;
+    public float[][] winterTemperature;
+    public float[][] rainfall;
+    public Vector2[][] rivers;
+    public Vector2[][] brooks;
+    public Vector2[][] debug;
+    public int[][] biome;
 
-    private int width;
-    private int height;
-    private long seed;
-    private ArrayList<TectonicPlate> tectonicPlates;
-    private ArrayList<Position> lakes;
+    public int width;
+    public int height;
+    public long seed;
+    public ArrayList<TectonicPlate> tectonicPlates;
+    public ArrayList<Position> lakes;
 
     public WorldMap(int xSize, int ySize) {
         this.width = xSize;
@@ -39,6 +41,10 @@ public class WorldMap implements Serializable {
         lakes = new ArrayList<>();
     }
 
+    public Int2dBounds bounds() {
+        return new Int2dBounds(0,0, width - 1, height - 1);
+    }
+    
     public int getWidth() {
         return width;
     }
@@ -103,10 +109,6 @@ public class WorldMap implements Serializable {
         return (x >= 0 && y >= 0 && x < width && y < height);
     }
 
-    public ArrayList<TectonicPlate> getTectonicPlates() {
-        return tectonicPlates;
-    }
-
     public void setTectonicPlates(ArrayList<TectonicPlate> tectonicPlates) {
         this.tectonicPlates = tectonicPlates;
     }
@@ -127,20 +129,12 @@ public class WorldMap implements Serializable {
         this.brooks[x][y] = brook;
     }
 
-    public Vector2 getDebug(int x, int y) {
-        return debug[x][y];
-    }
-
     public void setDebug(int x, int y, Vector2 river) {
         this.debug[x][y] = river;
     }
 
     public ArrayList<Position> getLakes() {
         return lakes;
-    }
-
-    public void setLakes(ArrayList<Position> lakes) {
-        this.lakes = lakes;
     }
 
     public float getDrainage(int x, int y) {
