@@ -28,9 +28,9 @@ public class ToolbarZonesMenu extends ToolbarButtonMenu {
 
     private void createButtons() {
         Arrays.stream(ZoneTypesEnum.values()).forEach(this::createButtonForZone);
-        createButton("Update zone", Input.Keys.U, () -> {
-            GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(SelectionTools.ZONE_UPDATE);
-        });
+        createButton("U: update zone", Input.Keys.U, () -> 
+                GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(SelectionTools.ZONE_UPDATE));
+        createButton("Q: back", Input.Keys.Q, this::hide);
     }
 
     private void createButtonForZone(ZoneTypesEnum type) {

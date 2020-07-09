@@ -32,6 +32,7 @@ public class ToolbarDiggingMenu extends ToolbarButtonMenu {
         addButton("H: stairs", D_STAIRS, Input.Keys.H); // other types of stairs are handled automatically
         addButton("K: downstairs", D_DOWNSTAIRS, Input.Keys.J);
         addButton("N: clear", D_NONE, Input.Keys.N);
+        createButton("Q: back", Input.Keys.Q, this::hide);
     }
 
     private void addButton(String text, DesignationTypeEnum type, int hotKey) {

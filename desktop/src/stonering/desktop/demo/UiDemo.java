@@ -7,11 +7,11 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.utils.Align;
 
+import stonering.enums.images.DrawableMap;
 import stonering.stage.util.UiStage;
-import stonering.util.global.StaticSkin;
 import stonering.screen.util.SimpleScreen;
+import stonering.widget.button.IconTextHotkeyButton;
 
 /**
  * Demo with some UI elements.
@@ -67,13 +67,10 @@ public class UiDemo extends Game {
     }
 
     private Container createContainer() {
-        Table table = new Table();
-        table.add(new Label("qwer1", StaticSkin.skin())).size(100, 100).row();
-        table.add().expandY().row();
-        table.add(new Label("qwer2", StaticSkin.skin())).size(100, 100);
-        Container container = new Container(table);
+        IconTextHotkeyButton button = new IconTextHotkeyButton(DrawableMap.ICON.getDrawable("plants_menu"), "qwerqwer", "1234");
+        Container container = new Container(button).size(300, 80);
         container.setFillParent(true);
-        container.fill();
+//        container.fill();
         container.setDebug(true, true);
         return container;
     }

@@ -1,7 +1,6 @@
 package stonering.stage.toolbar.rightbar;
 
-import java.util.function.Supplier;
-
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -10,7 +9,8 @@ import com.badlogic.gdx.utils.Align;
 
 import stonering.enums.images.DrawableMap;
 import stonering.game.GameMvc;
-import stonering.widget.lists.IconTextButton;
+import stonering.widget.button.IconTextButton;
+import stonering.widget.button.IconTextHotkeyButton;
 
 /**
  * @author Alexander on 06.07.2020.
@@ -26,7 +26,7 @@ public class RightBar extends Container<Table> {
     }
 
     private void createButton(RightBarMenuEnum type) {
-        IconTextButton button = new IconTextButton(DrawableMap.ICON.getDrawable(type.ICON_NAME), null);
+        IconTextHotkeyButton button = new IconTextHotkeyButton(DrawableMap.ICON.getDrawable(type.ICON_NAME), null, Input.Keys.P);
         button.addListener(new ChangeListener() {
 
             @Override

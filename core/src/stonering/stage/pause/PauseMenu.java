@@ -31,28 +31,17 @@ public class PauseMenu extends ButtonMenu {
     private void addButtons() {
         createButton("Resume", Input.Keys.Q, () -> {
             GameMvc.model().setPaused(false);
-            hide();
+            GameMvc.view().removeStage(getStage());
         });
-        createButton("Options", Input.Keys.O, () -> {
-            GameMvc.view().addStage(new SingleActorShadedStage<>(new SettingsMenu(), true));
-        });
+        createButton("Options", Input.Keys.O, () -> GameMvc.view().addStage(new SingleActorShadedStage<>(new SettingsMenu(), true)));
         createButton("Save", Input.Keys.S, this::saveGame);
         createButton("Save & Quit", Input.Keys.ESCAPE, () -> {
             saveGame();
-            quitGame();
+            Gdx.app.exit();
         });
     }
 
     private void saveGame() {
         GameSaver.saveGame();
-    }
-
-    private void quitGame() {
-        Gdx.app.exit();
-    }
-
-    @Override
-    public void hide() {
-        GameMvc.view().removeStage(getStage());
     }
 }

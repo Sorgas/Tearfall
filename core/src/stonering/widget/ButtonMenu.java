@@ -1,6 +1,5 @@
 package stonering.widget;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -9,7 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import stonering.enums.images.DrawableMap;
-import stonering.widget.lists.IconTextButton;
+import stonering.widget.button.IconTextButton;
+import stonering.widget.button.IconTextHotkeyButton;
 
 import java.util.HashMap;
 
@@ -32,9 +32,6 @@ public class ButtonMenu extends Table {
                 if (buttons.containsKey(keycode)) {
                     buttons.get(keycode).toggle();
                     return true;
-                } else if (keycode == Input.Keys.Q) {
-                    hide();
-                    return true;
                 }
                 return forbidEventPass;
             }
@@ -56,8 +53,5 @@ public class ButtonMenu extends Table {
         });
         buttons.put(hotKey, button);
         add(button).row();
-    }
-
-    public void hide() {
     }
 }

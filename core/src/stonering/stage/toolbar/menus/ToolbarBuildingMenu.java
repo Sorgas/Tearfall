@@ -1,8 +1,5 @@
 package stonering.stage.toolbar.menus;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-
 import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.enums.buildings.blueprint.BlueprintsMap;
 import stonering.game.GameMvc;
@@ -13,7 +10,7 @@ import stonering.game.model.entity_selector.tool.SelectionTool;
 import stonering.game.model.entity_selector.tool.SelectionTools;
 import stonering.stage.entity_menu.building.BuildingMaterialSelectMenu;
 import stonering.stage.toolbar.Toolbar;
-import stonering.widget.ToolbarSubMenuMenu;
+import stonering.widget.ToolbarSubmenuMenu;
 
 /**
  * ButtonMenu for selecting buildings and constructions to build.
@@ -26,7 +23,7 @@ import stonering.widget.ToolbarSubMenuMenu;
  *
  * @author Alexander Kuzyakov on 25.01.2018.
  */
-public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
+public class ToolbarBuildingMenu extends ToolbarSubmenuMenu {
 
     public ToolbarBuildingMenu(Toolbar toolbar) {
         super(toolbar);

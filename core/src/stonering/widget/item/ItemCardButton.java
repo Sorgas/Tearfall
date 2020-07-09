@@ -7,7 +7,7 @@ import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.item.selectors.SimpleItemSelector;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.global.StaticSkin;
-import stonering.widget.lists.IconTextButton;
+import stonering.widget.button.IconTextButton;
 
 /**
  * Item card to display in lists. Has item image, name and number label.
