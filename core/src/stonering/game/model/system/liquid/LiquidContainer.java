@@ -48,7 +48,7 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
     @Override
     public void update(TimeUnitEnum unit) {
         if(unit == TimeUnitEnum.TICK) {
-            
+            movingSystem.update();
         }
     }
 

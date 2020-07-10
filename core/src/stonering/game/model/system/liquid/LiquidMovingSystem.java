@@ -12,6 +12,7 @@ import com.sun.istack.Nullable;
 import stonering.entity.Entity;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.time.TimeUnitEnum;
+import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.EntitySystem;
 import stonering.game.model.system.UtilitySystem;
@@ -26,20 +27,17 @@ public class LiquidMovingSystem extends UtilitySystem {
     private LocalMap localMap;
     private int turnDelay = 10;
     private int turnCount = 0;
-    private Set<Position> cache;
-    private final Int2dBounds cacheBounds;
     private final Random random;
     private final int MAX_AMOUNT = 7;
 
     public LiquidMovingSystem(LiquidContainer container) {
         this.container = container;
-        cache = new HashSet<>();
-        cacheBounds = new Int2dBounds();
         random = new Random();
     }
 
     @Override
     public void update() {
+        localMap = GameMvc.model().get(LocalMap.class);
         turnCount++;
         if (turnCount == turnDelay) {
             turnCount = 0;

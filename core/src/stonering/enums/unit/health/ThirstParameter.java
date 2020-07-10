@@ -8,7 +8,7 @@ import static stonering.enums.action.TaskPriorityEnum.*;
 import static stonering.enums.action.TaskPriorityEnum.SAFETY;
 
 /**
- * Buffs for thirst.
+ * Produces buffs for thirst.
  *
  * @author Alexander on 08.10.2019.
  */
@@ -17,8 +17,7 @@ public class ThirstParameter extends HealthParameter {
 
     public ThirstParameter(String tag) {
         super(tag);
-        RANGES.add(new HealthParameterRange(null, 20f, NONE, () -> createPerformanceBuff(0.1f, 0)));
-        RANGES.add(new HealthParameterRange(20f, 50f, NONE, () -> null));
+        RANGES.add(new HealthParameterRange(null, 50f, NONE, () -> null));
         RANGES.add(new HealthParameterRange(50f, 60f, COMFORT, () -> createPerformanceBuff(-0.1f, 2)));
         RANGES.add(new HealthParameterRange(60f, 80f, HEALTH_NEEDS, () -> createPerformanceBuff(-0.25f, 0)));
         RANGES.add(new HealthParameterRange(80f, null, SAFETY, () -> new HealthTimedBuff(TAG, -1, "hp", 4, iconY)));

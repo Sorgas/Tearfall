@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Health parameter represents some aspect of creature's health.
- * Defines ranges where creature gets {@link Buff} and need priority.
- * Buffs same health parameter have same tag, and replace each other.
+ * Health parameter represents some aspect(hunger, thirst) of creature's health.
+ * Creature health aspect is represented as float number [0, max], where max is specific to the creature (influenced by attributes or traits).
+ * Parameter defines ranges of relative value where creature gets different {@link Buff}s and need priorities.
+ * Buffs of the same health parameter have the same tag, and replace each other.
  * Produces buffs basing on {@link HealthParameterState} relative value.
  * Stores priorities for needs tasks.
  *

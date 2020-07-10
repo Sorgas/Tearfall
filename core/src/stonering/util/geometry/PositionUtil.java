@@ -37,4 +37,15 @@ public class PositionUtil {
             new Position(0, 0, -1),
             new Position(0, 0, 1)
     );
+
+    public static List<Position> upperNeighbourDeltas = Arrays.asList(
+            new Position(0, 1, 1),
+            new Position(0, -1, 1),
+            new Position(1, 0, 1),
+            new Position(1, 1, 1),
+            new Position(1, -1, 1),
+            new Position(-1, 0, 1),
+            new Position(-1, 1, 1),
+            new Position(-1, -1, 1)
+    );
 }
