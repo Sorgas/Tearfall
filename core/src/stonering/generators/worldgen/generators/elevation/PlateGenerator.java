@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import stonering.entity.world.TectonicPlate;
 import stonering.generators.worldgen.WorldGenConfig;
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.generators.worldgen.generators.AbstractGenerator;
+import stonering.generators.worldgen.generators.WorldGenerator;
 import stonering.generators.worldgen.voronoi.diagram.PowerDiagram;
 import stonering.generators.worldgen.voronoi.j2d.PolygonSimple;
 import stonering.generators.worldgen.voronoi.j2d.Site;
@@ -20,7 +20,7 @@ import java.util.Random;
 /**
  * @author Alexander Kuzyakov on 28.02.2017.
  */
-public class PlateGenerator extends AbstractGenerator {
+public class PlateGenerator extends WorldGenerator {
     private WorldGenConfig config;
     private Random random;
     private List<Edge> edges;
@@ -53,7 +53,7 @@ public class PlateGenerator extends AbstractGenerator {
         plateNum = config.getPlateDensity();
         minPlateSpeed = config.getMinPlateSpeed();
         maxPlateSpeed = config.getMaxPlateSpeed();
-        edges = container.getEdges();
+//        edges = container.getEdges();
         tectonicPlates = container.getTectonicPlates();
         centers = new ArrayList<>();
         centerMargin = config.getCenterMargin();

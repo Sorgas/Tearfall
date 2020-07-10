@@ -1,7 +1,7 @@
 package stonering.generators.worldgen.generators.drainage;
 
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.generators.worldgen.generators.AbstractGenerator;
+import stonering.generators.worldgen.generators.WorldGenerator;
 import stonering.util.geometry.Position;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.HashSet;
  *
  * @author Alexander Kuzyakov on 01.09.2018.
  */
-public class LakeGenerator extends AbstractGenerator {
+public class LakeGenerator extends WorldGenerator {
     private ArrayList<Lake> lakes;
 
     public LakeGenerator(WorldGenContainer container) {

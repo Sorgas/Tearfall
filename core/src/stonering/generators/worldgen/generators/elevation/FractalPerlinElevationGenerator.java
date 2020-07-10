@@ -2,9 +2,9 @@ package stonering.generators.worldgen.generators.elevation;
 
 import stonering.generators.worldgen.WorldGenConfig;
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.generators.worldgen.generators.AbstractGenerator;
+import stonering.generators.worldgen.generators.WorldGenerator;
 
-public class FractalPerlinElevationGenerator extends AbstractGenerator {
+public class FractalPerlinElevationGenerator extends WorldGenerator {
     private WorldGenConfig config;
     private float[][] elevatio;
 

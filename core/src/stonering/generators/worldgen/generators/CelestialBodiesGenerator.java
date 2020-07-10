@@ -10,7 +10,7 @@ import stonering.entity.environment.aspects.CelestialCycleAspect;
  *
  * @author Alexander Kuzyakov
  */
-public class CelestialBodiesGenerator extends AbstractGenerator {
+public class CelestialBodiesGenerator extends WorldGenerator {
 
     public CelestialBodiesGenerator(WorldGenContainer container) {
         super(container);

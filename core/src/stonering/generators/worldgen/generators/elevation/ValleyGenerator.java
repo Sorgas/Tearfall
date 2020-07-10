@@ -3,7 +3,7 @@ package stonering.generators.worldgen.generators.elevation;
 import com.badlogic.gdx.math.Vector2;
 import stonering.generators.worldgen.WorldGenConfig;
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.generators.worldgen.generators.AbstractGenerator;
+import stonering.generators.worldgen.generators.WorldGenerator;
 import stonering.entity.world.Edge;
 import stonering.entity.world.Mountain;
 import stonering.util.geometry.Position;
@@ -18,7 +18,7 @@ import java.util.Random;
  * <p>
  * Generates deep cavities for oceans and seas. valleys are generated where plates move away from another
  */
-public class ValleyGenerator extends AbstractGenerator {
+public class ValleyGenerator extends WorldGenerator {
     private Random random;
     private List<Edge> edges;
     private float plateSpeedToDepthModifier;
@@ -37,7 +37,7 @@ public class ValleyGenerator extends AbstractGenerator {
         topOffsetModifier = config.getTopOffsetModifier();
         topsDensity = config.getValleysTopsDensity();
         worldBorderDepth = config.getWorldBorderDepth();
-        edges = container.getEdges();
+//        edges = container.getEdges();
     }
 
     @Override

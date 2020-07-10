@@ -8,8 +8,8 @@ import java.util.List;
 
 /**
  * Health parameter represents some aspect of creature's health.
- * Defines ranges where creature gets {@link Buff} and need priority. 
- * Buffs same health parameter have same tag, and replace each other. 
+ * Defines ranges where creature gets {@link Buff} and need priority.
+ * Buffs same health parameter have same tag, and replace each other.
  * Produces buffs basing on {@link HealthParameterState} relative value.
  * Stores priorities for needs tasks.
  *
@@ -23,11 +23,15 @@ public abstract class HealthParameter {
         this.RANGES = new ArrayList<>();
         this.TAG = tag;
     }
-    
+
     public HealthParameterRange getRange(float relativeValue) {
         return RANGES.stream()
                 .filter(range -> range.check(relativeValue))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public HealthParameterRange getRange(HealthParameterState state) {
+        return getRange(state.getRelativeValue());
     }
 }

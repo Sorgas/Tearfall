@@ -1,19 +1,20 @@
 package stonering.generators.worldgen.generators.drainage;
 
 import com.badlogic.gdx.math.Vector2;
+
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.generators.worldgen.generators.AbstractGenerator;
+import stonering.generators.worldgen.generators.WorldGenerator;
+import stonering.util.geometry.Int2dBounds;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.List;
 
 /**
  * Generates erosion effect on worldMap.
  *
  * @author Alexander Kuzyakov on 21.01.2018.
  */
-public class ErosionGenerator extends AbstractGenerator {
-    private Random random;
+public class ErosionGenerator extends WorldGenerator {
     private int width;
     private int height;
     private int expandedWidth;
@@ -27,21 +28,14 @@ public class ErosionGenerator extends AbstractGenerator {
     private float evaporation = 0.015f;
     private float minElevationDelta = 0;
     private float[][] elevation;
-    private float[][] elevationBuffer;
     private final int expansionWidth = 10;
+    private Int2dBounds bounds;
+    private Int2dBounds expandedBounds;
 
-    private ArrayList<Drop> drops;
+    private List<Drop> drops = new ArrayList<>();
 
     public ErosionGenerator(WorldGenContainer container) {
         super(container);
-        drops = new ArrayList<>();
-        elevationBuffer = new float[container.config.getWidth()][container.config.getHeight()];
-    }
-
-    private void extractContainer() {
-        random = container.random;
-        width = container.config.getWidth();
-        height = container.config.getHeight();
     }
 
     public boolean execute() {
@@ -54,36 +48,33 @@ public class ErosionGenerator extends AbstractGenerator {
         return false;
     }
 
+    private void extractContainer() {
+        width = container.config.width;
+        height = container.config.height;
+        bounds = new Int2dBounds(0, 0, width - 1, height - 1);
+    }
+
     private void expandMap() {
         expandedWidth = width + expansionWidth * 2;
         expandedHeight = height + expansionWidth * 2;
+        expandedBounds = new Int2dBounds(0, 0, expandedWidth - 1, expandedHeight - 1);
         elevation = new float[expandedWidth][expandedWidth];
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                elevation[x + expansionWidth][y + expansionWidth] = container.getElevation(x, y);
-            }
-        }
+        bounds.iterate((x, y) -> elevation[x + expansionWidth][y + expansionWidth] = container.elevation[x][y]);
     }
 
     private void reduceMap() {
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                container.setElevation(x, y, elevation[x + expansionWidth][y + expansionWidth]);
-            }
-        }
+        bounds.iterate((x, y) -> container.elevation[x][y] = elevation[x + expansionWidth][y + expansionWidth]);
     }
 
     /**
      * creates drops on every point of map above sea level
      */
     private void putDrops() {
-        for (int x = 0; x < expandedWidth; x++) {
-            for (int y = 0; y < expandedHeight; y++) {
-                if (elevation[x][y] > 0) {
-                    drops.add(new Drop(x, y));
-                }
+        expandedBounds.iterate((x, y) -> {
+            if (elevation[x][y] > 0) {
+                drops.add(new Drop(x, y));
             }
-        }
+        });
     }
 
     /**
@@ -93,9 +84,7 @@ public class ErosionGenerator extends AbstractGenerator {
         for (Drop drop : drops) {
             for (int i = 0; i < maxSteps; i++) {
                 moveDrop(drop);
-                if (inExpandedMap(drop.x, drop.y)) {
-                    break;
-                }
+                if (outOfMap(drop.x, drop.y)) break;
             }
         }
     }
@@ -138,7 +127,7 @@ public class ErosionGenerator extends AbstractGenerator {
                 //gain sediment and erose
                 float sedChange = Math.min((capacity - drop.sediment) * erosion, -elevationDelta);
                 drop.sediment += sedChange;
-                erose(Math.round(drop.x), Math.round(drop.y), sedChange);
+                erode(Math.round(drop.x), Math.round(drop.y), sedChange);
             }
         }
 
@@ -148,7 +137,7 @@ public class ErosionGenerator extends AbstractGenerator {
         drop.y = endY;
     }
 
-    private void erose(int x, int y, float amount) {
+    private void erode(int x, int y, float amount) {
         elevation[x][y] = elevation[x][y] - amount;
     }
 
@@ -168,17 +157,13 @@ public class ErosionGenerator extends AbstractGenerator {
         Vector2 vector = new Vector2();
         for (int x = Math.round(cx) - 1; x <= cx + 1; x++) {
             for (int y = Math.round(cy) - 1; y <= cy + 1; y++) {
-                if (inExpandedMap(x, y)) { // elevation decreases in this direction
+                if (outOfMap(x, y)) { // elevation decreases in this direction
                     float elevationDelta = centerElevation - elevation[x][y];
                     vector.add((x - cx) * ((elevationDelta)), (y - cy) * ((elevationDelta)));
                 }
             }
         }
         return vector.nor();
-    }
-
-    private float countDistance(float x1, float y1, float x2, float y2) {
-        return (float) Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 
     /**
@@ -194,10 +179,14 @@ public class ErosionGenerator extends AbstractGenerator {
         return speed.add(slope);
     }
 
+    private boolean outOfMap(float x, float y) {
+        return x < 0 || y < 0 || x >= expandedWidth || y >= expandedHeight;
+    }
+    
     /**
-     * Represents waterflow. Has direction. Can carry sediment, evaporates over time.
+     * Represents unit of waterflow. Has direction. Can carry sediment, evaporates over time.
      */
-    private class Drop {
+    private static class Drop {
         float x;
         float y;
         Vector2 direction;
@@ -213,9 +202,6 @@ public class ErosionGenerator extends AbstractGenerator {
             direction = new Vector2(0, 0);
             velocity = 0;
         }
-    }
 
-    private boolean inExpandedMap(float x, float y) {
-        return x < 0 || y < 0 || x >= expandedWidth || y >= expandedHeight;
     }
 }

@@ -3,14 +3,14 @@ package stonering.generators.worldgen.generators.temperature;
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.worldgen.WorldGenConfig;
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.generators.worldgen.generators.AbstractGenerator;
+import stonering.generators.worldgen.generators.WorldGenerator;
 
 /**
  * Generates temperature map of year middle temperature for world.
  *
  * @author Alexander Kuzyakov on 26.03.2017.
  */
-public class TemperatureGenerator extends AbstractGenerator {
+public class TemperatureGenerator extends WorldGenerator {
     private int width;
     private int height;
     private float seaLevel;

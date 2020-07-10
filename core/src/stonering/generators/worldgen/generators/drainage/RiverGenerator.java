@@ -2,7 +2,7 @@ package stonering.generators.worldgen.generators.drainage;
 
 import com.badlogic.gdx.math.Vector2;
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.generators.worldgen.generators.AbstractGenerator;
+import stonering.generators.worldgen.generators.WorldGenerator;
 import stonering.util.geometry.Position;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.Random;
  * Generates rivers. Marks lakes if river stucks.
  * Rivers start from distributed point in high areas.
  */
-public class RiverGenerator extends AbstractGenerator {
+public class RiverGenerator extends WorldGenerator {
     private Random random;
     private int width;
     private int height;

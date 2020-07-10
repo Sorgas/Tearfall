@@ -1,7 +1,7 @@
 package stonering.generators.worldgen.generators.drainage;
 
 import stonering.entity.world.WorldMap;
-import stonering.generators.worldgen.generators.AbstractGenerator;
+import stonering.generators.worldgen.generators.WorldGenerator;
 import stonering.generators.worldgen.WorldGenContainer;
 
 import java.util.Random;
@@ -9,12 +9,12 @@ import java.util.Random;
 /**
  * @author Alexander Kuzyakov on 12.03.2017.
  */
-public class OceanFiller extends AbstractGenerator {
+public class OceanFiller extends WorldGenerator {
 	private Random random;
 	private int width;
 	private int height;
 	private float seaLevel;
-
+	
 	public OceanFiller(WorldGenContainer container) {
 		super(container);
 		this.random = container.random;

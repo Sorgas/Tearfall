@@ -3,10 +3,8 @@ package stonering.game.model.system.unit;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.health.HealthAspect;
-import stonering.entity.unit.aspects.health.HealthParameterState;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.enums.unit.health.HealthParameterEnum;
-import stonering.enums.unit.health.HealthParameterRange;
 import stonering.game.GameMvc;
 import stonering.game.model.system.EntitySystem;
 import stonering.util.logging.Logger;
@@ -32,14 +30,12 @@ import stonering.util.logging.Logger;
 public class CreatureHealthSystem extends EntitySystem<Unit> {
     public float moveParameterNoLoad = 0.05f;
     public float moveParameterFullLoad = 0.1f;
-
+    private CreatureBuffSystem buffSystem;
+    
     public CreatureHealthSystem() {
         updateInterval = TimeUnitEnum.MINUTE;
     }
-
-    /**
-     * Updates creatures health parameters to constant delta. Called by time.
-     */
+    
     @Override
     public void update(Unit unit) {
         unit.getOptional(HealthAspect.class)
@@ -69,14 +65,16 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
             resetParameter(unit, parameter);
     }
 
-    /**
-     * Recreate buffs related to given parameter.
-     */
     private void resetParameter(Unit unit, HealthParameterEnum parameter) {
-        HealthParameterState state = unit.get(HealthAspect.class).parameters.get(parameter);
-        HealthParameterRange range = parameter.PARAMETER.getRange(state.getRelativeValue());
-        CreatureBuffSystem buffSystem = GameMvc.model().get(UnitContainer.class).buffSystem;
-        buffSystem.removeBuff(unit, parameter.TAG);
-        buffSystem.addBuff(unit, range.produceBuff.get());
+        buffSystem().removeBuff(unit, parameter.TAG); // remove previous buff
+        unit.getOptional(HealthAspect.class)
+                .map(aspect -> aspect.parameters.get(parameter))
+                .map(parameter.PARAMETER::getRange)
+                .map(range -> range.produceBuff.get())
+                .ifPresent(buff -> buffSystem().addBuff(unit, buff)); // add new buff if any
+    }
+    
+    private CreatureBuffSystem buffSystem() {
+        return buffSystem == null ? buffSystem = GameMvc.model().get(UnitContainer.class).buffSystem : buffSystem; 
     }
 }

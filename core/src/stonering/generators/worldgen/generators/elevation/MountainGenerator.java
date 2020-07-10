@@ -1,7 +1,7 @@
 package stonering.generators.worldgen.generators.elevation;
 
 import com.badlogic.gdx.math.Vector2;
-import stonering.generators.worldgen.generators.AbstractGenerator;
+import stonering.generators.worldgen.generators.WorldGenerator;
 import stonering.generators.worldgen.WorldGenContainer;
 import stonering.entity.world.Edge;
 import stonering.entity.world.Mountain;
@@ -14,7 +14,7 @@ import java.util.Random;
 /**
  * @author Alexander Kuzyakov on 28.02.2017.
  */
-public class MountainGenerator extends AbstractGenerator {
+public class MountainGenerator extends WorldGenerator {
     private Random random;
     int height;
     int width;
@@ -29,7 +29,7 @@ public class MountainGenerator extends AbstractGenerator {
 
     private void extractContainer() {
         random = container.random;
-        edges = container.getEdges();
+//        edges = container.getEdges();
         width = container.config.getWidth();
         height = container.config.getHeight();
         topsDensity = container.config.getMountainsTopsDensity();

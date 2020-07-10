@@ -22,12 +22,7 @@ public class WorldGenContainer {
     private int height;
 
     private ArrayList<TectonicPlate> tectonicPlates;
-    private List<Edge> edges;
-    private List<Mountain> mountains;
-    private List<Mountain> valleys;
-    private List<Mountain> hills;
-
-    private float[][] elevation;
+    public float[][] elevation;
     private float[][] drainage;
     private float[][] slopeAngles;
     private float[][] summerTemperature;
@@ -87,10 +82,6 @@ public class WorldGenContainer {
         rivers = new Vector2[width][height];
         brooks = new Vector2[width][height];
         tectonicPlates = new ArrayList<>();
-        edges = new ArrayList<>();
-        mountains = new ArrayList<>();
-        valleys = new ArrayList<>();
-        hills = new ArrayList<>();
         lakes = new HashSet<>();
     }
 
@@ -102,12 +93,6 @@ public class WorldGenContainer {
         return world.getWorldMap().inMap(x, y);
     }
 
-    public void setSlopeAngles(int x, int y, float value) {
-        if (inMap(x, y)) {
-            slopeAngles[x][y] = value;
-        }
-    }
-
     public float getSlopeAngles(int x, int y) {
         return inMap(x, y) ? slopeAngles[x][y] : 0;
     }
@@ -115,19 +100,7 @@ public class WorldGenContainer {
     public List<TectonicPlate> getTectonicPlates() {
         return tectonicPlates;
     }
-
-    public List<Edge> getEdges() {
-        return edges;
-    }
-
-    public List<Mountain> getHills() {
-        return hills;
-    }
-
-    public List<Mountain> getMountains() {
-        return mountains;
-    }
-
+    
     public WorldMap getMap() {
         return world.getWorldMap();
     }
@@ -186,10 +159,6 @@ public class WorldGenContainer {
         return inMap(x, y) ? rainfall[x][y] : 0;
     }
 
-    public float getLandPart() {
-        return landPart;
-    }
-
     public void setLandPart(float landPart) {
         this.landPart = landPart;
     }
@@ -213,17 +182,9 @@ public class WorldGenContainer {
     public Vector2 getBrook(int x, int y) {
         return inMap(x, y) ? brooks[x][y] : null;
     }
-
-    public Vector2[][] getRivers() {
-        return rivers;
-    }
-
+    
     public HashSet<Position> getLakes() {
         return lakes;
-    }
-
-    public void setLakes(HashSet<Position> lakes) {
-        this.lakes = lakes;
     }
 
     public void setDrainage(int x, int y, float value) {
@@ -240,10 +201,6 @@ public class WorldGenContainer {
         if (inMap(x, y)) {
             biome[x][y] = value;
         }
-    }
-
-    public int getBiome(int x, int y) {
-        return inMap(x, y) ? biome[x][y] : 0;
     }
 
     public World getWorld() {

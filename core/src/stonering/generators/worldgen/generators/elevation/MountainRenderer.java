@@ -1,7 +1,7 @@
 package stonering.generators.worldgen.generators.elevation;
 
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.generators.worldgen.generators.AbstractGenerator;
+import stonering.generators.worldgen.generators.WorldGenerator;
 import stonering.entity.world.Edge;
 import stonering.entity.world.Mountain;
 import stonering.entity.world.Slope;
@@ -10,7 +10,7 @@ import stonering.util.geometry.Position;
 /**
  * @author Alexander Kuzyakov on 03.03.2017.
  */
-public class MountainRenderer extends AbstractGenerator {
+public class MountainRenderer extends WorldGenerator {
     private int width;
     private int height;
     private float[][] elevation;
@@ -24,11 +24,11 @@ public class MountainRenderer extends AbstractGenerator {
     @Override
     public boolean execute() {
         System.out.println("rendering mountains");
-        for (Edge edge : container.getEdges()) {
-            for (Mountain mountain : edge.getMountains()) {
-                renderMountain(mountain);
-            }
-        }
+//        for (Edge edge : container.getEdges()) {
+//            for (Mountain mountain : edge.getMountains()) {
+//                renderMountain(mountain);
+//            }
+//        }
         smoothMountains(0);
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {

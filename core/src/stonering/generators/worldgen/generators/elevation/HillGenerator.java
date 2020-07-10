@@ -1,6 +1,6 @@
 package stonering.generators.worldgen.generators.elevation;
 
-import stonering.generators.worldgen.generators.AbstractGenerator;
+import stonering.generators.worldgen.generators.WorldGenerator;
 import stonering.generators.worldgen.WorldGenContainer;
 import stonering.entity.world.Mountain;
 import stonering.util.geometry.Position;
@@ -12,7 +12,7 @@ import java.util.Random;
 /**
  * @author Alexander Kuzyakov on 11.03.2017.
  */
-public class HillGenerator  extends AbstractGenerator {
+public class HillGenerator  extends WorldGenerator {
 	private Random random;
 	private int width;
 	private int height;
@@ -34,10 +34,10 @@ public class HillGenerator  extends AbstractGenerator {
 		int num = width * height / hillDensity;
 		int widthMargin = (int) (width * hillMargin);
 		int heightMargin = (int) (height * hillMargin);
-		List<Mountain> hills = container.getHills();
+//		List<Mountain> hills = container.getHills();
 		for (int i = 0; i < num; i++) {
 			Mountain hill = createHill(widthMargin + random.nextInt(width - 2 * widthMargin), heightMargin + random.nextInt(width - 2 * heightMargin));
-			hills.add(hill);
+//			hills.add(hill);
 		}
 		return false;
 	}

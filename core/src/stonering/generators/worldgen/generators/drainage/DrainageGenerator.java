@@ -1,13 +1,12 @@
 package stonering.generators.worldgen.generators.drainage;
 
-import stonering.generators.worldgen.WorldGenConfig;
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.generators.worldgen.generators.AbstractGenerator;
+import stonering.generators.worldgen.generators.WorldGenerator;
 
 /**
  * @author Alexander Kuzyakov
  */
-public class DrainageGenerator extends AbstractGenerator {
+public class DrainageGenerator extends WorldGenerator {
     private float[][] evaporation;
     private float[][] slopesDrainage;
     private float[][] basinsDrainage;

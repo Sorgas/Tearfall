@@ -1,18 +1,20 @@
 package stonering.generators.worldgen.generators.elevation;
 
-import stonering.generators.worldgen.generators.AbstractGenerator;
+import stonering.generators.worldgen.generators.WorldGenerator;
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.worldgen.WorldGenContainer;
+import stonering.util.geometry.Int2dBounds;
 
 /**
- * Applies Perlin noise to heightMap.
+ * Applies Perlin noise to world heightMap.
  *
  * @author Alexander Kuzyakov on 01.04.2017.
  */
-public class ElevationGenerator extends AbstractGenerator {
+public class ElevationGenerator extends WorldGenerator {
     private int width;
     private int height;
     private float[][] elevation;
+    private Int2dBounds bounds;
 
     public ElevationGenerator(WorldGenContainer container) {
         super(container);
@@ -23,6 +25,7 @@ public class ElevationGenerator extends AbstractGenerator {
         width = container.config.getWidth();
         height = container.config.getHeight();
         elevation = new float[width][height];
+        bounds = new Int2dBounds(0, 0, width - 1, height - 1);
     }
 
     @Override
@@ -37,17 +40,10 @@ public class ElevationGenerator extends AbstractGenerator {
         return false;
     }
 
-    /**
-     * Adds Perlin noise with parameters and amplitude to elevation array
-     */
     private void addElevation(int octaves, float roughness, float scale, float amplitude) {
         PerlinNoiseGenerator noise = new PerlinNoiseGenerator();
         float[][] noiseArray = noise.generateOctavedSimplexNoise(width, height, octaves, roughness, scale);
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                elevation[x][y] += noiseArray[x][y] * amplitude;
-            }
-        }
+        bounds.iterate((x, y) -> elevation[x][y] += noiseArray[x][y] * amplitude);
     }
 
     /**
@@ -55,12 +51,10 @@ public class ElevationGenerator extends AbstractGenerator {
      */
     private void lowerBorders() {
         float mapRadius = (float) (width * Math.sqrt(2) / 2f);
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                float distance = Math.min(1, -10f / 4 * ((getAbsoluteDistanceToCenter(x, y) - mapRadius) / mapRadius));
-                elevation[x][y] = ((elevation[x][y] + 1) * (distance)) - 1f;
-            }
-        }
+        bounds.iterate((x, y) -> {
+            float distance = Math.min(1, -10f / 4 * ((getAbsoluteDistanceToCenter(x, y) - mapRadius) / mapRadius));
+            elevation[x][y] = ((elevation[x][y] + 1) * (distance)) - 1f;
+        });
     }
 
     /**
@@ -76,10 +70,6 @@ public class ElevationGenerator extends AbstractGenerator {
      * Modifies elevation map to be within [0,1]
      */
     private void normalizeElevation() {
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                container.setElevation(x, y, elevation[x][y] = (elevation[x][y] + 1) / 2f);
-            }
-        }
+        bounds.iterate((x, y) -> container.setElevation(x, y, elevation[x][y] = (elevation[x][y] + 1) / 2f));
     }
 }

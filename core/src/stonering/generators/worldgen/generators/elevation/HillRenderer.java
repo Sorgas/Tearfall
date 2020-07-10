@@ -1,7 +1,7 @@
 package stonering.generators.worldgen.generators.elevation;
 
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.generators.worldgen.generators.AbstractGenerator;
+import stonering.generators.worldgen.generators.WorldGenerator;
 import stonering.entity.world.Mountain;
 import stonering.entity.world.Slope;
 import stonering.util.geometry.Position;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author Alexander Kuzyakov on 12.03.2017.
  */
-public class HillRenderer  extends AbstractGenerator {
+public class HillRenderer  extends WorldGenerator {
 	private int width;
 	private int height;
 	private float[][] elevation;
@@ -29,10 +29,10 @@ public class HillRenderer  extends AbstractGenerator {
 	@Override
 	public boolean execute() {
 		System.out.println("rendering hills");
-		for (Iterator<Mountain> iterator = container.getHills().iterator(); iterator.hasNext(); ) {
-			Mountain hill = iterator.next();
-			renderHill(hill);
-		}
+//		for (Iterator<Mountain> iterator = container.getHills().iterator(); iterator.hasNext(); ) {
+//			Mountain hill = iterator.next();
+//			renderHill(hill);
+//		}
 		smoothHills(smoothIterations);
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {

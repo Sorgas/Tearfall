@@ -3,10 +3,7 @@ package stonering.util.geometry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
-
-import stonering.util.global.TriConsumer;
 
 /**
  * @author Alexander_Kuzyakov on 10.06.2019.
@@ -33,6 +30,10 @@ public class Int2dBounds {
         this(start.x, start.y, start.x + width - 1, start.y + height - 1);
     }
 
+    public Int2dBounds(int width, int height) {
+        this(0, 0, width - 1, height - 1);
+    }
+    
     public boolean isIn(Position position) {
         return isIn(position.x, position.y);
     }

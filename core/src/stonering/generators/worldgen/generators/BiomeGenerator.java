@@ -9,7 +9,7 @@ import stonering.generators.worldgen.WorldGenContainer;
  *
  * @author Alexander on 02.10.2018.
  */
-public class BiomeGenerator extends AbstractGenerator {
+public class BiomeGenerator extends WorldGenerator {
     private int width;
     private int height;
     private float seaLevel;

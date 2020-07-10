@@ -56,37 +56,37 @@ public class MapDrawer {
     }
 
     private void drawMountains() {
-        List<Edge> edges = container.getEdges();
-        for (Iterator<Edge> iterator = edges.iterator(); iterator.hasNext(); ) {
-            Edge edge = iterator.next();
-            List<Mountain> mountains = edge.getMountains();
-            for (Iterator<Mountain> mountainIterator = mountains.iterator(); mountainIterator.hasNext(); ) {
-                Mountain mountain = mountainIterator.next();
-                Position top = mountain.getTop();
-                drawPoint(top.x, top.y);
-                for (Iterator<Position> cornerIterator = mountain.getCorners().iterator(); cornerIterator.hasNext(); ) {
-                    Position corner = cornerIterator.next();
-                    drawLine(top.x, top.y, corner.x, corner.y);
-                }
-            }
-        }
+//        List<Edge> edges = container.getEdges();
+//        for (Iterator<Edge> iterator = edges.iterator(); iterator.hasNext(); ) {
+//            Edge edge = iterator.next();
+//            List<Mountain> mountains = edge.getMountains();
+//            for (Iterator<Mountain> mountainIterator = mountains.iterator(); mountainIterator.hasNext(); ) {
+//                Mountain mountain = mountainIterator.next();
+//                Position top = mountain.getTop();
+//                drawPoint(top.x, top.y);
+//                for (Iterator<Position> cornerIterator = mountain.getCorners().iterator(); cornerIterator.hasNext(); ) {
+//                    Position corner = cornerIterator.next();
+//                    drawLine(top.x, top.y, corner.x, corner.y);
+//                }
+//            }
+//        }
     }
 
     private void drawValleys() {
-        List<Edge> edges = container.getEdges();
-        for (Iterator<Edge> iterator = edges.iterator(); iterator.hasNext(); ) {
-            Edge edge = iterator.next();
-            List<Mountain> valleys = edge.getValleys();
-            for (Iterator<Mountain> valleyIterator = valleys.iterator(); valleyIterator.hasNext(); ) {
-                Mountain valley = valleyIterator.next();
-                Position top = valley.getTop();
-                drawPoint(top.x, top.y);
-                for (Iterator<Position> cornerIterator = valley.getCorners().iterator(); cornerIterator.hasNext(); ) {
-                    Position corner = cornerIterator.next();
-                    drawLine(top.x, top.y, corner.x, corner.y);
-                }
-            }
-        }
+//        List<Edge> edges = container.getEdges();
+//        for (Iterator<Edge> iterator = edges.iterator(); iterator.hasNext(); ) {
+//            Edge edge = iterator.next();
+//            List<Mountain> valleys = edge.getValleys();
+//            for (Iterator<Mountain> valleyIterator = valleys.iterator(); valleyIterator.hasNext(); ) {
+//                Mountain valley = valleyIterator.next();
+//                Position top = valley.getTop();
+//                drawPoint(top.x, top.y);
+//                for (Iterator<Position> cornerIterator = valley.getCorners().iterator(); cornerIterator.hasNext(); ) {
+//                    Position corner = cornerIterator.next();
+//                    drawLine(top.x, top.y, corner.x, corner.y);
+//                }
+//            }
+//        }
     }
 
     private void drawElevation() {

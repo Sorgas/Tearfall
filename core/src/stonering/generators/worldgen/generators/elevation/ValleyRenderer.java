@@ -1,7 +1,7 @@
 package stonering.generators.worldgen.generators.elevation;
 
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.generators.worldgen.generators.AbstractGenerator;
+import stonering.generators.worldgen.generators.WorldGenerator;
 import stonering.entity.world.Edge;
 import stonering.entity.world.Mountain;
 import stonering.entity.world.Slope;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author Alexander Kuzyakov on 10.03.2017.
  */
-public class ValleyRenderer  extends AbstractGenerator {
+public class ValleyRenderer  extends WorldGenerator {
 	private int width;
 	private int height;
 	private float[][] elevation;
@@ -32,12 +32,12 @@ public class ValleyRenderer  extends AbstractGenerator {
 	@Override
 	public boolean execute() {
 		System.out.println("rendering valleys");
-		for (Iterator<Edge> edgeIterator = container.getEdges().iterator(); edgeIterator.hasNext(); ) {
-			for (Iterator<Mountain> iterator = edgeIterator.next().getValleys().iterator(); iterator.hasNext(); ) {
-				Mountain valley = iterator.next();
-				renderValley(valley);
-			}
-		}
+//		for (Iterator<Edge> edgeIterator = container.getEdges().iterator(); edgeIterator.hasNext(); ) {
+//			for (Iterator<Mountain> iterator = edgeIterator.next().getValleys().iterator(); iterator.hasNext(); ) {
+//				Mountain valley = iterator.next();
+//				renderValley(valley);
+//			}
+//		}
 		smoothValleys(smoothIterations);
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {

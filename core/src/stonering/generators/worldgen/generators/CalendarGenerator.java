@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author Alexander on 09.12.2019.
  */
-public class CalendarGenerator extends AbstractGenerator {
+public class CalendarGenerator extends WorldGenerator {
 
     public CalendarGenerator(WorldGenContainer container) {
         super(container);

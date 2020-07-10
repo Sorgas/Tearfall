@@ -9,8 +9,8 @@ import java.util.Random;
  */
 public class WorldGenConfig {
     public final long seed;
-    private int width;
-    private int height;
+    public int width;
+    public int height;
 
     //for plate worldgen
     private int plateDensity = 2500;
@@ -71,48 +71,24 @@ public class WorldGenConfig {
         return topOffsetModifier;
     }
 
-    public void setTopOffsetModifier(float topOffsetModifier) {
-        this.topOffsetModifier = topOffsetModifier;
-    }
-
     public int getPlateDensity() {
         return plateDensity;
-    }
-
-    public void setPlateDensity(int plateDensity) {
-        this.plateDensity = plateDensity;
     }
 
     public int getMountainsTopsDensity() {
         return mountainsTopsDensity;
     }
 
-    public void setMountainsTopsDensity(int mountainsTopsDensity) {
-        this.mountainsTopsDensity = mountainsTopsDensity;
-    }
-
     public float getPlateSpeedToHeightModifier() {
         return PlateSpeedToHeightModifier;
-    }
-
-    public void setPlateSpeedToHeightModifier(float plateSpeedToHeightModifier) {
-        PlateSpeedToHeightModifier = plateSpeedToHeightModifier;
     }
 
     public float getPlateSpeedToDepthModifier() {
         return plateSpeedToDepthModifier;
     }
 
-    public void setPlateSpeedToDepthModifier(float plateSpeedToDepthModifier) {
-        this.plateSpeedToDepthModifier = plateSpeedToDepthModifier;
-    }
-
     public int getValleysTopsDensity() {
         return valleysTopsDensity;
-    }
-
-    public void setValleysTopsDensity(int valleysTopsDensity) {
-        this.valleysTopsDensity = valleysTopsDensity;
     }
 
     public int getWidth() {
@@ -135,151 +111,71 @@ public class WorldGenConfig {
         return minPlateSpeed;
     }
 
-    public void setMinPlateSpeed(int minPlateSpeed) {
-        this.minPlateSpeed = minPlateSpeed;
-    }
-
     public int getMaxPlateSpeed() {
         return maxPlateSpeed;
-    }
-
-    public void setMaxPlateSpeed(int maxPlateSpeed) {
-        this.maxPlateSpeed = maxPlateSpeed;
     }
 
     public int getSmoothIterations() {
         return smoothIterations;
     }
 
-    public void setSmoothIterations(int smoothIterations) {
-        this.smoothIterations = smoothIterations;
-    }
-
     public int getSmoothRadius() {
         return smoothRadius;
-    }
-
-    public void setSmoothRadius(int smoothRadius) {
-        this.smoothRadius = smoothRadius;
     }
 
     public int getHillDensity() {
         return hillDensity;
     }
 
-    public void setHillDensity(int hillDensity) {
-        this.hillDensity = hillDensity;
-    }
-
     public float getWorldBorderDepth() {
         return worldBorderDepth;
-    }
-
-    public void setWorldBorderDepth(float worldBorderDepth) {
-        this.worldBorderDepth = worldBorderDepth;
     }
 
     public float getCenterMargin() {
         return centerMargin;
     }
 
-    public void setCenterMargin(float centerMargin) {
-        this.centerMargin = centerMargin;
-    }
-
     public float getSeaLevel() {
         return seaLevel;
-    }
-
-    public void setSeaLevel(float seaLevel) {
-        this.seaLevel = seaLevel;
     }
 
     public float getHillMargin() {
         return hillMargin;
     }
 
-    public void setHillMargin(float hillMargin) {
-        this.hillMargin = hillMargin;
-    }
-
-    public int getRiverDensity() {
-        return riverDensity;
-    }
-
-    public void setRiverDensity(int riverDensity) {
-        this.riverDensity = riverDensity;
-    }
-
     public float getPolarLineWidth() {
         return polarLineWidth;
-    }
-
-    public void setPolarLineWidth(float polarLineWidth) {
-        this.polarLineWidth = polarLineWidth;
     }
 
     public float getEquatorLineWidth() {
         return equatorLineWidth;
     }
 
-    public void setEquatorLineWidth(float equatorLineWidth) {
-        this.equatorLineWidth = equatorLineWidth;
-    }
-
     public float getMaxTemperature() {
         return maxTemperature;
-    }
-
-    public void setMaxTemperature(float maxTemperature) {
-        this.maxTemperature = maxTemperature;
     }
 
     public float getMinTemperature() {
         return minTemperature;
     }
 
-    public void setMinTemperature(float minTemperature) {
-        this.minTemperature = minTemperature;
-    }
-
     public int getMinRainfall() {
         return minRainfall;
-    }
-
-    public void setMinRainfall(int minRainfall) {
-        this.minRainfall = minRainfall;
     }
 
     public int getMaxRainfall() {
         return maxRainfall;
     }
 
-    public void setMaxRainfall(int maxRainfall) {
-        this.maxRainfall = maxRainfall;
-    }
-
     public float getLargeRiverStartLevel() {
         return largeRiverStartLevel;
-    }
-
-    public void setLargeRiverStartLevel(float largeRiverStartLevel) {
-        this.largeRiverStartLevel = largeRiverStartLevel;
     }
 
     public float getElevationInfluence() {
         return elevationInfluence;
     }
 
-    public void setElevationInfluence(float elevationInfluence) {
-        this.elevationInfluence = elevationInfluence;
-    }
-
     public float getSeasonalDeviation() {
         return seasonalDeviation;
-    }
-
-    public void setSeasonalDeviation(float seasonalDeviation) {
-        this.seasonalDeviation = seasonalDeviation;
     }
 }

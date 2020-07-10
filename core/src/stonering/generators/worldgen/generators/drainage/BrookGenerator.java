@@ -2,7 +2,7 @@ package stonering.generators.worldgen.generators.drainage;
 
 import com.badlogic.gdx.math.Vector2;
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.generators.worldgen.generators.AbstractGenerator;
+import stonering.generators.worldgen.generators.WorldGenerator;
 import stonering.util.geometry.Position;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.Random;
  *
  * @author Alexander Kuzyakov on 18.01.2018.
  */
-public class BrookGenerator extends AbstractGenerator {
+public class BrookGenerator extends WorldGenerator {
     private int width;
     private int height;
     private float seaLevel;
