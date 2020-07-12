@@ -34,7 +34,7 @@ public class PassageUpdater {
      */
     public void update(int x, int y, int z) {
         Position center = new Position(x, y, z);
-        PassageEnum passing = passage.getTilePassage(center);
+        PassageEnum passing = passage.calculateTilePassage(center);
         passage.passage.set(center, passing.VALUE);
         if (passing == PASSABLE) { // tile became passable, areas should be merged
             Set<Byte> areas = new NeighbourPositionStream(center)

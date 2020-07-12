@@ -23,8 +23,7 @@ import static stonering.enums.blocks.PassageEnum.PASSABLE;
  */
 public class LocalMap implements ModelComponent, Initable {
     public final BlockTypeMap blockType;
-    private byte[][][] temperature;
-    private final Int3dBounds bounds;
+    public final Int3dBounds bounds;
     
     public LightMap light;
     public transient PassageMap passageMap;                                 // not saved to savegame,
@@ -36,7 +35,6 @@ public class LocalMap implements ModelComponent, Initable {
 
     public LocalMap(int xSize, int ySize, int zSize) {
         blockType = new BlockTypeMap(xSize, ySize, zSize);
-        temperature = new byte[xSize][ySize][zSize];
         this.xSize = xSize;
         this.ySize = ySize;
         this.zSize = zSize;
@@ -93,10 +91,6 @@ public class LocalMap implements ModelComponent, Initable {
     public boolean isWalkPassable(int x, int y, int z) {
         //TODO reuse
         return passageMap.getPassage(x, y, z) == PASSABLE.VALUE;
-    }
-
-    public boolean isFlyPassable(Position pos) {
-        return isFlyPassable(pos.x, pos.y, pos.z);
     }
 
     public boolean isFlyPassable(int x, int y, int z) {

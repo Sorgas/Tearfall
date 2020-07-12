@@ -7,6 +7,7 @@ import stonering.game.model.GameModel;
 import stonering.game.model.local_map.ByteArrayWithCounter;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.building.BuildingContainer;
+import stonering.game.model.system.liquid.LiquidContainer;
 import stonering.game.model.system.plant.PlantContainer;
 import stonering.util.UtilByteArray;
 import stonering.util.geometry.Position;
@@ -14,6 +15,8 @@ import stonering.util.geometry.Position;
 import static stonering.enums.blocks.BlockTypeEnum.*;
 import static stonering.enums.blocks.PassageEnum.IMPASSABLE;
 import static stonering.enums.blocks.PassageEnum.PASSABLE;
+
+import java.util.Optional;
 
 /**
  * Sub-component of {@link LocalMap}, is created on local map init.
@@ -50,13 +53,7 @@ public class PassageMap {
      * Resets values to the whole map.
      */
     public void init() {
-        for (int x = 0; x < localMap.xSize; x++) {
-            for (int y = 0; y < localMap.ySize; y++) {
-                for (int z = 0; z < localMap.zSize; z++) {
-                    passage.set(x, y, z, getTilePassage(cachePosition.set(x, y, z)).VALUE);
-                }
-            }
-        }
+        localMap.bounds.iterate((x, y, z) -> passage.set(x, y, z, calculateTilePassage(cachePosition.set(x, y, z)).VALUE));
         new AreaInitializer(localMap).formPassageMap(this);
     }
 
@@ -103,19 +100,26 @@ public class PassageMap {
     }
 
     /**
-     * Tile is passable, if its block type allows walking(like floor, ramp, etc.), plant is passable(not tree trunk), building is passable.
+     * Tile is passable, if its block type allows walking(like floor, ramp, etc.), plants are passable(not tree trunks), buildings are impassable.
      * TODO add water depth checking, etc.
      */
-    public PassageEnum getTilePassage(Position position) {
+    public PassageEnum calculateTilePassage(Position position) {
         GameModel model = GameMvc.model();
         PassageEnum tilePassage = getType(localMap.blockType.get(position)).PASSING;
         if (tilePassage == PASSABLE) { // tile still can be blocked by plants or buildings
-            PlantContainer plantContainer = model.get(PlantContainer.class);
-            if (plantContainer != null && !plantContainer.isPlantBlockPassable(position)) return IMPASSABLE;
-            BuildingContainer buildingContainer = model.get(BuildingContainer.class);
-            if (buildingContainer != null
-                    && buildingContainer.buildingBlocks.containsKey(position)
-                    && buildingContainer.buildingBlocks.get(position).passage == IMPASSABLE) return IMPASSABLE;
+            boolean plantPassable = model.optional(PlantContainer.class)
+                    .map(plantContainer -> plantContainer.isPlantBlockPassable(position)).orElse(true);
+            if(!plantPassable) return IMPASSABLE;
+
+            boolean buildingPassable = model.optional(BuildingContainer.class)
+                    .map(container -> container.buildingBlocks.get(position))
+                    .map(block -> block.passage == PASSABLE).orElse(true);
+            if(!buildingPassable) return IMPASSABLE;
+
+            boolean waterPassable = model.optional(LiquidContainer.class)
+                    .map(container -> container.getTile(position))
+                    .map(tile -> tile.amount <= 4).orElse(true);
+            if(!waterPassable) return IMPASSABLE;
         }
         return tilePassage;
     }

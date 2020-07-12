@@ -64,7 +64,7 @@ public class WaterNeed extends Need {
         return GameMvc.model().get(LiquidContainer.class).liquidTiles.keySet().stream()
                 //TODO filter by liquid
                 .filter(pos -> pos.z < map.zSize - 1)
-                .filter(pos -> map.blockType.get(pos.x, pos.y, pos.z + 1) == BlockTypeEnum.SPACE.CODE)
+                .filter(pos -> map.blockType.get(pos.x, pos.y, pos.z + 1) == BlockTypeEnum.SPACE.CODE) // space should be above water
                 .filter(pos -> hasAreaTileNear(pos, unitArea, passageMap.area))
                 .min(Comparator.comparingInt(pos -> pos.fastDistance(unit.position))).orElse(null);
     }

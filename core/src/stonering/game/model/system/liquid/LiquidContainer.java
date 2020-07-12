@@ -2,6 +2,8 @@ package stonering.game.model.system.liquid;
 
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.time.TimeUnitEnum;
+import stonering.game.GameMvc;
+import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.ModelComponent;
 import stonering.util.global.Updatable;
 import stonering.generators.localgen.LocalGenContainer;
@@ -32,7 +34,8 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
     public final HashMap<Position, LiquidSource> liquidSources;
     public final Position cachePosition;
     private final LiquidMovingSystem movingSystem;
-    
+    private LocalMap map;
+
     public LiquidContainer() {
         liquidTiles = new HashMap<>();
         liquidSources = new HashMap<>();
@@ -81,6 +84,7 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
         LiquidTile tile = liquidTiles.computeIfAbsent(position.clone(), pos -> new LiquidTile(MaterialMap.getId("water"), 0));
         tile.amount = amount;
         tile.stable = false;
+        map().updatePassage(position);
     }
 
     public LiquidTile getTile(Position position) {
@@ -89,5 +93,9 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
 
     public LiquidTile getTile(int x, int y, int z) {
         return liquidTiles.get(cachePosition.set(x, y, z));
+    }
+
+    private LocalMap map() {
+        return map == null ? map = GameMvc.model().get(LocalMap.class) : map;
     }
 }

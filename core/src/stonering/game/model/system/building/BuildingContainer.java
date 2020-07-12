@@ -1,9 +1,12 @@
 package stonering.game.model.system.building;
 
+import static stonering.enums.blocks.PassageEnum.PASSABLE;
+
 import stonering.entity.building.BuildingBlock;
 import stonering.enums.blocks.PassageEnum;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
+import stonering.util.geometry.PositionUtil;
 import stonering.util.global.Updatable;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.local_map.passage.NeighbourPositionStream;
@@ -15,10 +18,8 @@ import stonering.entity.building.Building;
 import stonering.util.geometry.Position;
 import stonering.util.logging.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Contains all Buildings on localMap.
@@ -32,6 +33,7 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
     private List<Building> removedBuildings;
     public final WorkbenchSystem workbenchSystem;
     private final Position cachePosition;
+    private LocalMap map;
 
     public BuildingContainer() {
         buildingBlocks = new HashMap<>();
@@ -49,13 +51,7 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
 
     private void removeMarkedForDelete() {
         objects.removeAll(removedBuildings);
-        for (Building building : removedBuildings) {
-            for (BuildingBlock[] blocks : building.blocks) {
-                for (BuildingBlock block : blocks) {
-                    buildingBlocks.remove(block.position);
-                }
-            }
-        }
+        removedBuildings.forEach(building -> building.iterateBlocks(block -> buildingBlocks.remove(block.position)));
     }
 
     /**
@@ -73,9 +69,8 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
                 return; // adding failed
             }
         }
-        building.iterateBlocks(block -> { // put blocks into container
-            buildingBlocks.put(block.position, block);
-        });
+        // put blocks into container
+        building.iterateBlocks(block -> buildingBlocks.put(block.position, block));
         building.iterateBlocks(block -> GameMvc.model().get(LocalMap.class).updatePassage(block.position));
         objects.add(building);
         tryMoveItems(building);
@@ -86,17 +81,14 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
      */
     private void tryMoveItems(Building building) {
         ItemContainer container = GameMvc.model().get(ItemContainer.class);
-        for (BuildingBlock[] blocks : building.blocks) {
-            for (BuildingBlock block : blocks) {
-                Position target = block.position;
-                if (container.getItemsInPosition(target).isEmpty()) return; // no items in target position
-                Position newPosition = new NeighbourPositionStream(target)
-                        .filterSameZLevel()
-                        .filterByPassage(PassageEnum.PASSABLE)
-                        .stream.findAny().orElse(null);
-                container.getItemsInPosition(target).forEach(item -> container.onMapItemsSystem.changeItemPosition(item, newPosition));
-            }
-        }
+        building.iterateBlocks(block -> {
+            if (container.getItemsInPosition(block.position).isEmpty()) return; // no items in target position
+            Position newPosition = PositionUtil.allNeighbourDeltas.stream()
+                    .map(pos -> Position.add(block.position, pos))
+                    .filter(position -> map().passageMap.passage.get(position) == PASSABLE.VALUE)
+                    .findAny().orElse(null);
+            container.getItemsInPosition(block.position).forEach(item -> container.onMapItemsSystem.changeItemPosition(item, newPosition));
+        });
     }
 
     public Building getBuilding(Position position) {
@@ -107,5 +99,9 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
 
     public Building getBuilding(int x, int y, int z) {
         return getBuilding(cachePosition.set(x, y, z));
+    }
+
+    private LocalMap map() {
+        return map == null ? map = GameMvc.model().get(LocalMap.class) : map;
     }
 }

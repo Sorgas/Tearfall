@@ -36,6 +36,10 @@ public abstract class GameModel implements Initable, Serializable, Updatable {
         return (T) components.get(type);
     }
 
+    public <T extends ModelComponent> Optional<T> optional(Class<T> type) {
+        return Optional.ofNullable((T) components.get(type));
+    }
+
     public <T extends ModelComponent> void put(T object) {
         components.put(object.getClass(), object);
         if (object instanceof Updatable) updatableComponents.add((Updatable) object);
