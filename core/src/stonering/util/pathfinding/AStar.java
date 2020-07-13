@@ -41,7 +41,7 @@ public class AStar implements ModelComponent {
     /**
      * @param initialNode start of the search
      * @param targetPos   end of the search
-     * @param targetType see {@link ActionTarget}
+     * @param targetType  see {@link ActionTarget}
      * @return goal node to restore path from
      */
     private Node search(Node initialNode, Position targetPos, ActionTargetTypeEnum targetType) {
@@ -52,7 +52,7 @@ public class AStar implements ModelComponent {
         openSet.add(initialNode, initialNode);
         while (openSet.size() > 0 && (maxSteps < 0 || numSearchSteps < maxSteps)) {
             Node currentNode = openSet.poll(); //get element with the least sum of costs
-            if(finishCondition.check(currentNode.position)) return currentNode; //check if path is complete
+            if (finishCondition.check(currentNode.position)) return currentNode; //check if path is complete
             ArrayList<Node> successorNodes = getSuccessors(currentNode, targetPos); //get successor nodes
 
             //process successor nodes

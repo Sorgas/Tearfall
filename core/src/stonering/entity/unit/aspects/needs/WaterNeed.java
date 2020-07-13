@@ -80,29 +80,12 @@ public class WaterNeed extends Need {
         return Stream.concat(freePositionsAboveWater, GameMvc.model().get(LiquidContainer.class).liquidStream(water))
                 .sorted(Comparator.comparingInt(pos -> pos.fastDistance(unit.position))) // nearest position
                 .filter(pos -> hasAreaTileNear(pos, unitArea, passageMap.area))
-                .findFirst()
-                .map(pos -> getNearestPositionAround(pos, unit, unitArea, passageMap.area)).orElse(null);
+                .findFirst().orElse(null);
     }
 
     private boolean hasAreaTileNear(Position center, int area, ByteArrayWithCounter areaArray) {
-        System.out.println("checking near tiles for " + center);
         return PositionUtil.allNeighbourDeltas.stream()
                 .map(pos -> Position.add(center, pos)) // positions around tile
                 .anyMatch(pos -> areaArray.get(pos) == area); // reachable positions
-    }
-
-    private Position getNearestPositionAround(Position center, Unit unit, int area, ByteArrayWithCounter areaArray) {
-        AStar aStar = new AStar();
-        // make paths to accessible positions
-        Map<Position, List<Position>> paths = PositionUtil.allNeighbourDeltas.stream()
-                .map(delta -> Position.add(center, delta))
-                .filter(pos -> areaArray.get(pos) == area)
-                .collect(Collectors.toMap(pos -> pos, pos -> aStar.makeShortestPath(pos, unit.position)));
-        // find shortest path
-        return paths.entrySet().stream()
-                .filter(entry -> entry.getValue() != null)
-                .min(Comparator.comparingInt(entry -> entry.getValue().size()))
-                .map(Map.Entry::getKey)
-                .orElse(null);
     }
 }
