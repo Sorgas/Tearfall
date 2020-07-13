@@ -4,7 +4,6 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
 import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import stonering.entity.job.action.target.PositionActionTarget;
