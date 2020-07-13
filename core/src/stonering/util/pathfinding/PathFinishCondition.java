@@ -1,14 +1,16 @@
 package stonering.util.pathfinding;
 
+import static stonering.enums.action.ActionTargetTypeEnum.*;
+import static stonering.enums.blocks.PassageEnum.PASSABLE;
+
 import stonering.enums.action.ActionTargetTypeEnum;
-import stonering.enums.blocks.BlockTypeEnum;
-import stonering.enums.blocks.PassageEnum;
-import stonering.game.model.local_map.passage.NeighbourPositionStream;
+import stonering.game.GameMvc;
+import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
+import stonering.util.geometry.PositionUtil;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Stores positions in which path can end and checks given position.
@@ -16,30 +18,19 @@ import java.util.stream.Collectors;
  * @author Alexander on 15.11.2019.
  */
 public class PathFinishCondition {
-    private Set<Position> neighbours;
+    public final Set<Position> acceptable = new HashSet<>();
 
     public PathFinishCondition(Position target, ActionTargetTypeEnum targetType) {
-        neighbours = new HashSet<>();
-        switch (targetType) {
-            case EXACT:
-                neighbours.add(target);
-                break;
-            case NEAR:
-                neighbours.addAll(new NeighbourPositionStream(target)
-                        .filterSameZLevel()
-                        .filterByPassage(PassageEnum.PASSABLE)
-                        .stream.collect(Collectors.toSet()));
-                break;
-            case ANY:
-                neighbours.add(target);
-                neighbours.addAll(new NeighbourPositionStream(target)
-                        .filterSameZLevel()
-                        .filterByPassage(PassageEnum.PASSABLE)
-                        .stream.collect(Collectors.toSet()));
-        }
+        if (targetType == EXACT || targetType == ANY) acceptable.add(target);
+        if (targetType != NEAR && targetType != ANY) return;
+        LocalMap map = GameMvc.model().get(LocalMap.class); // add near tiles
+        PositionUtil.allNeighbourDeltas.stream()
+                .map(delta -> Position.add(target, delta))
+                .filter(pos -> map. passageMap.passage.get(pos) == PASSABLE.VALUE)
+                .forEach(acceptable::add);
     }
 
     public boolean check(Position current) {
-        return neighbours.contains(current);
+        return acceptable.contains(current);
     }
 }

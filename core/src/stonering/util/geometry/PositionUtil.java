@@ -14,7 +14,7 @@ public class PositionUtil {
             new Position(0, -1, 0)
     );
 
-    // 8 on same level
+    // 8 on same level except center
     public static List<Position> allNeighbourDeltas = Arrays.asList(
             new Position(0, 1, 0),
             new Position(0, -1, 0),

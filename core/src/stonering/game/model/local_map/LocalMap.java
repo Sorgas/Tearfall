@@ -24,7 +24,7 @@ import static stonering.enums.blocks.PassageEnum.PASSABLE;
 public class LocalMap implements ModelComponent, Initable {
     public final BlockTypeMap blockType;
     public final Int3dBounds bounds;
-    
+
     public LightMap light;
     public transient PassageMap passageMap;                                 // not saved to savegame,
     private transient LocalTileMapUpdater localTileMapUpdater;           // not saved to savegame,
@@ -39,7 +39,7 @@ public class LocalMap implements ModelComponent, Initable {
         this.ySize = ySize;
         this.zSize = zSize;
         light = new LightMap(this);
-        bounds = new Int3dBounds(0, 0, 0, xSize, ySize, zSize);
+        bounds = new Int3dBounds(0, 0, 0, xSize - 1, ySize - 1, zSize - 1);
     }
 
     public void init() {
@@ -111,7 +111,7 @@ public class LocalMap implements ModelComponent, Initable {
     public void updatePassage(Position position) {
         if (passageMap != null) passageMap.updater.update(position.x, position.y, position.z);
     }
-    
+
     public Int3dBounds getBounds() {
         return bounds;
     }

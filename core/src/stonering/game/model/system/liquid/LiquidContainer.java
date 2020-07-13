@@ -11,6 +11,7 @@ import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Container for all liquid tiles on map.
@@ -45,12 +46,12 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
 
     @Override
     public void init() {
-        
+
     }
 
     @Override
     public void update(TimeUnitEnum unit) {
-        if(unit == TimeUnitEnum.TICK) {
+        if (unit == TimeUnitEnum.TICK) {
             movingSystem.update();
         }
     }
@@ -93,6 +94,12 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
 
     public LiquidTile getTile(int x, int y, int z) {
         return liquidTiles.get(cachePosition.set(x, y, z));
+    }
+
+    public Stream<Position> liquidStream(int material) {
+        return liquidTiles.entrySet().stream()
+                .filter(entry -> entry.getValue().liquid == material)
+                .map(Map.Entry::getKey);
     }
 
     private LocalMap map() {
