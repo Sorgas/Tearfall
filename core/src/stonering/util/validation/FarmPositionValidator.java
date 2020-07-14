@@ -7,21 +7,21 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
 /**
- * Checks that new farm zone can be designated in the tile.
+ * Checks that tile is valid for farm: tile is floor or farm, soil, no buildings.
  * Designating upon existing farm will reassign tiles to new farm.
  * Old plants will be cut.
  *
  * @author Alexander_Kuzyakov on 05.07.2019.
  */
-public class FarmValidator implements PositionValidator {
+public class FarmPositionValidator implements PositionValidator {
     private static final String SOIL_TAG = "soil";
 
     @Override
     public Boolean apply(Position position) {
-        LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
+        LocalMap localMap = GameMvc.model().get(LocalMap.class);
         if ((localMap.blockType.get(position) == BlockTypeEnum.FLOOR.CODE ||
                 localMap.blockType.get(position) == BlockTypeEnum.FARM.CODE) && // tile is floor or farm
-                MaterialMap.instance().getMaterial(localMap.blockType.getMaterial(position)).tags.contains(SOIL_TAG)) { // tile is soil
+                MaterialMap.getMaterial(localMap.blockType.getMaterial(position)).tags.contains(SOIL_TAG)) { // tile is soil
             return true;
         }
         return false;

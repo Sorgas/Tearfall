@@ -79,7 +79,7 @@ public class CreatureActionPerformingSystem extends EntitySystem<Unit> {
             if(task.nextAction.status == ActionStatusEnum.COMPLETE) { // action completed
                 task.removeAction(task.nextAction); // remove non initial complete action
                 aspect.actionChecked = false; // checked action has been removed
-                if(task.isNoActionsLeft()) task.status = COMPLETE; // all actions completed
+                if(task.isFinished()) task.status = COMPLETE; // all actions completed
             }
         }
     }

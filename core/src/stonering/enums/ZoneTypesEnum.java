@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import stonering.entity.zone.StorageZone;
-import stonering.util.validation.FarmValidator;
+import stonering.util.validation.FarmPositionValidator;
 import stonering.util.validation.FreeFloorValidator;
 import stonering.util.validation.PositionValidator;
 import stonering.entity.zone.FarmZone;
@@ -18,7 +18,7 @@ import stonering.entity.zone.Zone;
  * @author Alexander on 04.03.2019.
  */
 public enum ZoneTypesEnum {
-    FARM(new FarmValidator(),
+    FARM(new FarmPositionValidator(),
             new TextureRegion(new Texture("sprites/zones.png"), 0, 70, 64, 96), "farm icon", Input.Keys.Y),
     STORAGE(new FreeFloorValidator(),
             new TextureRegion(new Texture("sprites/zones.png"), 0, 70, 64, 96), "storage_icon", Input.Keys.P);

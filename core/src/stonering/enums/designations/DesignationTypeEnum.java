@@ -1,11 +1,10 @@
 package stonering.enums.designations;
 
 import stonering.enums.unit.JobMap;
+import stonering.game.GameMvc;
+import stonering.game.model.local_map.LocalMap;
 import stonering.util.logging.Logger;
-import stonering.util.validation.DiggingChannelValidator;
-import stonering.util.validation.DiggingValidator;
-import stonering.util.validation.PositionValidator;
-import stonering.util.validation.TreeChoppingValidator;
+import stonering.util.validation.*;
 
 import java.util.HashMap;
 
@@ -29,6 +28,8 @@ public enum DesignationTypeEnum {
     D_CUT(3, "cutting plants", position -> true, 8, "herbalist"),                            // cut plants
     D_HARVEST(4, "harvesting plants", position -> true, 9, "herbalist"),                     // harvest plants
     D_BUILD(5, "building", position -> true, 10, "builder"),                               // build construction or building
+    D_HOE(5, "hoeing", new FreeSoilFloorValidator(), 11, "farmer"),
+    D_PLANT(5, "building", position -> GameMvc.model().get(LocalMap.class).blockType.get(position) == FARM.CODE, 12, "farmer")
     ;
 
     private static HashMap<Integer, DesignationTypeEnum> map;

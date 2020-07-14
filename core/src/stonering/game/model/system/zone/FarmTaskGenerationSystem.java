@@ -1,5 +1,7 @@
 package stonering.game.model.system.zone;
 
+import java.util.Optional;
+
 import stonering.entity.item.selectors.SeedItemSelector;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.HoeingAction;
@@ -22,12 +24,17 @@ import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.util.geometry.Position;
 import stonering.util.logging.Logger;
-import stonering.util.validation.PositionValidator;
 
 /**
+ * System for updating farms.
+ *
+ *
+ *
  * @author Alexander on 13.07.2020.
  */
 public class FarmTaskGenerationSystem extends EntitySystem<Zone> {
+    private PlantContainer plantContainer;
+    private TaskContainer taskContainer;
 
     public FarmTaskGenerationSystem() {
         targetAspects.add(FarmAspect.class);
@@ -48,52 +55,32 @@ public class FarmTaskGenerationSystem extends EntitySystem<Zone> {
         int currentMonth = GameMvc.model().get(WorldCalendar.class).currentMonth;
 
         boolean plantingEnabled = plantType.plantingStart.contains(currentMonth);
-        boolean hoeingEnabled = plantingEnabled || plantType.plantingStart.contains((currentMonth + 1) % 12);
         LocalMap localMap = GameMvc.model().get(LocalMap.class);
-        TaskContainer taskContainer = GameMvc.model().get(TaskContainer.class);
-        PlantContainer plantContainer = GameMvc.model().get(PlantContainer.class);
-        for (Position tile : tiles) {
-            // can delete tile from zone
-            if (!isTileValid(ZoneTypesEnum.FARM.VALIDATOR, tile, localMap)) continue;
-            // can delete task from zone
-            if (isTaskExist(tile)) continue;
+
+        for (Position tile : zone.tiles) {
+            if(removeInvalidTile(tile)) continue;
             // can create task for cutting or harvesting
-            AbstractPlant plant = plantContainer.getPlantInPosition(tile);
-            if (!checkExistingPlant(plant, tile, taskContainer)) continue;
+            if (cutUnwantedPlant(tile, plantType)) continue;
             if (localMap.blockType.get(tile) != BlockTypeEnum.FARM.CODE) {
                 Logger.ZONES.logDebug("Creating hoeing task on farm");
                 addTask(createTaskForHoeing(tile), tile);
             } else {
-                if (plantingEnabled)
-                    addTask(createTaskForPlanting(tile, plantType), tile);
+                if (plantingEnabled) addTask(createTaskForPlanting(tile, aspect), tile);
             }
-
-            if (zone.type != ZoneTypesEnum.FARM) return;
-
-
         }
     }
 
-    /**
-     * Checks that tile can hold a plant (floor or farm, soil, no buildings).
-     * Building or digging in zones are allowed, non-floor tiles are removed on every iteration.
-     */
-    private boolean isTileValid(PositionValidator validator, Position tile, LocalMap localMap) {
-        if (validator.apply(tile)) return true;
+    private boolean removeInvalidTile(Position tile) {
+        if (ZoneTypesEnum.FARM.VALIDATOR.apply(tile)) return false;
         GameMvc.model().get(ZoneContainer.class).setTileToZone(null, tile); // remove invalid tile
-        return false;
+        return true;
     }
 
-    /**
-     * Checks that task for this tile is created or not yet finished.
-     * Also removes finished tasks.
-     *
-     * @return true, if task can be created after this method.
-     */
-    private boolean isTaskExist(Position tile) {
-        if (taskMap.containsKey(tile) && taskMap.get(tile).isNoActionsLeft())
-            taskMap.remove(tile); // finished task, remove. tasks are removed from container on finish
-        return taskMap.containsKey(tile);
+    private boolean removeFinishedTask(Position tile, FarmAspect aspect) {
+        Optional.ofNullable(aspect.taskMap.get(tile))
+                .filter(Task::isFinished)
+                .ifPresent(task -> aspect.taskMap.remove(tile));
+        return aspect.taskMap.containsKey(tile); // task was not removed
     }
 
     /**
@@ -103,17 +90,11 @@ public class FarmTaskGenerationSystem extends EntitySystem<Zone> {
      *
      * @return true, if task can be created after this method.
      */
-    private boolean checkExistingPlant(AbstractPlant plant, Position tile, TaskContainer container) {
-        if (plant == null) return true;
-        if (!plantType.equals(plant.type)) { // cut unwanted plants
-            container.designationSystem.submitDesignation(tile, DesignationTypeEnum.D_CUT);
-            return false;
-        }
-        //TODO add produc aspect to plants
-//        if (plant.) { // harvest if ready
-//            addTask(container.designationSystem.submitDesignation(tile, DesignationTypeEnum.HARVEST, 1), tile);
-//            return false;
-//        }
+    private boolean cutUnwantedPlant(Position tile, PlantType plantType) {
+        AbstractPlant plant = plantContainer().getPlantInPosition(tile);
+        if (plant == null || plantType.equals(plant.type)) return false;
+        //TODO use harvest designation for plant with products
+        taskContainer().designationSystem.submitDesignation(tile, DesignationTypeEnum.D_CUT);
         return true;
     }
 
@@ -135,7 +116,7 @@ public class FarmTaskGenerationSystem extends EntitySystem<Zone> {
             Logger.ZONES.logError("Farm tries to allocate null task");
             return;
         }
-        GameMvc.model().get(TaskContainer.class).addTask(task);
+        taskContainer().addTask(task);
         taskMap.put(tile, task);
     }
 
@@ -150,5 +131,13 @@ public class FarmTaskGenerationSystem extends EntitySystem<Zone> {
 
     private PositionActionTarget createTarget(Position tile) {
         return new PositionActionTarget(tile, ActionTargetTypeEnum.ANY);
+    }
+
+    private PlantContainer plantContainer() {
+        return plantContainer == null ? plantContainer = GameMvc.model().get(PlantContainer.class) : plantContainer;
+    }
+
+    private TaskContainer taskContainer() {
+        return taskContainer == null ? taskContainer = GameMvc.model().get(TaskContainer.class) : taskContainer;
     }
 }

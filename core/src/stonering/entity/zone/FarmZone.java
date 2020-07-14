@@ -97,7 +97,7 @@ public class FarmZone extends Zone {
      * @return true, if task can be created after this method.
      */
     private boolean isTaskExist(Position tile) {
-        if (taskMap.containsKey(tile) && taskMap.get(tile).isNoActionsLeft())
+        if (taskMap.containsKey(tile) && taskMap.get(tile).isFinished())
             taskMap.remove(tile); // finished task, remove. tasks are removed from container on finish
         return taskMap.containsKey(tile);
     }

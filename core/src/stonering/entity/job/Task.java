@@ -73,7 +73,7 @@ public class Task {
     /**
      * Task is finished, if initial action is finished, and no other action remain.
      */
-    public boolean isNoActionsLeft() {
+    public boolean isFinished() {
         return preActions.isEmpty() && initialAction.status == COMPLETE && postActions.isEmpty();
     }
 
