@@ -8,10 +8,7 @@ import stonering.enums.plants.raw.RawPlantType;
 import stonering.util.global.FileUtil;
 import stonering.util.logging.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Load all {@link PlantType}s from jsons.

@@ -1,5 +1,9 @@
 package stonering.stage;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.sun.istack.NotNull;
 
@@ -14,27 +18,23 @@ import stonering.entity.zone.FarmZone;
 import stonering.entity.zone.Zone;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
-import stonering.game.model.system.*;
+import stonering.game.model.system.ZoneContainer;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.system.unit.UnitContainer;
-import stonering.stage.entity_menu.building.overview.BuildingOverviewMenu;
-import stonering.stage.entity_menu.item.ItemMenu;
-import stonering.stage.entity_menu.unit.UnitStage;
 import stonering.stage.entity_menu.building.item_container.ItemContainerMenu;
+import stonering.stage.entity_menu.building.overview.BuildingOverviewMenu;
 import stonering.stage.entity_menu.building.workbench.WorkbenchMenu;
+import stonering.stage.entity_menu.item.ItemMenu;
+import stonering.stage.entity_menu.unit.UnitMenu;
+import stonering.stage.entity_menu.zone.FarmZoneMenu;
 import stonering.stage.util.SingleActorShadedStage;
 import stonering.stage.util.UiStage;
-import stonering.stage.zone.ZoneMenuStage;
 import stonering.util.geometry.Int3dBounds;
+import stonering.util.logging.Logger;
 import stonering.widget.TabbedPane;
 import stonering.widget.lists.ObservingList;
-import stonering.util.logging.Logger;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * Stage for selecting entities on local map.
@@ -109,7 +109,9 @@ public class MapEntitySelectStage extends UiStage {
     }
 
     private void tryShowZoneStage(@NotNull Zone zone) {
-        if (zone instanceof FarmZone) GameMvc.view().addStage(new ZoneMenuStage((FarmZone) zone));
+        if (zone instanceof FarmZone) {
+            GameMvc.view().addStage(new SingleActorShadedStage<>(new FarmZoneMenu((FarmZone) zone), false));
+        }
     }
 
     private void tryShowItemStage(@NotNull Item item) {
@@ -117,6 +119,6 @@ public class MapEntitySelectStage extends UiStage {
     }
 
     private void tryShowUnitStage(@NotNull Unit unit) {
-        GameMvc.view().addStage(new UnitStage(unit));
+        GameMvc.view().addStage(new SingleActorShadedStage<>(new UnitMenu(unit), false));
     }
 }

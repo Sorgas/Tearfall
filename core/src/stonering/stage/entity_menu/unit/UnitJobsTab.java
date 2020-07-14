@@ -26,7 +26,6 @@ public class UnitJobsTab extends Table {
     public UnitJobsTab(Unit unit) {
         // header
         add(new Label("Assign jobs to unit.", StaticSkin.skin())).height(80).growX().row();
-        
         listTable = new Table();
         listTable.defaults().height(25).pad(5);
         listTable.align(Align.topLeft);

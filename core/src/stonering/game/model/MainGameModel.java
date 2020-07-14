@@ -49,6 +49,7 @@ public class MainGameModel extends GameModel {
         put(new TaskContainer());
         put(new LiquidContainer());
         put(new EntitySelectorSystem());          // local map camera
+        put(new PlayerSettlementProperties());
         put(new AStar());
     }
 }

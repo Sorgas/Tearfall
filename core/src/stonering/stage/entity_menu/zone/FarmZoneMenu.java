@@ -1,18 +1,15 @@
-package stonering.stage.zone;
+package stonering.stage.entity_menu.zone;
 
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.zone.FarmZone;
-import stonering.enums.plants.PlantTypeMap;
+import stonering.entity.zone.aspect.FarmAspect;
 import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;
 import stonering.game.model.system.ZoneContainer;
 import stonering.widget.HintedActor;
 import stonering.util.global.StaticSkin;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Menu for managing farms. Plants for growing are configured from here.
@@ -29,16 +26,18 @@ import java.util.List;
  * @author Alexander on 20.03.2019.
  */
 public class FarmZoneMenu extends Window {
-    public PlantTypeSelectList disabledPlants;
+    public FarmPlantSelectionTab disabledPlants;
     private Label selectedPlantLabel;
     private Label monthsLabel;
     private Label hintLabel;
     private FarmZone farmZone;
-
+    private FarmAspect farm;
+    
     public FarmZoneMenu(FarmZone farmZone) {
         super(farmZone.name, StaticSkin.getSkin());
         this.farmZone = farmZone;
-        createTable();
+        farm = farmZone.get(FarmAspect.class);
+        createLayout();
         fillList();
         setLabels();
     }
@@ -50,16 +49,9 @@ public class FarmZoneMenu extends Window {
         hintLabel.setText((focused instanceof HintedActor) ? ((HintedActor) focused).getHint() : "");
     }
 
-    private void createTable() {
+    private void createLayout() {
         setDebug(true, true);
-        add(new Label("All plants:", StaticSkin.getSkin()));
-        add(new Label("Selected:", StaticSkin.getSkin())).row();
-        add(disabledPlants = createList()).prefWidth(Value.percentWidth(0.5f, this)).prefHeight(Value.percentHeight(0.5f, this)).fill();
-        VerticalGroup verticalGroup = new VerticalGroup();
-        verticalGroup.addActor(selectedPlantLabel = new Label("", StaticSkin.getSkin()));
-        verticalGroup.addActor(monthsLabel = new Label("", StaticSkin.getSkin()));
-        add(verticalGroup).prefWidth(Value.percentWidth(0.5f, this)).prefHeight(Value.percentHeight(0.5f, this)).fill().row();
-        add(hintLabel = new Label("", StaticSkin.getSkin())).fillX().colspan(2).row();
+        add(new FarmPlantSelectionTab(this, farm));
         add(createButtonsGroup()).colspan(2);
         setWidth(800);
         setHeight(600);
@@ -90,14 +82,14 @@ public class FarmZoneMenu extends Window {
     }
 
     private void fillList() {
-        disabledPlants.clearItems();
-        List<PlantType> allTypes = new ArrayList<>(PlantTypeMap.instance().domesticTypes.values());
-        PlantType selectedType = farmZone.getPlantType();
-        allTypes.stream().filter(type -> !type.equals(selectedType)).forEach(type -> disabledPlants.getItems().add(type));
+//        disabledPlants.clearItems();
+//        List<PlantType> allTypes = new ArrayList<>(PlantTypeMap.instance().domesticTypes.values());
+//        PlantType selectedType = farmZone.getPlantType();
+//        allTypes.stream().filter(type -> !type.equals(selectedType)).forEach(type -> disabledPlants.getItems().add(type));
     }
 
-    private PlantTypeSelectList createList() {
-        PlantTypeSelectList list = new PlantTypeSelectList(this);
+    private FarmPlantSelectionTab createList() {
+        FarmPlantSelectionTab list = new FarmPlantSelectionTab(this, farm);
         list.setSize(150, 300);
         return list;
     }

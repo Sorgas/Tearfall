@@ -15,7 +15,7 @@ import java.util.function.Consumer;
  */
 public class FileUtil {
     public final static String MATERIALS_PATH = "resources/materials";
-    public final static String PLANTS_PATH = "resources/plants/plants.json";
+    public final static String PLANTS_PATH = "resources/plants/";
     public final static String CREATURES_PATH = "resources/creatures/creatures.json";
     public final static String BODY_TEMPLATE_PATH = "resources/creatures/body_templates.json";
     public final static String SKILLS_PATH = "resources/creatures/skills.json";
