@@ -52,12 +52,25 @@ public class DesignationSystem {
      * All simple orders like digging and foraging submitted through this method.
      */
     public void submitDesignation(Position position, DesignationTypeEnum type) {
-        if (type.VALIDATOR.apply(position)) {
-            removeDesignation(position); // remove previous designation
-            if (type != DesignationTypeEnum.D_NONE) {
-                container.designations.put(position, new OrderDesignation(position, type)); // put new designation
-            }
+        if (!type.VALIDATOR.apply(position)) return;
+        removeDesignation(position); // remove previous designation
+        if (type != DesignationTypeEnum.D_NONE) {
+            container.designations.put(position, new OrderDesignation(position, type)); // put new designation
         }
+    }
+
+    /**
+     * Adds designation and creates comprehensive task.
+     * All single-tile buildings are constructed through this method.
+     */
+    public void submitBuildingDesignation(BuildingOrder order, int priority) {
+        if (!PlaceValidatorsEnum.getValidator(order.blueprint.placing).apply(order.position)) return;
+        BuildingDesignation designation = new BuildingDesignation(order);
+        Task task = designationTaskCreator.createBuildingTask(designation, priority);
+        designation.task = task;
+        container.addTask(task);
+        container.designations.put(designation.position, designation);
+        Logger.TASKS.log(task + " designated");
     }
 
     public void removeDesignation(Position position) {
@@ -67,21 +80,5 @@ public class DesignationSystem {
                     task.status = CANCELED;
                     container.designations.remove(position);
                 });
-    }
-
-    /**
-     * Adds designation and creates comprehensive task.
-     * All single-tile buildings are constructed through this method.
-     */
-    public void submitBuildingDesignation(BuildingOrder order, int priority) {
-        System.out.println("submitting designation");
-        if (!PlaceValidatorsEnum.getValidator(order.blueprint.placing).apply(order.position)) return;
-        System.out.println("validation passed");
-        BuildingDesignation designation = new BuildingDesignation(order);
-        Task task = designationTaskCreator.createBuildingTask(designation, priority);
-        designation.task = task;
-        container.addTask(task);
-        container.designations.put(designation.position, designation);
-        Logger.TASKS.log(task + " designated");
     }
 }

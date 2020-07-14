@@ -19,9 +19,13 @@ import stonering.entity.zone.Zone;
  */
 public enum ZoneTypesEnum {
     FARM(new FarmPositionValidator(),
-            new TextureRegion(new Texture("sprites/zones.png"), 0, 70, 64, 96), "farm icon", Input.Keys.Y),
+            new TextureRegion(new Texture("sprites/zones.png"), 0, 0, 64, 70),
+            "farm icon",
+            Input.Keys.Y),
     STORAGE(new FreeFloorValidator(),
-            new TextureRegion(new Texture("sprites/zones.png"), 0, 70, 64, 96), "storage_icon", Input.Keys.P);
+            new TextureRegion(new Texture("sprites/zones.png"), 0, 0, 64, 70),
+            "storage_icon",
+            Input.Keys.P);
 
     public final PositionValidator VALIDATOR;
     public final TextureRegion SPRITE;

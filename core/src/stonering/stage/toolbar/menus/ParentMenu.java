@@ -14,7 +14,6 @@ public class ParentMenu extends ToolbarSubmenuMenu {
 
     public ParentMenu(Toolbar toolbar) {
         super(toolbar);
-        this.align(Align.bottom);
         addSubmenu(new ToolbarPlantsMenu(toolbar), Input.Keys.P, "P: plants", "plants_menu");
         addSubmenu(new ToolbarDiggingMenu(toolbar), Input.Keys.M, "M: digging", "digging_menu");
         addSubmenu(new ToolbarBuildingMenu(toolbar), Input.Keys.B, "B: building", "building_menu");

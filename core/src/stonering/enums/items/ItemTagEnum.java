@@ -18,6 +18,7 @@ import stonering.entity.item.aspects.FoodItemAspect;
  * @author Alexander on 02.09.2019.
  */
 public enum ItemTagEnum {
+    SOIL,
     STONE, // gabbro(material) rock(type) // stones have no origin
     STONE_EXTRUSIVE, // used for stone layers generation
     STONE_INTRUSIVE,

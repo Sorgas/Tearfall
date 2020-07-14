@@ -2,7 +2,6 @@ package stonering.test_chamber.model;
 
 import stonering.entity.item.Item;
 import stonering.entity.unit.Unit;
-import stonering.enums.items.type.ItemTypeMap;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.unit.UnitContainer;
@@ -22,17 +21,14 @@ public class FarmModel extends TestModel {
         super.init();
         get(EntitySelectorSystem.class).selector.position.set(MAP_SIZE / 2, MAP_SIZE / 2, 2);
         get(UnitContainer.class).addUnit(createUnit());
-        get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(createHoe(), new Position(0, 0, 2));
+        Item hoe = new ItemGenerator().generateItem("hoe", "iron", new Position(0, 0, 2)); 
+        get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(hoe, hoe.position);
         putSeeds();
     }
 
     private Unit createUnit() {
         Unit unit = new CreatureGenerator().generateUnit(new Position(3,3,2),"human");
         return unit;
-    }
-
-    private Item createHoe() {
-        return new Item(null, ItemTypeMap.instance().getItemType("hoe"));
     }
 
     private void putSeeds() {
@@ -42,7 +38,6 @@ public class FarmModel extends TestModel {
     }
 
     private Item createSeed() {
-        Item item = new ItemGenerator().generateSeedItem("farm_test_plant", null);
-        return item;
+        return new ItemGenerator().generateSeedItem("farm_test_plant", null);
     }
 }

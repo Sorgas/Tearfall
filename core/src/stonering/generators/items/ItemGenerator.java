@@ -61,7 +61,7 @@ public class ItemGenerator {
      * Seeds have single {@link ItemType} for all plants species.
      */
     public Item generateSeedItem(String specimen, Position position) {
-        Item item = new Item(position, itemTypeMap.getItemType("seed"));
+        Item item = new Item(position, itemTypeMap.getItemType("generic_seed"));
         item.title = specimen.substring(0, 1).toUpperCase() + specimen.substring(1).toLowerCase() + " seed";
         item.material = MaterialMap.getId("generic_plant");
         generateItemAspects(item);

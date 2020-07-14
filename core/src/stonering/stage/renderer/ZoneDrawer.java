@@ -23,6 +23,8 @@ public class ZoneDrawer extends Drawer {
 
     public void draw(int x, int y, int z) {
         Optional.ofNullable(container.getZone(cachePosition.set(x, y, z)))
-                .ifPresent(zone -> spriteUtil.drawSprite(zone.type.SPRITE, cachePosition));
+                .ifPresent(zone -> {
+                    spriteUtil.drawSprite(zone.type.SPRITE, cachePosition);
+                });
     }
 }

@@ -29,8 +29,7 @@ public class ZoneSelectionTool extends SelectionTool {
     @Override
     public void handleSelection(Int3dBounds bounds) {
         ZoneContainer container = GameMvc.model().get(ZoneContainer.class);
-        BoxSelectionAspect box = selector().get(BoxSelectionAspect.class);
         Zone zone = container.createZone(selector().position, type);
-        box.boxIterator.accept(position -> container.setTileToZone(zone, position));
+        bounds.iterate(position -> container.setTileToZone(zone, position));
     }
 }

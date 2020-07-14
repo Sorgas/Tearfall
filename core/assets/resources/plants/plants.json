@@ -1,3 +1,4 @@
+// atlas xy is for the first stage, following stages have x+1,
 [
     {
         "name":"red_moss",

@@ -2,10 +2,9 @@ package stonering.game.model.system;
 
 import com.sun.istack.Nullable;
 
-import stonering.game.model.system.zone.FarmTaskGenerationSystem;
+import stonering.game.model.system.zone.FarmZoneSystem;
 import stonering.game.model.system.zone.FarmTileWitherSystem;
 import stonering.util.logging.Logger;
-import stonering.util.validation.PositionValidator;
 import stonering.entity.zone.Zone;
 import stonering.enums.ZoneTypesEnum;
 import stonering.util.geometry.Position;
@@ -24,7 +23,7 @@ public class ZoneContainer extends EntityContainer<Zone> {
     public ZoneContainer() {
         zoneMap = new HashMap<>();
         put(new FarmTileWitherSystem());
-        put(new FarmTaskGenerationSystem());
+        put(new FarmZoneSystem());
     }
 
     /**
