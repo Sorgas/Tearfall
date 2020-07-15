@@ -6,13 +6,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.zone.Zone;
 import stonering.entity.zone.aspect.FarmAspect;
-import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;
 import stonering.game.model.system.ZoneContainer;
 import stonering.stage.util.SingleActorStage;
 import stonering.widget.ButtonMenu;
 import stonering.widget.ConfirmationDialogue;
-import stonering.widget.HintedActor;
 import stonering.util.global.StaticSkin;
 import stonering.widget.util.KeyNotifierListener;
 
@@ -59,7 +57,7 @@ public class FarmZoneMenu extends Container<Table> {
     }
 
     private ButtonMenu createButtonMenu() {
-        ButtonMenu menu = new ButtonMenu(25);
+        ButtonMenu menu = new ButtonMenu();
         return null;
     }
 

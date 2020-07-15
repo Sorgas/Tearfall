@@ -27,7 +27,7 @@ public class ToolbarSubmenuMenu extends ToolbarButtonMenu {
 
     public void addSubmenu(ToolbarButtonMenu menu, int hotkey, String buttonText, String iconName) {
         Actor thisMenu = this;
-        createButton(buttonText, iconName, hotkey, () -> {
+        addButton(buttonText, iconName, hotkey, () -> {
             toolbar.removeSubMenus(thisMenu);
             toolbar.addMenu(menu);
         });
@@ -40,7 +40,7 @@ public class ToolbarSubmenuMenu extends ToolbarButtonMenu {
      */
     public void addItem(String buttonText, String iconName, Runnable action, List<String> path) {
         if (path == null || path.isEmpty()) { //create button
-            createButton(buttonText, iconName, sequence.getNext(), action);
+            addButton(buttonText, iconName, sequence.getNext(), action);
         } else { // create submenu
             String currentStep = path.remove(0);
             if (!submenus.containsKey(currentStep)) { // no submenu for this step, create submenu

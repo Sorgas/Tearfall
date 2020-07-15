@@ -107,18 +107,18 @@ public class WorldGenMenu extends Table {
     }
 
     private ButtonMenu createBottomMenu() {
-        bottomMenu = new ButtonMenu(50);
+        bottomMenu = new ButtonMenu();
         bottomMenu.defaults().height(50).width(300).pad(10, 0, 0, 0);
         bottomMenu.pad(10);
-        bottomMenu.createButton("G: Generate", Input.Keys.G, () -> {
+        bottomMenu.addButton("G: Generate", Input.Keys.G, () -> {
             generateWorld();
             minimap.setWorld(world);
         });
-        bottomMenu.createButton("C: Save", Input.Keys.C, () -> {
+        bottomMenu.addButton("C: Save", Input.Keys.C, () -> {
             new WorldSaver().saveWorld(world);
             game.switchMainMenu();
         });
-        bottomMenu.createButton("Q: Back", Input.Keys.Q, () -> game.switchMainMenu());
+        bottomMenu.addButton("Q: Back", Input.Keys.Q, () -> game.switchMainMenu());
         return bottomMenu;
     }
 

@@ -29,11 +29,11 @@ public class ToolbarPlantsMenu extends ToolbarSubmenuMenu {
         addButtonToTable("O: harvest", "", D_HARVEST, Input.Keys.O);
         addButtonToTable("I: cut", "", D_CUT, Input.Keys.I);
         addButtonToTable("U: clear", "", D_NONE, Input.Keys.U);
-        createButton("Q: back", Input.Keys.Q, this::hide);
+        addButton("Q: back", Input.Keys.Q, this::hide);
     }
 
     private void addButtonToTable(String text, String iconName, DesignationTypeEnum type, int hotKey) {
-        createButton(text, iconName, hotKey, () -> {
+        addButton(text, iconName, hotKey, () -> {
             SelectionTools.DESIGNATION.setType(type);
             GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(SelectionTools.DESIGNATION);
         });

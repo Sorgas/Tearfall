@@ -31,15 +31,15 @@ public class MainMenu extends Table {
     }
 
     private ButtonMenu createMenu(TearFall game) {
-        menu = new ButtonMenu(50);
+        menu = new ButtonMenu();
         menu.defaults().height(50).width(300).pad(10, 0, 0, 0);
         menu.pad(0, 10, 10, 10);
         menu.align(Align.bottomLeft);
-        menu.createButton("C: Create world", Input.Keys.C, game::switchWorldGenMenu);
-        menu.createButton("E: Start game", Input.Keys.E, game::switchWorldsSelectMenu);
-        if(worldExists()) menu.createButton("L: Load game", Input.Keys.L, null);
-        menu.createButton("A: About", Input.Keys.A, null);
-        menu.createButton("Q: Quit", Input.Keys.Q, Gdx.app::exit);
+        menu.addButton("C: Create world", Input.Keys.C, game::switchWorldGenMenu);
+        menu.addButton("E: Start game", Input.Keys.E, game::switchWorldsSelectMenu);
+        if(worldExists()) menu.addButton("L: Load game", Input.Keys.L, null);
+        menu.addButton("A: About", Input.Keys.A, null);
+        menu.addButton("Q: Quit", Input.Keys.Q, Gdx.app::exit);
         return menu;
     }
     

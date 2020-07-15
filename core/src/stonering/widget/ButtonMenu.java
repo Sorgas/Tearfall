@@ -6,10 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
-import stonering.enums.images.DrawableMap;
-import stonering.widget.button.IconTextButton;
+import stonering.util.global.StaticSkin;
 
 import java.util.HashMap;
 
@@ -20,12 +18,11 @@ import java.util.HashMap;
  * Hides itself on Q.
  */
 public class ButtonMenu extends Table {
-    private HashMap<Integer, Button> buttons;
-    protected boolean forbidEventPass = false; // if true, key events will be handled further
-    private final int iconSize;
+    protected HashMap<Integer, Button> buttons;
+    protected boolean forbidEventPass = false; // if true, key events will not be handled further
+    protected boolean vertical = true; // most menus are verticalssss
 
-    public ButtonMenu(int iconSize) {
-        this.iconSize = iconSize;
+    public ButtonMenu() {
         buttons = new HashMap<>();
         addListener(new InputListener() {
             @Override
@@ -39,22 +36,24 @@ public class ButtonMenu extends Table {
         });
     }
 
-    public void createButton(String text, int hotKey, Runnable action) {
-        createButton(text, null, hotKey, action);
+    public void addButton(String text, int hotKey, Runnable action) {
+        registerButton(createButton(Input.Keys.toString(hotKey) + ": " + text, action), hotKey);
     }
 
-    public void createButton(String text, String iconName, int hotKey, Runnable action) {
-        Drawable drawable = iconName != null ? DrawableMap.ICON.getDrawable(iconName) : null;
-        
-        Input.Keys.toString(hotKey);
-        Button button = new IconTextButton(drawable, text, iconSize);
+    protected Button createButton(String text, Runnable action) {
+        TextButton button = new TextButton(text, StaticSkin.skin());
         if (action != null) button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 action.run();
             }
         });
+        return button;
+    }
+
+    protected void registerButton(Button button, int hotKey) {
         buttons.put(hotKey, button);
-        add(button).row();
+        add(button);
+        if (vertical) row();
     }
 }

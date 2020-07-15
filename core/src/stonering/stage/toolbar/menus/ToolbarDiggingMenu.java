@@ -1,8 +1,6 @@
 package stonering.stage.toolbar.menus;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
@@ -32,11 +30,11 @@ public class ToolbarDiggingMenu extends ToolbarButtonMenu {
         addButton("H: stairs", D_STAIRS, Input.Keys.H); // other types of stairs are handled automatically
         addButton("K: downstairs", D_DOWNSTAIRS, Input.Keys.J);
         addButton("N: clear", D_NONE, Input.Keys.N);
-        createButton("Q: back", Input.Keys.Q, this::hide);
+        addButton("Q: back", Input.Keys.Q, this::hide);
     }
 
     private void addButton(String text, DesignationTypeEnum type, int hotKey) {
-        super.createButton(text, hotKey, () -> {
+        super.addButton(text, hotKey, () -> {
             SelectionTools.DESIGNATION.setType(type);
             GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(SelectionTools.DESIGNATION);
         });

@@ -10,7 +10,7 @@ import stonering.stage.toolbar.Toolbar;
  *
  * @author Alexander Kuzyakov on 27.12.2017.
  */
-public abstract class ToolbarButtonMenu extends ButtonMenu {
+public abstract class ToolbarButtonMenu extends IconButtonMenu {
     protected Toolbar toolbar;
 
     public ToolbarButtonMenu(Toolbar toolbar) {

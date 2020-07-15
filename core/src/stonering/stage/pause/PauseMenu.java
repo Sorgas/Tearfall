@@ -15,7 +15,7 @@ import stonering.util.saving.GameSaver;
 public class PauseMenu extends ButtonMenu {
 
     public PauseMenu() {
-        super(50);
+        super();
         createTable();
         addButtons();
         forbidEventPass = true;
@@ -29,13 +29,13 @@ public class PauseMenu extends ButtonMenu {
     }
 
     private void addButtons() {
-        createButton("Resume", Input.Keys.Q, () -> {
+        addButton("Resume", Input.Keys.Q, () -> {
             GameMvc.model().setPaused(false);
             GameMvc.view().removeStage(getStage());
         });
-        createButton("Options", Input.Keys.O, () -> GameMvc.view().addStage(new SingleActorShadedStage<>(new SettingsMenu(), true)));
-        createButton("Save", Input.Keys.S, this::saveGame);
-        createButton("Save & Quit", Input.Keys.ESCAPE, () -> {
+        addButton("Options", Input.Keys.O, () -> GameMvc.view().addStage(new SingleActorShadedStage<>(new SettingsMenu(), true)));
+        addButton("Save", Input.Keys.S, this::saveGame);
+        addButton("Save & Quit", Input.Keys.ESCAPE, () -> {
             saveGame();
             Gdx.app.exit();
         });
