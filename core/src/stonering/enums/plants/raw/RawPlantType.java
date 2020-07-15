@@ -25,4 +25,5 @@ public class RawPlantType {
     public Set<PlantPlacingTagEnum> placingTagsSet = new HashSet<>();
     public List<Integer> plantingStart = new ArrayList<>();
     public int[] atlasXY = new int[2];
+    public boolean destroyOnHarvest;
 }

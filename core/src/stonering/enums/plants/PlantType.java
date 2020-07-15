@@ -16,14 +16,15 @@ public class PlantType {
     public String title;
     public String materialName; // is null for substrates
     public String description;
-
+    
     public int[] temperatureBounds; // min and max temperature
     public int[] rainfallBounds;  // min and max painfall
     public final List<PlantLifeStage> lifeStages = new ArrayList<>();
     public final List<PlantPlacingTagEnum> placingTags = new ArrayList<>();
     public List<Integer> plantingStart; // months, when plant can be planted on farms
     public int[] atlasXY;
-
+    public boolean destroyOnHarvest;
+    
     public boolean isPlant;
     public boolean isTree;
     public boolean isSubstrate;
@@ -37,6 +38,7 @@ public class PlantType {
         rainfallBounds = rawType.rainfallBounds;  // min and max rainfall
         plantingStart = rawType.plantingStart;
         atlasXY = rawType.atlasXY;
+        destroyOnHarvest = rawType.destroyOnHarvest;
     }
 
     public void setTypeFlags() {

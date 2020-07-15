@@ -30,19 +30,13 @@ public class TreeGenerator {
                 .orElse(null);
     }
 
-    /**
-     * Changes tree structure.
-     */
     public void applyTreeGrowth(Tree tree) {
         createTreeBlocks(tree);
     }
 
-    /**
-     * Creates tree blocks array
-     */
     private Tree createTreeBlocks(Tree tree) {
         List<Integer> treeForm = tree.type.lifeStages.get(tree.get(PlantGrowthAspect.class).currentStage).treeForm;
-        int material = MaterialMap.instance().getId(tree.type.materialName);
+        int material = MaterialMap.getId(tree.type.materialName);
         Random random = new Random();
         int center = treeForm.get(0);
         int rootsDepth = treeForm.get(2);
@@ -56,11 +50,11 @@ public class TreeGenerator {
         for (int i = rootsDepth + 1; i < blocks[0][0].length - 1; i++) {
             blocks[center][center][i] = createTreePart(material, PlantBlocksTypeEnum.TRUNK, tree);
         }
-        // roots
+        // roots, underground, around trunk
         for (int i = 0; i < rootsDepth; i++) {
             blocks[center][center][i] = createTreePart(material, PlantBlocksTypeEnum.ROOT, tree);
         }
-        // branches
+        // branches, around trunk
         if (blocks[center][center][blocks[0][0].length - 1] == null) blocks[center][center][blocks[0][0].length - 1] = createTreePart(material, PlantBlocksTypeEnum.BRANCH, tree);
         for (int z = branchesStart; z < blocks[0][0].length - 1; z++) {
             for (int x = center - 1; x <= center + 1; x++) {
@@ -71,7 +65,7 @@ public class TreeGenerator {
                 }
             }
         }
-        // crown
+        // crown, around branches
         for (int x = 0; x < blocks.length; x++) {
             for (int y = 0; y < blocks[0].length; y++) {
                 for (int z = branchesStart; z < blocks[0][0].length; z++) {
