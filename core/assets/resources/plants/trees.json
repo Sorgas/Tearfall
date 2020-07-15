@@ -2,7 +2,6 @@
     !!!all life stages should have treeForm.
     titlePrefixSuffix             // plant name changes on this stage
     stageLength                   // stage length in months
-    cutProducts                   // on cutting plant will leave this item, made of plant material
     materialName "willow",        // material for products
     atlasXY ["0", "1"],           // X, Y is where tree's tiles start. block type determines X offset.
     color "0xffffffff",           // sprite tinting color
@@ -22,24 +21,20 @@
             {
                 "titlePrefixSuffix": ["", "sapling"],
                 "stageLength": "12",
-                "cutProducts": ["branch", "root", "log"],
                 "color": "0xffffffff",
                 "treeForm": ["0", "1", "1", "0", "0"]
             }, {
                 "titlePrefixSuffix": ["young", ""],
                 "stageLength": "60",
-                "cutProducts": ["branch", "root", "log"],
                 "color": "0xffffffff",
                 "treeForm": ["1", "3", "2", "1", "0"]
             }, {
                 "stageLength": "180",
-                "cutProducts": ["branch", "root", "log"],
                 "color": "0xffffffff",
                 "treeForm": ["2", "5", "2", "1", "5"]
             }, {
                 "titlePrefixSuffix": ["old", ""],
                 "stageLength": "240",
-                "cutProducts": ["branch", "root", "log"],
                 "color": "0xffffffff",
                 "treeForm": ["2", "5", "2", "1", "5"]
             }
@@ -57,24 +52,20 @@
         {
             "titlePrefixSuffix": ["", "sapling"],
             "stageLength": "12",
-            "cutProducts": ["branch", "root"],
             "color": "0xffffffff",
             "treeForm": ["0", "1", "1", "0", "0"]
         }, {
             "titlePrefixSuffix": ["young", ""],
             "stageLength": "60",
-            "cutProducts": ["branch", "root", "log"],
             "color": "0xffffffff",
             "treeForm": ["1", "3", "2", "1", "0"]
         }, {
             "stageLength": "180",
-            "cutProducts": ["branch", "root", "log"],
             "color": "0xffffffff",
             "treeForm": ["2", "5", "2", "1", "5"]
         }, {
             "titlePrefixSuffix": ["old", ""],
             "stageLength": "240",
-            "cutProducts": ["branch", "root", "log"],
             "color": "0xffffffff",
             "treeForm": ["2", "5", "2", "1", "5"]
         }
@@ -92,13 +83,11 @@
         {
             "titlePrefixSuffix": ["", "sapling"],
             "stageLength": "12",
-            "cutProducts": ["branch", "root"],
             "color": "0xffffffff",
             "treeForm": ["0", "1", "1", "0", "0"]
         }, {
             "titlePrefixSuffix": ["young", ""],
             "stageLength": "60",
-            "cutProducts": ["branch", "root", "log"],
             "color": "0xffffffff",
             "treeForm": ["1", "3", "2", "1", "0"],
             "harvestProduct": {
@@ -108,13 +97,11 @@
             }
         }, {
             "stageLength": "180",
-            "cutProducts": ["branch", "root", "log"],
             "color": "0xffffffff",
             "treeForm": ["2", "5", "2", "1", "5"]
         }, {
             "titlePrefixSuffix": ["old", ""],
             "stageLength": "240",
-            "cutProducts": ["branch", "root", "log"],
             "color": "0xffffffff",
             "treeForm": ["2", "5", "2", "1", "5"]
         }

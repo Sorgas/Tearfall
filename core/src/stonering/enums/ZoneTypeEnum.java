@@ -4,12 +4,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import stonering.entity.zone.StorageZone;
 import stonering.util.validation.FarmPositionValidator;
 import stonering.util.validation.FreeFloorValidator;
 import stonering.util.validation.PositionValidator;
-import stonering.entity.zone.FarmZone;
-import stonering.entity.zone.Zone;
 
 /**
  * Enum for all zone types. Zone Actors are also created here.
@@ -17,7 +14,7 @@ import stonering.entity.zone.Zone;
  *
  * @author Alexander on 04.03.2019.
  */
-public enum ZoneTypesEnum {
+public enum ZoneTypeEnum {
     FARM(new FarmPositionValidator(),
             new TextureRegion(new Texture("sprites/zones.png"), 0, 0, 64, 70),
             "farm icon",
@@ -32,24 +29,10 @@ public enum ZoneTypesEnum {
     public final String ICON_NAME;
     public final int HOTKEY;
 
-    ZoneTypesEnum(PositionValidator validator, TextureRegion sprite, String iconName, int hotKey) {
+    ZoneTypeEnum(PositionValidator validator, TextureRegion sprite, String iconName, int hotKey) {
         VALIDATOR = validator;
         SPRITE = sprite;
         ICON_NAME = iconName;
         HOTKEY = hotKey;
-    }
-
-    /**
-     * Creates new zone including all valid tiles into it.
-     */
-    public Zone createZone() {
-        switch (this) {
-            case FARM:
-                return new FarmZone(name());
-            case STORAGE:
-                return new StorageZone(name());
-            default:
-                return null;
-        }
     }
 }

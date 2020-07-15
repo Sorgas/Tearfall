@@ -2,7 +2,7 @@ package stonering.stage.toolbar.menus;
 
 import com.badlogic.gdx.Input;
 
-import stonering.enums.ZoneTypesEnum;
+import stonering.enums.ZoneTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
@@ -27,13 +27,13 @@ public class ToolbarZonesMenu extends ToolbarButtonMenu {
     }
 
     private void createButtons() {
-        Arrays.stream(ZoneTypesEnum.values()).forEach(this::createButtonForZone);
+        Arrays.stream(ZoneTypeEnum.values()).forEach(this::createButtonForZone);
         createButton("U: update zone", Input.Keys.U, () -> 
                 GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(SelectionTools.ZONE_UPDATE));
         createButton("Q: back", Input.Keys.Q, this::hide);
     }
 
-    private void createButtonForZone(ZoneTypesEnum type) {
+    private void createButtonForZone(ZoneTypeEnum type) {
         super.createButton(type.toString(), type.HOTKEY, () -> {
             SelectionTools.ZONE.type = type;
             GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(SelectionTools.ZONE);

@@ -6,7 +6,7 @@ import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.item.selectors.ToolWithActionItemSelector;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
-import stonering.enums.ZoneTypesEnum;
+import stonering.enums.ZoneTypeEnum;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
@@ -34,7 +34,7 @@ public class HoeingAction extends Action {
             //        Logger.TASKS.logDebug("Checking hoeing of " + actionTarget.getPosition());
             Position target = actionTarget.getPosition();
             LocalMap localMap = GameMvc.model().get(LocalMap.class);
-            if (!ZoneTypesEnum.FARM.VALIDATOR.apply(target)) return FAIL; // 1
+            if (!ZoneTypeEnum.FARM.VALIDATOR.apply(target)) return FAIL; // 1
             if (GameMvc.model().get(ZoneContainer.class).getZone(target) == null) return FAIL; // 2
             EquipmentAspect equipmentAspect = task.performer.get(EquipmentAspect.class);
             if(equipmentAspect.toolWithActionEquipped("hoe")) return OK;

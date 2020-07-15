@@ -25,7 +25,7 @@ public class FarmPlantDetailsTab extends Table {
     public void setFor(String plant) {
         Optional.ofNullable(PlantTypeMap.getPlantType(plant))
                 .ifPresent(type -> {
-                    image.setDrawable(AtlasesEnum.plants.getBlockTile(type.lifeStages));
+//                    image.setDrawable(AtlasesEnum.plants.getBlockTile(type.lifeStages));
                     // picture
                     // title
                     // products

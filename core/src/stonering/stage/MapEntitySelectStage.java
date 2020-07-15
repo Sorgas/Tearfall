@@ -14,8 +14,8 @@ import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.unit.Unit;
-import stonering.entity.zone.FarmZone;
 import stonering.entity.zone.Zone;
+import stonering.entity.zone.aspect.FarmAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.system.ZoneContainer;
@@ -109,8 +109,8 @@ public class MapEntitySelectStage extends UiStage {
     }
 
     private void tryShowZoneStage(@NotNull Zone zone) {
-        if (zone instanceof FarmZone) {
-            GameMvc.view().addStage(new SingleActorShadedStage<>(new FarmZoneMenu((FarmZone) zone), false));
+        if (zone.has(FarmAspect.class)) {
+            GameMvc.view().addStage(new SingleActorShadedStage<>(new FarmZoneMenu(zone), false));
         }
     }
 

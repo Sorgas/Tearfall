@@ -3,9 +3,8 @@ package stonering.entity.zone;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.job.Task;
-import stonering.entity.job.action.Action;
 import stonering.entity.job.action.equipment.use.PutItemToPositionAction;
-import stonering.enums.ZoneTypesEnum;
+import stonering.enums.ZoneTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.system.item.ItemContainer;
@@ -29,7 +28,7 @@ public class StorageZone extends Zone {
     private ItemSelector selector;
 
     public StorageZone(String name) {
-        super(name, ZoneTypesEnum.STORAGE);
+        super(name, ZoneTypeEnum.STORAGE);
     }
 
     public void update() {
@@ -69,7 +68,7 @@ public class StorageZone extends Zone {
         ZoneContainer zoneContainer = model.get(ZoneContainer.class);
         for (Item item : items) {
             Zone zone = zoneContainer.getZone(item.position);
-            if (zone == null || zone.type != ZoneTypesEnum.STORAGE || !((StorageZone) zone).selector.checkItem(item)) // item is not stored on appropriate storage.
+            if (zone == null || zone.type != ZoneTypeEnum.STORAGE || !((StorageZone) zone).selector.checkItem(item)) // item is not stored on appropriate storage.
                 return item;
         }
         return null;

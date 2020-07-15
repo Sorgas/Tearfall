@@ -1,10 +1,9 @@
 package stonering.game.model.entity_selector.tool;
 
 import stonering.entity.zone.Zone;
-import stonering.enums.ZoneTypesEnum;
+import stonering.enums.ZoneTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
-import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.system.ZoneContainer;
 import stonering.util.geometry.Int3dBounds;
 
@@ -14,7 +13,7 @@ import stonering.util.geometry.Int3dBounds;
  * @author Alexander on 17.03.2020
  */
 public class ZoneSelectionTool extends SelectionTool {
-    public ZoneTypesEnum type;
+    public ZoneTypeEnum type;
     // TODO add validation
 
     @Override

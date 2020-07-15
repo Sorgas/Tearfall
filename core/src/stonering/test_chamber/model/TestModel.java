@@ -7,6 +7,7 @@ import stonering.entity.world.World;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.model.GameModel;
+import stonering.game.model.PlayerSettlementProperties;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.system.*;
 import stonering.game.model.system.building.BuildingContainer;
@@ -58,6 +59,7 @@ public abstract class TestModel extends GameModel {
         put(new EntitySelectorSystem());
         put(new AStar());
         put(new LiquidContainer());
+        put(new PlayerSettlementProperties());
     }
 
     /**

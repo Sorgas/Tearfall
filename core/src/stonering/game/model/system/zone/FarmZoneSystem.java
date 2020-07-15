@@ -3,7 +3,7 @@ package stonering.game.model.system.zone;
 import stonering.entity.plant.AbstractPlant;
 import stonering.entity.zone.Zone;
 import stonering.entity.zone.aspect.FarmAspect;
-import stonering.enums.ZoneTypesEnum;
+import stonering.enums.ZoneTypeEnum;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
@@ -46,7 +46,7 @@ public class FarmZoneSystem extends EntitySystem<Zone> {
     }
 
     private boolean tryRemoveInvalidTile(Position tile) {
-        if (ZoneTypesEnum.FARM.VALIDATOR.apply(tile)) return false;
+        if (ZoneTypeEnum.FARM.VALIDATOR.apply(tile)) return false;
         GameMvc.model().get(ZoneContainer.class).setTileToZone(null, tile); // remove invalid tile
         return true;
     }

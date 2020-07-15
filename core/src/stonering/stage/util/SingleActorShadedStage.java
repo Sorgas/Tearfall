@@ -14,7 +14,7 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander on 18.02.2020.
  */
-public class SingleActorShadedStage<T extends Actor> extends SingleActorStage implements Initable {
+public class SingleActorShadedStage<T extends Actor> extends SingleActorStage<T> implements Initable {
     private Container<Container<Actor>> shade;
     private boolean wasPaused;
 

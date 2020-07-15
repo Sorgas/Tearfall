@@ -11,6 +11,7 @@ import stonering.util.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Generator for products from plants.
@@ -30,11 +31,12 @@ public class PlantProductGenerator {
         ArrayList<Item> items = new ArrayList<>();
         AbstractPlant plant = block.getPlant();
         Logger.PLANTS.logDebug("generating cut products for " + plant.type.title);
-        if (plant.type.isPlant) {
-            List<String> productNames = plant.type.lifeStages.get(plant.get(PlantGrowthAspect.class).currentStage).cutProducts;
-            if (productNames != null)
-                productNames.forEach(name -> items.add(itemGenerator.generateItem(name, block.getMaterial(), null)));
-        } else if (plant.type.isTree) {
+//        if (plant.type.isPlant) {
+//            List<String> productNames = plant.type.lifeStages.get(plant.get(PlantGrowthAspect.class).currentStage).cutProducts;
+//            if (productNames != null)
+//                productNames.forEach(name -> items.add(itemGenerator.generateItem(name, block.getMaterial(), null)));
+//        } else 
+        if (plant.type.isTree) {
             Item cutItem = generateCutProductForTreePart(block);
             if (cutItem != null) items.add(cutItem);
         }
@@ -51,7 +53,7 @@ public class PlantProductGenerator {
         if (block.isHarvested()) return null;
         AbstractPlant plant = block.getPlant();
         PlantLifeStage stage = plant.getCurrentLifeStage();
-        if(stage == null) return null;
+        if (stage == null) return null;
         ItemType product = stage.harvestProduct;
         if (product == null) return null;
         Item productItem = itemGenerator.generateItem(product.name, block.getMaterial(), null);
@@ -63,10 +65,8 @@ public class PlantProductGenerator {
      * Block product is determined by its type, and permitted products of whole tree (logs from trunk, etc.).
      */
     private Item generateCutProductForTreePart(PlantBlock block) {
-        String itemName = PlantBlocksTypeEnum.getType(block.getBlockType()).cutProduct;
-        if (itemName == null) return null;
-        List<String> cutProducts = block.getPlant().getCurrentLifeStage().cutProducts;
-        if (cutProducts == null || !cutProducts.contains(itemName)) return null;
-        return itemGenerator.generateItem(itemName, block.getMaterial(), null);
+        return Optional.ofNullable(PlantBlocksTypeEnum.getType(block.getBlockType()).cutProduct)
+                .map(itemName -> itemGenerator.generateItem(itemName, block.getMaterial(), null))
+                .orElse(null);
     }
 }

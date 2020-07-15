@@ -1,15 +1,20 @@
 package stonering.stage.entity_menu.zone;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import stonering.entity.zone.FarmZone;
+import stonering.entity.zone.Zone;
 import stonering.entity.zone.aspect.FarmAspect;
 import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;
 import stonering.game.model.system.ZoneContainer;
+import stonering.stage.util.SingleActorStage;
+import stonering.widget.ButtonMenu;
+import stonering.widget.ConfirmationDialogue;
 import stonering.widget.HintedActor;
 import stonering.util.global.StaticSkin;
+import stonering.widget.util.KeyNotifierListener;
 
 /**
  * Menu for managing farms. Plants for growing are configured from here.
@@ -25,95 +30,88 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander on 20.03.2019.
  */
-public class FarmZoneMenu extends Window {
-    public FarmPlantSelectionTab disabledPlants;
-    private Label selectedPlantLabel;
-    private Label monthsLabel;
-    private Label hintLabel;
-    private FarmZone farmZone;
+public class FarmZoneMenu extends Container<Table> {
+    private Zone zone;
     private FarmAspect farm;
+    private final Table table = new Table();
+    private FarmPlantSelectionTab selectionTab;
+    FarmPlantDetailsTab detailsTab;
+    private Button deleteButton;
+    private Button closeButton;
+    private ButtonMenu buttonMenu;
     
-    public FarmZoneMenu(FarmZone farmZone) {
-        super(farmZone.name, StaticSkin.getSkin());
-        this.farmZone = farmZone;
-        farm = farmZone.get(FarmAspect.class);
+    public FarmZoneMenu(Zone zone) {
+        this.zone = zone;
+        setActor(table);
+        farm = zone.get(FarmAspect.class);
         createLayout();
-        fillList();
-        setLabels();
-    }
-
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-        Actor focused = getStage().getKeyboardFocus();
-        hintLabel.setText((focused instanceof HintedActor) ? ((HintedActor) focused).getHint() : "");
+        createListeners();
     }
 
     private void createLayout() {
         setDebug(true, true);
-        add(new FarmPlantSelectionTab(this, farm));
-        add(createButtonsGroup()).colspan(2);
-        setWidth(800);
-        setHeight(600);
+        table.add(selectionTab = new FarmPlantSelectionTab(this, farm)).width(300).growY();
+        table.add(detailsTab = new FarmPlantDetailsTab()).width(600).growY().row();
+        table.add(buttonMenu = createButtonMenu());
+        table.add(deleteButton = createDeleteButton()).size(120, 60).pad(10).expandX();
+        table.add(deleteButton = createDeleteButton()).size(120, 60).pad(10).expandX();
+        size(800, 900); // size table
     }
 
-    private HorizontalGroup createButtonsGroup() {
-        HorizontalGroup group = new HorizontalGroup();
-        group.addActor(createButton("Quit", new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                close();
-            }
-        }));
-        group.addActor(createButton("Delete zone", new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                deleteZone();
-                close();
-            }
-        }));
-        return group;
+    private ButtonMenu createButtonMenu() {
+        ButtonMenu menu = new ButtonMenu(25);
+        return null;
     }
 
-    private TextButton createButton(String text, ChangeListener listener) {
-        TextButton button = new TextButton(text, StaticSkin.getSkin());
-        button.addListener(listener);
+    private TextButton createDeleteButton() {
+        TextButton button = new TextButton("Delete farm", StaticSkin.skin());
+        button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                ConfirmationDialogue dialogue = new ConfirmationDialogue("Deleate farm " + zone.name + "?");
+                dialogue.confirmAction = () -> {
+                    GameMvc.model().get(ZoneContainer.class).deleteZone(zone);
+                    GameMvc.view().removeStage(getStage());
+                };
+                GameMvc.view().addStage(new SingleActorStage<>(dialogue, true));
+            }
+        });
         return button;
     }
-
-    private void fillList() {
-//        disabledPlants.clearItems();
-//        List<PlantType> allTypes = new ArrayList<>(PlantTypeMap.instance().domesticTypes.values());
-//        PlantType selectedType = farmZone.getPlantType();
-//        allTypes.stream().filter(type -> !type.equals(selectedType)).forEach(type -> disabledPlants.getItems().add(type));
+    
+    private TextButton createCloseButton() {
+        TextButton button = new TextButton("Delete farm", StaticSkin.skin());
+        button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                ConfirmationDialogue dialogue = new ConfirmationDialogue("Deleate farm " + zone.name + "?");
+                dialogue.confirmAction = () -> {
+                    GameMvc.model().get(ZoneContainer.class).deleteZone(zone);
+                    GameMvc.view().removeStage(getStage());
+                };
+                GameMvc.view().addStage(new SingleActorStage<>(dialogue, true));
+            }
+        });
+        return button;
     }
-
-    private FarmPlantSelectionTab createList() {
-        FarmPlantSelectionTab list = new FarmPlantSelectionTab(this, farm);
-        list.setSize(150, 300);
-        return list;
-    }
-
-    public void select(PlantType type) {
-        farmZone.setPlant(type);
-        fillList();
-        setLabels();
-    }
-
-    /**
-     * Updates texts in labels for plant and months.
-     */
-    private void setLabels() {
-        PlantType type = farmZone.getPlantType();
-        selectedPlantLabel.setText(type != null ? type.title : "none");
-        monthsLabel.setText(type != null ? type.plantingStart.toString() : "none");
-    }
-
-    public void deleteZone() {
-        GameMvc.model().get(ZoneContainer.class).deleteZone(farmZone);
-    }
-
-    public void close() {
-        GameMvc.view().removeStage(getStage());
+    
+    private void createListeners() {
+        // for pressing buttons
+        addListener(new InputListener() {
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                switch(keycode) {
+                    case Input.Keys.Q: // close this menu
+                        GameMvc.view().removeStage(getStage());
+                        return true;
+                    case Input.Keys.X: // delete zone
+                        deleteButton.toggle();
+                        return true;
+                }
+                return false;
+            }
+        });
+        // for navigating and selecting plants
+        addListener(new KeyNotifierListener(() -> selectionTab));
     }
 }
