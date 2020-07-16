@@ -15,12 +15,13 @@ import stonering.util.geometry.Position;
 /**
  * Rolls time for plants, increasing their age and changing {@link PlantLifeStage}.
  *
- *
  * @author Alexander on 14.01.2020.
  */
 public class PlantGrowthSystem extends EntitySystem<AbstractPlant> {
     public int weekSize; // week size in hours
-
+    private PlantGenerator plantGenerator = new PlantGenerator();
+    private TreeGenerator treeGenerator = new TreeGenerator();
+    
     public PlantGrowthSystem() {
         targetAspects.add(PlantGrowthAspect.class);
         updateInterval = TimeUnitEnum.HOUR;
@@ -54,14 +55,12 @@ public class PlantGrowthSystem extends EntitySystem<AbstractPlant> {
         if (entity instanceof Tree) {
             Tree tree = (Tree) entity;
             plantContainer.removePlantBlocks(tree, false);
-            TreeGenerator treeGenerator = new TreeGenerator();
             treeGenerator.applyTreeGrowth(tree);
             plantContainer.add(tree, tree.position);
         } else if (entity instanceof Plant) {
             Plant plant = (Plant) entity;
             Position oldPosition = plant.getPosition();
             plantContainer.removePlantBlocks(plant, false);
-            PlantGenerator plantGenerator = new PlantGenerator();
             plantGenerator.applyPlantGrowth(plant);
             plantContainer.add(plant, oldPosition);
         }

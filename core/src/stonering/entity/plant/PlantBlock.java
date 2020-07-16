@@ -1,16 +1,15 @@
 package stonering.entity.plant;
 
+import stonering.entity.Entity;
 import stonering.enums.plants.PlantBlocksTypeEnum;
-import stonering.util.geometry.Position;
 
 /**
  * Class to be contained on LocalMap. Also stores render data
  *
  * @author Alexander Kuzyakov on 30.11.2017.
  */
-public class PlantBlock {
+public class PlantBlock extends Entity {
     public AbstractPlant plant;
-    public Position position; // position on map
     private int material;
     private int blockType; // type from enum
     private int[] atlasXY;

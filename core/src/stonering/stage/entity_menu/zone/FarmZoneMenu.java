@@ -35,8 +35,6 @@ public class FarmZoneMenu extends Container<Table> {
     private final Table table = new Table();
     private FarmPlantSelectionTab selectionTab;
     FarmPlantDetailsTab detailsTab;
-    private Button deleteButton;
-    private Button closeButton;
     private ButtonMenu buttonMenu;
 
     public FarmZoneMenu(Zone zone) {
@@ -51,12 +49,14 @@ public class FarmZoneMenu extends Container<Table> {
         setDebug(true, true);
         table.add(selectionTab = new FarmPlantSelectionTab(this, farm)).width(300).growY();
         table.add(detailsTab = new FarmPlantDetailsTab()).width(600).growY().row();
-        table.add(buttonMenu = createButtonMenu()).height().colspan(2);
-        size(800, 900); // size table
+        table.add(buttonMenu = createButtonMenu()).height(60).left().colspan(2);
+        table.setBackground(StaticSkin.getColorDrawable(StaticSkin.background));
+        size(900, 900); // size table
     }
 
     private ButtonMenu createButtonMenu() {
         ButtonMenu menu = new ButtonMenu(false);
+        menu.defaults().pad(5, 5, 5, 0);
         menu.addButton("Delete farm", Input.Keys.X, () -> {
             ConfirmationDialogue dialogue = new ConfirmationDialogue("Deleate farm " + zone.name + "?");
             dialogue.confirmAction = () -> {
@@ -66,27 +66,11 @@ public class FarmZoneMenu extends Container<Table> {
             GameMvc.view().addStage(new SingleActorStage<>(dialogue, true));
         });
         menu.addButton("Close", Input.Keys.Q, () -> GameMvc.view().removeStage(getStage()));
-        return null;
+        return menu;
     }
 
     private void createListeners() {
-        // for pressing buttons
-        addListener(new InputListener() {
-            @Override
-            public boolean keyUp(InputEvent event, int keycode) {
-                switch (keycode) {
-                    case Input.Keys.Q: // close this menu
-                        GameMvc.view().removeStage(getStage());
-                        return true;
-                    case Input.Keys.X: // delete zone
-                        deleteButton.toggle();
-                        return true;
-                }
-                return false;
-            }
-        });
-        // for navigating and selecting plants
-        addListener(new KeyNotifierListener(() -> selectionTab));
-        addListener(new KeyNotifierListener(() -> buttonMenu));
+        addListener(new KeyNotifierListener(() -> selectionTab)); // for navigating and selecting plants
+        addListener(new KeyNotifierListener(() -> buttonMenu)); // for pressing buttons
     }
 }

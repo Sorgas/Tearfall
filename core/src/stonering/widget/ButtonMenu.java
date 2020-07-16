@@ -58,7 +58,12 @@ public class ButtonMenu extends Table {
 
     protected void registerButton(Button button, int hotKey) {
         buttons.put(hotKey, button);
-        add(button);
-        if (vertical) row();
+        Cell<Button> cell = add(button);
+        if (vertical) {
+            cell.growX();
+            row();
+        } else {
+            cell.growY();
+        }
     }
 }

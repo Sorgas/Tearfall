@@ -1,0 +1,78 @@
+[
+    {
+        "name": "radish",
+        "title": "Radish",
+        "description": "Pink root-crop with green leaves. Is fast and easy to grow, but has bitter taste.",
+        "materialName": "generic_plant",
+        "temperatureBounds": ["-40", "40"],
+        "rainfallBounds": ["0", "100"],
+        "placingTags": ["water_near", "water_far", "soil_stone"],
+        "atlasXY": ["0", "0"],
+        "lifeStages": [
+            {
+                "titlePrefixSuffix": ["young", ""],
+                "stageLength": "1"
+            }, {
+                "titlePrefixSuffix": ["", ""],
+                "stageLength": "2"
+            }, {
+                "titlePrefixSuffix": ["young", ""],
+                "stageLength": "2",
+                "harvestProduct": {
+                    
+                },
+                "productDropRatio": "4"
+            }
+        ]
+    }, {
+    "name": "turnip",
+    "title": "Turnip",
+    "description": "Large yellow root-crop with green leaves. Grows fast, but not everyone likes its taste.",
+    "materialName": "generic_plant",
+    "temperatureBounds": ["-40", "40"],
+    "rainfallBounds": ["0", "100"],
+    "placingTags": ["water_near", "water_far", "soil_stone"],
+    "atlasXY": ["0", "0"],
+    "lifeStages": []
+}, {
+    "name": "wheat",
+    "title": "Wheat",
+    "description": "Tall grass which produce grain. Its decent yield made it main ration component in most societies.",
+    "materialName": "generic_plant",
+    "temperatureBounds": ["-40", "40"],
+    "rainfallBounds": ["0", "100"],
+    "placingTags": ["water_near", "water_far", "soil_stone"],
+    "atlasXY": ["0", "0"],
+    "lifeStages": []
+}, {
+    "name": "cabbage",
+    "title": "Cabbage",
+    "description": "Large vegetable with meaty leaves. Takes moderate time to grow and provides good amount of food.",
+    "materialName": "generic_plant",
+    "temperatureBounds": ["-40", "40"],
+    "rainfallBounds": ["0", "100"],
+    "placingTags": ["water_near", "water_far", "soil_stone"],
+    "atlasXY": ["0", "0"],
+    "lifeStages": []
+}, {
+    "name": "pumpkin",
+    "title": "Pumpkin",
+    "description": "Long-growing orange vegetables, known for its mild sweet taste.",
+    "materialName": "generic_plant",
+    "temperatureBounds": ["-40", "40"],
+    "rainfallBounds": ["0", "100"],
+    "placingTags": ["water_near", "water_far", "soil_stone"],
+    "atlasXY": ["0", "0"],
+    "lifeStages": []
+}, {
+    "name": "tomato",
+    "title": "Tomato",
+    "description": "Fragile red fruit valued by cooks. Long growing time and relatively low yields are compensated by delicious taste.",
+    "materialName": "generic_plant",
+    "temperatureBounds": ["-40", "40"],
+    "rainfallBounds": ["0", "100"],
+    "placingTags": ["water_near", "water_far", "soil_stone"],
+    "atlasXY": ["0", "0"],
+    "lifeStages": []
+}
+]
