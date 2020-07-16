@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+
 import stonering.entity.zone.Zone;
 import stonering.entity.zone.aspect.FarmAspect;
 import stonering.game.GameMvc;
@@ -37,7 +38,7 @@ public class FarmZoneMenu extends Container<Table> {
     private Button deleteButton;
     private Button closeButton;
     private ButtonMenu buttonMenu;
-    
+
     public FarmZoneMenu(Zone zone) {
         this.zone = zone;
         setActor(table);
@@ -50,55 +51,30 @@ public class FarmZoneMenu extends Container<Table> {
         setDebug(true, true);
         table.add(selectionTab = new FarmPlantSelectionTab(this, farm)).width(300).growY();
         table.add(detailsTab = new FarmPlantDetailsTab()).width(600).growY().row();
-        table.add(buttonMenu = createButtonMenu());
-        table.add(deleteButton = createDeleteButton()).size(120, 60).pad(10).expandX();
-        table.add(deleteButton = createDeleteButton()).size(120, 60).pad(10).expandX();
+        table.add(buttonMenu = createButtonMenu()).height().colspan(2);
         size(800, 900); // size table
     }
 
     private ButtonMenu createButtonMenu() {
-        ButtonMenu menu = new ButtonMenu();
+        ButtonMenu menu = new ButtonMenu(false);
+        menu.addButton("Delete farm", Input.Keys.X, () -> {
+            ConfirmationDialogue dialogue = new ConfirmationDialogue("Deleate farm " + zone.name + "?");
+            dialogue.confirmAction = () -> {
+                GameMvc.model().get(ZoneContainer.class).deleteZone(zone);
+                GameMvc.view().removeStage(getStage());
+            };
+            GameMvc.view().addStage(new SingleActorStage<>(dialogue, true));
+        });
+        menu.addButton("Close", Input.Keys.Q, () -> GameMvc.view().removeStage(getStage()));
         return null;
     }
 
-    private TextButton createDeleteButton() {
-        TextButton button = new TextButton("Delete farm", StaticSkin.skin());
-        button.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                ConfirmationDialogue dialogue = new ConfirmationDialogue("Deleate farm " + zone.name + "?");
-                dialogue.confirmAction = () -> {
-                    GameMvc.model().get(ZoneContainer.class).deleteZone(zone);
-                    GameMvc.view().removeStage(getStage());
-                };
-                GameMvc.view().addStage(new SingleActorStage<>(dialogue, true));
-            }
-        });
-        return button;
-    }
-    
-    private TextButton createCloseButton() {
-        TextButton button = new TextButton("Delete farm", StaticSkin.skin());
-        button.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                ConfirmationDialogue dialogue = new ConfirmationDialogue("Deleate farm " + zone.name + "?");
-                dialogue.confirmAction = () -> {
-                    GameMvc.model().get(ZoneContainer.class).deleteZone(zone);
-                    GameMvc.view().removeStage(getStage());
-                };
-                GameMvc.view().addStage(new SingleActorStage<>(dialogue, true));
-            }
-        });
-        return button;
-    }
-    
     private void createListeners() {
         // for pressing buttons
         addListener(new InputListener() {
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
-                switch(keycode) {
+                switch (keycode) {
                     case Input.Keys.Q: // close this menu
                         GameMvc.view().removeStage(getStage());
                         return true;
@@ -111,5 +87,6 @@ public class FarmZoneMenu extends Container<Table> {
         });
         // for navigating and selecting plants
         addListener(new KeyNotifierListener(() -> selectionTab));
+        addListener(new KeyNotifierListener(() -> buttonMenu));
     }
 }

@@ -36,6 +36,11 @@ public class ButtonMenu extends Table {
         });
     }
 
+    public ButtonMenu(boolean vertical) {
+        this();
+        this.vertical = vertical;
+    }
+
     public void addButton(String text, int hotKey, Runnable action) {
         registerButton(createButton(Input.Keys.toString(hotKey) + ": " + text, action), hotKey);
     }
