@@ -10,13 +10,13 @@
         "atlasXY": ["0", "0"],
         "lifeStages": [
             {
-                "titlePrefixSuffix": ["young", ""],
+                "titlePrefixSuffix": ["Young", ""],
                 "stageLength": "1"
             }, {
                 "titlePrefixSuffix": ["", ""],
                 "stageLength": "2"
             }, {
-                "titlePrefixSuffix": ["young", ""],
+                "titlePrefixSuffix": ["Grown", ""],
                 "stageLength": "2",
                 "harvestProduct": {
                     

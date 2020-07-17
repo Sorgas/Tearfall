@@ -9,6 +9,7 @@ import stonering.util.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Singleton map for all {@link ItemType}s. Types should have unique names.
@@ -36,8 +37,11 @@ public class ItemTypeMap {
         json.setOutputType(JsonWriter.OutputType.json);
         RawItemTypeProcessor processor = new RawItemTypeProcessor();
         FileUtil.iterate(FileUtil.ITEMS_PATH, file -> {
-            ArrayList<RawItemType> elements = json.fromJson(ArrayList.class, RawItemType.class, file);
-            elements.forEach(rawItemType -> types.put(rawItemType.name, processor.process(rawItemType)));
+            List<RawItemType> elements = json.fromJson(ArrayList.class, RawItemType.class, file);
+            elements.stream()
+                    .sorted((type1, type2) -> type1.baseItem == null ? 1 : -1)
+                    .map(processor::process)
+                    .forEach(type -> types.put(type.name, type));
             Logger.LOADING.logDebug(elements.size() + " loaded from " + file.path());
         });
     }

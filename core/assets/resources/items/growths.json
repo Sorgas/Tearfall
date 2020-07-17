@@ -5,38 +5,64 @@
         "description": "Replace this description in plant definition.",
         "aspects" : ["seed()"],
         "atlasXY": ["11", "0"],
-        "color": "0xffffffff"
     }, {
     "name": "pine_cone",
     "description": "Grows on pine.",
     "atlasXY": ["11", "0"],
-    "color": "0xffffffff"
 }, {
     "name": "berry",
     "description": ".",
     "typeAspects": ["value(0)"],
     "atlasXY": ["8", "0"],
-    "color": "0xffffffff"
 }, {
     "name": "mushroom",
     "description": "",
     "typeAspects": ["value(0)"],
     "aspects": [],
     "atlasXY": ["15", "0"],
-    "color": "0xffffffff"
-}, {
-    "name": "pumpkin",
-    "description": "",
-    "typeAspects": ["value(0)"],
-    "aspects": [],
-    "atlasXY": ["15", "0"],
-    "color": "0xffffffff"
-}, {
+},
+
+    {
     "name": "generic_fruit",
     "description": "Replace this description in plant definition.",
+    "typeAspects": ["value(10)"],
+    "aspects": [ "food(15)"],
+    "atlasXY": ["15", "0"]
+}, {
+    "name": "radish",
+    "baseItem" : "generic_fruit",
+    "description": "Tiny bitter root-crops.",
+    "typeAspects": ["value(0)"],
+    "atlasXY": ["15", "0"]
+},{
+    "name": "turnip",
+    "baseItem" : "generic_fruit",
+    "description": "Root-crop",
     "typeAspects": ["value(0)"],
     "aspects": [],
-    "atlasXY": ["15", "0"],
-    "color": "0xffffffff"
+    "atlasXY": ["15", "0"]
+},{
+    "name": "pumpkin",
+    "baseItem" : "generic_fruit",
+    "description": "Large orange vegetable with thick walls and many seeds inside.",
+    "typeAspects": ["value(100)"],
+    "aspects": ["food(100)"],
+    "atlasXY": ["15", "0"]
+},{
+    "name": "tomato",
+    "baseItem" : "generic_fruit",
+    "description": "Red fruit with delicious taste.",
+    "typeAspects": ["value(35)"],
+    "atlasXY": ["15", "0"]
+}, {
+    "name": "generic_grain",
+    "description": "Replace this description in plant definition.",
+    "typeAspects": ["value(10)", "grain"],
+    "atlasXY": ["15", "0"]
+}, {
+    "name": "wheat",
+    "baseItem": "generic_grain",
+    "description": "Most common grain. Used to prepare bread or beer.",
+    "atlasXY": ["15", "0"]
 }
 ]
