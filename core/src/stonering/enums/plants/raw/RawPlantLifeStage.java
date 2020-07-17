@@ -11,7 +11,6 @@ public class RawPlantLifeStage {
     public String[] titlePrefixSuffix;
     public int stageLength;
     public String harvestProduct;
-    public List<String> cutProducts;
     public String color = "0xffffffff"; // white is default
     public List<Integer> treeForm; // not null only for trees
     public int productDropRatio;

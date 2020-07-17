@@ -17,13 +17,7 @@
             }, {
                 "titlePrefixSuffix": ["Grown", ""],
                 "stageLength": "2",
-                "harvestProduct": {
-                    "name": "radish",
-                    "baseItem": "generic_fruit",
-                    "description": "Tiny bitter root-crops.",
-                    "typeAspects": ["value(0)"],
-                    "atlasXY": ["15", "0"]
-                },
+                "harvestProduct": "radish",
                 "productDropRatio": "4"
             }
         ]

@@ -41,6 +41,7 @@ public class ItemTypeMap {
             elements.stream()
                     .sorted((type1, type2) -> type1.baseItem == null ? 1 : -1)
                     .map(processor::process)
+                    .peek(type -> type.atlasName = file.nameWithoutExtension())
                     .forEach(type -> types.put(type.name, type));
             Logger.LOADING.logDebug(elements.size() + " loaded from " + file.path());
         });

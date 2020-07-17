@@ -29,7 +29,7 @@ public class BuildingTypeMap {
         FileUtil.iterate(FileUtil.BUILDINGS_PATH, file -> {
             List<RawBuildingType> rawTypes = json.fromJson(ArrayList.class, RawBuildingType.class, file);
             rawTypes.stream()
-                    .map(BuildingType::new)
+                    .map(processor::process)
                     .peek(type -> type.atlasName = file.nameWithoutExtension())
                     .forEach(type -> buildings.put(type.building, type));
             Logger.LOADING.logDebug(rawTypes.size() + " loaded from " + file.path());

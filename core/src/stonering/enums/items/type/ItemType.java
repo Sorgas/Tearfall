@@ -23,6 +23,7 @@ public class ItemType extends Entity implements Cloneable {
     public Set<ItemTagEnum> tags;
     public List<String> requiredParts;
     public List<String> optionalParts;
+    public String atlasName;
 
     public ItemType(RawItemType rawType) {
         super();

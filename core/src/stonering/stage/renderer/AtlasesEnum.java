@@ -20,13 +20,13 @@ import java.util.Map;
  */
 public enum AtlasesEnum {
     blocks(new Texture("sprites/blocks.png"), 64, 64, 32, 6), // regular map blocks
-    ui_tiles(new Texture("sprites/ui_tiles.png"), 64, 64, 32), // frame, selector, zones TODO move designation to icons
-    substrates(new Texture("sprites/substrates.png"), 64, 64, 32, 6), // flat plants like mosses TODO remove toppings
+    ui_tiles(new Texture("sprites/ui_tiles.png"), 64, 64, 32), // frame, selector, zones
+    substrates(new Texture("sprites/substrates.png"), 64, 64, 32, 6), // flat plants like mosses
     liquids(new Texture("sprites/liquids.png"), 64, 64, 32, 6),
     plants("sprites/plants", 64, 64, 32), // all trees is plants
     units(new Texture("sprites/units.png"), 64, 64, 0),
     buildings("sprites/buildings", 64, 64, 32), // buildings and furniture
-    items(new Texture("sprites/items.png"), 32, 32, 0),
+    items("sprites/items", 32, 32, 0),
     creature_icons(new Texture("sprites/creature_icons.png"), 16, 16, 0),
     zones(new Texture("sprites/zones.png"), 64, 64, 32),
     icons(new Texture("sprites/icons.png"), 64, 64, 0); // ui and designation icons

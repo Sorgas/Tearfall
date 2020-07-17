@@ -28,8 +28,7 @@
     "atlasXY":["0", "0"],
     "lifeStages":[
         {
-            "stageLength":"1",
-            "cutProducts":["branch", "root"]
+            "stageLength":"1"
         }
     ]
 }, {

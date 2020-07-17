@@ -26,6 +26,12 @@
     "typeAspects": ["value(10)"],
     "aspects": [ "food(15)"],
     "atlasXY": ["15", "0"]
+},{
+    "name": "radish",
+    "baseItem": "generic_fruit",
+    "description": "Tiny bitter root-crops.",
+    "typeAspects": ["value(0)"],
+    "atlasXY": ["15", "0"]
 }, {
     "name": "turnip",
     "baseItem" : "generic_fruit",
