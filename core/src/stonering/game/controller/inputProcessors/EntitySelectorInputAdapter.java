@@ -107,8 +107,8 @@ public class EntitySelectorInputAdapter extends EnableableInputAdapter {
          */
         private Position castScreenToModelCoords(int screenX, int screenY) {
             Vector3 batchCoords = GameMvc.view().localWorldStage.getCamera().unproject(new Vector3(screenX, screenY, 0));
-            AtlasesEnum atlas = AtlasesEnum.blocks; // use blocks sizes
-            int heightToSkip = system.selector.position.z * atlas.HEIGHT + (atlas.hasToppings ? atlas.TOPPING_HEIGHT : 0);
+            AtlasesEnum atlas = AtlasesEnum.blocks; // use blocks sizes as grid size
+            int heightToSkip = system.selector.position.z * atlas.HEIGHT + atlas.TOPPING_HEIGHT;
             return new Position((int) batchCoords.x / atlas.WIDTH, // int casts is mandatory
                     (int) (batchCoords.y - heightToSkip) / atlas.DEPTH,
                     system.selector.position.z);

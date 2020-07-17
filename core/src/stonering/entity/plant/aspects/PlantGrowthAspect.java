@@ -18,8 +18,8 @@ import stonering.util.geometry.Position;
 import java.util.List;
 
 /**
- * Switches plant life stages. Restructures tree if needed to represent growth.
- * Stage length is taken from {@link PlantType} and measured in weeks.
+ * Stores plant age, and current stage index. see {@link stonering.game.model.system.plant.PlantGrowthSystem}
+ * Stage length is measured in days.
  *
  * @author Alexander on 13.02.2019.
  */

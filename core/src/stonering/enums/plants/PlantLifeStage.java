@@ -17,10 +17,9 @@ public class PlantLifeStage {
     public String[] titlePrefixSuffix;
     public int stageLength;
     public ItemType harvestProduct; // products differ between stages
-    public String color;
     public List<Integer> treeForm; // is null for non-trees
-    public int productGrowRatio;
     public int productDropRatio; // number of product items per 1 block
+    public String color;
     
     public int stageEnd; // calculated for faster checking
 
@@ -30,6 +29,5 @@ public class PlantLifeStage {
         color = rawStage.color;
         treeForm = rawStage.treeForm;
         productDropRatio = rawStage.productDropRatio;
-        productGrowRatio = rawStage.productGrowRatio;
     }
 }

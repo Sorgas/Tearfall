@@ -15,7 +15,7 @@ import java.util.Set;
 public class RawPlantType {
     public String name;
     public String title;
-    public String materialName; // in null for substrates
+    public String materialName = "generic_plant"; // in null for substrates
     public String description;
 
     public int[] temperatureBounds = new int[2]; // min and max temperature

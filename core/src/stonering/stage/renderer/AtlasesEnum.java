@@ -18,64 +18,62 @@ import java.util.Map;
  * @author Alexander on 03.08.2019.
  */
 public enum AtlasesEnum {
-    blocks(new Texture("sprites/blocks.png"), true, 64, 64, 32, 6), // regular map blocks
-    ui_tiles(new Texture("sprites/ui_tiles.png"), false, 64, 64, 32, 0), // frame, selector, zones TODO move designation to icons
-    substrates(new Texture("sprites/substrates.png"), true, 64, 64, 32, 6), // flat plants like mosses TODO remove toppings
-    liquids(new Texture("sprites/liquids.png"), true, 64, 64, 32, 6),
-    plants(new Texture("sprites/plants.png"), false, 64, 64, 32, 0), // all trees is plants
-    units(new Texture("sprites/units.png"), false, 64, 64, 0, 0),
+    blocks(new Texture("sprites/blocks.png"), 64, 64, 32, 6), // regular map blocks
+    ui_tiles(new Texture("sprites/ui_tiles.png"), 64, 64, 32, 0), // frame, selector, zones TODO move designation to icons
+    substrates(new Texture("sprites/substrates.png"), 64, 64, 32, 6), // flat plants like mosses TODO remove toppings
+    liquids(new Texture("sprites/liquids.png"), 64, 64, 32, 6),
+    plants(new Texture("sprites/plants.png"), 64, 64, 32, 0), // all trees is plants
+    units(new Texture("sprites/units.png"), 64, 64, 0, 0),
     buildings("sprites/buildings", false, 64, 64, 32, 0), // buildings and furniture
-    items(new Texture("sprites/items.png"), false, 32, 32, 0, 0),
-    creature_icons(new Texture("sprites/creature_icons.png"), false, 16, 16, 0, 0),
-    zones(new Texture("sprites/zones.png"), false, 64, 64, 32, 0),
-    icons(new Texture("sprites/icons.png"), false, 64, 64, 0, 0); // ui and designation icons
+    items(new Texture("sprites/items.png"), 32, 32, 0, 0),
+    creature_icons(new Texture("sprites/creature_icons.png"), 16, 16, 0, 0),
+    zones(new Texture("sprites/zones.png"), 64, 64, 32, 0),
+    icons(new Texture("sprites/icons.png"), 64, 64, 0, 0); // ui and designation icons
 
     public TextureCache cache;
     public Map<String, TextureCache> caches = new HashMap<>();
 
     public String texturePath; // path to folder with texture files
-    public final boolean hasToppings;
     public final int WIDTH;
     public final int DEPTH;
     public final int HEIGHT;
     public final int BLOCK_HEIGHT; // depth and height
     public final int TOPPING_HEIGHT;
-    public final int TOPPING_BLOCK_HEIGHT; // depth and height
+    public final int TOPPING_TILE_HEIGHT; // depth and height
     public final int FULL_TILE_HEIGHT;
     public final int X_CORRECTION; // batch grid are 64x64, but some atlas tiles are smaller, correction is offset from left bottom corner of grid
     public final int Y_CORRECTION;
 
-    AtlasesEnum(boolean hasToppings, int width, int depth, int height, int toppingHeight) {
-        this.hasToppings = hasToppings;
+    AtlasesEnum(Texture atlas, int width, int depth, int height, int toppingHeight) {
+        this(width, depth, height, toppingHeight);
+        cache = new TextureCache(atlas, this);
+    }
+
+    AtlasesEnum(String texturePath, boolean hasToppings, int width, int depth, int height, int toppingHeight) {
+        this(width, depth, height, toppingHeight);
+        this.texturePath = texturePath;
+        caches = new HashMap<>();
+    }
+
+    AtlasesEnum(int width, int depth, int height, int toppingHeight) {
         WIDTH = width;
         DEPTH = depth;
         HEIGHT = height;
         BLOCK_HEIGHT = height + depth;
         TOPPING_HEIGHT = toppingHeight;
-        TOPPING_BLOCK_HEIGHT = hasToppings ? TOPPING_HEIGHT + DEPTH : 0;
-        FULL_TILE_HEIGHT = BLOCK_HEIGHT + TOPPING_BLOCK_HEIGHT;
+        TOPPING_TILE_HEIGHT = TOPPING_HEIGHT != 0 ? TOPPING_HEIGHT + DEPTH : 0;
+        FULL_TILE_HEIGHT = BLOCK_HEIGHT + TOPPING_TILE_HEIGHT;
         X_CORRECTION = (BatchUtil.TILE_WIDTH - WIDTH) / 2;
         Y_CORRECTION = (BatchUtil.TILE_DEPTH - DEPTH) / 2;
     }
 
-    AtlasesEnum(Texture atlas, boolean hasToppings, int width, int depth, int height, int toppingHeight) {
-        this(hasToppings, width, depth, height, toppingHeight);
-        cache = new TextureCache(atlas, this);
-    }
-
-    AtlasesEnum(String texturePath, boolean hasToppings, int width, int depth, int height, int toppingHeight) {
-        this(hasToppings, width, depth, height, toppingHeight);
-        this.texturePath = texturePath;
-        caches = new HashMap<>();
-    }
-
     public TextureRegion getRegion(int x, int y, int width, int height) {
-        return cache.getRegion(x, y, width, height);
+        return cache.getTile(x, y, width, height);
     }
 
     public TextureRegion getRegion(String atlasName, int x, int y, int width, int height) {
         return caches.computeIfAbsent(atlasName, name -> new TextureCache(new Texture(texturePath + "/" + atlasName + ".png"), this))
-                .getRegion(x, y, width, height);
+                .getTile(x, y, width, height);
     }
 
     /**

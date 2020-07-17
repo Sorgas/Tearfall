@@ -46,7 +46,10 @@ public class PlantTypeMap {
     private void loadTypesFileToMap(String filePath, Map<String, PlantType> map) {
         List<RawPlantType> elements = json.fromJson(ArrayList.class, RawPlantType.class, FileUtil.get(filePath));
         RawPlantTypeProcessor processor = new RawPlantTypeProcessor();
-        elements.forEach(rawType -> map.put(rawType.name, processor.processRawType(rawType)));
+        elements.stream()
+                .filter(type -> !type.lifeStages.isEmpty())
+                .map(processor::process)
+                .forEach(type -> map.put(type.name, type));
         Logger.LOADING.logDebug(map.keySet().size() + " loaded from " + filePath);
     }
 
@@ -59,8 +62,8 @@ public class PlantTypeMap {
     }
 
     public static PlantType getTreeType(String specimen) {
-        return !instance().treeTypes.containsKey(specimen) 
-                ? Logger.LOADING.logError("Tree type with name " + specimen + " not found.", null) 
+        return !instance().treeTypes.containsKey(specimen)
+                ? Logger.LOADING.logError("Tree type with name " + specimen + " not found.", null)
                 : instance().treeTypes.get(specimen);
     }
 

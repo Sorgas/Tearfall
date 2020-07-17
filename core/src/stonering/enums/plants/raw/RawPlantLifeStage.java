@@ -17,5 +17,4 @@ public class RawPlantLifeStage {
     public String color = "0xffffffff"; // white is default
     public List<Integer> treeForm; // not null only for trees
     public int productDropRatio;
-    public int productGrowRatio;
 }

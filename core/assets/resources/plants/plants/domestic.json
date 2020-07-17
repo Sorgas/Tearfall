@@ -3,7 +3,6 @@
         "name": "radish",
         "title": "Radish",
         "description": "Pink root-crop with green leaves. Is fast and easy to grow, but has bitter taste.",
-        "materialName": "generic_plant",
         "temperatureBounds": ["-40", "40"],
         "rainfallBounds": ["0", "100"],
         "placingTags": ["water_near", "water_far", "soil_stone"],
@@ -19,7 +18,11 @@
                 "titlePrefixSuffix": ["Grown", ""],
                 "stageLength": "2",
                 "harvestProduct": {
-                    
+                    "name": "radish",
+                    "baseItem": "generic_fruit",
+                    "description": "Tiny bitter root-crops.",
+                    "typeAspects": ["value(0)"],
+                    "atlasXY": ["15", "0"]
                 },
                 "productDropRatio": "4"
             }
@@ -28,7 +31,6 @@
     "name": "turnip",
     "title": "Turnip",
     "description": "Large yellow root-crop with green leaves. Grows fast, but not everyone likes its taste.",
-    "materialName": "generic_plant",
     "temperatureBounds": ["-40", "40"],
     "rainfallBounds": ["0", "100"],
     "placingTags": ["water_near", "water_far", "soil_stone"],
@@ -38,7 +40,6 @@
     "name": "wheat",
     "title": "Wheat",
     "description": "Tall grass which produce grain. Its decent yield made it main ration component in most societies.",
-    "materialName": "generic_plant",
     "temperatureBounds": ["-40", "40"],
     "rainfallBounds": ["0", "100"],
     "placingTags": ["water_near", "water_far", "soil_stone"],
@@ -48,7 +49,6 @@
     "name": "cabbage",
     "title": "Cabbage",
     "description": "Large vegetable with meaty leaves. Takes moderate time to grow and provides good amount of food.",
-    "materialName": "generic_plant",
     "temperatureBounds": ["-40", "40"],
     "rainfallBounds": ["0", "100"],
     "placingTags": ["water_near", "water_far", "soil_stone"],
@@ -58,7 +58,6 @@
     "name": "pumpkin",
     "title": "Pumpkin",
     "description": "Long-growing orange vegetables, known for its mild sweet taste.",
-    "materialName": "generic_plant",
     "temperatureBounds": ["-40", "40"],
     "rainfallBounds": ["0", "100"],
     "placingTags": ["water_near", "water_far", "soil_stone"],
@@ -68,7 +67,6 @@
     "name": "tomato",
     "title": "Tomato",
     "description": "Fragile red fruit valued by cooks. Long growing time and relatively low yields are compensated by delicious taste.",
-    "materialName": "generic_plant",
     "temperatureBounds": ["-40", "40"],
     "rainfallBounds": ["0", "100"],
     "placingTags": ["water_near", "water_far", "soil_stone"],

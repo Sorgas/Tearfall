@@ -14,6 +14,9 @@ import stonering.util.geometry.Position;
 
 /**
  * Rolls time for plants, increasing their age and changing {@link PlantLifeStage}.
+ * On life stage change, changes plant blocks.
+ * Plants get their blocks aspects updated (new sprite, new products).
+ * Trees are completely rebuilt.
  *
  * @author Alexander on 14.01.2020.
  */

@@ -5,26 +5,40 @@ import stonering.enums.items.type.raw.RawItemTypeProcessor;
 import stonering.enums.plants.PlantLifeStage;
 import stonering.enums.plants.PlantType;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import static stonering.enums.generation.PlantPlacingTagEnum.*;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Utility class for processing data from json files.
+ * If type title is not set, it is generated from name.
  *
  * @author Alexander_Kuzyakov on 30.04.2019.
  */
 public class RawPlantTypeProcessor {
     private RawItemTypeProcessor processor = new RawItemTypeProcessor();
 
-    public PlantType processRawType(RawPlantType rawType) {
+    public PlantType process(RawPlantType rawType) {
         PlantType type = new PlantType(rawType);
         processPlacingTags(rawType, type);
         processRawLifeStages(rawType, type);
+        initTitle(type);
         type.setTypeFlags();
         return type;
     }
 
+    private void initTitle(PlantType type) {
+        if(type.title.isBlank()) {
+            type.title = Arrays.stream(type.name.split("_"))
+                    .map(StringUtils::capitalize)
+                    .reduce((s1, s2) -> s1 + " " + s2)
+                    .orElse("");
+        }
+    }
+    
     /**
      * Fills list of stages for type.
      */
