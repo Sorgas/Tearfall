@@ -103,6 +103,10 @@ public enum AtlasesEnum {
         return getBlockTile(atlasName, xy.x, xy.y, size.x, size.y);
     }
 
+    public TextureRegion getBlockTile(@NotNull String atlasName, int x, int y) {
+        return getBlockTile(atlasName, x, y, 1, 1);
+    }
+
     /**
      * Cuts topping part of a block tile from x y position in specified atlas.
      * Atlas should have toppings.

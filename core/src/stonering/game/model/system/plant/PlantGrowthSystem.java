@@ -1,7 +1,5 @@
 package stonering.game.model.system.plant;
 
-import java.util.Optional;
-
 import stonering.entity.plant.AbstractPlant;
 import stonering.entity.plant.Plant;
 import stonering.entity.plant.Tree;
@@ -23,7 +21,6 @@ import stonering.util.geometry.Position;
  * @author Alexander on 14.01.2020.
  */
 public class PlantGrowthSystem extends EntitySystem<AbstractPlant> {
-    public int daySize; // week size in hours
     private PlantGenerator plantGenerator = new PlantGenerator();
     private TreeGenerator treeGenerator = new TreeGenerator();
 
@@ -38,21 +35,18 @@ public class PlantGrowthSystem extends EntitySystem<AbstractPlant> {
      */
     @Override
     public void update(AbstractPlant plant) {
-
-        plant.getOptional(PlantGrowthAspect.class)
-                .ifPresent(aspect -> {
-                    if (aspect.counter++ < getDaySize()) return; // day not ended
-                    aspect.counter = 0;
-                    aspect.age++;
-                    if (aspect.age < plant.type.lifeStages.get(aspect.currentStage).stageEnd) return; // current stage not ended
-                    aspect.currentStage++;
-                    if (aspect.currentStage >= plant.type.lifeStages.size()) {
-                        killPlant(plant, aspect); // last stage ended
-                    } else {
-                        applyNewStage(plant); // new stage started
-                    }
-
-                });
+        PlantGrowthAspect aspect = plant.get(PlantGrowthAspect.class);
+        if (aspect.counter++ < TimeUnitEnum.DAY.SIZE)
+            return; // day not ended
+        aspect.counter = 0;
+        aspect.age++;
+        if (aspect.age < plant.type.lifeStages.get(aspect.stageIndex).stageEnd) return; // current stage not ended
+        aspect.stageIndex++;
+        if (aspect.stageIndex >= plant.type.lifeStages.size()) {
+            killPlant(plant, aspect); // last stage ended
+        } else {
+            applyNewStage(plant); // new stage started
+        }
     }
 
     /**
@@ -66,20 +60,12 @@ public class PlantGrowthSystem extends EntitySystem<AbstractPlant> {
             treeGenerator.applyTreeGrowth(tree);
             plantContainer.add(tree, tree.position);
         } else if (entity instanceof Plant) {
-            Plant plant = (Plant) entity;
-            Position oldPosition = plant.getPosition();
-            plantContainer.removePlantBlocks(plant, false);
-            plantGenerator.applyPlantGrowth(plant);
-            plantContainer.add(plant, oldPosition);
+            plantGenerator.applyPlantGrowth((Plant) entity);
         }
     }
 
     private void killPlant(AbstractPlant plant, PlantGrowthAspect aspect) {
         aspect.dead = true; // TODO
         GameMvc.model().get(PlantContainer.class).remove(plant, true);
-    }
-
-    private int getDaySize() {
-        return daySize == 0 ? (daySize = GameMvc.model().getCalendar().day.max) : daySize;
     }
 }

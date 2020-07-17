@@ -26,7 +26,7 @@ public abstract class Designation extends Entity {
     public Designation(Position position, DesignationTypeEnum type) {
         super(position);
         this.type = type;
-        add(new RenderAspect(this, 0, 4, AtlasesEnum.ui_tiles)); // default tile for designations
+        add(new RenderAspect(AtlasesEnum.ui_tiles, 0, 4)); // default tile for designations
     }
 
     /**

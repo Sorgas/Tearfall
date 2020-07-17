@@ -25,6 +25,7 @@ public class PlantGenerator {
         Plant plant = new Plant(PlantTypeMap.getPlantType(specimen));
         createPlantAspects(plant, age);
         createPlantBlock(plant);
+        updatePlantBlock(plant);
         return plant;
     }
 
@@ -40,17 +41,25 @@ public class PlantGenerator {
     }
 
     public void applyPlantGrowth(Plant plant) {
+
         createPlantBlock(plant);
     }
 
+    private void updatePlantBlock(Plant plant) {
+        PlantBlock block = plant.getBlock();
+//        plant.getOptional(PlantGrowthAspect.class)
+//                .map(aspect -> aspect.stageIndex)
+//                .or(() -> Optional.of(0))
+//                .ifPresent(stageIndex -> block.get(RenderAspect.class))
+//                .map(stageIndex -> new RenderAspect(AtlasesEnum.plants, plant.type.atlasName, plant.type.atlasXY[0] + stageIndex, plant.type.atlasXY[1]))
+//                .ifPresent(block::add);
+//        block.get(RenderAspect.class).region =
+    }
+
     private <T extends Plant> void createPlantBlock(T plant) {
+        // TODO add product aspect
         String materialName = plant.type.materialName;
         PlantBlock block = new PlantBlock(MaterialMap.getId(materialName), PlantBlocksTypeEnum.SINGLE_PASSABLE.getCode());
-        plant.getOptional(PlantGrowthAspect.class)
-                .map(aspect -> aspect.currentStage)
-                .or(() -> Optional.of(0))
-                .map(stageIndex -> new RenderAspect(AtlasesEnum.plants, plant.type.atlasName, plant.type.atlasXY[0] + stageIndex, plant.type.atlasXY[1]))
-                .ifPresent(block::add);
         plant.setBlock(block);
     }
 

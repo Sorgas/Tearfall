@@ -37,7 +37,7 @@ public class Tree extends AbstractPlant {
      * @return position of [0,0,0] block of tree on the map.
      */
     public Position getArrayStartPosition() {
-        List<Integer> treeForm = get(PlantGrowthAspect.class).getCurrentStage().treeForm;
+        List<Integer> treeForm = get(PlantGrowthAspect.class).getStage().treeForm;
         int radius = treeForm.get(0);
         return Position.sub(position, radius, radius, treeForm.get(2));
     }

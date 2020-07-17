@@ -9,7 +9,6 @@ import stonering.util.geometry.Position;
 import stonering.entity.plant.PlantBlock;
 import stonering.entity.plant.Tree;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -35,7 +34,7 @@ public class TreeGenerator {
     }
 
     private Tree createTreeBlocks(Tree tree) {
-        List<Integer> treeForm = tree.type.lifeStages.get(tree.get(PlantGrowthAspect.class).currentStage).treeForm;
+        List<Integer> treeForm = tree.type.lifeStages.get(tree.get(PlantGrowthAspect.class).stageIndex).treeForm;
         int material = MaterialMap.getId(tree.type.materialName);
         Random random = new Random();
         int center = treeForm.get(0);

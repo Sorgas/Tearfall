@@ -58,7 +58,7 @@ public class CreatureGenerator {
         unit.add(new MovementAspect(null));
         unit.add(needAspectGenerator.generateNeedAspect(type));
         unit.add(attributeAspectGenerator.generateAttributeAspect(unit));
-        unit.add(new RenderAspect(unit, type.atlasXY, AtlasesEnum.units));
+        unit.add(new RenderAspect(AtlasesEnum.units, type.atlasXY[0], type.atlasXY[1]));
         unit.add(new BuffAspect(unit));
         unit.add(healthAspectGenerator.generateHealthAspect(unit));
         unit.add(new SkillAspect(unit));
@@ -67,12 +67,12 @@ public class CreatureGenerator {
     private void addOptionalAspects(Unit unit) {
         CreatureType type = unit.getType();
         for (String aspect : type.aspects) {
-            switch(aspect) {
-                case "equipment" : {
+            switch (aspect) {
+                case "equipment": {
                     unit.add(equipmentAspectGenerator.generateEquipmentAspect(type));
                     continue;
                 }
-                case "jobs" : {
+                case "jobs": {
                     unit.add(new JobsAspect(null));
                 }
             }

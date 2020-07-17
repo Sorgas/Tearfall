@@ -23,6 +23,6 @@ public abstract class AbstractPlant extends Entity {
     }
 
     public PlantLifeStage getCurrentLifeStage() {
-        return getOptional(PlantGrowthAspect.class).map(aspect -> type.lifeStages.get(aspect.currentStage)).orElse(null);
+        return getOptional(PlantGrowthAspect.class).map(aspect -> type.lifeStages.get(aspect.stageIndex)).orElse(null);
     }
 }

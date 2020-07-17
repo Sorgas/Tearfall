@@ -57,7 +57,7 @@ public class BuildingGenerator {
     }
 
     private void createRenderAspect(Building building, BuildingType type, OrientationEnum orientation) {
-        building.add(new RenderAspect(building, type.getSprite(orientation)));
+        building.add(new RenderAspect(type.getSprite(orientation)));
     }
 
     /**
