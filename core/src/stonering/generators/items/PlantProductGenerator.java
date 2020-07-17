@@ -29,7 +29,7 @@ public class PlantProductGenerator {
      */
     public ArrayList<Item> generateCutProduct(PlantBlock block) {
         ArrayList<Item> items = new ArrayList<>();
-        AbstractPlant plant = block.getPlant();
+        AbstractPlant plant = block.plant;
         Logger.PLANTS.logDebug("generating cut products for " + plant.type.title);
 //        if (plant.type.isPlant) {
 //            List<String> productNames = plant.type.lifeStages.get(plant.get(PlantGrowthAspect.class).currentStage).cutProducts;
@@ -50,13 +50,13 @@ public class PlantProductGenerator {
      * Blocks can only have one product, Tree blocks are harvested separately.
      */
     public Item generateHarvestProduct(PlantBlock block) {
-        if (block.isHarvested()) return null;
-        AbstractPlant plant = block.getPlant();
+        if (block.harvested) return null;
+        AbstractPlant plant = block.plant;
         PlantLifeStage stage = plant.getCurrentLifeStage();
         if (stage == null) return null;
         ItemType product = stage.harvestProduct;
         if (product == null) return null;
-        Item productItem = itemGenerator.generateItem(product.name, block.getMaterial(), null);
+        Item productItem = itemGenerator.generateItem(product.name, block.material, null);
         return productItem;
     }
 
@@ -65,8 +65,8 @@ public class PlantProductGenerator {
      * Block product is determined by its type, and permitted products of whole tree (logs from trunk, etc.).
      */
     private Item generateCutProductForTreePart(PlantBlock block) {
-        return Optional.ofNullable(PlantBlocksTypeEnum.getType(block.getBlockType()).cutProduct)
-                .map(itemName -> itemGenerator.generateItem(itemName, block.getMaterial(), null))
+        return Optional.ofNullable(PlantBlocksTypeEnum.getType(block.blockType).cutProduct)
+                .map(itemName -> itemGenerator.generateItem(itemName, block.material, null))
                 .orElse(null);
     }
 }

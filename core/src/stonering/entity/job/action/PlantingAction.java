@@ -64,8 +64,7 @@ public class PlantingAction extends EquipmentAction {
      */
     private void createPlant(Item seed) {
         PlantContainer plantContainer = GameMvc.model().get(PlantContainer.class);
-        PlantGenerator plantGenerator = new PlantGenerator();
-        Plant plant = plantGenerator.generatePlant(seed.get(SeedAspect.class));
+        Plant plant = new PlantGenerator().generatePlant(seed.get(SeedAspect.class));
         plantContainer.add(plant, target.getPosition());
     }
 }

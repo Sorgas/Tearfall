@@ -16,6 +16,7 @@ public class PlantType {
     public String title;
     public String materialName; // is null for substrates
     public String description;
+    public String atlasName;
     
     public int[] temperatureBounds; // min and max temperature
     public int[] rainfallBounds;  // min and max painfall

@@ -1,16 +1,16 @@
 package stonering.generators.plants;
 
+import stonering.entity.RenderAspect;
 import stonering.entity.item.aspects.SeedAspect;
 import stonering.entity.plant.SubstratePlant;
 import stonering.entity.plant.aspects.PlantGrowthAspect;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantBlocksTypeEnum;
-import stonering.enums.plants.PlantType;
 import stonering.entity.plant.Plant;
 import stonering.entity.plant.PlantBlock;
+import stonering.stage.renderer.AtlasesEnum;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -21,56 +21,41 @@ import java.util.Optional;
  */
 public class PlantGenerator {
 
-    /**
-     * Generates {@link Plant} object by name of its type and initial age.
-     */
     public Plant generatePlant(String specimen, int age) {
-        //TODO set age
-        return Optional.ofNullable(PlantTypeMap.getPlantType(specimen))
-                .map(Plant::new)
-                .map(this::createPlantBlock)
-                .map(this::createPlantAspects)
-                .orElse(null);
+        Plant plant = new Plant(PlantTypeMap.getPlantType(specimen));
+        createPlantAspects(plant, age);
+        createPlantBlock(plant);
+        return plant;
     }
 
-    /**
-     * Generates {@link SubstratePlant} object by name of its type and initial age.
-     */
-    public SubstratePlant generateSubstrate(String specimen, int age) {
-        //TODO set age
-        return Optional.ofNullable(PlantTypeMap.getSubstrateType(specimen))
-                .map(SubstratePlant::new)
-                .map(this::createPlantBlock)
-                .map(this::createPlantAspects)
-                .orElse(null);
-    }
-
-    /**
-     * Generates plant by seed aspect of item.
-     * Used for planting on farms.
-     */
     public Plant generatePlant(SeedAspect aspect) {
         return generatePlant(aspect.specimen, 0);
+    }
+
+    public SubstratePlant generateSubstrate(String specimen, int age) {
+        SubstratePlant plant = new SubstratePlant(PlantTypeMap.getSubstrateType(specimen));
+        createPlantAspects(plant, age);
+        createPlantBlock(plant);
+        return plant;
     }
 
     public void applyPlantGrowth(Plant plant) {
         createPlantBlock(plant);
     }
 
-    private <T extends Plant> T createPlantBlock(T plant) {
+    private <T extends Plant> void createPlantBlock(T plant) {
         String materialName = plant.type.materialName;
-        if (materialName == null) materialName = "generic_plant";
         PlantBlock block = new PlantBlock(MaterialMap.getId(materialName), PlantBlocksTypeEnum.SINGLE_PASSABLE.getCode());
-        int[] atlasXY = Arrays.copyOf(plant.type.atlasXY, 2);
-        atlasXY[0] += plant.get(PlantGrowthAspect.class).currentStage;
-        block.setAtlasXY(atlasXY);
-        block.setHarvested(false);
+        plant.getOptional(PlantGrowthAspect.class)
+                .map(aspect -> aspect.currentStage)
+                .or(() -> Optional.of(0))
+                .map(stageIndex -> new RenderAspect(AtlasesEnum.plants, plant.type.atlasName, plant.type.atlasXY[0] + stageIndex, plant.type.atlasXY[1]))
+                .ifPresent(block::add);
         plant.setBlock(block);
-        return plant;
     }
-    
-    private <T extends Plant> T createPlantAspects(T plant) {
-        plant.add(new PlantGrowthAspect(plant));
+
+    private <T extends Plant> T createPlantAspects(T plant, int age) {
+        plant.add(new PlantGrowthAspect(plant, age));
         return plant;
     }
 }

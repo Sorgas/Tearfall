@@ -14,4 +14,6 @@ public abstract class Aspect implements Serializable {
     public Aspect(Entity entity) {
         this.entity = entity;
     }
+    
+    public Aspect() {}
 }

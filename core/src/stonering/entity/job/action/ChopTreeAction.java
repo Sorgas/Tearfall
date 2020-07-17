@@ -54,7 +54,7 @@ public class ChopTreeAction extends Action {
      */
     public boolean checkTree() {
         PlantBlock block = GameMvc.model().get(PlantContainer.class).getPlantBlock(target.getPosition());
-        if (block != null && block.getPlant().type.isTree) return true;
+        if (block != null && block.plant.type.isTree) return true;
         Logger.TASKS.logDebug("No tree in target position");
         return false;
     }

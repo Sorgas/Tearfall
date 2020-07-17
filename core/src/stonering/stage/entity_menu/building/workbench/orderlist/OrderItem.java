@@ -56,7 +56,7 @@ public class OrderItem extends Container<Table> {
         Image image = new Image();
         if(order.recipe.newType != null) {
             int[] xy = ItemTypeMap.instance().getItemType(order.recipe.newType).atlasXY;
-            image.setDrawable(new TextureRegionDrawable(AtlasesEnum.items.getRegion(xy[0], xy[1], 1, 1)));
+            image.setDrawable(new TextureRegionDrawable(AtlasesEnum.items.getBlockTile(xy[0], xy[1], 1, 1)));
         } else {
             image.setDrawable(DrawableMap.ICON.getDrawable(order.recipe.iconName));
         }

@@ -43,6 +43,7 @@ public class TileDrawer extends Drawer {
     private LiquidDrawer liquidDrawer;
     private EntitySelectorDrawer selectorDrawer;
     private ZoneDrawer zoneDrawer;
+    private PlantDrawer plantDrawer;
 
     private LocalMap localMap;
     private LocalTileMap localTileMap;
@@ -72,7 +73,8 @@ public class TileDrawer extends Drawer {
         liquidDrawer = new LiquidDrawer(spriteDrawingUtil, shapeDrawingUtil);
         selectorDrawer = new EntitySelectorDrawer(spriteDrawingUtil, shapeDrawingUtil);
         zoneDrawer = new ZoneDrawer(spriteDrawingUtil, shapeDrawingUtil);
-
+        plantDrawer = new PlantDrawer(spriteDrawingUtil, shapeDrawingUtil);
+        
         taskContainer = model.get(TaskContainer.class);
         plantContainer = model.get(PlantContainer.class);
         substrateContainer = model.get(SubstrateContainer.class);
@@ -137,7 +139,7 @@ public class TileDrawer extends Drawer {
             return;
         }
         startTile(x, y, z);
-        if (plantContainer != null) drawPlantBlock(plantContainer.getPlantBlock(cachePosition));
+        plantDrawer.drawPlantBlock(x, y, z);
         buildingDrawer.drawBuilding(cachePosition);
         blockDrawer.drawBlock(x, y, z); // all other
         unitDrawer.drawUnits(x, y, z);
@@ -168,11 +170,11 @@ public class TileDrawer extends Drawer {
         cachePosition.set(x, y, z);
         PlantBlock block = substrateContainer.getSubstrateBlock(cachePosition);
         if (block != null)
-            return substrates.getBlockTile(localTileMap.get(cachePosition).x, block.getAtlasXY()[1]);
+            return substrates.getBlockTile(localTileMap.get(cachePosition).x, block.atlasXY[1]);
         if (z == 0) return null;
         block = substrateContainer.getSubstrateBlock(x, y, z - 1);
         if (block != null)
-            return substrates.getToppingTile(localTileMap.get(cachePosition).x, block.getAtlasXY()[1]);
+            return substrates.getToppingTile(localTileMap.get(cachePosition).x, block.atlasXY[1]);
         return null;
     }
 
@@ -180,10 +182,5 @@ public class TileDrawer extends Drawer {
         if (designation == null) return;
         RenderAspect aspect = designation.get(RenderAspect.class);
         spriteUtil.drawSprite(aspect.region, designation.position);
-    }
-
-    private void drawPlantBlock(PlantBlock block) {
-        if (block != null)
-            spriteUtil.drawSprite(plants.getBlockTile(block.getAtlasXY()[0], block.getAtlasXY()[1]), cacheVector);
     }
 }

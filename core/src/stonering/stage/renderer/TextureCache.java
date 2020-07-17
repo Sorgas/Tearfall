@@ -25,7 +25,7 @@ public class TextureCache {
         this.atlas = atlas;
         spriteCache = new HashMap<>();
         this.TILE_WIDTH = atlasType.WIDTH;
-        this.TILE_HEIGHT = atlasType.BLOCK_HEIGHT;
+        this.TILE_HEIGHT = atlasType.TILE_HEIGHT;
         this.TOPPING_TILE_HEIGHT = atlasType.TOPPING_TILE_HEIGHT;
         this.FULL_TILE_HEIGHT = atlasType.FULL_TILE_HEIGHT;
     }

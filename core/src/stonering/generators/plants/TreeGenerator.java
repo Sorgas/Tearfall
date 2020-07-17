@@ -93,10 +93,9 @@ public class TreeGenerator {
     
     private PlantBlock createTreePart(int material, PlantBlocksTypeEnum blockType, Tree tree) {
         PlantBlock block = new PlantBlock(material, blockType.getCode());
-        int[] atlasXY = Arrays.copyOf(tree.type.atlasXY, 2);
-        atlasXY[0] += TreeTileMapping.getType(blockType.getCode()).getAtlasX();
-        block.setAtlasXY(atlasXY);
-        block.setPlant(tree);
+        block.atlasXY[0] = tree.type.atlasXY[0] + TreeTileMapping.getType(blockType.getCode()).getAtlasX();
+        block.atlasXY[1] = tree.type.atlasXY[1];
+        block.plant = tree;
         return block;
     }
 }

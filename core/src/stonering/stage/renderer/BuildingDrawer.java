@@ -28,6 +28,6 @@ public class BuildingDrawer extends Drawer {
         if (block == null) return;
         if (block.building.blocks[0][0] != block) return; // skip not main blocks of a building
         RenderAspect aspect = block.building.get(RenderAspect.class);
-        spriteUtil.drawSprite(aspect.region, buildings, block.position);
+        spriteUtil.drawSprite(aspect.region, block.position);
     }
 }

@@ -54,6 +54,6 @@ public class BuildingType {
     }
 
     public TextureRegion getSprite(OrientationEnum orientation) {
-        return AtlasesEnum.buildings.getRegion(atlasName, NSEWsprites[orientation.ordinal()], RotationUtil.orientSize(size, orientation));
+        return AtlasesEnum.buildings.getBlockTile(atlasName, NSEWsprites[orientation.ordinal()], RotationUtil.orientSize(size, orientation));
     }
 }

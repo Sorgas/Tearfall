@@ -15,7 +15,6 @@ import java.util.function.Consumer;
  */
 public class FileUtil {
     public final static String MATERIALS_PATH = "resources/materials";
-    public final static String PLANTS_PATH = "resources/plants/";
     public final static String CREATURES_PATH = "resources/creatures/creatures.json";
     public final static String BODY_TEMPLATE_PATH = "resources/creatures/body_templates.json";
     public final static String SKILLS_PATH = "resources/creatures/skills.json";
@@ -25,10 +24,12 @@ public class FileUtil {
     public final static String RECIPE_LISTS_PATH = "resources/crafting/lists.json";
     public final static String RECIPES_PATH = "resources/crafting/recipes.json";
     public final static String DRAWABLE_DESCRIPTORS_PATH = "resources/drawable/";
-    public final static String TREES_PATH = "resources/plants/trees.json";
-    public final static String SUBSTRATES_PATH = "resources/plants/substrates.json";
     public final static String SEASONS_PATH = "resources/seasons.json";
     public final static String JOBS_PATH = "resources/creatures/jobs.json";
+
+    public final static String PLANTS_PATH = "resources/plants/plants";
+    public final static String TREES_PATH = "resources/plants/trees";
+    public final static String SUBSTRATES_PATH = "resources/plants/substrates";
 
     public final static String BLUEPRINTS_PATH = "resources/blueprints/blueprints.json";
     public final static String BUILDINGS_PATH = "resources/buildings";

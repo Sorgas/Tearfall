@@ -21,6 +21,7 @@ public class PlantTypeMap {
     public final Map<String, PlantType> substrateTypes;
     public final Map<String, PlantType> domesticTypes;
     private Json json;
+    private RawPlantTypeProcessor processor = new RawPlantTypeProcessor();
 
     private PlantTypeMap() {
         Logger.LOADING.log("plant types");
@@ -30,6 +31,7 @@ public class PlantTypeMap {
         treeTypes = new HashMap<>();
         substrateTypes = new HashMap<>();
         domesticTypes = new HashMap<>();
+                
         loadTypesFileToMap(FileUtil.PLANTS_PATH, plantTypes);
         loadTypesFileToMap(FileUtil.TREES_PATH, treeTypes);
         loadTypesFileToMap(FileUtil.SUBSTRATES_PATH, substrateTypes);
@@ -44,12 +46,14 @@ public class PlantTypeMap {
      * Loads {@link PlantType} from given file into given file.
      */
     private void loadTypesFileToMap(String filePath, Map<String, PlantType> map) {
-        List<RawPlantType> elements = json.fromJson(ArrayList.class, RawPlantType.class, FileUtil.get(filePath));
-        RawPlantTypeProcessor processor = new RawPlantTypeProcessor();
-        elements.stream()
-                .filter(type -> !type.lifeStages.isEmpty())
-                .map(processor::process)
-                .forEach(type -> map.put(type.name, type));
+        FileUtil.iterate(filePath, file -> {
+            List<RawPlantType> elements = json.fromJson(ArrayList.class, RawPlantType.class, file);
+            elements.stream()
+                    .filter(type -> !type.lifeStages.isEmpty())
+                    .map(processor::process)
+                    .peek(type -> type.atlasName = file.nameWithoutExtension())
+                    .forEach(type -> map.put(type.name, type));
+        });
         Logger.LOADING.logDebug(map.keySet().size() + " loaded from " + filePath);
     }
 

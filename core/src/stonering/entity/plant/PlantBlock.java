@@ -10,14 +10,15 @@ import stonering.enums.plants.PlantBlocksTypeEnum;
  */
 public class PlantBlock extends Entity {
     public AbstractPlant plant;
-    private int material;
-    private int blockType; // type from enum
-    private int[] atlasXY;
-    private boolean harvested;
+    public final int material;
+    public final int blockType; // type from enum
+    public final int[] atlasXY;
+    public boolean harvested;
 
     public PlantBlock(int material, int blockType) {
         this.material = material;
         this.blockType = blockType;
+        atlasXY = new int[2];
     }
 
     public boolean isPassable() {
@@ -26,45 +27,5 @@ public class PlantBlock extends Entity {
 
     public PlantBlocksTypeEnum getType() {
         return PlantBlocksTypeEnum.getType(blockType);
-    }
-
-    public int getMaterial() {
-        return material;
-    }
-
-    public void setMaterial(int material) {
-        this.material = material;
-    }
-
-    public int getBlockType() {
-        return blockType;
-    }
-
-    public void setBlockType(int blockType) {
-        this.blockType = blockType;
-    }
-
-    public int[] getAtlasXY() {
-        return atlasXY;
-    }
-
-    public void setAtlasXY(int[] atlasXY) {
-        this.atlasXY = atlasXY;
-    }
-
-    public void setPlant(AbstractPlant plant) {
-        this.plant = plant;
-    }
-
-    public AbstractPlant getPlant() {
-        return plant;
-    }
-
-    public boolean isHarvested() {
-        return harvested;
-    }
-
-    public void setHarvested(boolean harvested) {
-        this.harvested = harvested;
     }
 }

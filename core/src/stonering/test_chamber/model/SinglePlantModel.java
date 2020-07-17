@@ -22,7 +22,7 @@ public class SinglePlantModel extends TestModel {
 
     private AbstractPlant createPlant() {
         PlantGenerator plantGenerator = new PlantGenerator();
-        Plant plant = plantGenerator.generatePlant("puffball_mushroom", 0);
+        Plant plant = plantGenerator.generatePlant("radish", 0);
         plant.setPosition(new Position(CENTER, CENTER, 2));
         return plant;
     }

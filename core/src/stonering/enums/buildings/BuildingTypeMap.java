@@ -27,15 +27,12 @@ public class BuildingTypeMap {
         json.setOutputType(JsonWriter.OutputType.json);
         BuildingTypeProcessor processor = new BuildingTypeProcessor();
         FileUtil.iterate(FileUtil.BUILDINGS_PATH, file -> {
-            int counter = 0;
             List<RawBuildingType> rawTypes = json.fromJson(ArrayList.class, RawBuildingType.class, file);
-            for (RawBuildingType rawType : rawTypes) {
-                BuildingType type = processor.process(rawType);
-                type.atlasName = file.nameWithoutExtension();
-                buildings.put(rawType.building, type);
-                counter ++;
-            }
-            Logger.LOADING.logDebug(counter + " loaded from " + file.path());
+            rawTypes.stream()
+                    .map(BuildingType::new)
+                    .peek(type -> type.atlasName = file.nameWithoutExtension())
+                    .forEach(type -> buildings.put(type.building, type));
+            Logger.LOADING.logDebug(rawTypes.size() + " loaded from " + file.path());
         });
         loadLists();
     }

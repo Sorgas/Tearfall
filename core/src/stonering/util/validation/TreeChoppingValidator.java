@@ -21,6 +21,6 @@ public class TreeChoppingValidator implements PositionValidator {
         BlockTypeEnum blockOnMap = GameMvc.model().get(LocalMap.class).blockType.getEnumValue(position);
         return ((SPACE.equals(blockOnMap) || FLOOR.equals(blockOnMap)))
                 && container.isPlantBlockExists(position)
-                && container.getPlantBlock(position).getPlant().type.isTree;
+                && container.getPlantBlock(position).plant.type.isTree;
     }
 }

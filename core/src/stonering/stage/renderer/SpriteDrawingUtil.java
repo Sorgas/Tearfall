@@ -40,20 +40,10 @@ public class SpriteDrawingUtil {
         FONT_HEIGHT = font.getCapHeight();
     }
 
-    /**
-     * Draws sprite on localMap position. Handles sprites of non-standard sizes.
-     */
-    public void drawSprite(TextureRegion sprite, AtlasesEnum atlas, Position position) {
-        batch.draw(sprite, getBatchX(position.x) + atlas.X_CORRECTION, getBatchY(position.y, position.z) + atlas.Y_CORRECTION);
-    }
-
     public void drawSprite(TextureRegion sprite, Position position) {
         drawSprite(sprite, position.x, position.y, position.z);
     }
 
-    /**
-     * Draws sprite by vector. Values can be fractional, sprite will be rendered between cells.
-     */
     public void drawSprite(TextureRegion sprite, Vector3 vector) {
         drawSprite(sprite, vector.x, vector.y, vector.z);
     }
@@ -101,9 +91,6 @@ public class SpriteDrawingUtil {
         batch.draw(sprite, getBatchXForIcon(vector.x, index), getBatchYForIcon(vector.y, vector.z));
     }
 
-    /**
-     * Makes color transparent.
-     */
     public void updateColorA(float a) {
         Color color = batch.getColor();
         batch.setColor(color.r, color.g, color.b, a);

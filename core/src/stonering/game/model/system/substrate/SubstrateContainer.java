@@ -65,7 +65,7 @@ public class SubstrateContainer extends EntityContainer<SubstratePlant> implemen
      * Removes plant from position, if any.
      */
     public void remove(Position pos) {
-        if (substrateBlocks.containsKey(pos)) remove(substrateBlocks.get(pos).getPlant());
+        if (substrateBlocks.containsKey(pos)) remove(substrateBlocks.get(pos).plant);
     }
 
     public PlantBlock getSubstrateBlock(int x, int y, int z) {
@@ -77,7 +77,7 @@ public class SubstrateContainer extends EntityContainer<SubstratePlant> implemen
     }
 
     public SubstratePlant getSubstrateInPosition(Position position) {
-        return substrateBlocks.containsKey(position) ? (SubstratePlant) substrateBlocks.get(position).getPlant() : null;
+        return substrateBlocks.containsKey(position) ? (SubstratePlant) substrateBlocks.get(position).plant : null;
     }
 
     public boolean isSubstrateBlockExists(Position position) {

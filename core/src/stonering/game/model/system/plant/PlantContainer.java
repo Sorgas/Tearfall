@@ -151,7 +151,7 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements Mo
     }
 
     public AbstractPlant getPlantInPosition(Position position) {
-        return plantBlocks.containsKey(position) ? plantBlocks.get(position).getPlant() : null;
+        return plantBlocks.containsKey(position) ? plantBlocks.get(position).plant : null;
     }
 
     public void removePlant(Position position) {

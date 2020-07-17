@@ -88,7 +88,7 @@ public class EntitySelectorDrawer extends Drawer {
             for (IntVector2 offset : buildingTool.accessPoints) {
                 cachePosition.set(selector.position).add(offset);
                 spriteUtil.setColor(validator.apply(cachePosition) ? VALID : INVALID);
-                spriteUtil.drawSprite(buildingTool.workbenchAccessSprite, ui_tiles, cachePosition);
+                spriteUtil.drawSprite(buildingTool.workbenchAccessSprite, cachePosition);
             }
         }
     }
@@ -102,7 +102,7 @@ public class EntitySelectorDrawer extends Drawer {
         if (validator == null) return;
         cachePosition.set(x, y, selector.position.z);
         spriteUtil.setColor(validator.apply(cachePosition) ? VALID : INVALID);
-        spriteUtil.drawSprite(ui_tiles.getBlockTile(0, 4), ui_tiles, cachePosition);
+        spriteUtil.drawSprite(ui_tiles.getBlockTile(0, 4), cachePosition);
     }
 
     public void defineBounds() {
@@ -141,6 +141,6 @@ public class EntitySelectorDrawer extends Drawer {
     }
 
     private void drawSprite(int x, Position position) {
-        spriteUtil.drawSprite(ui_tiles.getBlockTile(x, 1), ui_tiles, position);
+        spriteUtil.drawSprite(ui_tiles.getBlockTile(x, 1), position);
     }
 }
