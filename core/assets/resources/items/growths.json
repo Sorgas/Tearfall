@@ -1,66 +1,66 @@
 // items that are grown on plants are defined here.
 [
     {
-        "name": "generic_seed",
+        "name": "generic_fruit",
         "description": "Replace this description in plant definition.",
-        "aspects" : ["seed()"],
-        "atlasXY": ["11", "0"]
+        "typeAspects": ["value(10)"],
+        "aspects": ["food(15)"],
+        "atlasXY": ["0", "0"]
     }, {
+    "name": "radish",
+    "baseItem": "generic_fruit",
+    "description": "Tiny bitter root-crops.",
+    "typeAspects": ["value(0)"],
+    "atlasXY": ["0", "0"]
+}, {
+    "name": "turnip",
+    "baseItem": "generic_fruit",
+    "description": "Root-crop",
+    "typeAspects": ["value(0)"],
+    "aspects": [],
+    "atlasXY": ["1", "0"]
+}, {
+    "name": "pumpkin",
+    "baseItem": "generic_fruit",
+    "description": "Large orange vegetable with thick walls and many seeds inside.",
+    "typeAspects": ["value(100)"],
+    "aspects": ["food(100)"],
+    "atlasXY": ["2", "0"]
+}, {
+    "name": "tomato",
+    "baseItem": "generic_fruit",
+    "description": "Red fruit with delicious taste.",
+    "typeAspects": ["value(35)"],
+    "atlasXY": ["3", "0"]
+}, {
+    "name": "generic_grain",
+    "description": "Replace this description in plant definition.",
+    "typeAspects": ["value(10)", "grain"],
+    "atlasXY": ["0", "1"]
+}, {
+    "name": "wheat",
+    "baseItem": "generic_grain",
+    "description": "Most common grain. Used to prepare bread or beer.",
+    "atlasXY": ["0", "1"]
+}, {
+    "name": "generic_seed",
+    "description": "Replace this description in plant definition.",
+    "aspects": ["seed()"],
+    "atlasXY": ["0", "2"]
+}, {
     "name": "pine_cone",
     "description": "Grows on pine.",
-    "atlasXY": ["11", "0"]
+    "atlasXY": ["1", "2"]
 }, {
-    "name": "berry",
+    "name": "generic_berry",
     "description": ".",
     "typeAspects": ["value(0)"],
-    "atlasXY": ["8", "0"]
+    "atlasXY": ["0", "4"]
 }, {
     "name": "mushroom",
     "description": "",
     "typeAspects": ["value(0)"],
     "aspects": [],
-    "atlasXY": ["15", "0"]
-}, {
-    "name": "generic_fruit",
-    "description": "Replace this description in plant definition.",
-    "typeAspects": ["value(10)"],
-    "aspects": [ "food(15)"],
-    "atlasXY": ["15", "0"]
-},{
-    "name": "radish",
-    "baseItem": "generic_fruit",
-    "description": "Tiny bitter root-crops.",
-    "typeAspects": ["value(0)"],
-    "atlasXY": ["15", "0"]
-}, {
-    "name": "turnip",
-    "baseItem" : "generic_fruit",
-    "description": "Root-crop",
-    "typeAspects": ["value(0)"],
-    "aspects": [],
-    "atlasXY": ["15", "0"]
-}, {
-    "name": "pumpkin",
-    "baseItem" : "generic_fruit",
-    "description": "Large orange vegetable with thick walls and many seeds inside.",
-    "typeAspects": ["value(100)"],
-    "aspects": ["food(100)"],
-    "atlasXY": ["15", "0"]
-}, {
-    "name": "tomato",
-    "baseItem" : "generic_fruit",
-    "description": "Red fruit with delicious taste.",
-    "typeAspects": ["value(35)"],
-    "atlasXY": ["15", "0"]
-}, {
-    "name": "generic_grain",
-    "description": "Replace this description in plant definition.",
-    "typeAspects": ["value(10)", "grain"],
-    "atlasXY": ["15", "0"]
-}, {
-    "name": "wheat",
-    "baseItem": "generic_grain",
-    "description": "Most common grain. Used to prepare bread or beer.",
-    "atlasXY": ["15", "0"]
+    "atlasXY": ["0", "0"]
 }
 ]
