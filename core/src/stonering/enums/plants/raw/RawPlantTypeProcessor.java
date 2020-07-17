@@ -46,8 +46,7 @@ public class RawPlantTypeProcessor {
         int totalAge = 0;
         for (RawPlantLifeStage rawStage : rawType.lifeStages) {
             PlantLifeStage stage = new PlantLifeStage(rawStage);
-            if (rawStage.harvestProduct != null)
-                stage.harvestProduct = processor.processExtendedType(rawStage.harvestProduct, type.name);
+            stage.harvestProduct = rawStage.harvestProduct;
             totalAge += rawStage.stageLength;
             stage.stageEnd = totalAge;
             type.lifeStages.add(stage);

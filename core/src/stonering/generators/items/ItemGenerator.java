@@ -132,7 +132,7 @@ public class ItemGenerator {
      */
     private void generateItemAspects(Item item) {
         ItemType type = item.type;
-        item.add(new RenderAspect(AtlasesEnum.items, item.type.atlasXY[0], item.type.atlasXY[1]));
+        item.add(new RenderAspect(AtlasesEnum.items.getBlockTile(item.type.atlasXY)));
         for (String aspectName : defaultAspects.keySet()) {
             if (!type.itemAspects.containsKey(aspectName))
                 item.add(createItemAspect(aspectName, defaultAspects.get(aspectName)));

@@ -2,6 +2,7 @@ package stonering.stage.renderer;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.sun.istack.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -75,11 +76,6 @@ public enum AtlasesEnum {
         return cache.getTile(x, y, width, height);
     }
 
-    public TextureRegion getBlockTile(String atlasName, int x, int y, int width, int height) {
-        return caches.computeIfAbsent(atlasName, name -> new TextureCache(new Texture(texturePath + "/" + atlasName + ".png"), this))
-                .getTile(x, y, width, height);
-    }
-
     /**
      * Cuts main part of a block tile from x y position in specified atlas.
      */
@@ -99,12 +95,19 @@ public enum AtlasesEnum {
         return getBlockTile(xy.x, xy.y, size.x, size.y);
     }
 
-    public TextureRegion getBlockTile(@NotNull String atlasName, @NotNull IntVector2 xy, @NotNull IntVector2 size) {
-        return getBlockTile(atlasName, xy.x, xy.y, size.x, size.y);
+    public TextureRegion getBlockTile(@Nullable String atlasName, int x, int y, int width, int height) {
+        return atlasName == null
+                ? getBlockTile(x, y, width, height)
+                : caches.computeIfAbsent(atlasName, name -> new TextureCache(new Texture(texturePath + "/" + atlasName + ".png"), this))
+                .getTile(x, y, width, height);
     }
 
-    public TextureRegion getBlockTile(@NotNull String atlasName, int x, int y) {
+    public TextureRegion getBlockTile(@Nullable String atlasName, int x, int y) {
         return getBlockTile(atlasName, x, y, 1, 1);
+    }
+
+    public TextureRegion getBlockTile(@Nullable String atlasName, @NotNull IntVector2 xy, @NotNull IntVector2 size) {
+        return getBlockTile(atlasName, xy.x, xy.y, size.x, size.y);
     }
 
     /**

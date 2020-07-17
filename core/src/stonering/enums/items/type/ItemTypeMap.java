@@ -46,11 +46,11 @@ public class ItemTypeMap {
         });
     }
 
-    public ItemType getItemType(String name) {
-        return types.get(name);
+    public static ItemType getItemType(String name) {
+        return instance().types.get(name);
     }
 
-    public boolean contains(String title) {
-        return types.containsKey(title);
+    public static boolean contains(String title) {
+        return instance().types.containsKey(title);
     }
 }

@@ -58,7 +58,7 @@ public class CreatureGenerator {
         unit.add(new MovementAspect(null));
         unit.add(needAspectGenerator.generateNeedAspect(type));
         unit.add(attributeAspectGenerator.generateAttributeAspect(unit));
-        unit.add(new RenderAspect(AtlasesEnum.units, type.atlasXY[0], type.atlasXY[1]));
+        unit.add(new RenderAspect(AtlasesEnum.units.getBlockTile(type.atlasXY)));
         unit.add(new BuffAspect(unit));
         unit.add(healthAspectGenerator.generateHealthAspect(unit));
         unit.add(new SkillAspect(unit));

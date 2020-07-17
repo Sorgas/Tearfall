@@ -2,6 +2,7 @@ package stonering.generators.items;
 
 import stonering.entity.plant.aspects.PlantGrowthAspect;
 import stonering.enums.items.type.ItemType;
+import stonering.enums.items.type.ItemTypeMap;
 import stonering.enums.plants.PlantBlocksTypeEnum;
 import stonering.entity.item.Item;
 import stonering.entity.plant.AbstractPlant;
@@ -52,12 +53,11 @@ public class PlantProductGenerator {
     public Item generateHarvestProduct(PlantBlock block) {
         if (block.harvested) return null;
         AbstractPlant plant = block.plant;
-        PlantLifeStage stage = plant.getCurrentLifeStage();
-        if (stage == null) return null;
-        ItemType product = stage.harvestProduct;
-        if (product == null) return null;
-        Item productItem = itemGenerator.generateItem(product.name, block.material, null);
-        return productItem;
+        return Optional.ofNullable(plant.getCurrentLifeStage())
+                .map(stage -> stage.harvestProduct)
+                .map(ItemTypeMap::getItemType)
+                .map(type -> itemGenerator.generateItem(type.name, block.material, null))
+                .orElse(null);
     }
 
     /**
