@@ -1,7 +1,5 @@
 package stonering.stage.renderer;
 
-import static stonering.stage.renderer.AtlasesEnum.plants;
-
 import java.util.Optional;
 
 import stonering.entity.RenderAspect;

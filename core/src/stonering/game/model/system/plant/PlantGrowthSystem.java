@@ -1,5 +1,7 @@
 package stonering.game.model.system.plant;
 
+import java.util.Optional;
+
 import stonering.entity.plant.AbstractPlant;
 import stonering.entity.plant.Plant;
 import stonering.entity.plant.Tree;
@@ -21,40 +23,43 @@ import stonering.util.geometry.Position;
  * @author Alexander on 14.01.2020.
  */
 public class PlantGrowthSystem extends EntitySystem<AbstractPlant> {
-    public int weekSize; // week size in hours
+    public int daySize; // week size in hours
     private PlantGenerator plantGenerator = new PlantGenerator();
     private TreeGenerator treeGenerator = new TreeGenerator();
-    
+
     public PlantGrowthSystem() {
         targetAspects.add(PlantGrowthAspect.class);
         updateInterval = TimeUnitEnum.HOUR;
     }
 
     /**
-     * Increases growth counter(every minute) and plant age(counted in weeks).
-     * When age increases, plant body is recreated with new life stage.
-     * Should be updated every minute.
+     * Increases growth counter(every minute) and plant age(counted in days).
+     * When life stage changes, plant blocks are updated.
      */
     @Override
     public void update(AbstractPlant plant) {
-        PlantGrowthAspect aspect = plant.get(PlantGrowthAspect.class);
-        if (aspect.counter++ < getWeekSize()) return; // week not ended
-        aspect.counter = 0;
-        aspect.age++;
-        if (aspect.age < plant.type.lifeStages.get(aspect.currentStage).stageEnd) return; // current stage not ended
-        aspect.currentStage++;
-        if (aspect.currentStage >= plant.type.lifeStages.size()) {
-            killPlant(plant, aspect); // last stage ended
-        } else {
-            applyNewStage(plant); // new stage started
-        }
+
+        plant.getOptional(PlantGrowthAspect.class)
+                .ifPresent(aspect -> {
+                    if (aspect.counter++ < getDaySize()) return; // day not ended
+                    aspect.counter = 0;
+                    aspect.age++;
+                    if (aspect.age < plant.type.lifeStages.get(aspect.currentStage).stageEnd) return; // current stage not ended
+                    aspect.currentStage++;
+                    if (aspect.currentStage >= plant.type.lifeStages.size()) {
+                        killPlant(plant, aspect); // last stage ended
+                    } else {
+                        applyNewStage(plant); // new stage started
+                    }
+
+                });
     }
 
     /**
      * Changes plant loot and tree structure.
      */
     private void applyNewStage(AbstractPlant entity) {
-        PlantContainer plantContainer = GameMvc.instance().model().get(PlantContainer.class);
+        PlantContainer plantContainer = GameMvc.model().get(PlantContainer.class);
         if (entity instanceof Tree) {
             Tree tree = (Tree) entity;
             plantContainer.removePlantBlocks(tree, false);
@@ -71,10 +76,10 @@ public class PlantGrowthSystem extends EntitySystem<AbstractPlant> {
 
     private void killPlant(AbstractPlant plant, PlantGrowthAspect aspect) {
         aspect.dead = true; // TODO
-        GameMvc.instance().model().get(PlantContainer.class).remove(plant, true);
+        GameMvc.model().get(PlantContainer.class).remove(plant, true);
     }
 
-    private int getWeekSize() {
-        return weekSize == 0 ? (weekSize = 7 * GameMvc.instance().model().getCalendar().day.max) : weekSize;
+    private int getDaySize() {
+        return daySize == 0 ? (daySize = GameMvc.model().getCalendar().day.max) : daySize;
     }
 }
