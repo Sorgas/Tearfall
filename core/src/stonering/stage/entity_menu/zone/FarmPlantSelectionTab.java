@@ -43,7 +43,7 @@ public class FarmPlantSelectionTab extends Table {
     private void createRowForPlant(String plantName, boolean enabled) {
         if (plantName == null) return;
         Table rowTable = new Table();
-        rowTable.add(new Label(plantName, StaticSkin.skin())).width(200);
+        rowTable.add(new Label(plantName, StaticSkin.skin())).growX();
         CheckBox checkBox = new CheckBox(null, StaticSkin.getSkin());
         checkBox.setChecked(enabled);
 
@@ -65,6 +65,6 @@ public class FarmPlantSelectionTab extends Table {
         });
         rowTable.add(checkBox).width(25);
         rowTable.setBackground(StaticSkin.generator.generate(StaticSkin.backgroundFocused));
-        listTable.add(rowTable).row();
+        listTable.add(rowTable).growX().row();
     }
 }

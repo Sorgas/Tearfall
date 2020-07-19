@@ -34,7 +34,8 @@ public enum ItemTagEnum {
     RAW(true), // raw cow meat piece,
     SPOILED(true, item -> item.getOptional(FoodItemAspect.class).ifPresent(aspect -> aspect.nutrition = 10)), // spoiled raw cow meat peace
     PREPARED(true, item -> item.getOptional(FoodItemAspect.class).ifPresent(aspect -> aspect.nutrition += 20)), // cow meat stew
-    
+
+    SEED_PRODUCE(false),
     WATER,
     CLOTH,
     MATERIAL; // item is raw material for building and crafting
@@ -50,17 +51,17 @@ public enum ItemTagEnum {
         }
     }
 
-    ItemTagEnum(boolean displayable) {
+    ItemTagEnum(boolean displayable, Consumer<Item> onAdd) {
         this.displayable = displayable;
+        this.onAdd = onAdd;
+    }
+
+    ItemTagEnum(boolean displayable) {
+        this(false, null);
     }
 
     ItemTagEnum() {
         this(false);
-    }
-
-    ItemTagEnum(boolean displayable, Consumer<Item> onAdd) {
-        this(displayable);
-        this.onAdd = onAdd;
     }
 
     public static ItemTagEnum get(String name) {

@@ -82,5 +82,10 @@
     "itemName": "bar",
     "newMaterial": "_smelt:bar", // process reaction of bar material will be set
     "ingredients": ["bar:rock:ore:1", "consumed:any:fuel:1"]
+}, {
+    "name": "extract_seeds",
+    "title": "Get seeds from plants",
+    "itemName": "seed",
+    "ingredients": ["seed:any:seed_produce:1"]
 }
 ]

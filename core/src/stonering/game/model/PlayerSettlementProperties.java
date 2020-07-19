@@ -12,5 +12,8 @@ import stonering.game.model.system.ModelComponent;
  */
 public class PlayerSettlementProperties implements ModelComponent {
     public final List<String> availablePlants = new ArrayList<>(); // plant, available for player to plant on farms
-    
+
+    public PlayerSettlementProperties() {
+        availablePlants.add("radish");
+    }
 }

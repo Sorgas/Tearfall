@@ -7,6 +7,7 @@ import stonering.entity.job.action.*;
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.designation.OrderDesignation;
+import stonering.entity.job.designation.PlantingDesignation;
 import stonering.entity.plant.PlantBlock;
 import stonering.game.GameMvc;
 import stonering.game.model.system.plant.PlantContainer;
@@ -20,20 +21,30 @@ import stonering.util.logging.Logger;
 public class DesignationTaskCreator {
 
     public Task createTaskForDesignation(Designation designation, int priority) {
+        return Optional.ofNullable(designation)
+                .map(this::selectActionByDesignation)
+                .map(action -> new Task(action, designation.type.JOB))
+                .map(task -> bindTask(task, designation)).orElse(null);
         if(designation instanceof OrderDesignation) {
             return Optional.ofNullable(selectActionByDesignation((OrderDesignation) designation))
-                    .map(action -> createTask(action, designation, priority))
+                    .map(action -> bindTask(action, designation, priority))
                     .orElse(null);
         } else if(designation instanceof BuildingDesignation) {
             return createBuildingTask((BuildingDesignation) designation, priority);
+        } else if(designation instanceof PlantingDesignation) {
+            return createBuildingTask(PlantingDesignation)
         } else {
             Logger.TASKS.logError("Cannot create Task for unsupported designation type.");
             return null;
         }
     }
 
-    private Action selectActionByDesignation(OrderDesignation designation) {
+    private Action selectActionByDesignation(Designation designation) {
         switch (designation.type) {
+            case D_NONE:
+                break;
+            case D_DOWNSTAIRS:
+                break;
             case D_DIG:
             case D_RAMP:
             case D_STAIRS:
@@ -49,6 +60,10 @@ public class DesignationTaskCreator {
                 //TODO add product aspect to plants
 //                if (block.getPlant().isHarvestable()) action = new PlantHarvestAction(block.getPlant());
                 return null;
+            case D_HOE:
+                return new HoeingAction(designation);
+            case D_PLANT:
+                return new PlantingAction(designation, designation);
             default:
                 return null;
         }
@@ -64,11 +79,10 @@ public class DesignationTaskCreator {
         } else {
             action = new BuildingAction(designation.order);
         }
-        return createTask(action, designation, priority);
+        return bindTask(action, designation, priority);
     }
 
-    private Task createTask(Action action, Designation designation, int priority) {
-        Task task = new Task(action, designation.type.JOB);
+    private Task bindTask(Task task, Designation designation) {
         task.designation = designation;
         designation.task = task;
         return task;

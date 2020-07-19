@@ -37,11 +37,10 @@ public class FarmZoneSystem extends EntitySystem<Zone> {
         FarmAspect aspect = zone.get(FarmAspect.class);
         if (aspect.plantTypes.isEmpty()) return; // no plants set for farm
         for (Position tile : zone.tiles) {
-            // method chain
-            boolean handled = tryRemoveInvalidTile(tile)
-                    || tryCutUnwantedPlant(tile, aspect)
-                    || tryCreateTaskForHoeing(tile)
-                    || tryCreateTaskForPlanting(tile, aspect);
+            if (tryRemoveInvalidTile(tile)) return; // tile removed from zone
+            if (tryCreateTaskForCutting(tile, aspect)) return;
+            if (tryCreateTaskForHoeing(tile)) return;
+            tryCreateTaskForPlanting(tile, aspect);
         }
     }
 
@@ -52,7 +51,7 @@ public class FarmZoneSystem extends EntitySystem<Zone> {
     }
 
     //TODO use harvest designation for plant with products
-    private boolean tryCutUnwantedPlant(Position tile, FarmAspect aspect) {
+    private boolean tryCreateTaskForCutting(Position tile, FarmAspect aspect) {
         AbstractPlant plant = plantContainer().getPlantInPosition(tile);
         if (plant == null || aspect.plantTypes.contains(plant.type.name)) return false;
         taskContainer().designationSystem.submitDesignation(tile, DesignationTypeEnum.D_CUT);
@@ -60,7 +59,7 @@ public class FarmZoneSystem extends EntitySystem<Zone> {
     }
 
     private boolean tryCreateTaskForHoeing(Position tile) {
-        if (map().blockType.get(tile) == BlockTypeEnum.FARM.CODE) return false;
+        if (map().blockType.get(tile) == BlockTypeEnum.FLOOR.CODE) return false;
         taskContainer().designationSystem.submitDesignation(tile, DesignationTypeEnum.D_HOE);
         return true;
     }

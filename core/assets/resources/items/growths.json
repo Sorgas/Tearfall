@@ -48,9 +48,10 @@
     "aspects": ["seed()"],
     "atlasXY": ["0", "2"]
 }, {
-    "name": "pine_cone",
-    "description": "Grows on pine.",
-    "atlasXY": ["1", "2"]
+    "name": "radish_seed",
+    "description": "Seed of a radish.",
+    "aspects": ["seed(radish)"],
+    "atlasXY": ["0", "2"]
 }, {
     "name": "generic_berry",
     "description": ".",

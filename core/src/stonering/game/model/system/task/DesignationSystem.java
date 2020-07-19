@@ -5,6 +5,7 @@ import stonering.entity.job.Task;
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.designation.OrderDesignation;
+import stonering.entity.job.designation.PlantingDesignation;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.util.geometry.Position;
@@ -64,13 +65,14 @@ public class DesignationSystem {
      * All single-tile buildings are constructed through this method.
      */
     public void submitBuildingDesignation(BuildingOrder order, int priority) {
-        if (!PlaceValidatorsEnum.getValidator(order.blueprint.placing).apply(order.position)) return;
-        BuildingDesignation designation = new BuildingDesignation(order);
-        Task task = designationTaskCreator.createBuildingTask(designation, priority);
-        designation.task = task;
-        container.addTask(task);
-        container.designations.put(designation.position, designation);
-        Logger.TASKS.log(task + " designated");
+        Optional.ofNullable(order)
+                .filter(order1 -> PlaceValidatorsEnum.getValidator(order1.blueprint.placing).apply(order1.position))
+                .map(BuildingDesignation::new)
+                .ifPresent(designation -> container.designations.put(designation.position, designation));
+    }
+
+    public void submitPlantingDesignation(Position position, String specimen) {
+        container.designations.put(position, new PlantingDesignation(position, specimen));
     }
 
     public void removeDesignation(Position position) {

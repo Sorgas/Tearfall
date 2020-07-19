@@ -28,11 +28,9 @@ import java.util.*;
  * @author Alexander Kuzyakov on 26.01.2018.
  */
 public class ItemGenerator {
-    private ItemTypeMap itemTypeMap;
     private Map<String, List<String>> defaultAspects;
 
     public ItemGenerator() {
-        itemTypeMap = ItemTypeMap.instance();
         defaultAspects = new HashMap<>();
         defaultAspects.put("falling", Arrays.asList("1")); // most items fall down
     }
@@ -41,7 +39,7 @@ public class ItemGenerator {
      * Creates item of given type, setting given material to main part. Other parts get default material, and should be changed after creation.
      */
     public Item generateItem(String name, int materialId, Position position) {
-        ItemType type = itemTypeMap.getItemType(name);
+        ItemType type = ItemTypeMap.getItemType(name);
         if (type == null) return null;
         Item item = new Item(position, type);
         type.requiredParts.forEach(part -> item.parts.put(part, new ItemPart(item, part, materialId)));
@@ -55,20 +53,6 @@ public class ItemGenerator {
 
     public Item generateItem(String name, String material, Position position) {
         return generateItem(name, MaterialMap.getId(material), position);
-    }
-
-    /**
-     * Seeds have single {@link ItemType} for all plants species.
-     */
-    public Item generateSeedItem(String specimen, Position position) {
-        Item item = new Item(position, itemTypeMap.getItemType("generic_seed"));
-        item.title = specimen.substring(0, 1).toUpperCase() + specimen.substring(1).toLowerCase() + " seed";
-        item.material = MaterialMap.getId("generic_plant");
-        generateItemAspects(item);
-        item.add(new SeedAspect(item));
-        item.get(SeedAspect.class).specimen = specimen;
-        updateItemTitle(item);
-        return item;
     }
 
     /**
@@ -164,7 +148,7 @@ public class ItemGenerator {
             case "falling":
                 return new FallingAspect(null);
             case "seed":
-                return new SeedAspect(null);
+                return new SeedAspect();
             case "item_container":
                 return new ItemContainerAspect(null);
             case "food":

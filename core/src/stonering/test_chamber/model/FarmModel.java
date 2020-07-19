@@ -18,32 +18,25 @@ import stonering.util.geometry.Position;
  * @author Alexander_Kuzyakov on 04.07.2019.
  */
 public class FarmModel extends TestModel {
+    private ItemGenerator generator = new ItemGenerator();
 
     @Override
     public void init() {
         super.init();
         get(EntitySelectorSystem.class).selector.position.set(MAP_SIZE / 2, MAP_SIZE / 2, 2);
         get(UnitContainer.class).addUnit(createUnit());
-        Item hoe = new ItemGenerator().generateItem("hoe", "iron", new Position(0, 0, 2));
+        Item hoe = generator.generateItem("hoe", "iron", new Position(0, 0, 2));
         get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(hoe, hoe.position);
+
+        get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(generator.generateItem("radish_seed", "generic_plant", null), new Position(1,0,2));
+
         SelectionTools.ZONE.type = ZoneTypeEnum.FARM;
         SelectionTools.ZONE.handleSelection(new Int3dBounds(4, 4, 2, 6, 6, 2));
         SelectionTools.ZONE.type = null;
-        putSeeds();
     }
 
     private Unit createUnit() {
         Unit unit = new CreatureGenerator().generateUnit(new Position(3, 3, 2), "human");
         return unit;
-    }
-
-    private void putSeeds() {
-        for (int i = 0; i < 4; i++) {
-            get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(createSeed(), new Position(1 + i, 0, 2));
-        }
-    }
-
-    private Item createSeed() {
-        return new ItemGenerator().generateSeedItem("farm_test_plant", null);
     }
 }

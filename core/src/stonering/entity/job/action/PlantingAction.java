@@ -10,7 +10,10 @@ import stonering.entity.item.selectors.SeedItemSelector;
 import stonering.entity.job.action.equipment.EquipmentAction;
 import stonering.entity.job.action.equipment.obtain.ObtainItemAction;
 import stonering.entity.job.action.target.ActionTarget;
+import stonering.entity.job.action.target.PositionActionTarget;
+import stonering.entity.job.designation.Designation;
 import stonering.entity.plant.Plant;
+import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.plant.PlantContainer;
@@ -26,8 +29,8 @@ import stonering.util.logging.Logger;
 public class PlantingAction extends EquipmentAction {
     private SeedItemSelector seedSelector;
 
-    public PlantingAction(ActionTarget actionTarget, SeedItemSelector seedSelector) {
-        super(actionTarget);
+    public PlantingAction(Designation designation, SeedItemSelector seedSelector) {
+        super(new PositionActionTarget(designation.position, ActionTargetTypeEnum.NEAR));
         this.seedSelector = seedSelector;
         startCondition = () -> {
             Logger.TASKS.logDebug("Checking planting action");
@@ -38,7 +41,7 @@ public class PlantingAction extends EquipmentAction {
         };
 
         onFinish = () -> {
-            Logger.TASKS.logDebug("Planting seed of " + seedSelector.getSpecimen() + " to " + actionTarget.getPosition());
+            Logger.TASKS.logDebug("Planting seed of " + seedSelector.getSpecimen() + " to " + target.getPosition());
             createPlant(spendSeed());
         };
     }
