@@ -1,5 +1,9 @@
 [
   {
+    "name": "farmer",
+    "skill": "farming"
+  },
+  {
     "name": "cook",
     "skill": "cooking"
   },

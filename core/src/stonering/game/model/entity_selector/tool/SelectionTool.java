@@ -1,11 +1,9 @@
 package stonering.game.model.entity_selector.tool;
 
 import stonering.enums.OrientationEnum;
-import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
-import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.RotationUtil;

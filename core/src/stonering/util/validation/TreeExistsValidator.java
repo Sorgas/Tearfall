@@ -13,7 +13,7 @@ import static stonering.enums.blocks.BlockTypeEnum.*;
  *
  * @author Alexander on 20.01.2020.
  */
-public class TreeChoppingValidator implements PositionValidator {
+public class TreeExistsValidator implements PositionValidator {
 
     @Override
     public Boolean apply(Position position) {

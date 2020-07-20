@@ -7,8 +7,7 @@ import stonering.entity.job.action.*;
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.designation.PlantingDesignation;
-import stonering.entity.plant.PlantBlock;
-import stonering.enums.designations.PlaceValidatorsEnum;
+import stonering.enums.designations.PlaceValidatorEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.plant.PlantContainer;
 
@@ -63,7 +62,7 @@ public class DesignationTaskCreator {
 
     private Action createPlantingAction(PlantingDesignation designation) {
         return Optional.ofNullable(designation)
-                .filter(des -> PlaceValidatorsEnum.FARM.VALIDATOR.apply(des.position))
+                .filter(des -> PlaceValidatorEnum.FARM.VALIDATOR.apply(des.position))
                 .map(PlantingAction::new)
                 .orElse(null);
     }

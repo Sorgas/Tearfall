@@ -6,7 +6,7 @@ import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.designation.PlantingDesignation;
 import stonering.enums.designations.DesignationTypeEnum;
-import stonering.enums.designations.PlaceValidatorsEnum;
+import stonering.enums.designations.PlaceValidatorEnum;
 import stonering.util.geometry.Position;
 import stonering.util.logging.Logger;
 
@@ -37,12 +37,13 @@ public class DesignationSystem {
         for (Designation designation : container.designations.values()) {
             if (designation instanceof BuildingDesignation) {
                 if (!((BuildingDesignation) designation).checkSite()) {
-                    Logger.BUILDING.logWarn("Place for building became invalid.");
                     designation.task.status = CANCELED;
+                    Logger.DESIGNATION.logWarn("Place for building became invalid.");
                 }
             }
             if (designation.task == null) {
                 container.addTask(designationTaskCreator.createTaskForDesignation(designation, 1));
+                Logger.DESIGNATION.logWarn("Create task for designation " + designation.type);
             }
         }
     }
@@ -56,6 +57,7 @@ public class DesignationSystem {
         removeDesignation(position); // remove previous designation
         if (type != DesignationTypeEnum.D_NONE) {
             container.designations.put(position, new Designation(position, type)); // put new designation
+            Logger.DESIGNATION.logDebug("Designation " + type + " added to " + position);
         }
     }
 
@@ -65,13 +67,13 @@ public class DesignationSystem {
      */
     public void submitBuildingDesignation(BuildingOrder order, int priority) {
         Optional.ofNullable(order)
-                .filter(order1 -> PlaceValidatorsEnum.getValidator(order1.blueprint.placing).apply(order1.position))
+                .filter(order1 -> PlaceValidatorEnum.getValidator(order1.blueprint.placing).apply(order1.position))
                 .map(BuildingDesignation::new)
                 .ifPresent(designation -> container.designations.put(designation.position, designation));
     }
 
     public void submitPlantingDesignation(Position position, String specimen) {
-        if (PlaceValidatorsEnum.FARM.VALIDATOR.apply(position))
+        if (PlaceValidatorEnum.FARM.VALIDATOR.apply(position))
             container.designations.put(position, new PlantingDesignation(position, specimen));
     }
 

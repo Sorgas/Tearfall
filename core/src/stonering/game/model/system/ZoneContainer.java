@@ -23,7 +23,7 @@ public class ZoneContainer extends EntityContainer<Zone> {
     
     public ZoneContainer() {
         put(new FarmTileWitherSystem());
-        put(new FarmZoneSystem());
+        put(new FarmZoneSystem(this));
     }
 
     /**

@@ -1,5 +1,7 @@
 package stonering.game.model.system.zone;
 
+import java.util.stream.Collectors;
+
 import stonering.entity.plant.AbstractPlant;
 import stonering.entity.zone.Zone;
 import stonering.entity.zone.aspect.FarmAspect;
@@ -13,6 +15,7 @@ import stonering.game.model.system.ZoneContainer;
 import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.util.geometry.Position;
+import stonering.util.validation.zone.farm.FarmPositionValidator;
 
 /**
  * System for updating farms.
@@ -24,30 +27,35 @@ import stonering.util.geometry.Position;
  * @author Alexander on 13.07.2020.
  */
 public class FarmZoneSystem extends EntitySystem<Zone> {
+    private final ZoneContainer container;
+    private FarmPositionValidator validator = new FarmPositionValidator();
     private PlantContainer plantContainer;
     private TaskContainer taskContainer;
+
     private LocalMap map;
 
-    public FarmZoneSystem() {
+    public FarmZoneSystem(ZoneContainer container) {
         targetAspects.add(FarmAspect.class);
+        this.container = container;
     }
 
     @Override
     public void update(Zone zone) {
         FarmAspect aspect = zone.get(FarmAspect.class);
         if (aspect.plantTypes.isEmpty()) return; // no plants set for farm
-        for (Position tile : zone.tiles) {
-            if (tryRemoveInvalidTile(tile)) return; // tile removed from zone
-            if (tryCreateTaskForCutting(tile, aspect)) return;
-            if (tryCreateTaskForHoeing(tile)) return;
-            tryCreateTaskForPlanting(tile, aspect);
-        }
-    }
+        // remove invalid tiles
+        zone.tiles.stream()
+                .filter(tile -> !ZoneTypeEnum.FARM.VALIDATOR.apply(tile))
+                .collect(Collectors.toList())
+                .forEach(tile -> container.setTileToZone(null, tile));
 
-    private boolean tryRemoveInvalidTile(Position tile) {
-        if (ZoneTypeEnum.FARM.VALIDATOR.apply(tile)) return false;
-        GameMvc.model().get(ZoneContainer.class).setTileToZone(null, tile); // remove invalid tile
-        return true;
+        zone.tiles.stream()
+                .filter(tile -> !taskContainer().designations.containsKey(tile))
+                .forEach(tile -> {
+                    if (tryCreateTaskForCutting(tile, aspect)) return;
+                    if (tryCreateTaskForHoeing(tile)) return;
+                    tryCreateTaskForPlanting(tile, aspect);
+                });
     }
 
     //TODO use harvest designation for plant with products
@@ -59,7 +67,8 @@ public class FarmZoneSystem extends EntitySystem<Zone> {
     }
 
     private boolean tryCreateTaskForHoeing(Position tile) {
-        if (map().blockType.get(tile) == BlockTypeEnum.FLOOR.CODE) return false;
+        if (!validator.apply(tile)) return false;
+        if(map().blockType.get(tile) != BlockTypeEnum.FLOOR.CODE) return false;
         taskContainer().designationSystem.submitDesignation(tile, DesignationTypeEnum.D_HOE);
         return true;
     }

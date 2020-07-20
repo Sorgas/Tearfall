@@ -1,5 +1,7 @@
 package stonering.entity.job.action;
 
+import static stonering.entity.job.action.ActionConditionStatusEnum.*;
+
 import stonering.entity.job.action.equipment.use.EquipToolItemAction;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.item.Item;
@@ -18,16 +20,13 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.util.logging.Logger;
 
-import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
-import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
-
 /**
  * Action for preparing farm soil for planting plants.
  *
  * @author Alexander on 20.03.2019.
  */
 public class HoeingAction extends Action {
-
+    
     public HoeingAction(Designation designation) {
         super(new PositionActionTarget(designation.position, ActionTargetTypeEnum.NEAR));
 
@@ -37,13 +36,15 @@ public class HoeingAction extends Action {
         // Creates sub name only for equipping hoe, other cases handled by player.
         startCondition = () -> {
             Position targetPosition = target.getPosition();
-            if (!ZoneTypeEnum.FARM.VALIDATOR.apply(targetPosition)) return FAIL; // 1
-            if (GameMvc.model().get(ZoneContainer.class).getZone(targetPosition) == null) return FAIL; // 2
+            if (!ZoneTypeEnum.FARM.VALIDATOR.apply(targetPosition)) return FAIL;
+            if (GameMvc.model().get(ZoneContainer.class).getZone(targetPosition) == null) return FAIL;
             EquipmentAspect equipmentAspect = task.performer.get(EquipmentAspect.class);
             if(equipmentAspect.toolWithActionEquipped("hoe")) return OK;
             return tryCreateEquippingAction();
         };
 
+        onStart = () -> maxProgress = 50;
+        
         onFinish = () -> {
             Logger.TASKS.logDebug("Hoeing tile " + target.getPosition());
             LocalMap localMap = GameMvc.model().get(LocalMap.class);
@@ -52,12 +53,11 @@ public class HoeingAction extends Action {
     }
 
     private ActionConditionStatusEnum tryCreateEquippingAction() {
-        Logger.TASKS.logDebug("Creating equipping action of hoe");
         ItemSelector toolItemSelector = new ToolWithActionItemSelector("hoe");
-        ItemContainer itemContainer = GameMvc.model().get(ItemContainer.class);
-        Item item = itemContainer.util.getItemAvailableBySelector(toolItemSelector, target.getPosition());
-        if(item == null) return FAIL;
-        task.addFirstPreAction(new EquipToolItemAction(item));
-        return OK;
+        return GameMvc.model().optional(ItemContainer.class)
+                .map(container -> container.util.getItemAvailableBySelector(toolItemSelector, target.getPosition()))
+                .map(EquipToolItemAction::new)
+                .map(this::addPreAction)
+                .orElse(FAIL);
     }
 }

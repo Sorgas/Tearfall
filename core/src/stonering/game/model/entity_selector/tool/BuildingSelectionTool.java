@@ -10,7 +10,7 @@ import stonering.entity.job.designation.BuildingDesignation;
 import stonering.enums.buildings.BuildingType;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.buildings.blueprint.Blueprint;
-import stonering.enums.designations.PlaceValidatorsEnum;
+import stonering.enums.designations.PlaceValidatorEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
@@ -54,7 +54,7 @@ public class BuildingSelectionTool extends SelectionTool {
     public void apply() {
         selector().get(BoxSelectionAspect.class).boxEnabled = false;
         selector().size.set(type.size);
-        validator = PlaceValidatorsEnum.getValidator(blueprint.placing);
+        validator = PlaceValidatorEnum.getValidator(blueprint.placing);
         orientation = N; // reset orientation
         workbenchAccessSprite = ui_tiles.getBlockTile(11, 3);
         updateSpriteAndSize();

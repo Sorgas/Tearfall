@@ -7,7 +7,7 @@ import stonering.entity.item.selectors.ItemSelector;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.blocks.PassageEnum;
 import stonering.enums.buildings.blueprint.Blueprint;
-import stonering.enums.designations.PlaceValidatorsEnum;
+import stonering.enums.designations.PlaceValidatorEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.local_map.LocalMap;
@@ -43,7 +43,7 @@ public class ConstructionSelectionTool extends SelectionTool {
     public SelectionTool setFor(Blueprint blueprint) {
         this.blueprint = blueprint;
         type = BlockTypeEnum.getType(blueprint.building);
-        validator = PlaceValidatorsEnum.getValidator(blueprint.placing);
+        validator = PlaceValidatorEnum.getValidator(blueprint.placing);
         return this;
     }
 

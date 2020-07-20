@@ -21,8 +21,7 @@
             ]
         },
         "requiredParts" : ["head", "handle"],
-        "atlasXY": ["0", "0"],
-        "color": "0xffffffff"
+        "atlasXY": ["0", "0"]
     }, {
     "name": "hoe",
     "description": "Tool for preparing soil for farming.",
@@ -45,8 +44,7 @@
         ]
     },
     "requiredParts" : ["head", "handle"],
-    "atlasXY": ["10", "0"],
-    "color": "0xffffffff"
+    "atlasXY": ["3", "0"]
 }, {
     "name": "sickle",
     "description": "Tool for harvesting plants.",
@@ -67,8 +65,7 @@
         ]
     },
     "requiredParts" : ["head", "handle"],
-    "atlasXY": ["7", "0"],
-    "color": "0xffffffff"
+    "atlasXY": ["7", "0"]
 }, {
     "name": "axe",
     "description": "Tool for chopping down trees.",
@@ -89,8 +86,7 @@
         ]
     },
     "requiredParts" : ["head", "handle"],
-    "atlasXY": ["1", "0"],
-    "color": "0xffffffff"
+    "atlasXY": ["1", "0"]
 }, {
     "name": "hammer",
     "description": "Smith tool.",
@@ -111,8 +107,7 @@
         ]
     },
     "requiredParts" : ["head", "handle"],
-    "atlasXY": ["1", "0"],
-    "color": "0xffffffff"
+    "atlasXY": ["1", "0"]
 }, {
     "name": "Kettle",
     "description": "Holds liquids and is used for cooking and alchemy.",
@@ -133,8 +128,7 @@
         ]
     },
     "requiredParts" : ["head", "handle", "feet"],
-    "atlasXY": ["1", "0"],
-    "color": "0xffffffff"
+    "atlasXY": ["1", "0"]
 }, {
     "name": "pan",
     "description": "Cooking tool.",
@@ -155,8 +149,7 @@
         ]
     },
     "requiredParts" : ["head", "handle"],
-    "atlasXY": ["1", "0"],
-    "color": "0xffffffff"
+    "atlasXY": ["1", "0"]
 }, {
     "name": "bow_saw",
     "description": "Used for sawing wood.",
@@ -170,7 +163,6 @@
         ]
     },
     "requiredParts" : ["head", "handle"],
-    "atlasXY": ["1", "0"],
-    "color": "0xffffffff"
+    "atlasXY": ["1", "0"]
 }
 ]
