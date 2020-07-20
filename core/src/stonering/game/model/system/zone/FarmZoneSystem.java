@@ -74,7 +74,7 @@ public class FarmZoneSystem extends EntitySystem<Zone> {
     }
 
     private boolean tryCreateTaskForPlanting(Position tile, FarmAspect aspect) {
-        if (map().blockType.get(tile) == BlockTypeEnum.FARM.CODE) return false;
+        if (map().blockType.get(tile) != BlockTypeEnum.FARM.CODE) return false;
         taskContainer().designationSystem.submitPlantingDesignation(tile, aspect.plantType);
         return true;
     }

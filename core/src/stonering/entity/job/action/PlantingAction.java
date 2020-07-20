@@ -40,7 +40,7 @@ public class PlantingAction extends EquipmentAction {
                     .map(item -> addPreAction(new ObtainItemAction(item)))
                     .orElse(FAIL);
         };
-
+        
         onFinish = () -> {
             Logger.TASKS.logDebug("Planting seed of " + seedSelector.getSpecimen() + " to " + target.getPosition());
             createPlant(spendSeed());
@@ -63,9 +63,6 @@ public class PlantingAction extends EquipmentAction {
         return seedSelector.selectItem(equipment().items);
     }
 
-    /**
-     * Creates new plant from seed item in target position.
-     */
     private void createPlant(Item seed) {
         PlantContainer plantContainer = GameMvc.model().get(PlantContainer.class);
         Plant plant = new PlantGenerator().generatePlant(seed.get(SeedAspect.class));
