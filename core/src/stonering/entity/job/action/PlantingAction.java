@@ -9,16 +9,13 @@ import stonering.entity.item.aspects.SeedAspect;
 import stonering.entity.item.selectors.SeedItemSelector;
 import stonering.entity.job.action.equipment.EquipmentAction;
 import stonering.entity.job.action.equipment.obtain.ObtainItemAction;
-import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.PositionActionTarget;
-import stonering.entity.job.designation.Designation;
 import stonering.entity.job.designation.PlantingDesignation;
 import stonering.entity.plant.Plant;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.plant.PlantContainer;
-import stonering.game.model.system.unit.UnitContainer;
 import stonering.generators.plants.PlantGenerator;
 import stonering.util.logging.Logger;
 
@@ -34,8 +31,7 @@ public class PlantingAction extends EquipmentAction {
         super(new PositionActionTarget(designation.position, ActionTargetTypeEnum.NEAR));
         seedSelector = new SeedItemSelector(designation.specimen);
         startCondition = () -> {
-            Logger.TASKS.logDebug("Checking planting action");
-            if (getSeedFromEquipment() != null) return OK;
+            if(seedSelector.checkItem(equipment().itemBuffer)) return OK;
             return Optional.ofNullable(GameMvc.model().get(ItemContainer.class).util.getItemAvailableBySelector(seedSelector, task.performer.position))
                     .map(item -> addPreAction(new ObtainItemAction(item)))
                     .orElse(FAIL);
@@ -43,24 +39,9 @@ public class PlantingAction extends EquipmentAction {
         
         onFinish = () -> {
             Logger.TASKS.logDebug("Planting seed of " + seedSelector.getSpecimen() + " to " + target.getPosition());
-            createPlant(spendSeed());
+            createPlant(equipment().itemBuffer);
+            equipment().itemBuffer = null;
         };
-    }
-
-    /**
-     * Seeks seed item in performers inventory.
-     */
-    private Item spendSeed() {
-        Item seed = getSeedFromEquipment(); // seed should never be null after check()
-        GameMvc.model().get(UnitContainer.class).equipmentSystem.removeItem(equipment(), seed);
-        return seed;
-    }
-
-    /**
-     * Looks for seed item in performer's inventory.
-     */
-    private Item getSeedFromEquipment() {
-        return seedSelector.selectItem(equipment().items);
     }
 
     private void createPlant(Item seed) {

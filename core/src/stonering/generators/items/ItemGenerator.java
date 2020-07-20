@@ -69,7 +69,7 @@ public class ItemGenerator {
         if (mainIngredient != null) {
             item = mainIngredient.items.stream().findFirst().get();
         } else {
-            item = new Item(null, ItemTypeMap.instance().getItemType(order.recipe.newType));
+            item = new Item(null, ItemTypeMap.getItemType(order.recipe.newType));
         }
         order.ingredientOrders.values().stream()
                 .filter(ingredientOrder -> !ingredientOrder.ingredient.key.equals("consume"))

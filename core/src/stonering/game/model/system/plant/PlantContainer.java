@@ -47,7 +47,7 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements Mo
 
     private void addPlant(Plant plant, Position position) {
         plant.position = position;
-        if (addBlock(plant.getBlock())) objects.add(plant);
+        if (addBlock(plant.getBlock(), position)) objects.add(plant);
     }
 
     //TODO checking space for placing
@@ -65,16 +65,15 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements Mo
                     if (!localMap().inMap(onMapPosition)) {
                         treeParts[x][y][z] = null; // remove block that is out of map
                     } else {
-                        treeParts[x][y][z].position = onMapPosition;
-                        addBlock(treeParts[x][y][z]);
+                        addBlock(treeParts[x][y][z], onMapPosition);
                     }
                 }
             }
         }
     }
 
-    private boolean addBlock(PlantBlock block) {
-        Position position = block.position;
+    private boolean addBlock(PlantBlock block, Position position) {
+        block.position = position;
         if (plantBlocks.containsKey(position))
             return Logger.PLANTS.logDebug(block.plant + " is blocked by " + plantBlocks.get(position).plant, false);
         plantBlocks.put(position, block);
