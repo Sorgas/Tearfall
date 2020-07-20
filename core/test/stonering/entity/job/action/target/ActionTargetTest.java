@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import stonering.entity.Entity;
-import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.MoveAction;
 import stonering.enums.action.ActionTargetTypeEnum;
@@ -74,7 +73,7 @@ public class ActionTargetTest {
         Action action = new MoveAction(new Position());
         actionTarget.setAction(action);
         dummy.position = targetPosition;
-        assertEquals(ActionTargetStatusEnum.NEW, actionTarget.check(dummy)); // new action should be created when checking from same position
+        assertEquals(ActionTargetStatusEnum.STEP_OFF, actionTarget.check(dummy)); // new action should be created when checking from same position
         dummy.position = new Position(1, 0, 0);
         assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(dummy));
         dummy.position = new Position(0, 1, 0);

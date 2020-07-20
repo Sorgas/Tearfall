@@ -55,7 +55,7 @@ public abstract class Action {
 
     protected Action(ActionTarget target) {
         this.target = target;
-        target.setAction(this);
+        target.action = this;
         takingCondition = () -> true; // most actions have no special taking conditions
         startCondition = () -> FAIL; // prevent starting
         onStart = () -> {};

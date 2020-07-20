@@ -7,7 +7,7 @@ package stonering.entity.job.action.target;
  */
 public enum ActionTargetStatusEnum {
     READY, // target position reached
-    WAIT, // target position no reached
-    NEW, // new action created. planning system should update task
+    WAIT, // target position not reached
+    STEP_OFF, // creature should free target tile
     FAIL // failed to create action
 }

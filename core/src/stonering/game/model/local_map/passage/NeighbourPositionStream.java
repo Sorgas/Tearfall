@@ -7,6 +7,7 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
+import stonering.util.geometry.PositionUtil;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -16,7 +17,7 @@ import java.util.stream.Stream;
 
 /**
  * Stream wrapper for convenient work with tiles around another tile.
- *
+ * TODO replace with {@link PositionUtil}
  * @author Alexander on 14.11.2019.
  */
 public class NeighbourPositionStream {
@@ -48,23 +49,6 @@ public class NeighbourPositionStream {
                 Position.add(center, -1, 0, 0),
                 Position.add(center, 0, 1, 0),
                 Position.add(center, 0, -1, 0));
-        stream = neighbours.stream().filter(localMap::inMap);
-    }
-
-    /**
-     * Gives neighbours by x and y, having provided z
-     */
-    public NeighbourPositionStream(Int2dBounds bounds, int z) {
-        this();
-        Set<Position> neighbours = new HashSet<>();
-        for (int x = bounds.minX - 1; x < bounds.maxX + 2; x++) {
-            neighbours.add(new Position(x, bounds.minY - 1, z));
-            neighbours.add(new Position(x, bounds.maxY + 1, z));
-        }
-        for (int y = bounds.minY - 1; y < bounds.maxY + 2; y++) {
-            neighbours.add(new Position(bounds.minX - 1, y, z));
-            neighbours.add(new Position(bounds.maxX + 1, y, z));
-        }
         stream = neighbours.stream().filter(localMap::inMap);
     }
 
@@ -102,11 +86,6 @@ public class NeighbourPositionStream {
 
     public NeighbourPositionStream filterByPassage(PassageEnum passage) {
         stream = stream.filter(position -> passageMap.passage.get(position) == passage.VALUE);
-        return this;
-    }
-
-    public NeighbourPositionStream filterByBlockType(BlockTypeEnum type) {
-        stream = stream.filter(position -> localMap.blockType.get(position) == type.CODE);
         return this;
     }
 
