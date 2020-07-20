@@ -117,6 +117,9 @@ public class ItemGenerator {
     private void generateItemAspects(Item item) {
         ItemType type = item.type;
         item.add(new RenderAspect(AtlasesEnum.items.getBlockTile(item.type.atlasName, item.type.atlasXY[0], item.type.atlasXY[1])));
+        defaultAspects.entrySet().stream()
+                .map(entry -> createItemAspect(entry.getKey(), entry.getValue()))
+                .forEach(item::add);
         for (String aspectName : defaultAspects.keySet()) {
             if (!type.itemAspects.containsKey(aspectName))
                 item.add(createItemAspect(aspectName, defaultAspects.get(aspectName)));
@@ -148,7 +151,7 @@ public class ItemGenerator {
             case "falling":
                 return new FallingAspect(null);
             case "seed":
-                return new SeedAspect();
+                return new SeedAspect(params.get(0));
             case "item_container":
                 return new ItemContainerAspect(null);
             case "food":

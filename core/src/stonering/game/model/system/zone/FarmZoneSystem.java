@@ -42,7 +42,7 @@ public class FarmZoneSystem extends EntitySystem<Zone> {
     @Override
     public void update(Zone zone) {
         FarmAspect aspect = zone.get(FarmAspect.class);
-        if (aspect.plantTypes.isEmpty()) return; // no plants set for farm
+        if (aspect.plantType == null) return; // no plants set for farm
         // remove invalid tiles
         zone.tiles.stream()
                 .filter(tile -> !ZoneTypeEnum.FARM.VALIDATOR.apply(tile))
@@ -61,7 +61,7 @@ public class FarmZoneSystem extends EntitySystem<Zone> {
     //TODO use harvest designation for plant with products
     private boolean tryCreateTaskForCutting(Position tile, FarmAspect aspect) {
         AbstractPlant plant = plantContainer().getPlantInPosition(tile);
-        if (plant == null || aspect.plantTypes.contains(plant.type.name)) return false;
+        if (plant == null || aspect.plantType.contains(plant.type.name)) return false;
         taskContainer().designationSystem.submitDesignation(tile, DesignationTypeEnum.D_CUT);
         return true;
     }
@@ -75,7 +75,7 @@ public class FarmZoneSystem extends EntitySystem<Zone> {
 
     private boolean tryCreateTaskForPlanting(Position tile, FarmAspect aspect) {
         if (map().blockType.get(tile) == BlockTypeEnum.FARM.CODE) return false;
-        taskContainer().designationSystem.submitDesignation(tile, DesignationTypeEnum.D_PLANT);
+        taskContainer().designationSystem.submitPlantingDesignation(tile, aspect.plantType);
         return true;
     }
 

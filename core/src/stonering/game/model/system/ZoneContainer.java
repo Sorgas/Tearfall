@@ -74,7 +74,7 @@ public class ZoneContainer extends EntityContainer<Zone> {
     private void createZoneAspects(Zone zone) {
         switch(zone.type) {
             case FARM:
-                zone.add(new FarmAspect(zone));
+                zone.add(new FarmAspect());
                 break;
             case STORAGE:
                 break;

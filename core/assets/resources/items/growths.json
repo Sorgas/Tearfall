@@ -3,39 +3,32 @@
     {
         "name": "generic_fruit",
         "description": "Replace this description in plant definition.",
-        "typeAspects": ["value(10)"],
         "aspects": ["food(15)"],
         "atlasXY": ["0", "0"]
     }, {
     "name": "radish",
     "baseItem": "generic_fruit",
     "description": "Tiny bitter root-crops.",
-    "typeAspects": ["value(0)"],
     "atlasXY": ["0", "0"]
 }, {
     "name": "turnip",
     "baseItem": "generic_fruit",
     "description": "Root-crop",
-    "typeAspects": ["value(0)"],
-    "aspects": [],
     "atlasXY": ["1", "0"]
 }, {
     "name": "pumpkin",
     "baseItem": "generic_fruit",
     "description": "Large orange vegetable with thick walls and many seeds inside.",
-    "typeAspects": ["value(100)"],
     "aspects": ["food(100)"],
     "atlasXY": ["2", "0"]
 }, {
     "name": "tomato",
     "baseItem": "generic_fruit",
     "description": "Red fruit with delicious taste.",
-    "typeAspects": ["value(35)"],
     "atlasXY": ["3", "0"]
 }, {
     "name": "generic_grain",
     "description": "Replace this description in plant definition.",
-    "typeAspects": ["value(10)", "grain"],
     "atlasXY": ["0", "1"]
 }, {
     "name": "wheat",
@@ -55,13 +48,10 @@
 }, {
     "name": "generic_berry",
     "description": ".",
-    "typeAspects": ["value(0)"],
     "atlasXY": ["0", "4"]
 }, {
     "name": "mushroom",
     "description": "",
-    "typeAspects": ["value(0)"],
-    "aspects": [],
     "atlasXY": ["0", "0"]
 }
 ]

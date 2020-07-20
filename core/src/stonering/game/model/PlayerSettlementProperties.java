@@ -15,5 +15,9 @@ public class PlayerSettlementProperties implements ModelComponent {
 
     public PlayerSettlementProperties() {
         availablePlants.add("radish");
+        availablePlants.add("turnip");
+        availablePlants.add("wheat");
+        availablePlants.add("pumpkin");
+        availablePlants.add("tomato");
     }
 }
