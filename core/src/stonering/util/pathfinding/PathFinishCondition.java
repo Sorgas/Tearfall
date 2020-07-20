@@ -26,7 +26,8 @@ public class PathFinishCondition {
         LocalMap map = GameMvc.model().get(LocalMap.class); // add near tiles
         PositionUtil.allNeighbourDeltas.stream()
                 .map(delta -> Position.add(target, delta))
-                .filter(pos -> map. passageMap.passage.get(pos) == PASSABLE.VALUE)
+                .filter(map::inMap)
+                .filter(pos -> map.passageMap.passage.get(pos) == PASSABLE.VALUE)
                 .forEach(acceptable::add);
     }
 

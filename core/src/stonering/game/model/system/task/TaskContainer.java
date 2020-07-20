@@ -4,7 +4,6 @@ import static stonering.enums.action.ActionTargetTypeEnum.EXACT;
 
 import org.jetbrains.annotations.NotNull;
 
-import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.job.JobsAspect;

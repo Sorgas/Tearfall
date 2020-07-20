@@ -1,5 +1,8 @@
 package stonering.enums.designations;
 
+import stonering.enums.blocks.BlockTypeEnum;
+import stonering.game.GameMvc;
+import stonering.game.model.local_map.LocalMap;
 import stonering.util.validation.FreeFloorValidator;
 import stonering.util.validation.ConstructionValidator;
 import stonering.util.validation.PositionValidator;
@@ -13,6 +16,7 @@ import java.util.HashMap;
  */
 public enum PlaceValidatorsEnum {
     FLOOR("floor", new FreeFloorValidator()),
+    FARM("farm", pos -> GameMvc.model().get(LocalMap.class).blockType.get(pos) == BlockTypeEnum.FARM.CODE),
     CONSTRUCTION("construction", new ConstructionValidator());
 
     private static HashMap<String, PositionValidator> map;

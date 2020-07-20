@@ -4,7 +4,6 @@ import stonering.entity.building.BuildingOrder;
 import stonering.entity.job.Task;
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.job.designation.Designation;
-import stonering.entity.job.designation.OrderDesignation;
 import stonering.entity.job.designation.PlantingDesignation;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.designations.PlaceValidatorsEnum;
@@ -56,7 +55,7 @@ public class DesignationSystem {
         if (!type.VALIDATOR.apply(position)) return;
         removeDesignation(position); // remove previous designation
         if (type != DesignationTypeEnum.D_NONE) {
-            container.designations.put(position, new OrderDesignation(position, type)); // put new designation
+            container.designations.put(position, new Designation(position, type)); // put new designation
         }
     }
 
@@ -72,7 +71,8 @@ public class DesignationSystem {
     }
 
     public void submitPlantingDesignation(Position position, String specimen) {
-        container.designations.put(position, new PlantingDesignation(position, specimen));
+        if (PlaceValidatorsEnum.FARM.VALIDATOR.apply(position))
+            container.designations.put(position, new PlantingDesignation(position, specimen));
     }
 
     public void removeDesignation(Position position) {

@@ -68,8 +68,6 @@ public class TaskStatusSystem {
                         task.reset();
                         container.addReopenedTask(task);
                     }
-//                        task.designation.task = null;
-                    break;
             }
         }
     }

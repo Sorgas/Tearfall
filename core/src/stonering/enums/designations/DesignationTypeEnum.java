@@ -27,9 +27,9 @@ public enum DesignationTypeEnum {
     D_CHOP(2, "chopping trees", new TreeChoppingValidator(), 7, "lumberjack"),                // chop trees in th area
     D_CUT(3, "cutting plants", position -> true, 8, "herbalist"),                            // cut plants
     D_HARVEST(4, "harvesting plants", position -> true, 9, "herbalist"),                     // harvest plants
-    D_BUILD(5, "building", position -> true, 10, "builder"),                               // build construction or building
     D_HOE(5, "hoeing", new FreeSoilFloorValidator(), 11, "farmer"),
-    D_PLANT(5, "building", position -> GameMvc.model().get(LocalMap.class).blockType.get(position) == FARM.CODE, 12, "farmer")
+    D_BUILD(5, "building", position -> true, 10, "builder"),                               // build construction or building
+    D_PLANT(5, "planting", PlaceValidatorsEnum.FARM.VALIDATOR, 12, "farmer")
     ;
 
     private static HashMap<Integer, DesignationTypeEnum> map;

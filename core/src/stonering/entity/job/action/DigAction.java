@@ -2,7 +2,6 @@ package stonering.entity.job.action;
 
 import stonering.entity.job.action.equipment.use.EquipToolItemAction;
 import stonering.entity.job.designation.Designation;
-import stonering.entity.job.designation.OrderDesignation;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ToolWithActionItemSelector;
@@ -34,7 +33,7 @@ public class DigAction extends SkillAction {
     private final float workAmountModifier = 10f;
     private final String toolActionName = "dig";
 
-    public DigAction(OrderDesignation designation) {
+    public DigAction(Designation designation) {
         super(new PositionActionTarget(designation.position, ActionTargetTypeEnum.NEAR), "miner");
         type = designation.type;
 

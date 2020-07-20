@@ -12,6 +12,7 @@ import stonering.entity.job.action.equipment.obtain.ObtainItemAction;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.job.designation.Designation;
+import stonering.entity.job.designation.PlantingDesignation;
 import stonering.entity.plant.Plant;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
@@ -28,10 +29,10 @@ import stonering.util.logging.Logger;
  */
 public class PlantingAction extends EquipmentAction {
     private SeedItemSelector seedSelector;
-
-    public PlantingAction(Designation designation, SeedItemSelector seedSelector) {
+    
+    public PlantingAction(PlantingDesignation designation) {
         super(new PositionActionTarget(designation.position, ActionTargetTypeEnum.NEAR));
-        this.seedSelector = seedSelector;
+        seedSelector = new SeedItemSelector(designation.specimen);
         startCondition = () -> {
             Logger.TASKS.logDebug("Checking planting action");
             if (getSeedFromEquipment() != null) return OK;
