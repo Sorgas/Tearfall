@@ -2,6 +2,7 @@ package stonering.entity.job.action.item;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import stonering.entity.crafting.IngredientOrder;
@@ -73,14 +74,17 @@ public abstract class ItemConsumingAction extends ItemAction {
                 .filterNotInList(otherItems)
                 .filterBySelector(ingredientOrder.itemSelector)
                 .filterByReachability(target)
-                .toList();
+                .stream.filter(item -> !item.locked)
+                .collect(Collectors.toList());
         validItems.addAll(new ContainedItemsStream() // items from containers
                 .filterNotInList(otherItems)
                 .filterBySelector(ingredientOrder.itemSelector)
                 .filterByReachability(target)
                 .filterLockedContainers()
                 .filterOwnedContainers()
-                .toList());
+                .stream.filter(entry -> !entry.getKey().locked)
+                .map(Map.Entry::getKey) 
+                .collect(Collectors.toList()));
         // select items of one type/material of allowed ones
         if (ingredientOrder.itemSelector instanceof ConfiguredItemSelector)
             validItems = ((ConfiguredItemSelector) ingredientOrder.itemSelector).selectVariant(validItems, ingredientOrder.ingredient.quantity, getPositionForItems());

@@ -46,7 +46,6 @@ public class ItemContainer extends EntityContainer<Item> {
 
     public void addItem(Item item) {
         objects.add(item);
-        item.init(); // init item aspects
     }
 
     public void removeItem(Item item) {
@@ -76,7 +75,6 @@ public class ItemContainer extends EntityContainer<Item> {
 
     public boolean itemAccessible(Item item, Position position) {
         //TODO handle items in containers
-
         if(isItemInContainer(item)) {
             Position containerPosition = contained.get(item).entity.position;
             LocalMap map = map();
@@ -87,7 +85,7 @@ public class ItemContainer extends EntityContainer<Item> {
                     .map(map.passageMap.area::get)
                     .anyMatch(area1 -> area1 == area);
         }
-        return map().passageMap.area.get(position) == map().passageMap.area.get(item.position);
+        return item.position != null && map().passageMap.area.get(position) == map().passageMap.area.get(item.position);
     }
 
     private LocalMap map() {

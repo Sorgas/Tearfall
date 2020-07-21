@@ -50,6 +50,7 @@ public class MainGameModel extends GameModel {
         put(new LiquidContainer());
         put(new EntitySelectorSystem());          // local map camera
         put(new PlayerSettlementProperties());
+        put(new EntityIdGenerator());
         put(new AStar());
     }
 }

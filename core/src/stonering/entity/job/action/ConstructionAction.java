@@ -40,6 +40,6 @@ public class ConstructionAction extends GenericBuildingAction {
 
     @Override
     public String toString() {
-        return "Construction name: " + BlockTypeEnum.getType(blockType).NAME;
+        return "constructing: " + BlockTypeEnum.getType(blockType).NAME + " on " + target.getPosition();
     }
 }

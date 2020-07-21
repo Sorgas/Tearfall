@@ -1,6 +1,7 @@
 package stonering.game.model.system.unit;
 
 import com.badlogic.gdx.math.Vector3;
+
 import stonering.game.model.system.EntityContainer;
 import stonering.game.model.system.task.CreatureActionPerformingSystem;
 import stonering.util.geometry.Position;
@@ -16,7 +17,7 @@ import java.util.*;
  *
  * @author Alexander Kuzyakov on 03.12.2017.
  */
-public class UnitContainer extends EntityContainer<Unit> implements Initable {
+public class UnitContainer extends EntityContainer<Unit> {
     Map<Position, List<Unit>> unitsMap;
     public final CreatureNeedSystem needSystem;
     public final CreatureBuffSystem buffSystem;
@@ -26,7 +27,7 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
     public final CreatureActionPerformingSystem taskSystem;
     public final CreatureExperienceSystem experienceSystem;
     public final CreatureEquipmentSystem equipmentSystem;
-    
+
     private Position cachePosition; // used for faster getting unit from map
 
     public UnitContainer() {
@@ -48,7 +49,6 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
     public void addUnit(Unit unit) {
         addUnitToMap(unit);
         objects.add(unit);
-        unit.init();
     }
 
     /**
@@ -59,20 +59,28 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
         objects.remove(unit);
     }
 
-    public void updateUnitPosiiton(Unit unit, Vector3 vector) {
+//    public void moveUnit(Unit unit, Vector3 delta) {
+//        cachePosition.set(unit.position);
+//        unit.setPosition(unit.vectorPosition.add(delta));
+//        if(!cachePosition.equals(unit.position)) {
+//            unitsMap.get(cachePosition)
+//        }
+//    }
+
+    public void updateUnitPosition(Unit unit, Vector3 vector) {
         removeUnitFromMap(unit);
         unit.setPosition(vector);
         addUnitToMap(unit);
     }
 
-    public void updateUnitPosiiton(Unit unit, Position position) {
+    public void updateUnitPosition(Unit unit, Position position) {
         removeUnitFromMap(unit);
         unit.setPosition(position);
         addUnitToMap(unit);
     }
 
     private void addUnitToMap(Unit unit) {
-        Position position = unit.position;
+        Position position = unit.position.clone();
         if (!unitsMap.containsKey(position)) unitsMap.put(position, new ArrayList<>());
         unitsMap.get(position).add(unit);
     }
@@ -87,15 +95,10 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
      * returns list of unit in given position. Returns null, if no unit exist in this position.
      */
     public List<Unit> getUnitsInPosition(int x, int y, int z) {
-        return getUnitsInPosition(cachePosition.set(x,y,z));
+        return getUnitsInPosition(cachePosition.set(x, y, z));
     }
 
     public List<Unit> getUnitsInPosition(Position position) {
         return unitsMap.getOrDefault(position, Collections.emptyList());
-    }
-
-    @Override
-    public void init() {
-        unitsMap.values().forEach(units -> units.forEach(Unit::init));
     }
 }

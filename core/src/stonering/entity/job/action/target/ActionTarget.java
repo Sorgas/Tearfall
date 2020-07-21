@@ -1,16 +1,12 @@
 package stonering.entity.job.action.target;
 
-import stonering.entity.Entity;
-import stonering.entity.job.action.MoveAction;
-import stonering.enums.action.ActionTargetTypeEnum;
-import stonering.game.model.local_map.passage.NeighbourPositionStream;
-import stonering.util.geometry.Position;
-import stonering.entity.job.action.Action;
-import stonering.util.logging.Logger;
-
-import java.util.Random;
-
 import static stonering.entity.job.action.target.ActionTargetStatusEnum.*;
+
+import stonering.entity.Entity;
+import stonering.entity.job.action.Action;
+import stonering.enums.action.ActionTargetTypeEnum;
+import stonering.util.geometry.Position;
+import stonering.util.logging.Logger;
 
 public abstract class ActionTarget {
     public ActionTargetTypeEnum type;

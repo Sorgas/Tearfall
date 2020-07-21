@@ -62,5 +62,9 @@
   {
     "name": "enchanter",
     "skill": "enchanting"
+  },
+  {
+    "name": "builder",
+    "skill": "building"
   }
 ]

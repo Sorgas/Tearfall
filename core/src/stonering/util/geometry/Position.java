@@ -90,7 +90,7 @@ public class Position implements Serializable, Cloneable {
         return set(position.x, position.y, position.z);
     }
 
-    public Position set(Vector3 vector) {
+    public  Position set(Vector3 vector) {
         return set(Math.round(vector.x), Math.round(vector.y), Math.round(vector.z));
     }
 

@@ -2,7 +2,6 @@ package stonering.game.model.system.unit;
 
 import com.badlogic.gdx.math.Vector3;
 import stonering.entity.VectorPositionEntity;
-import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.TaskAspect;
@@ -37,13 +36,15 @@ public class CreatureMovementSystem extends EntitySystem<Unit> {
     private LocalMap localMap;
     private UnitContainer unitContainer;
     private AStar aStar;
-
+    private Position cachePosition;
+    
     @Override
     public void update(Unit unit) {
         GameModel model = GameMvc.model();
         localMap = model.get(LocalMap.class);
         unitContainer = model.get(UnitContainer.class);
         aStar = model.get(AStar.class);
+        
         MovementAspect movement = unit.get(MovementAspect.class);
         if (movement.target != null) {
             if (checkPath(unit, movement)) makeStep(unit, movement);
@@ -56,32 +57,17 @@ public class CreatureMovementSystem extends EntitySystem<Unit> {
      * Checks that path to target exists. Creates new path if needed. Can fail task in {@link TaskAspect}.
      */
     private boolean checkPath(Unit unit, MovementAspect movement) {
-        TaskAspect planning = unit.get(TaskAspect.class);
-        if (movement.path == null) { // path was blocked or not created
-            Logger.PATH.logDebug("searching path from " + unit.position + " to " + movement.target);
-            movement.path = aStar.makeShortestPath(unit.position, movement.target, planning.task.nextAction.target.type);
-            if (movement.path == null) {
-                System.out.println("task " + planning.task + " failed no path");
-                planning.task.status = TaskStatusEnum.FAILED; // no path to target, fail task
-                return freeAspect(movement);
-            }
+        if (movement.path != null) return true; // path exists
+        // path was blocked or not created
+        TaskAspect taskAspect = unit.get(TaskAspect.class);
+        Logger.PATH.logDebug("searching path from " + unit.position + " to " + movement.target);
+        movement.path = aStar.makeShortestPath(unit.position, movement.target, taskAspect.task.nextAction.target.type);
+        if (movement.path == null) {
+            System.out.println("task " + taskAspect.task + " failed no path");
+            taskAspect.task.status = TaskStatusEnum.FAILED; // no path to target, fail task
+            return freeAspect(movement);
         }
         return true; // path exists
-    }
-
-    /**
-     * Finds new movement target and path.
-     */
-    private void updateMovementAspect(Unit unit, MovementAspect movement, TaskAspect planning) {
-        ActionTarget actionTarget = planning.task.nextAction.target;
-        switch (actionTarget.type) {
-            case EXACT:
-                break;
-            case NEAR:
-                break;
-            case ANY:
-                break;
-        }
     }
 
     /**
@@ -90,16 +76,18 @@ public class CreatureMovementSystem extends EntitySystem<Unit> {
     private void makeStep(Unit unit, MovementAspect aspect) {
         Position nextPosition = aspect.path.get(0);
         if (localMap.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
-            Vector3 direction = getDirectionVector(unit.vectorPosition, nextPosition);
-            if (direction.len() > aspect.speed)
-                direction.setLength(aspect.speed); // if distance to next position is less than unit's speed, it will be covered in 1 step
-            unit.vectorPosition.add(direction);
-            unitContainer.updateUnitPosiiton(unit, unit.vectorPosition); // change unit position in container
+            
+            Vector3 directionVector = getDirectionVector(unit.vectorPosition, nextPosition);
+            if (directionVector.len() > aspect.speed) directionVector.setLength(aspect.speed); // limit creature speed
+            unit.vectorPosition.add(directionVector);
+            unitContainer.updateUnitPosition(unit, unit.vectorPosition); // change unit position in container
+            
             if (nextPosition.equals(unit.vectorPosition)) { // next tile reached
                 aspect.path.remove(0); // remove reached tile from path
                 unitContainer.healthSystem.applyMoveChange(unit);
                 if(aspect.path.isEmpty()) freeAspect(aspect); // path is finished
             }
+            
         } else { // path blocked
             Logger.PATH.log("path was blocked in " + nextPosition);
             aspect.path = null; // drop path, will be recounted on next update
@@ -115,7 +103,7 @@ public class CreatureMovementSystem extends EntitySystem<Unit> {
                 Vector3 direction = getDirectionVector(unit.vectorPosition, unit.position);
                 if (direction.len() > aspect.speed) direction.setLength(aspect.speed);
                 Vector3 newVectorPosition = unit.vectorPosition.cpy().add(direction);
-                unitContainer.updateUnitPosiiton(unit, newVectorPosition); // change unit position in container
+                unitContainer.updateUnitPosition(unit, newVectorPosition); // change unit position in container
             }
         } else { // path blocked
             Logger.PATH.log("Unit's position " + unit.position + " is impassable");

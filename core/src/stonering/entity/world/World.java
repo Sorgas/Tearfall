@@ -14,7 +14,7 @@ import java.io.Serializable;
  *
  * @author Alexander Kuzyakov
  */
-public class World implements Serializable, Initable, ModelComponent, Updatable {
+public class World implements Serializable, ModelComponent, Updatable {
     private WorldMap worldMap;
     private StarSystem starSystem;
     private int seed;
@@ -22,11 +22,6 @@ public class World implements Serializable, Initable, ModelComponent, Updatable 
     public World(int width, int height) {
         worldMap = new WorldMap(width, height);
         starSystem = new StarSystem();
-    }
-
-    @Override
-    public void init() {
-        starSystem.init();
     }
 
     public WorldMap getWorldMap() {

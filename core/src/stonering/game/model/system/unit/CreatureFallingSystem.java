@@ -39,7 +39,7 @@ public class CreatureFallingSystem {
      */
     private void fall(Unit unit) {
         Position pos = unit.position;
-        container.updateUnitPosiiton(unit, new Position(pos.x, pos.y, pos.z - 1));
+        container.updateUnitPosition(unit, new Position(pos.x, pos.y, pos.z - 1));
         unit.get(MovementAspect.class).path = null;
     }
 }

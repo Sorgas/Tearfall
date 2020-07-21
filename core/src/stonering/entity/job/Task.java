@@ -105,7 +105,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task of:" + initialAction;
+        return "Task of: " + initialAction;
     }
 
     public ActionTarget initialTarget() {

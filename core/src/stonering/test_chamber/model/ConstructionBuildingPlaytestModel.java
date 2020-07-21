@@ -7,6 +7,7 @@ import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.item.selectors.ConfiguredItemSelector;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.job.JobsAspect;
 import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.enums.buildings.blueprint.BlueprintsMap;
 import stonering.enums.materials.MaterialMap;
@@ -26,7 +27,6 @@ import stonering.util.geometry.Position;
  * @author Alexander on 27.04.2020.
  */
 public class ConstructionBuildingPlaytestModel extends TestModel {
-
     private BuildingGenerator buildingGenerator;
 
     public ConstructionBuildingPlaytestModel() {
@@ -36,16 +36,11 @@ public class ConstructionBuildingPlaytestModel extends TestModel {
     @Override
     public void init() {
         super.init();
-        get(UnitContainer.class).addUnit(createUnit());
+        get(UnitContainer.class).addUnit(createUnit(new Position(0,0,2)));
+        get(UnitContainer.class).addUnit(createUnit(new Position(1,0,2)));
         get(EntitySelectorSystem.class).selector.position.set(4, 4, 2);
         createItems();
         createOrders();
-    }
-
-    private Unit createUnit() {
-        Unit unit = new CreatureGenerator().generateUnit(new Position(getMapSize() / 2, getMapSize() / 2, 2), "human");
-//        unit.get(MovementAspect.class).speed = 0.2f;
-        return unit;
     }
 
     private void createItems() {
@@ -58,13 +53,9 @@ public class ConstructionBuildingPlaytestModel extends TestModel {
 
     private void createOrders() {
         DesignationSystem designationSystem = get(TaskContainer.class).designationSystem;
-        designationSystem.submitBuildingDesignation(createConstructionOrder("build_wall", new Position(5, 5, 2)), 1);
-        designationSystem.submitBuildingDesignation(createConstructionOrder("build_wall", new Position(5, 6, 2)), 1);
-        designationSystem.submitBuildingDesignation(createConstructionOrder("build_wall", new Position(5, 7, 2)), 1);
-        designationSystem.submitBuildingDesignation(createConstructionOrder("build_wall", new Position(6, 5, 2)), 1);
-        designationSystem.submitBuildingDesignation(createConstructionOrder("build_wall", new Position(7, 5, 2)), 1);
-        designationSystem.submitBuildingDesignation(createConstructionOrder("build_wall", new Position(6, 7, 2)), 1);
-        designationSystem.submitBuildingDesignation(createConstructionOrder("build_wall", new Position(7, 7, 2)), 1);
+        for (int x = 1; x < 6; x++) {
+            designationSystem.submitBuildingDesignation(createConstructionOrder("build_wall", new Position(x, 5, 2)), 1);
+        }
     }
 
     private BuildingOrder createConstructionOrder(String blueprintName, Position position) {
@@ -80,6 +71,12 @@ public class ConstructionBuildingPlaytestModel extends TestModel {
             order.ingredientOrders.put(key, new IngredientOrder(ingredient, woodSelector));
         });
         return order;
+    }
+
+    private Unit createUnit(Position position) {
+        Unit human = new CreatureGenerator().generateUnit(position, "human");
+        human.get(JobsAspect.class).enabledJobs.add("builder");
+        return human;
     }
 
     @Override

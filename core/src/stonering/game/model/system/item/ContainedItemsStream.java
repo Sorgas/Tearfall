@@ -21,7 +21,7 @@ import stonering.util.geometry.Position;
  */
 public class ContainedItemsStream {
     private final ItemContainer container;
-    private Stream<Map.Entry<Item, ItemContainerAspect>> stream;
+    public Stream<Map.Entry<Item, ItemContainerAspect>> stream;
     
     public ContainedItemsStream() {
         container = GameMvc.model().get(ItemContainer.class);

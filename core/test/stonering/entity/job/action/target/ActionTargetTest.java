@@ -71,7 +71,7 @@ public class ActionTargetTest {
     void testNearTargetSuccess() {
         actionTarget = new PositionActionTarget(targetPosition, ActionTargetTypeEnum.NEAR);
         Action action = new MoveAction(new Position());
-        actionTarget.setAction(action);
+        actionTarget.action = action;
         dummy.position = targetPosition;
         assertEquals(ActionTargetStatusEnum.STEP_OFF, actionTarget.check(dummy)); // new action should be created when checking from same position
         dummy.position = new Position(1, 0, 0);
@@ -96,7 +96,7 @@ public class ActionTargetTest {
     @Test
     void testAnyTarget() {
         actionTarget = new PositionActionTarget(targetPosition, ActionTargetTypeEnum.ANY);
-        actionTarget.setAction(actionMock);
+        actionTarget.action = actionMock;
         dummy.position = targetPosition;
         assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(dummy)); // same position
         dummy.position = new Position(1, 0, 0);

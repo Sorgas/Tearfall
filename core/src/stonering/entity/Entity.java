@@ -1,10 +1,13 @@
 package stonering.entity;
 
+import stonering.game.GameMvc;
+import stonering.game.model.EntityIdGenerator;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -12,22 +15,19 @@ import java.util.Optional;
  *
  * @author Alexander Kuzyakov on 25.01.2018.
  */
-public abstract class Entity implements Serializable, Initable, Cloneable {
+public abstract class Entity implements Serializable, Cloneable {
+    public final int id;
     public final HashMap<Class, Aspect> aspects;
     public Position position;
 
     protected Entity() {
         aspects = new HashMap<>();
+        id = EntityIdGenerator.get();
     }
 
     public Entity(Position position) {
         this();
         this.position = position != null ? position.clone() : null;
-    }
-
-    public Entity(Entity entity) {
-        this.position = entity.position;
-        this.aspects = new HashMap<>(entity.aspects); // add aspects cloning
     }
 
     public <T extends Aspect> boolean has(Class<T> type) {
@@ -47,14 +47,22 @@ public abstract class Entity implements Serializable, Initable, Cloneable {
         aspect.entity = this;
         aspects.put(aspect.getClass(), aspect);
     }
-
-    @Override
-    public void init() {
-        aspects.values().stream().filter(aspect -> aspect instanceof Initable).forEach(aspect -> ((Initable) aspect).init());
-    }
-
+    
     public void setPosition(Position position) {
         if(this.position == null) this.position = new Position();
         this.position.set(position);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Entity entity = (Entity) o;
+        return id == entity.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

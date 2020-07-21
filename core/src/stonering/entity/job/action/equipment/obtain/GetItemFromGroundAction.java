@@ -43,6 +43,7 @@ public class GetItemFromGroundAction extends EquipmentAction {
     protected boolean validate() {
         LocalMap map = GameMvc.model().get(LocalMap.class);
         return super.validate()
+                && item.position != null
                 && itemContainer.itemMap.get(item.position).contains(item)
                 && map.passageMap.inSameArea(item.position, task.performer.position);
     }
