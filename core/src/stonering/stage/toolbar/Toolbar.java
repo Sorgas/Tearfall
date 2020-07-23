@@ -1,5 +1,7 @@
 package stonering.stage.toolbar;
 
+import java.util.Optional;
+
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
@@ -77,8 +79,14 @@ public class Toolbar extends Container<HorizontalGroup> {
     }
 
     private void highlightLast(boolean value) {
-        if(menusGroup.getChildren().isEmpty()) return;
+        if (menusGroup.getChildren().isEmpty()) return;
         ((ButtonMenu) menusGroup.getChildren().peek())
                 .setBackground(DrawableMap.REGION.getDrawable("toolbar_menu" + (value ? ":focused" : "")));
+    }
+
+    public void removeLastMenu() {
+        Optional.ofNullable(menusGroup.getChildren().peek())
+                .filter(menu -> menu != parentMenu)
+                .ifPresent(this::removeMenu);
     }
 }

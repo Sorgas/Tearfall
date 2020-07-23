@@ -5,23 +5,23 @@
 */
 [
     {
-        "name": "miner",
+        "name": "mining",
         "levels": [40, 90, 180, 300, 500],
         "speed": 0.04
     }, {
-    "name": "woodcutter",
+    "name": "woodcutting",
     "levels": [40, 90, 180, 300, 500],
     "speed": 0.04,
     "quantity": 0.01,
     "quality": 0.01
 }, {
-    "name": "builder",
+    "name": "building",
     "levels": [40, 90, 180, 300, 500],
     "speed": 0.04,
     "quantity": 0.01,
     "quality": 0.01
 }, {
-    "name": "cook",
+    "name": "cooking",
     "levels": [40, 90, 180, 300, 500],
     "speed": 0.04,
     "quantity": 0.01,

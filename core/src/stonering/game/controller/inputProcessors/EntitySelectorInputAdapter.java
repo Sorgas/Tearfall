@@ -83,9 +83,16 @@ public class EntitySelectorInputAdapter extends EnableableInputAdapter {
 
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) { // lmb press starts selection
-            if (button != Input.Buttons.LEFT) return false;
-            system.inputHandler.startSelection();
-            return true;
+            switch(button) {
+                case Input.Buttons.LEFT:
+                    system.inputHandler.startSelection();
+                    return true;
+                case Input.Buttons.RIGHT:
+//                    if(!system.inputHandler.cancelSelection())
+
+                    return true;
+            }
+            return false;
         }
 
         @Override

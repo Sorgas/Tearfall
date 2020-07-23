@@ -2,8 +2,13 @@ package stonering.entity.job.action;
 
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.Task;
+import stonering.entity.unit.aspects.health.HealthAspect;
+import stonering.entity.unit.aspects.job.SkillAspect;
 import stonering.enums.action.ActionStatusEnum;
+import stonering.enums.unit.Skill;
+import stonering.enums.unit.SkillMap;
 import stonering.game.model.system.unit.CreaturePlanningSystem;
+import stonering.util.logging.Logger;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -20,11 +25,11 @@ import static stonering.enums.action.ActionStatusEnum.*;
  * <p>
  * 1. Target where unit should be to perform action. Before taking action from container, target reachability is checked.
  * 2. Taking condition - to be met before task is taken from container. 
- * Start condition - to be met before performing is started, can create additional actions e.g. bringing materials to workbench.
- * OnStart function - executed once.
- * Progress consumer function - executed many times. Does additive changes to model during action performing.
- * Finish condition - action finishes, when condition is met.
- * OnFinish function - executed once.
+ * 3. Start condition - to be met before performing is started, can create additional actions e.g. bringing materials to workbench.
+ * 4. OnStart function - executed once.
+ * 5. Progress consumer function - executed many times. Does additive changes to model during action performing.
+ * 6. Finish condition - action finishes, when condition is met.
+ * 7. OnFinish function - executed once.
  * <p>
  * Additional actions are created and added to task, when start condition is not met, but could be after additional action(equip tool, bring items).
  * If start condition is not met, action and its task are failed.
@@ -34,6 +39,7 @@ public abstract class Action {
     public Task task; // can be modified during execution
     public final ActionTarget target;
     public ActionStatusEnum status = OPEN;
+    protected final String skill;
 
     /**
      * Condition to be met before task with this action is assigned to unit.
@@ -54,7 +60,13 @@ public abstract class Action {
     public float maxProgress = 1;
 
     protected Action(ActionTarget target) {
+        this(target, null);
+    }
+
+    public Action(ActionTarget target, String skill) {
         this.target = target;
+        if(skill != null && SkillMap.getSkill(skill) == null) Logger.TASKS.logError("Skill " + skill + " not found.");
+        this.skill = skill;
         target.action = this;
         takingCondition = () -> true; // most actions have no special taking conditions
         startCondition = () -> FAIL; // prevent starting
@@ -89,5 +101,17 @@ public abstract class Action {
     public ActionConditionStatusEnum addPreAction(Action action) {
         task.addFirstPreAction(action);
         return NEW;
+    }
+
+    protected float performance() {
+        return task.performer.get(HealthAspect.class).properties.get("performance");
+    }
+
+    protected int performerLevel() {
+        return task.performer.get(SkillAspect.class).getSkill(skill).state.getLevel();
+    }
+
+    protected Skill skill() {
+        return SkillMap.getSkill(skill);
     }
 }

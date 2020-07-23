@@ -31,7 +31,7 @@ public class SkillAspect extends Aspect {
 
         public SkillValue(String skill) {
             this.skill = skill;
-            state = new LeveledValue(SkillMap.instance().getSkill(skill).levels);
+            state = new LeveledValue(SkillMap.getSkill(skill).levels);
         }
     }
 }

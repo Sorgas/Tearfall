@@ -28,15 +28,15 @@ public class SkillMap {
         return instance;
     }
 
-    public static Skill getSkill(String skillName) {
-        return skillName != null ? instance().skills.get(skillName) : null;
-    }
-
     private void loadTemplates() {
         Json json = new Json();
         ArrayList<Skill> skills = json.fromJson(ArrayList.class, Skill.class, FileUtil.get(FileUtil.SKILLS_PATH));
         for (Skill skill : skills) {
             this.skills.put(skill.name, skill);
         }
+    }
+
+    public static Skill getSkill(String skillName) {
+        return instance().skills.get(skillName);
     }
 }

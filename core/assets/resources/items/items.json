@@ -95,7 +95,7 @@
     "title": "Piece",
     "aspects": ["food(30)"],
     "tags": ["cookable"],
-    "atlasXY": ["12", "0"],
+    "atlasXY": ["4", "0"],
     "color": "0xffffffff"
 }, {
     "name": "bucket",

@@ -28,13 +28,13 @@ import static stonering.enums.blocks.BlockTypeEnum.*;
  * Uses mining skill increasing digging speed.
  * Should be only created with digging designation types.
  */
-public class DigAction extends SkillAction {
+public class DigAction extends Action {
     private DesignationTypeEnum type;
     private final float workAmountModifier = 10f;
     private final String toolActionName = "dig";
 
     public DigAction(Designation designation) {
-        super(new PositionActionTarget(designation.position, ActionTargetTypeEnum.NEAR), "miner");
+        super(new PositionActionTarget(designation.position, ActionTargetTypeEnum.NEAR), "mining");
         type = designation.type;
 
         startCondition = () -> {
@@ -44,14 +44,16 @@ public class DigAction extends SkillAction {
             if (equipment.toolWithActionEquipped(toolActionName)) return OK; // tool already equipped
             return addEquipAction();
         };
-
-        maxProgress = getWorkAmount(designation) * workAmountModifier; // 480 for wall to floor in marble
+        onStart = () -> {
+            speed = 1 + skill().speed * performerLevel() + performance();
+            maxProgress = getWorkAmount(designation) * workAmountModifier; // 480 for wall to floor in marble
+        };
 
         onFinish = () -> {
             BlockTypeEnum oldType = GameMvc.model().get(LocalMap.class).blockType.getEnumValue(target.getPosition());
             if (type.VALIDATOR.apply(target.getPosition())) updateMap();
             leaveStone(oldType);
-            GameMvc.model().get(UnitContainer.class).experienceSystem.giveExperience(task.performer, SKILL_NAME);
+            GameMvc.model().get(UnitContainer.class).experienceSystem.giveExperience(task.performer, skill);
             GameMvc.model().get(TaskContainer.class).designationSystem.removeDesignation(designation.position);
         };
     }

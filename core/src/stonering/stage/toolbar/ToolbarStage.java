@@ -1,6 +1,9 @@
 package stonering.stage.toolbar;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.utils.Align;
 import stonering.enums.buildings.blueprint.Blueprint;
@@ -31,6 +34,17 @@ public class ToolbarStage extends UiStage {
         tabContainer.setFillParent(true);
         tabContainer.align(Align.bottomRight);
         setKeyboardFocus(toolbar);
+        addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if(button == Input.Buttons.RIGHT) {
+                    System.out.println("rbm");
+                    toolbar.removeLastMenu();
+                    return true;
+                }
+                return false;
+            }
+        });
         interceptInput = false;
     }
 
