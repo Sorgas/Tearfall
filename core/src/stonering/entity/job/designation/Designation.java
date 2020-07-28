@@ -6,7 +6,6 @@ import static stonering.enums.action.TaskStatusEnum.COMPLETE;
 import stonering.entity.Entity;
 import stonering.entity.RenderAspect;
 import stonering.enums.designations.DesignationTypeEnum;
-import stonering.enums.designations.DesignationsTileMapping;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Position;
@@ -26,7 +25,7 @@ public class Designation extends Entity {
     public Designation(Position position, DesignationTypeEnum type) {
         super(position);
         this.type = type;
-        add(new RenderAspect(AtlasesEnum.ui_tiles.getBlockTile(DesignationsTileMapping.getAtlasX(type.CODE), 0))); // set sprite of designation type
+        add(new RenderAspect(AtlasesEnum.ui_tiles.getBlockTile(type.SPRITE_X, 0))); // set sprite of designation type
     }
 
     /**

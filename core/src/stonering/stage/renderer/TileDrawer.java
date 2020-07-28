@@ -44,13 +44,11 @@ public class TileDrawer extends Drawer {
     private EntitySelectorDrawer selectorDrawer;
     private ZoneDrawer zoneDrawer;
     private PlantDrawer plantDrawer;
+    private DesignationDrawer designationDrawer;
 
     private LocalMap localMap;
     private LocalTileMap localTileMap;
-    private PlantContainer plantContainer;
     private SubstrateContainer substrateContainer;
-    private TaskContainer taskContainer;
-    private ZoneContainer zoneContainer;
 
     private MovableCamera camera;
     private boolean disabled = false;
@@ -74,11 +72,9 @@ public class TileDrawer extends Drawer {
         selectorDrawer = new EntitySelectorDrawer(spriteDrawingUtil, shapeDrawingUtil);
         zoneDrawer = new ZoneDrawer(spriteDrawingUtil, shapeDrawingUtil);
         plantDrawer = new PlantDrawer(spriteDrawingUtil, shapeDrawingUtil);
-        
-        taskContainer = model.get(TaskContainer.class);
-        plantContainer = model.get(PlantContainer.class);
+        designationDrawer = new DesignationDrawer(spriteDrawingUtil, shapeDrawingUtil);
+
         substrateContainer = model.get(SubstrateContainer.class);
-        zoneContainer = model.get(ZoneContainer.class);
         cachePosition = new Position();
         cacheVector = new Vector3();
         cacheBounds = new Int2dBounds();
@@ -144,7 +140,7 @@ public class TileDrawer extends Drawer {
         blockDrawer.drawBlock(x, y, z); // all other
         unitDrawer.drawUnits(x, y, z);
         spriteUtil.updateColorA(0.6f);
-        if (taskContainer != null) drawDesignation(taskContainer.designations.get(cachePosition));
+        designationDrawer.draw(x, y, z);
         spriteUtil.updateColorA(1f);
         spriteUtil.resetColor();
         liquidDrawer.drawBlock(x, y, z);

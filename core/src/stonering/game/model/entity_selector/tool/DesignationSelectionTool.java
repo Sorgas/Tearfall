@@ -16,7 +16,7 @@ public class DesignationSelectionTool extends SelectionTool {
 
     @Override
     public void apply() {
-        selector().get(RenderAspect.class).region = AtlasesEnum.ui_tiles.getBlockTile(type.TOOL_SPRITE, 2);
+        selector().get(RenderAspect.class).region = AtlasesEnum.ui_tiles.getBlockTile(type.SPRITE_X, 2);
         EntitySelectorSystem system = GameMvc.model().get(EntitySelectorSystem.class);
         system.allowChangingZLevelOnSelection = true;
         system.allowTwoDimensionsOnSelection = true;

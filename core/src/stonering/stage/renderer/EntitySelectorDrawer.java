@@ -69,8 +69,8 @@ public class EntitySelectorDrawer extends Drawer {
         if (tool == SelectionTools.DESIGNATION) {
             byte blockType = map.blockType.get(x, y, selector.position.z);
             int atlasY = blockType == BlockTypeEnum.FLOOR.CODE || blockType == BlockTypeEnum.DOWNSTAIRS.CODE
-                    || blockType == BlockTypeEnum.FARM.CODE || blockType == BlockTypeEnum.SPACE.CODE ? 3 : 2;
-            TextureRegion region = ui_tiles.getBlockTile(SelectionTools.DESIGNATION.type.TOOL_SPRITE, atlasY);
+                    || blockType == BlockTypeEnum.FARM.CODE || blockType == BlockTypeEnum.SPACE.CODE ? 4 : 3;
+            TextureRegion region = ui_tiles.getBlockTile(SelectionTools.DESIGNATION.type.SPRITE_X, atlasY);
             spriteUtil.drawSprite(region, x, y, selector.position.z);
         } else {
             boolean buildingToolActive = selector.get(SelectionAspect.class).tool == SelectionTools.BUILDING;

@@ -65,7 +65,7 @@ public class TaskContainer implements ModelComponent, Updatable {
             return Logger.TASKS.logError("Creature " + unit + " without jobs aspect gets task from container", null);
         
         return tasks.entrySet().stream()
-                .filter(entry -> aspect.enabledJobs.contains(entry.getKey())) // allowed unit jobs
+                .filter(entry -> aspect.enabledJobs.contains(entry.getKey()) || entry.getKey().equals("none")) // allowed unit jobs
                 .flatMap(entry -> entry.getValue().tasks.stream())
                 .filter(task -> taskTargetReachable(unit, task)) // tasks with reachable targets
                 .min(Comparator.comparingInt(task -> task.initialAction.target.getPosition().fastDistance(unit.position)))// nearest target
