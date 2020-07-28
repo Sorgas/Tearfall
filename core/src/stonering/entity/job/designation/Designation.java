@@ -2,10 +2,15 @@ package stonering.entity.job.designation;
 
 import static stonering.enums.action.TaskStatusEnum.CANCELED;
 import static stonering.enums.action.TaskStatusEnum.COMPLETE;
+import static stonering.enums.blocks.BlockTypeEnum.*;
+
+import com.badlogic.gdx.graphics.Color;
 
 import stonering.entity.Entity;
 import stonering.entity.RenderAspect;
 import stonering.enums.designations.DesignationTypeEnum;
+import stonering.game.GameMvc;
+import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Position;
@@ -25,7 +30,18 @@ public class Designation extends Entity {
     public Designation(Position position, DesignationTypeEnum type) {
         super(position);
         this.type = type;
-        add(new RenderAspect(AtlasesEnum.ui_tiles.getBlockTile(type.SPRITE_X, 0))); // set sprite of designation type
+        add(createRenderAspect());
+    }
+
+    private RenderAspect createRenderAspect() {
+        byte blockType = GameMvc.model().get(LocalMap.class).blockType.get(position);
+        int atlasY = blockType == FLOOR.CODE
+                || blockType == DOWNSTAIRS.CODE
+                || blockType == FARM.CODE
+                || blockType == SPACE.CODE ? 1 : 0;
+        RenderAspect render = new RenderAspect(AtlasesEnum.ui_tiles.getBlockTile(type.SPRITE_X, atlasY)); // set sprite of designation type
+        render.color = Color.YELLOW;
+        return render;
     }
 
     /**

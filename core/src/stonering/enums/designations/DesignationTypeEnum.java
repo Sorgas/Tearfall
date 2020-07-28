@@ -20,10 +20,10 @@ public enum DesignationTypeEnum {
     D_NONE(-1, "none", null),                                                          // for removing simple designations
 
     D_DIG(2, "digging", new DiggingValidator(FLOOR), "miner"),                        // removes walls and ramps. leaves floor
-    D_CHANNEL(6, "digging channel", new DiggingChannelValidator(), "miner"),          // digs cell and ramp on lower level
-    D_RAMP(5, "cutting ramp", new DiggingValidator(RAMP), "miner"),                   // digs ramp and upper cell.
     D_STAIRS(3, "cutting stairs", new DiggingValidator(STAIRS), "miner"),             // cuts stairs from wall.
     D_DOWNSTAIRS(4, "cutting downstairs", new DiggingValidator(DOWNSTAIRS), "miner"), // cuts combined stairs from wall. assigned automatically.
+    D_RAMP(5, "cutting ramp", new DiggingValidator(RAMP), "miner"),                   // digs ramp and upper cell.
+    D_CHANNEL(6, "digging channel", new DiggingChannelValidator(), "miner"),          // digs cell and ramp on lower level
 
     D_CHOP(7, "chopping trees", PlaceValidatorEnum.TREE.VALIDATOR, "lumberjack"),     // chop trees in th area
     D_CUT(8, "cutting plants", "herbalist"),                                          // cut plants

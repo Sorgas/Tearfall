@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import stonering.entity.RenderAspect;
-import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
@@ -19,9 +18,8 @@ import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
 import stonering.util.validation.PositionValidator;
 
+import static stonering.enums.blocks.BlockTypeEnum.*;
 import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
-
-import java.util.Optional;
 
 /**
  * Renders {@link EntitySelector} sprite and frame.
@@ -52,7 +50,7 @@ public class EntitySelectorDrawer extends Drawer {
 
     public void draw() {
         drawSelectorAdditionalSprites();
-        drawFrame();
+//        drawFrame();
     }
 
     public void render(int x, int y, int z) {
@@ -68,8 +66,10 @@ public class EntitySelectorDrawer extends Drawer {
         SelectionTool tool = selector.get(SelectionAspect.class).tool;
         if (tool == SelectionTools.DESIGNATION) {
             byte blockType = map.blockType.get(x, y, selector.position.z);
-            int atlasY = blockType == BlockTypeEnum.FLOOR.CODE || blockType == BlockTypeEnum.DOWNSTAIRS.CODE
-                    || blockType == BlockTypeEnum.FARM.CODE || blockType == BlockTypeEnum.SPACE.CODE ? 4 : 3;
+            int atlasY = blockType == FLOOR.CODE
+                    || blockType == DOWNSTAIRS.CODE
+                    || blockType == FARM.CODE
+                    || blockType == SPACE.CODE ? 1 : 0;
             TextureRegion region = ui_tiles.getBlockTile(SelectionTools.DESIGNATION.type.SPRITE_X, atlasY);
             spriteUtil.drawSprite(region, x, y, selector.position.z);
         } else {
@@ -141,6 +141,6 @@ public class EntitySelectorDrawer extends Drawer {
     }
 
     private void drawSprite(int x, Position position) {
-        spriteUtil.drawSprite(ui_tiles.getBlockTile(x, 1), position);
+        spriteUtil.drawSprite(ui_tiles.getBlockTile(x, 2), position);
     }
 }

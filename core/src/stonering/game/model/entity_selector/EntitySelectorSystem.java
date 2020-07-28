@@ -31,7 +31,7 @@ public class EntitySelectorSystem implements ModelComponent {
         selector = new EntitySelector(new Position());
         selector.add(new SelectionAspect(selector));
         selector.add(new BoxSelectionAspect(selector));
-        selector.add(new RenderAspect(AtlasesEnum.ui_tiles.getBlockTile(0, 2)));
+        selector.add(new RenderAspect(AtlasesEnum.ui_tiles.getBlockTile(0, 0)));
         inputHandler = new EntitySelectorInputHandler(this);
         cachePosition = new Position();
     }

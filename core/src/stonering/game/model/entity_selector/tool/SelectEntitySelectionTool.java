@@ -19,7 +19,7 @@ public class SelectEntitySelectionTool extends SelectionTool {
     public void apply() {
         selector().get(BoxSelectionAspect.class).boxEnabled = true;
         selector().size.set(1, 1);
-        selector().get(RenderAspect.class).region = AtlasesEnum.ui_tiles.getBlockTile(0, 2);
+        selector().get(RenderAspect.class).region = AtlasesEnum.ui_tiles.getBlockTile(0, 0);
         GameMvc.view().toolbarStage.hideTab();
         EntitySelectorSystem system = GameMvc.model().get(EntitySelectorSystem.class);
         system.allowChangingZLevelOnSelection = true;
