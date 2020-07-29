@@ -9,14 +9,10 @@ import java.util.stream.Collectors;
 
 import com.sun.istack.Nullable;
 
-import stonering.entity.Entity;
 import stonering.enums.blocks.BlockTypeEnum;
-import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.system.EntitySystem;
 import stonering.game.model.system.UtilitySystem;
-import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.Position;
 
 /**
@@ -84,7 +80,7 @@ public class LiquidMovingSystem extends UtilitySystem {
 
     private boolean tryFallOver(Position position) {
         if (position.z <= 0) return false;
-        List<Position> positions = neighbourDeltas.stream()
+        List<Position> positions = fourNeighbourDeltas.stream()
                 .map(delta -> Position.add(position, delta))
                 .filter(localMap::inMap)
                 .filter(pos -> localMap.blockType.getEnumValue(pos).PASS_LIQUID_DOWN) // tile can pass liquid down
