@@ -9,12 +9,12 @@ import java.util.TreeMap;
  * @author Alexander Kuzyakov on 07.02.2018.
  */
 public class HashPriorityQueue<K, V> {
-    HashMap<K, V> hashMap;
-    TreeMap<V, K> treeMap;
+    public final HashMap<K, V> hashMap;
+    public final TreeMap<V, K> treeMap;
 
     public HashPriorityQueue(Comparator<V> comp) {
-        this.hashMap = new HashMap<K, V>();
-        this.treeMap = new TreeMap<V, K>(comp);
+        hashMap = new HashMap<>();
+        treeMap = new TreeMap<>(comp);
     }
 
     public int size() {
@@ -38,7 +38,7 @@ public class HashPriorityQueue<K, V> {
         this.treeMap.put(value, key);
         return true;
     }
-
+    
     public boolean remove(K key, V value) {
         if (value == null) {
             value = this.hashMap.get(key);
@@ -51,18 +51,5 @@ public class HashPriorityQueue<K, V> {
     public V poll() {
         Map.Entry<V, K> entry = this.treeMap.pollFirstEntry();
         return entry.getKey();
-    }
-
-    public void clear() {
-        this.hashMap.clear();
-        this.treeMap.clear();
-    }
-
-    public HashMap<K, V> getHashMap() {
-        return hashMap;
-    }
-
-    public TreeMap<V, K> getTreeMap() {
-        return treeMap;
     }
 }

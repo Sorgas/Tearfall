@@ -51,7 +51,8 @@ public class DigAction extends Action {
 
         onFinish = () -> {
             BlockTypeEnum oldType = GameMvc.model().get(LocalMap.class).blockType.getEnumValue(target.getPosition());
-            if (type.VALIDATOR.apply(target.getPosition())) updateMap();
+            if (!type.VALIDATOR.apply(target.getPosition())) return;
+            updateMap();
             leaveStone(oldType);
             GameMvc.model().get(UnitContainer.class).experienceSystem.giveExperience(task.performer, skill);
             GameMvc.model().get(TaskContainer.class).designationSystem.removeDesignation(designation.position);
@@ -89,9 +90,16 @@ public class DigAction extends Action {
                 break;
             case D_CHANNEL:
                 updateAndRevealMap(target, SPACE);
-                Position lowerPosition = new Position(target.x, target.y, target.z - 1);
-                if (map.inMap(lowerPosition) && map.blockType.get(lowerPosition) == WALL.CODE)
-                    updateAndRevealMap(lowerPosition, RAMP);
+                Position rampPosition = new Position(target.x, target.y, target.z - 1);
+                if (map.inMap(rampPosition) && map.blockType.get(rampPosition) == WALL.CODE)
+                    updateAndRevealMap(rampPosition, RAMP);
+                break;
+            case D_DOWNSTAIRS:
+                updateAndRevealMap(target, DOWNSTAIRS);
+                Position stairsPosition = new Position(target.x, target.y, target.z - 1);
+                if (map.inMap(stairsPosition) && map.blockType.get(stairsPosition) == WALL.CODE)
+                    updateAndRevealMap(stairsPosition, STAIRS);
+                break;
         }
     }
  

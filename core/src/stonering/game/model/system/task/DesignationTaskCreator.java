@@ -33,7 +33,6 @@ public class DesignationTaskCreator {
         } else {
             switch (designation.type) {
                 case D_DOWNSTAIRS:
-                    break;
                 case D_DIG:
                 case D_RAMP:
                 case D_STAIRS:

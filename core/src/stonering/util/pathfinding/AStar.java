@@ -5,15 +5,15 @@ import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.ModelComponent;
 import stonering.game.model.local_map.LocalMap;
-import stonering.util.HashPriorityQueue;
 import stonering.util.geometry.Position;
+import stonering.util.geometry.PositionUtil;
 import stonering.util.logging.Logger;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AStar implements ModelComponent {
     private LocalMap localMap;
-    private int maxSteps = 10000; // unlimited if negative
 
     /**
      * Returns the shortest Path from a start node to an end node according to
@@ -21,17 +21,12 @@ public class AStar implements ModelComponent {
      */
     public List<Position> makeShortestPath(Position initialPos, Position targetPos, ActionTargetTypeEnum targetType) {
         localMap = GameMvc.model().get(LocalMap.class);
-        Node initialNode = new Node(initialPos, targetPos);
-        Node pathNode = search(initialNode, targetPos, targetType); //perform search
-        if (pathNode == null) return null;
-
-        LinkedList<Position> path = new LinkedList<>();
-        path.add(pathNode.position);
-        while (pathNode.getParent() != null) {
-            pathNode = pathNode.getParent();
-            path.add(0, pathNode.position);
-        }
-        return path;
+        Node initialNode = new Node(initialPos);
+        initialNode.pathLength = 0;
+        initialNode.heuristic = initialPos.getDistance(targetPos);
+        return Optional.ofNullable(search(initialNode, targetPos, targetType))
+                .map(Node::getPath)
+                .orElse(null);
     }
 
     public List<Position> makeShortestPath(Position initialPos, Position targetPos) {
@@ -45,42 +40,35 @@ public class AStar implements ModelComponent {
      * @return goal node to restore path from
      */
     private Node search(Node initialNode, Position targetPos, ActionTargetTypeEnum targetType) {
-        HashPriorityQueue<Node, Node> openSet = new HashPriorityQueue(new NodeComparator());
-        HashMap<Integer, Node> closedSet = new HashMap<>();
+        
+        OpenSet openSet = new OpenSet();
+        Set<Node> closedSet = new HashSet<>();
         PathFinishCondition finishCondition = new PathFinishCondition(targetPos, targetType);
-        int numSearchSteps = 0; // current iteration of the search
-        openSet.add(initialNode, initialNode);
-        while (openSet.size() > 0 && (maxSteps < 0 || numSearchSteps < maxSteps)) {
+        System.out.println("finish condition " + finishCondition.acceptable);
+        
+        System.out.println("_add " + initialNode + " to open set");
+        openSet.add(initialNode);
+        while (openSet.size() > 0) {
             Node currentNode = openSet.poll(); //get element with the least sum of costs
+            System.out.println("current is " + currentNode);
             if (finishCondition.check(currentNode.position)) return currentNode; //check if path is complete
-            ArrayList<Node> successorNodes = getSuccessors(currentNode, targetPos); //get successor nodes
-
-            //process successor nodes
-            for (Node successorNode : successorNodes) {
-                if (closedSet.containsValue(successorNode)) continue; // node already closed, skip
-                int pathLength = currentNode.getPathLength() + 1; //compute tentativeG
-
-                /* Special rule for nodes that are generated within other nodes:
-                 * We need to ensure that we use the node and
-                 * its g value from the openSet if its already discovered
-                 */
-                Node discSuccessorNode = openSet.get(successorNode);
-                boolean inOpenSet;
-                if (discSuccessorNode != null) {
-                    successorNode = discSuccessorNode;
-                    inOpenSet = true;
-                    if (inOpenSet && pathLength >= successorNode.getPathLength()) continue;
-                } else {
-                    inOpenSet = false;
-                }
-                successorNode.setParent(currentNode); //node was already discovered and this path is worse than the last one
-                // if successorNode is already in data structure it has to be inserted again to regain the order
-                if (inOpenSet) openSet.remove(successorNode, successorNode);
-                successorNode.setPathLength(pathLength);
-                openSet.add(successorNode, successorNode);
-            }
-            closedSet.put(currentNode.hashCode(), currentNode);
-            numSearchSteps++;
+            int pathLength = currentNode.pathLength + 1;
+            getSuccessors(currentNode).stream()
+                    .filter(node -> !closedSet.contains(node)) // node already handled and closed
+                    .peek(node -> node.pathLength = pathLength)
+                    .peek(node -> node.parent = currentNode)
+                    .peek(node -> node.heuristic = node.position.getDistance(targetPos))
+                    .forEach(newNode -> {
+                        if(newNode.toString().equals("[4 5 4]"))
+                            System.out.println("found");
+                        Node oldNode = openSet.get(newNode.position);
+                        if (oldNode == null || oldNode.pathLength > newNode.pathLength) { // if successor node is newly found, or has shorter path
+                            System.out.println("+add " + newNode + " to open set");
+                            openSet.add(newNode); // replace old node
+                        }
+                    });
+            System.out.println("-add " + currentNode + " to close set");
+            closedSet.add(currentNode);
         }
         Logger.PATH.logDebug("No path found");
         return null;
@@ -89,26 +77,21 @@ public class AStar implements ModelComponent {
     /**
      * Gets tiles that can be stepped in from given tile.
      */
-    private ArrayList<Node> getSuccessors(Node node, Position target) {
-        ArrayList<Node> nodes = new ArrayList<>();
+    private List<Node> getSuccessors(Node node) {
         final Position nodePos = node.position;
-        Position offset = new Position(0, 0, 0);
-        for (offset.z = -1; offset.z <= 1; offset.z++) {
-            for (offset.y = -1; offset.y <= 1; offset.y++) {
-                for (offset.x = -1; offset.x <= 1; offset.x++) {
-                    if (offset.isZero()) continue; // skip same pos
-                    Position newPos = Position.add(nodePos, offset);
-                    if (!localMap.inMap(newPos)) continue; // skip out of map tile
-                    if (localMap.passageMap.hasPathBetweenNeighbours(nodePos, newPos)) nodes.add(new Node(newPos, target));
-                }
-            }
-        }
-        return nodes;
+        List<Node> list = PositionUtil.all.stream()
+                .map(delta -> Position.add(nodePos, delta))
+                .filter(localMap::inMap)
+                .filter(pos -> localMap.passageMap.hasPathBetweenNeighbours(nodePos, pos))
+                .map(Node::new)
+                .collect(Collectors.toList());
+        System.out.println(list);
+        return list;
     }
 
-    private static class NodeComparator implements Comparator<Node> {
+    public static class NodeComparator implements Comparator<Node> {
         public int compare(Node node1, Node node2) {
-            return Double.compare(node1.getCost(), node2.getCost());
+            return Double.compare(node1.cost(), node2.cost());
         }
     }
 }

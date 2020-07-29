@@ -93,7 +93,7 @@ public class TileDrawer extends Drawer {
             int zz = z;
             cacheBounds.iterate((x, y) -> drawFlatTile(x, y, zz));
             cacheBounds.iterate((x, y) -> drawBlockTiles(x, y, zz));
-//            cacheBounds.iterate((x, y) -> drawAreaLabel(x, y, zz));
+            cacheBounds.iterate((x, y) -> drawAreaLabel(x, y, zz));
         }
         selectorDrawer.draw();
     }

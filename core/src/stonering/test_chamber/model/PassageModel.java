@@ -51,10 +51,24 @@ public class PassageModel extends TestModel {
         }
         localMap.blockType.setBlock(MAP_SIZE / 2 + 1, MAP_SIZE / 2, 5, BlockTypeEnum.DOWNSTAIRS, MaterialMap.getId("marble"));
         localMap.blockType.setBlock(MAP_SIZE / 2 - 1, MAP_SIZE / 2, 5, BlockTypeEnum.DOWNSTAIRS, MaterialMap.getId("marble"));
+//        addWall(2, 3);
+//        addWall(2, 4);
+//        addWall(2, 5);
+//        addWall(2, 6);
+//        addWall(3, 3);
+//        addWall(3, 6);
+//        addWall(4, 3);
+//        addWall(4, 6);
+    }
+
+    private void addWall(int x, int y) {
+        LocalMap localMap = get(LocalMap.class);
+        localMap.blockType.setBlock(MAP_SIZE / x, y, 2, BlockTypeEnum.WALL, MaterialMap.getId("soil"));
+        localMap.blockType.setBlock(MAP_SIZE / x, y, 3, BlockTypeEnum.FLOOR, MaterialMap.getId("soil"));
     }
 
     private Unit createUnit() {
-        return new CreatureGenerator().generateUnit(new Position(3, 3, 2), "human");
+        return new CreatureGenerator().generateUnit(new Position(3, 4, 2), "human");
     }
 
     private Task createTask() {
