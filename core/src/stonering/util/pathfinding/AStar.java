@@ -10,7 +10,6 @@ import stonering.util.geometry.PositionUtil;
 import stonering.util.logging.Logger;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class AStar implements ModelComponent {
