@@ -24,11 +24,6 @@ public class Node {
         return pathLength + heuristic;
     }
 
-    @Override
-    public int hashCode() {
-        return position.hashCode();
-    }
-
     public List<Position> getPath() {
         LinkedList<Position> path = new LinkedList<>();
         path.add(position);
@@ -38,6 +33,11 @@ public class Node {
             current = current.parent;
         }
         return path;
+    }
+
+    @Override
+    public int hashCode() {
+        return position.hashCode();
     }
     
     @Override

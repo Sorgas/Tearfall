@@ -9,14 +9,13 @@ import com.badlogic.gdx.utils.Align;
 
 import stonering.enums.images.DrawableMap;
 import stonering.game.GameMvc;
-import stonering.widget.button.IconTextButton;
 import stonering.widget.button.IconTextHotkeyButton;
 
 /**
  * @author Alexander on 06.07.2020.
  */
 public class RightBar extends Container<Table> {
-    private Table rowTable;
+    private Table buttonTable;
     private Container<Actor> menu;
     private RightBarMenuEnum shownMenu;
 
@@ -41,15 +40,15 @@ public class RightBar extends Container<Table> {
                 }
             }
         });
-        rowTable.add(button);
+        buttonTable.add(button).row();
     }
 
     private void createLayout() {
         Table table = new Table();
         table.defaults().align(Align.bottomRight);
-        table.add(menu = new Container<>()).row();
-        table.add(rowTable = new Table());
-        rowTable.defaults().size(80, 80);
+        table.add(menu = new Container<>());
+        table.add(buttonTable = new Table());
+        buttonTable.defaults().size(80, 80);
         align(Align.bottomRight);
         setActor(table);
         setFillParent(true);

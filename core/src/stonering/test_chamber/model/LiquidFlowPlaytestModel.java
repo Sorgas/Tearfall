@@ -22,13 +22,13 @@ public class LiquidFlowPlaytestModel extends TestModel {
 //        Int3dBounds bounds = new Int3dBounds(0,0,3, MAP_SIZE - 1, MAP_SIZE - 1, 4);
 //        bounds.iterate(position -> localMap.blockType.setBlock(position, BlockTypeEnum.WALL, MaterialMap.getId("soil")));
         for (int x = 1; x < 10; x++) {
-            localMap.blockType.setBlock(x, 9, 0, BlockTypeEnum.FLOOR, MaterialMap.getId("soil"));
+            localMap.blockType.setBlock(x, 0, 0, BlockTypeEnum.FLOOR, MaterialMap.getId("soil"));
         }
-        localMap.blockType.setBlock(1, 9, 1, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
-        localMap.blockType.setBlock(1, 9, 2, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
-        localMap.blockType.setBlock(9, 9, 1, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
-        localMap.blockType.setBlock(9, 9, 2, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
-        container.createLiquidSource(new Position(1, 9, 5), MaterialMap.getId("water"), 1);
+        localMap.blockType.setBlock(1, 0, 1, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
+        localMap.blockType.setBlock(1, 0, 2, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
+        localMap.blockType.setBlock(9, 0, 1, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
+        localMap.blockType.setBlock(9, 0, 2, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
+        container.createLiquidSource(new Position(1, 0, 5), MaterialMap.getId("water"), 1);
 
 //        for (int x = 1; x < 5; x++) {
 //            localMap.blockType.setBlock(x, 1, 2, BlockTypeEnum.SPACE, MaterialMap.getId("air"));

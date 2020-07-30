@@ -10,6 +10,7 @@ import stonering.util.geometry.PositionUtil;
 import stonering.util.logging.Logger;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class AStar implements ModelComponent {
@@ -40,35 +41,37 @@ public class AStar implements ModelComponent {
      * @return goal node to restore path from
      */
     private Node search(Node initialNode, Position targetPos, ActionTargetTypeEnum targetType) {
-        
         OpenSet openSet = new OpenSet();
-        Set<Node> closedSet = new HashSet<>();
+        Set<Position> closedSet = new HashSet<>();
         PathFinishCondition finishCondition = new PathFinishCondition(targetPos, targetType);
-        System.out.println("finish condition " + finishCondition.acceptable);
-        
-        System.out.println("_add " + initialNode + " to open set");
+
         openSet.add(initialNode);
+        System.out.println("add " + initialNode);
         while (openSet.size() > 0) {
             Node currentNode = openSet.poll(); //get element with the least sum of costs
-            System.out.println("current is " + currentNode);
+            System.out.println("poll " + currentNode);
             if (finishCondition.check(currentNode.position)) return currentNode; //check if path is complete
             int pathLength = currentNode.pathLength + 1;
-            getSuccessors(currentNode)
-                    .filter(node -> !closedSet.contains(node)) // node already handled and closed
+            List<Node> nodes = getSuccessors(currentNode).collect(Collectors.toList());
+            System.out.println(nodes);
+            nodes = nodes.stream()
+                    .filter(node -> !closedSet.contains(node.position)) // node already handled and closed
                     .peek(node -> node.pathLength = pathLength)
                     .peek(node -> node.parent = currentNode)
                     .peek(node -> node.heuristic = node.position.getDistance(targetPos))
-                    .forEach(newNode -> {
-                        if(newNode.toString().equals("[4 5 4]"))
-                            System.out.println("found");
-                        Node oldNode = openSet.get(newNode.position);
-                        if (oldNode == null || oldNode.pathLength > newNode.pathLength) { // if successor node is newly found, or has shorter path
-                            System.out.println("+add " + newNode + " to open set");
-                            openSet.add(newNode); // replace old node
-                        }
-                    });
-            System.out.println("-add " + currentNode + " to close set");
-            closedSet.add(currentNode);
+                    .collect(Collectors.toList());
+            System.out.println(nodes);
+            nodes.forEach(newNode -> {
+                if (newNode.position.z == 4) {
+                    System.out.println();
+                }
+                Node oldNode = openSet.get(newNode);
+                if ((oldNode == null ) || (oldNode.pathLength > newNode.pathLength)) { // if successor node is newly found, or has shorter path
+                    System.out.println("add " + newNode);
+                    openSet.add(newNode); // replace old node
+                }
+            });
+            closedSet.add(currentNode.position);
         }
         Logger.PATH.logDebug("No path found");
         return null;
@@ -79,11 +82,18 @@ public class AStar implements ModelComponent {
      */
     private Stream<Node> getSuccessors(Node node) {
         final Position nodePos = node.position;
-        return PositionUtil.all.stream()
+//        System.out.println("-----" + nodePos);
+        List<Position> positions = PositionUtil.all.stream()
                 .map(delta -> Position.add(nodePos, delta))
                 .filter(localMap::inMap)
+                .collect(Collectors.toList());
+//        System.out.println(positions);
+        List<Node> nodes = positions.stream()
                 .filter(pos -> localMap.passageMap.hasPathBetweenNeighbours(nodePos, pos))
-                .map(Node::new);
+                .map(Node::new)
+                .collect(Collectors.toList());
+//        System.out.println(nodes);
+        return nodes.stream();
     }
 
     public static class NodeComparator implements Comparator<Node> {
