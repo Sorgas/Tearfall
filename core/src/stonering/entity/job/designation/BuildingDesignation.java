@@ -6,7 +6,7 @@ import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.buildings.BuildingType;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.designations.DesignationTypeEnum;
-import stonering.enums.designations.PlaceValidatorEnum;
+import stonering.enums.generation.PlacingTagEnum;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
@@ -35,7 +35,7 @@ public class BuildingDesignation extends Designation {
      * Checks that tiles did not become invalid since designation.
      */
     public boolean checkSite() {
-        return iterateSite(PlaceValidatorEnum.getValidator(order.blueprint.placing));
+        return iterateSite(PlacingTagEnum.get(order.blueprint.placing).VALIDATOR);
     }
 
     private boolean iterateSite(Function<Position, Boolean> function) {

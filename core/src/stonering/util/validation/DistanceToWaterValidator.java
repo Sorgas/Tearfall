@@ -1,6 +1,6 @@
 package stonering.util.validation;
 
-import stonering.enums.generation.PlantPlacingTagEnum;
+import stonering.enums.generation.PlacingTagEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.liquid.LiquidContainer;
@@ -12,7 +12,7 @@ import stonering.util.geometry.Position;
 public class DistanceToWaterValidator implements PositionValidator {
     public static final int XY_DISTANCE = 5;
     public static final int Z_DISTANCE = 1;
-    private PlantPlacingTagEnum tag;
+    private PlacingTagEnum tag;
 
     @Override
     public Boolean apply(Position position) {
@@ -45,7 +45,7 @@ public class DistanceToWaterValidator implements PositionValidator {
         return false;
     }
 
-    public void setTag(PlantPlacingTagEnum tag) {
+    public void setTag(PlacingTagEnum tag) {
         this.tag = tag;
     }
 }

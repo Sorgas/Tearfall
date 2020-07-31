@@ -30,7 +30,7 @@ public class PauseMenu extends ButtonMenu {
 
     private void addButtons() {
         addButton("Resume", Input.Keys.Q, () -> {
-            GameMvc.model().setPaused(false);
+            GameMvc.model().gameTime.setPaused(false);
             GameMvc.view().removeStage(getStage());
         });
         addButton("Options", Input.Keys.O, () -> GameMvc.view().addStage(new SingleActorShadedStage<>(new SettingsMenu(), true)));

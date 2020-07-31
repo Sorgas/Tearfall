@@ -1,6 +1,6 @@
 package stonering.enums.plants.raw;
 
-import stonering.enums.generation.PlantPlacingTagEnum;
+import stonering.enums.generation.PlacingTagEnum;
 import stonering.enums.items.type.raw.RawItemTypeProcessor;
 import stonering.enums.plants.PlantLifeStage;
 import stonering.enums.plants.PlantType;
@@ -8,7 +8,7 @@ import stonering.enums.plants.PlantType;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static stonering.enums.generation.PlantPlacingTagEnum.*;
+import static stonering.enums.generation.PlacingTagEnum.*;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -58,7 +58,7 @@ public class RawPlantTypeProcessor {
      * Adds default values.
      */
     private void processPlacingTags(RawPlantType rawType, PlantType type) {
-        rawType.placingTags.stream().map(PlantPlacingTagEnum::getTag).forEach(type.placingTags::addAll);
+        rawType.placingTags.stream().map(PlacingTagEnum::get).forEach(type.placingTags::add);
         if (Collections.disjoint(type.placingTags, WATER_GROUP))
             type.placingTags.add(WATER_FAR); // water placement not defined
         if (Collections.disjoint(type.placingTags, SOIL_GROUP))

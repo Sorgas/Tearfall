@@ -35,15 +35,20 @@ public class MainMenu extends Table {
         menu.defaults().height(50).width(300).pad(10, 0, 0, 0);
         menu.pad(0, 10, 10, 10);
         menu.align(Align.bottomLeft);
-        menu.addButton("C: Create world", Input.Keys.C, game::switchWorldGenMenu);
-        menu.addButton("E: Start game", Input.Keys.E, game::switchWorldsSelectMenu);
-        if(worldExists()) menu.addButton("L: Load game", Input.Keys.L, null);
-        menu.addButton("A: About", Input.Keys.A, null);
-        menu.addButton("Q: Quit", Input.Keys.Q, Gdx.app::exit);
+        menu.addButton("Create world", Input.Keys.C, game::switchWorldGenMenu);
+        if(emptyWorldExists()) menu.addButton("Start game", Input.Keys.E, game::switchWorldsSelectMenu);
+        if(worldWithSettlementExists()) menu.addButton("Load game", Input.Keys.L, null);
+        menu.addButton("About", Input.Keys.A, null);
+        menu.addButton("Quit", Input.Keys.Q, Gdx.app::exit);
         return menu;
     }
     
-    private boolean worldExists() {
+    private boolean worldWithSettlementExists() {
+        File file = new File("saves");
+        return file.exists() && file.listFiles() != null;
+    }
+    
+    private boolean emptyWorldExists() {
         File file = new File("saves");
         return file.exists() && file.listFiles() != null;
     }

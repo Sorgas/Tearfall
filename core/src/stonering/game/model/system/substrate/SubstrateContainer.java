@@ -1,5 +1,7 @@
 package stonering.game.model.system.substrate;
 
+import java.util.HashMap;
+
 import stonering.entity.plant.AbstractPlant;
 import stonering.entity.plant.PlantBlock;
 import stonering.entity.plant.SubstratePlant;
@@ -7,10 +9,7 @@ import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.system.EntityContainer;
 import stonering.game.model.system.ModelComponent;
 import stonering.util.geometry.Position;
-import stonering.util.global.Initable;
 import stonering.util.logging.Logger;
-
-import java.util.HashMap;
 
 /**
  * Container for substrates
@@ -18,7 +17,7 @@ import java.util.HashMap;
  *
  * @author Alexander_Kuzyakov on 18.06.2019.
  */
-public class SubstrateContainer extends EntityContainer<SubstratePlant> implements Initable, ModelComponent {
+public class SubstrateContainer extends EntityContainer<SubstratePlant> implements ModelComponent {
     private HashMap<Position, PlantBlock> substrateBlocks;
     private Position cachePosition;
 
@@ -26,10 +25,6 @@ public class SubstrateContainer extends EntityContainer<SubstratePlant> implemen
         substrateBlocks = new HashMap<>();
         put(new SubstrateGrowingSystem(this));
         cachePosition = new Position();
-    }
-
-    @Override
-    public void init() {
     }
 
     @Override

@@ -31,15 +31,15 @@ public class SingleActorShadedStage<T extends Actor> extends SingleActorStage<T>
     public void init() {
         super.init();
         GameMvc.controller().setSelectorEnabled(false);
-        wasPaused = GameMvc.model().paused; // used for unpausing when menu is closed
-        GameMvc.model().setPaused(true);
+        wasPaused = GameMvc.model().gameTime.paused; // used for unpausing when menu is closed
+        GameMvc.model().gameTime.setPaused(true);
         GameMvc.controller().pauseInputAdapter.enabled = false;
     }
 
     @Override
     public void dispose() {
         GameMvc.controller().setSelectorEnabled(true);
-        GameMvc.model().setPaused(wasPaused);
+        GameMvc.model().gameTime.setPaused(wasPaused);
         GameMvc.controller().pauseInputAdapter.enabled = true;
         super.dispose();
     }

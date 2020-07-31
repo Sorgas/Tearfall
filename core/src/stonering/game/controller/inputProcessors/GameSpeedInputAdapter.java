@@ -14,16 +14,16 @@ public class GameSpeedInputAdapter extends InputAdapter {
     public boolean keyDown(int keycode) {
         switch (keycode) {
             case Input.Keys.NUM_1:
-                GameMvc.model().setGameSpeed(1);
+                GameMvc.model().gameTime.setGameSpeed(1);
                 return true;
             case Input.Keys.NUM_2:
-                GameMvc.model().setGameSpeed(2);
+                GameMvc.model().gameTime.setGameSpeed(2);
                 return true;
             case Input.Keys.NUM_3:
-                GameMvc.model().setGameSpeed(4);
+                GameMvc.model().gameTime.setGameSpeed(4);
                 return true;
             case Input.Keys.PERIOD:
-                GameMvc.model().singleUpdate();
+                GameMvc.model().gameTime.singleUpdate();
                 return true;
         }
         return false;

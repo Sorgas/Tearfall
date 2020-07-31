@@ -1,9 +1,7 @@
 package stonering.entity;
 
-import stonering.game.GameMvc;
 import stonering.game.model.EntityIdGenerator;
 import stonering.util.geometry.Position;
-import stonering.util.global.Initable;
 
 import java.io.Serializable;
 import java.util.HashMap;

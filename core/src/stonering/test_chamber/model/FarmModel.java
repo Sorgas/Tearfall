@@ -30,6 +30,9 @@ public class FarmModel extends TestModel {
         get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(hoe, hoe.position);
 
         get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(generator.generateItem("radish_seed", "generic_plant", null), new Position(1,0,2));
+        get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(generator.generateItem("radish_seed", "generic_plant", null), new Position(1,0,2));
+        get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(generator.generateItem("radish_seed", "generic_plant", null), new Position(1,0,2));
+        get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(generator.generateItem("radish_seed", "generic_plant", null), new Position(1,0,2));
 
         SelectionTools.ZONE.type = ZoneTypeEnum.FARM;
         SelectionTools.ZONE.handleSelection(new Int3dBounds(4, 4, 2, 6, 6, 2));

@@ -25,7 +25,7 @@ public enum DesignationTypeEnum {
     D_RAMP(5, "cutting ramp", new DiggingValidator(RAMP), "miner"),                   // digs ramp and upper cell.
     D_CHANNEL(6, "digging channel", new DiggingChannelValidator(), "miner"),          // digs cell and ramp on lower level
 
-    D_CHOP(7, "chopping trees", PlaceValidatorEnum.TREE.VALIDATOR, "lumberjack"),     // chop trees in th area
+    D_CHOP(7, "chopping trees", PlaceValidatorEnum.TREE_EXISTS.VALIDATOR, "lumberjack"),     // chop trees in th area
     D_CUT(8, "cutting plants", "herbalist"),                                          // cut plants
     D_HARVEST(9, "harvesting plants", "herbalist"),                                   // harvest plants
     D_BUILD(10, "building", "builder"),                                               // build construction or building

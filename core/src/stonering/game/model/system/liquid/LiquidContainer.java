@@ -8,7 +8,6 @@ import stonering.game.model.system.ModelComponent;
 import stonering.util.global.Updatable;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;
-import stonering.util.global.Initable;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -30,7 +29,7 @@ import java.util.stream.Stream;
  *
  * @author Alexander on 22.08.2018.
  */
-public class LiquidContainer implements ModelComponent, Initable, Updatable {
+public class LiquidContainer implements ModelComponent, Updatable {
     public final Map<Position, LiquidTile> liquidTiles;
     public final HashMap<Position, LiquidSource> liquidSources;
     public final Position cachePosition;
@@ -43,12 +42,7 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
         cachePosition = new Position();
         movingSystem = new LiquidMovingSystem(this);
     }
-
-    @Override
-    public void init() {
-
-    }
-
+    
     @Override
     public void update(TimeUnitEnum unit) {
         if (unit == TimeUnitEnum.TICK) {

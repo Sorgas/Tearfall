@@ -13,8 +13,8 @@ import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
+import stonering.game.model.system.GameTime;
 import stonering.game.model.system.liquid.LiquidContainer;
-import stonering.game.model.system.liquid.LiquidTile;
 import stonering.util.global.StaticSkin;
 import stonering.util.geometry.Position;
 
@@ -67,7 +67,8 @@ public class TileStatusBar extends Container<Table> {
     public void setData(Position camera, String material, int area, int blockType) {
         coordinates.setText("(" + camera.x + ", " + camera.y + ", " + camera.z + ") " + BlockTypeEnum.getType((byte) blockType));
         cellType.setText(material);
-        date.setText(GameMvc.model().getCalendar().getCurrentTime());
+        GameTime time = GameMvc.model().gameTime; 
+        date.setText(time.day.progress + " : " + time.hour.progress);
         this.area.setText(area);
         Optional.ofNullable(GameMvc.model().get(LiquidContainer.class).getTile(camera))
                 .ifPresentOrElse(tile -> liquid.setText(tile.amount + " stable: " + tile.stable),

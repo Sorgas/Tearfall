@@ -39,17 +39,25 @@ public class WorldGenMenu extends Table {
     private ButtonMenu bottomMenu;
     private TextButton randomizeSeedButton;
     private TextField seedField;
+    private Label worldNameLabel;
     
     public WorldGenMenu(TearFall game) {
         this.game = game;
         seed = random.nextLong();
-        align(Align.bottomLeft);
-        add(createLeftPanel()).growY();
-        add(createMinimap()).grow();
+        createLayout();
         createListener();
         setDebug(true, true);
     }
 
+    private void createLayout() {
+        align(Align.bottomLeft);
+        add(createLeftPanel()).growY();
+        Table table = new Table();
+        table.add(worldNameLabel = new Label("", StaticSkin.skin())).growX().row();
+        table.add(createMinimap()).grow();
+        add(table).grow();
+    }
+    
     private void generateWorld() {
         WorldGenConfig config = new WorldGenConfig(seed, worldSize, worldSize);
         worldGeneratorContainer = new WorldGeneratorContainer(config);
@@ -65,9 +73,6 @@ public class WorldGenMenu extends Table {
         table.add(createSeedTable()).row();
         table.add(new Label("World size: ", StaticSkin.skin())).row(); // caption 2
         table.add(createWorldSizeTable()).row();
-        
-//        table.add(worldInfoLabel = new Label("", StaticSkin.skin())).row();
-        
         table.add().expandY().row();
         ButtonMenu menu = createBottomMenu(); 
         table.add(menu).size(menu.getPrefWidth(), menu.getPrefHeight());
@@ -113,6 +118,7 @@ public class WorldGenMenu extends Table {
         bottomMenu.addButton("G: Generate", Input.Keys.G, () -> {
             generateWorld();
             minimap.setWorld(world);
+            worldNameLabel.setText(world.name);
         });
         bottomMenu.addButton("C: Save", Input.Keys.C, () -> {
             new WorldSaver().saveWorld(world);

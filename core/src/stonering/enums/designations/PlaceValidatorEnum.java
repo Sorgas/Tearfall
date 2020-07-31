@@ -14,10 +14,12 @@ import java.util.HashMap;
  * TODO add validators from plants.
  */
 public enum PlaceValidatorEnum {
-    FLOOR("floor", new FreeFloorValidator()),
     SOIL_FLOOR("soil_floor", new FreeSoilFloorValidator()),
     FARM("farm", pos -> GameMvc.model().get(LocalMap.class).blockType.get(pos) == BlockTypeEnum.FARM.CODE),
-    TREE("tree", new TreeExistsValidator()),
+    TREE_EXISTS("tree", new TreeExistsValidator()),
+    DISTANCE_TO_WATER("distance_to_water", new DistanceToWaterValidator()),
+    PLANT_CUTTING("plant_cutting", new PlantCuttingValidator()),
+    FREE_FLOOR("floor", new FreeFloorValidator()),
     CONSTRUCTION("construction", new ConstructionValidator());
 
     private static HashMap<String, PositionValidator> map;
@@ -32,9 +34,9 @@ public enum PlaceValidatorEnum {
         }
     }
 
-    PlaceValidatorEnum(String NAME, PositionValidator VALIDATOR) {
-        this.NAME = NAME;
-        this.VALIDATOR = VALIDATOR;
+    PlaceValidatorEnum(String name, PositionValidator validator) {
+        this.NAME = name;
+        this.VALIDATOR = validator;
     }
 
     public static PositionValidator getValidator(String name) {

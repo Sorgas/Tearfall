@@ -55,7 +55,7 @@ public class TestModelSelectStage extends UiStage {
         GameMvc.view().localWorldStage.getCamera().centerCameraToPosition(GameMvc.model().get(EntitySelectorSystem.class).selector.position.clone());
         testChamberGame.setScreen(GameMvc.view());
         GameMvc.model().get(LocalMap.class).initAreas();
-        GameMvc.model().setPaused(false);
+        GameMvc.model().gameTime.setPaused(false);
     }
 
     private void fillModels() {

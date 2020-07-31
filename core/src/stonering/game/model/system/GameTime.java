@@ -1,40 +1,51 @@
 package stonering.game.model.system;
 
+import com.badlogic.gdx.utils.Timer;
+
 import stonering.entity.world.calendar.WorldCalendar;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
+import stonering.util.logging.Logger;
 
 /**
- * Represents in-game time. This class is updated by timer, and then updates {@link GameModel}.
- * Current time unit is passed to model to notify appropriate systems.
+ * Rolls time for game.
+ * {@link Timer} provides update calls with specific interval ({@link GameTime#gameSpeed}).
+ * Then, states {@link TimeUnitState}s updated(clock thing).
+ * Largest updated time unit is passed to {@link GameModel} to update systems.
  * After day is over, {@link WorldCalendar} is notified to change game date.
  *
  * @author Alexander on 07.10.2018.
  */
 public class GameTime {
-    private final TimeUnit tick;
-    public final TimeUnit minute; // ticks of minute
-    public final TimeUnit hour; // minutes of hour
-    public final TimeUnit day; // hours of day
-    private TimeUnit[] units; // for storing 'next' relation between units
+    public final TimeUnitState tick;
+    public final TimeUnitState minute; // ticks of minute
+    public final TimeUnitState hour; // minutes of hour
+    public final TimeUnitState day; // hours of day
+    private TimeUnitState[] units; // for storing 'next' relation between units
+
+    private Timer timer;                 //makes turns for entity containers and calendar
+    public boolean paused;
+    private int gameSpeed = 1;
+    private final Timer.Task timerTask; // rolls time
 
     public GameTime() {
-        tick = new TimeUnit(TimeUnitEnum.TICK);
-        minute = new TimeUnit(TimeUnitEnum.MINUTE);
-        hour = new TimeUnit(TimeUnitEnum.HOUR);
-        day = new TimeUnit(TimeUnitEnum.DAY);
-        units = new TimeUnit[]{tick, minute, hour, day};
-    }
-
-    public void update() {
-        turnUnit(1); // turnUnit minute
+        tick = new TimeUnitState(TimeUnitEnum.TICK);
+        minute = new TimeUnitState(TimeUnitEnum.MINUTE);
+        hour = new TimeUnitState(TimeUnitEnum.HOUR);
+        day = new TimeUnitState(TimeUnitEnum.DAY);
+        units = new TimeUnitState[]{tick, minute, hour, day};
+        timer = new Timer();
+        timerTask = new Timer.Task() {
+            @Override
+            public void run() {
+                if (!paused) turnUnit(1); // calendar turns other components
+            }
+        };
     }
 
     private void turnUnit(int index) {
-        if (index >= units.length) { // day ended in previous call
-            return; // call world calendar
-        }
+        if (index >= units.length) return; // day ended in previous call, call world calendar
         if (units[index].increment()) { // unit ended
             turnUnit(index + 1); // increase next unit (on minute end, hour gets +1)
         } else {
@@ -42,23 +53,41 @@ public class GameTime {
         }
     }
 
-    public String getCurrentTime() {
-        return day.progress + " : " + hour.progress;
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+        if (paused) {
+            timer.stop();
+            Logger.GENERAL.logDebug("Game paused");
+        } else {
+            timer.start();
+            Logger.GENERAL.logDebug("Game unpaused");
+        }
     }
 
-    public class TimeUnit {
+    public void setGameSpeed(int speed) {
+        gameSpeed = speed;
+        timer.clear();
+        initTimer();
+    }
+
+    public void initTimer() {
+        timer.scheduleTask(timerTask, 0, 1f / 60 / gameSpeed);
+    }
+
+    public void singleUpdate() {
+        if (paused) turnUnit(1);
+    }
+
+    public static class TimeUnitState {
         private final TimeUnitEnum unit;
-        private int progress;
+        public int progress;
         public int max;
 
-        TimeUnit(TimeUnitEnum unit) {
+        TimeUnitState(TimeUnitEnum unit) {
             this.unit = unit;
             max = unit.SIZE;
         }
-
-        /**
-         * Adds 1 to state. If state reaches size, resets it and returns true;
-         */
+        
         boolean increment() {
             return ++progress >= unit.SIZE && (progress = 0) == 0;
         }

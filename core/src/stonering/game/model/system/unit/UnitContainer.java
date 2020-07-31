@@ -6,7 +6,6 @@ import stonering.game.model.system.EntityContainer;
 import stonering.game.model.system.task.CreatureActionPerformingSystem;
 import stonering.util.geometry.Position;
 import stonering.entity.unit.Unit;
-import stonering.util.global.Initable;
 
 import java.util.*;
 
@@ -58,14 +57,6 @@ public class UnitContainer extends EntityContainer<Unit> {
         removeUnitFromMap(unit);
         objects.remove(unit);
     }
-
-//    public void moveUnit(Unit unit, Vector3 delta) {
-//        cachePosition.set(unit.position);
-//        unit.setPosition(unit.vectorPosition.add(delta));
-//        if(!cachePosition.equals(unit.position)) {
-//            unitsMap.get(cachePosition)
-//        }
-//    }
 
     public void updateUnitPosition(Unit unit, Vector3 vector) {
         removeUnitFromMap(unit);
