@@ -62,7 +62,7 @@
         ]
     },
     "requiredParts" : ["head", "handle"],
-    "atlasXY": ["7", "0"]
+    "atlasXY": ["2", "0"]
 }, {
     "name": "axe",
     "description": "Tool for chopping down trees.",

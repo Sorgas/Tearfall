@@ -55,7 +55,6 @@ public abstract class GameModel implements Initable, Serializable, Updatable {
 
     @Override
     public void update(TimeUnitEnum unit) {
-        System.out.println("update " + unit);
         updatableComponents.forEach(component -> component.update(unit));
         if(unit == TimeUnitEnum.TICK) GameMvc.view().overlayStage.update(); // count model updates
     }

@@ -3,6 +3,7 @@ package stonering.entity.job.action;
 import stonering.entity.RenderAspect;
 import stonering.entity.building.Building;
 import stonering.entity.building.aspects.RestFurnitureAspect;
+import stonering.entity.job.action.plant.ChopTreeAction;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.health.HealthParameterState;

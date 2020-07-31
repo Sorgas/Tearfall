@@ -30,7 +30,8 @@ public enum DesignationTypeEnum {
     D_HARVEST(9, "harvesting plants", "herbalist"),                                   // harvest plants
     D_BUILD(10, "building", "builder"),                                               // build construction or building
     D_HOE(11, "hoeing", PlaceValidatorEnum.SOIL_FLOOR.VALIDATOR, "farmer"),
-    D_PLANT(12, "planting", PlaceValidatorEnum.FARM.VALIDATOR, "farmer");
+    D_CUT_FARM(12, "cutting plants", "farmer"),                                          // cut unwanted plants from farm
+    D_PLANT(13, "planting", PlaceValidatorEnum.FARM.VALIDATOR, "farmer");
 
     private static HashMap<Integer, DesignationTypeEnum> map;
     public final int SPRITE_X;

@@ -4,9 +4,11 @@ import java.util.Optional;
 
 import stonering.entity.job.Task;
 import stonering.entity.job.action.*;
+import stonering.entity.job.action.plant.*;
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.designation.PlantingDesignation;
+import stonering.entity.plant.Plant;
 import stonering.enums.designations.PlaceValidatorEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.plant.PlantContainer;
@@ -39,6 +41,12 @@ public class DesignationTaskCreator {
                 case D_CHANNEL:
                     return new DigAction(designation);
                 case D_CUT:
+                case D_CUT_FARM:
+                    return GameMvc.model().optional(PlantContainer.class)
+                            .map(container -> container.getPlantInPosition(designation.position))
+                            .filter(plant -> plant instanceof Plant)
+                            .map(plant -> new CutPlantAction((Plant) plant))
+                            .orElse(null);
                 case D_CHOP:
                     return new ChopTreeAction(designation); //TODO split actions
                 case D_HARVEST:
@@ -65,7 +73,7 @@ public class DesignationTaskCreator {
                 .map(PlantingAction::new)
                 .orElse(null);
     }
-
+    
     private Task bindTask(Task task, Designation designation) {
         task.designation = designation;
         designation.task = task;

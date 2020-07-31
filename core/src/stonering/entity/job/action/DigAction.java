@@ -44,6 +44,7 @@ public class DigAction extends Action {
             if (equipment.toolWithActionEquipped(toolActionName)) return OK; // tool already equipped
             return addEquipAction();
         };
+        
         onStart = () -> {
             speed = 1 + skill().speed * performerLevel() + performance();
             maxProgress = getWorkAmount(designation) * workAmountModifier; // 480 for wall to floor in marble

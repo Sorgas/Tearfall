@@ -43,9 +43,10 @@ public class DesignationSystem {
             }
             if (designation.task == null) {
                 container.addTask(designationTaskCreator.createTaskForDesignation(designation, 1));
-                Logger.DESIGNATION.logWarn("Create task for designation " + designation.type);
+                Logger.DESIGNATION.logDebug("Create task for designation " + designation.type);
             }
         }
+        container.designations.entrySet().removeIf(entry -> entry.getValue().task == null); // remove designations with not created tasks.
     }
 
     /**

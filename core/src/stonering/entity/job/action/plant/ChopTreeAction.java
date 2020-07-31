@@ -1,5 +1,7 @@
-package stonering.entity.job.action;
+package stonering.entity.job.action.plant;
 
+import stonering.entity.job.action.Action;
+import stonering.entity.job.action.ActionConditionStatusEnum;
 import stonering.entity.job.action.equipment.use.EquipToolItemAction;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.action.target.PositionActionTarget;
@@ -27,7 +29,6 @@ public class ChopTreeAction extends Action {
         super(new PositionActionTarget(designation.position, ActionTargetTypeEnum.NEAR));
         toolItemSelector = new ToolWithActionItemSelector("chop");
 
-
         // Checks that tree exists on target position, fails if it doesn't.
         // Checks that performer has chopping tool, creates equipping action if needed.
         startCondition = () -> {
@@ -42,7 +43,7 @@ public class ChopTreeAction extends Action {
 
         onFinish = () -> {
             Logger.TASKS.logDebug("tree chopping started at " + target.getPosition().toString() + " by " + task.performer.toString());
-            if (!checkTree()) return; // tree died during chopping. rare case // TODO move to progress acceptor
+            if (!checkTree()) return;
             PlantContainer container = GameMvc.model().get(PlantContainer.class);
             AbstractPlant plant = container.getPlantInPosition(target.getPosition());
             if (plant.type.isTree) container.remove(plant, true);
@@ -62,9 +63,8 @@ public class ChopTreeAction extends Action {
     private ActionConditionStatusEnum createActionForGettingTool() {
         Logger.TASKS.logDebug("No tool equipped by performer for chopTreeAction");
         Item target = GameMvc.model().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.performer.position);
-        if (target == null) Logger.TASKS.logDebug("No tool item found for chopTreeAction", FAIL);
-        task.addFirstPreAction(new EquipToolItemAction(target));
-        return NEW;
+        if (target == null) return Logger.TASKS.logDebug("No tool item found for chopTreeAction", FAIL);
+        return addPreAction(new EquipToolItemAction(target));
     }
 
     @Override

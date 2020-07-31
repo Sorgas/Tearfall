@@ -48,7 +48,6 @@ public class AStar implements ModelComponent {
         openSet.add(initialNode);
         while (openSet.size() > 0) {
             Node currentNode = openSet.poll(); //get element with the least sum of costs
-            System.out.println(openSet.size());
             if (finishCondition.check(currentNode.position)) return currentNode; //check if path is complete
             int pathLength = currentNode.pathLength + 1;
             List<Node> nodes = getSuccessors(currentNode).collect(Collectors.toList());

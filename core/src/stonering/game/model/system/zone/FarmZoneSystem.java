@@ -48,7 +48,7 @@ public class FarmZoneSystem extends EntitySystem<Zone> {
                 .filter(tile -> !ZoneTypeEnum.FARM.VALIDATOR.apply(tile))
                 .collect(Collectors.toList())
                 .forEach(tile -> container.setTileToZone(null, tile));
-
+        // try create designations for tiles
         zone.tiles.stream()
                 .filter(tile -> !taskContainer().designations.containsKey(tile))
                 .forEach(tile -> {
@@ -62,7 +62,7 @@ public class FarmZoneSystem extends EntitySystem<Zone> {
     private boolean tryCreateTaskForCutting(Position tile, FarmAspect aspect) {
         AbstractPlant plant = plantContainer().getPlantInPosition(tile);
         if (plant == null || aspect.plantType.contains(plant.type.name)) return false;
-        taskContainer().designationSystem.submitDesignation(tile, DesignationTypeEnum.D_CUT);
+        taskContainer().designationSystem.submitDesignation(tile, DesignationTypeEnum.D_CUT_FARM);
         return true;
     }
 
