@@ -37,7 +37,7 @@ public class PlantingAction extends EquipmentAction {
                     .orElse(FAIL);
         };
         
-        onFinish = () -> {
+        onFinish = () -> { 
             Logger.TASKS.logDebug("Planting seed of " + seedSelector.getSpecimen() + " to " + target.getPosition());
             createPlant(equipment().itemBuffer);
             equipment().itemBuffer = null;

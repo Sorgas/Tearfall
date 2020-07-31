@@ -3,6 +3,7 @@ package stonering.game.model.system.zone;
 import java.util.stream.Collectors;
 
 import stonering.entity.plant.AbstractPlant;
+import stonering.entity.plant.Plant;
 import stonering.entity.zone.Zone;
 import stonering.entity.zone.aspect.FarmAspect;
 import stonering.enums.ZoneTypeEnum;
@@ -61,20 +62,22 @@ public class FarmZoneSystem extends EntitySystem<Zone> {
     //TODO use harvest designation for plant with products
     private boolean tryCreateTaskForCutting(Position tile, FarmAspect aspect) {
         AbstractPlant plant = plantContainer().getPlantInPosition(tile);
-        if (plant == null || aspect.plantType.contains(plant.type.name)) return false;
+        if (plant == null || aspect.plantType.equals(plant.type.name)) return false;
         taskContainer().designationSystem.submitDesignation(tile, DesignationTypeEnum.D_CUT_FARM);
         return true;
     }
 
     private boolean tryCreateTaskForHoeing(Position tile) {
         if (!validator.apply(tile)) return false;
-        if(map().blockType.get(tile) != BlockTypeEnum.FLOOR.CODE) return false;
+        if (map().blockType.get(tile) != BlockTypeEnum.FLOOR.CODE) return false;
         taskContainer().designationSystem.submitDesignation(tile, DesignationTypeEnum.D_HOE);
         return true;
     }
 
     private boolean tryCreateTaskForPlanting(Position tile, FarmAspect aspect) {
         if (map().blockType.get(tile) != BlockTypeEnum.FARM.CODE) return false;
+        AbstractPlant plant = plantContainer().getPlantInPosition(tile);
+        if(plant != null && plant.type.name.equals(aspect.plantType)) return false; // plant already planted
         taskContainer().designationSystem.submitPlantingDesignation(tile, aspect.plantType);
         return true;
     }

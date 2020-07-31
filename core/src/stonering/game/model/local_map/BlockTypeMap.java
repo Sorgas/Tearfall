@@ -30,7 +30,9 @@ public class BlockTypeMap extends UtilByteArray {
             setBlock(x, y, z + 1, FLOOR.CODE, material[x][y][z]);
         }
         cachePosition.set(x, y, z);
-        GameMvc.model().get(PlantContainer.class).removeBlock(cachePosition, false); // remove plants on block change
+        if (value != FARM.CODE && value != FLOOR.CODE) { // remove plants if block becomes unsuitable for plants
+            GameMvc.model().get(PlantContainer.class).removeBlock(cachePosition, false); 
+        }
         // TODO destroy buildings if type != floor
         // TODO kill units if type == wall
         GameMvc.model().get(LocalMap.class).updateTile(cachePosition);

@@ -38,10 +38,6 @@ public class UtilByteArray implements Serializable {
         array[x][y][z] += delta;
     }
 
-    public void change(Position position, byte delta) {
-        change(position.x, position.y, position.z, delta);
-    }
-
     public boolean withinBounds(int x, int y, int z) {
         return x >= 0 && y >= 0 && z >= 0 && x < size.x && y < size.y && z < size.z;
     }

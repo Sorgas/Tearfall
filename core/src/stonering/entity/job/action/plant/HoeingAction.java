@@ -45,7 +45,7 @@ public class HoeingAction extends Action {
             return tryCreateEquippingAction();
         };
 
-        onStart = () -> maxProgress = 50;
+        onStart = () -> maxProgress = 200;
         
         onFinish = () -> {
             Logger.TASKS.logDebug("Hoeing tile " + target.getPosition());
