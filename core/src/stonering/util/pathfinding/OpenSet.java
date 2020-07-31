@@ -6,17 +6,14 @@ import java.util.*;
  * @author Alexander on 29.07.2020.
  */
 public class OpenSet {
-    //    private final Map<Position, Node> map;
     private final TreeMap<Node, Node> treeMap; // sorts keys
 
     public OpenSet() {
-//        map = new HashMap<>();
         treeMap = new TreeMap<>(new AStar.NodeComparator());
     }
 
     public int size() {
         return treeMap.size();
-//        return map.size();
     }
 
     public boolean isEmpty() {

@@ -46,28 +46,21 @@ public class AStar implements ModelComponent {
         PathFinishCondition finishCondition = new PathFinishCondition(targetPos, targetType);
 
         openSet.add(initialNode);
-        System.out.println("add " + initialNode);
         while (openSet.size() > 0) {
             Node currentNode = openSet.poll(); //get element with the least sum of costs
-            System.out.println("poll " + currentNode);
+            System.out.println(openSet.size());
             if (finishCondition.check(currentNode.position)) return currentNode; //check if path is complete
             int pathLength = currentNode.pathLength + 1;
             List<Node> nodes = getSuccessors(currentNode).collect(Collectors.toList());
-            System.out.println(nodes);
             nodes = nodes.stream()
                     .filter(node -> !closedSet.contains(node.position)) // node already handled and closed
                     .peek(node -> node.pathLength = pathLength)
                     .peek(node -> node.parent = currentNode)
                     .peek(node -> node.heuristic = node.position.getDistance(targetPos))
                     .collect(Collectors.toList());
-            System.out.println(nodes);
             nodes.forEach(newNode -> {
-                if (newNode.position.z == 4) {
-                    System.out.println();
-                }
                 Node oldNode = openSet.get(newNode);
                 if ((oldNode == null ) || (oldNode.pathLength > newNode.pathLength)) { // if successor node is newly found, or has shorter path
-                    System.out.println("add " + newNode);
                     openSet.add(newNode); // replace old node
                 }
             });
@@ -81,24 +74,17 @@ public class AStar implements ModelComponent {
      * Gets tiles that can be stepped in from given tile.
      */
     private Stream<Node> getSuccessors(Node node) {
-        final Position nodePos = node.position;
-//        System.out.println("-----" + nodePos);
-        List<Position> positions = PositionUtil.all.stream()
-                .map(delta -> Position.add(nodePos, delta))
+        return PositionUtil.all.stream()
+                .map(delta -> Position.add(node.position, delta))
                 .filter(localMap::inMap)
-                .collect(Collectors.toList());
-//        System.out.println(positions);
-        List<Node> nodes = positions.stream()
-                .filter(pos -> localMap.passageMap.hasPathBetweenNeighbours(nodePos, pos))
-                .map(Node::new)
-                .collect(Collectors.toList());
-//        System.out.println(nodes);
-        return nodes.stream();
+                .filter(pos -> localMap.passageMap.hasPathBetweenNeighbours(node.position, pos))
+                .map(Node::new);
     }
 
     public static class NodeComparator implements Comparator<Node> {
         public int compare(Node node1, Node node2) {
-            return Double.compare(node1.cost(), node2.cost());
+            if(node1.position.equals(node2.position)) return 0;
+            return node1.cost() < node2.cost() ? -1 : 1;
         }
     }
 }
