@@ -78,7 +78,7 @@ public class LiquidContainer implements ModelComponent, Updatable {
     public void setAmount(Position position, int amount) {
         LiquidTile tile = liquidTiles.computeIfAbsent(position.clone(), pos -> new LiquidTile(MaterialMap.getId("water"), 0));
         tile.amount = amount;
-        tile.stable = false;
+        tile.tpStable = false;
         map().updatePassage(position);
     }
 

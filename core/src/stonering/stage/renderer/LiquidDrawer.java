@@ -47,7 +47,7 @@ public class LiquidDrawer extends Drawer {
     }
 
     private void drawSprite(int x, int y, int z, LiquidTile tile, TextureRegion sprite) {
-        if (debugMode) spriteUtil.setColor(tile.stable ? stable : unstable);
+        if (debugMode) spriteUtil.setColor(tile.tpStable ? stable : unstable);
         spriteUtil.updateColorA(0.6f);
         spriteUtil.drawSprite(sprite, x, y, z);
         spriteUtil.resetColor();

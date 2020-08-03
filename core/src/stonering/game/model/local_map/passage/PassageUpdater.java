@@ -64,7 +64,7 @@ public class PassageUpdater {
      * Merges all given areas into one, keeping number of largest one.
      */
     private void mergeAreas(Set<Byte> areas) {
-        Logger.PATH.logDebug("Merging areas " + areas);
+//        Logger.PATH.logDebug("Merging areas " + areas);
         if (areas.isEmpty()) return;
         byte largestArea = areas.stream().max(Comparator.comparingInt(o -> passage.area.numbers.get(o).value)).get();
         areas.remove(largestArea);

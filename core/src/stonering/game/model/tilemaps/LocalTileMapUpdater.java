@@ -61,7 +61,7 @@ public class LocalTileMapUpdater {
      * Observes tiles around given one, and updates atlasX for ramps.
      */
     private void updateRampsAround(Position center) {
-        PositionUtil.allNeighbourDeltas.stream()
+        PositionUtil.allNeighbour.stream()
                 .map(delta -> Position.add(center, delta)) // get absolute position
                 .filter(localMap::inMap)
                 .filter(pos -> localMap.blockType.get(pos) == BlockTypeEnum.RAMP.CODE)

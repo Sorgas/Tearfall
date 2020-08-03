@@ -1,17 +1,14 @@
 package stonering.game.model.system.task;
 
 import stonering.entity.job.Task;
-import stonering.entity.job.action.Action;
 import stonering.entity.job.action.ActionConditionStatusEnum;
 import stonering.entity.job.action.MoveAction;
-import stonering.entity.job.action.target.ActionTargetStatusEnum;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.TaskAspect;
 import stonering.enums.action.ActionStatusEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.local_map.passage.NeighbourPositionStream;
 import stonering.game.model.local_map.passage.PassageMap;
 import stonering.game.model.system.EntitySystem;
 import stonering.util.geometry.Position;
@@ -20,7 +17,6 @@ import stonering.util.logging.Logger;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
 import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
-import static stonering.entity.job.action.target.ActionTargetStatusEnum.STEP_OFF;
 import static stonering.enums.action.TaskStatusEnum.*;
 
 /**
@@ -92,7 +88,7 @@ public class CreatureActionPerformingSystem extends EntitySystem<Unit> {
      * Finds position to free target tile and sets it as movement target, or fails task.
      */
     private void handleStepOff(Task task, MovementAspect movement) {
-        PositionUtil.allNeighbourDeltas.stream()
+        PositionUtil.allNeighbour.stream()
                 .map(delta -> Position.add(task.performer.position, delta))
                 .filter(position -> map().hasPathBetweenNeighbours(position, task.performer.position))
                 .findAny() // any position to step off

@@ -3,13 +3,11 @@ package stonering.game.model.system.building;
 import static stonering.enums.blocks.PassageEnum.PASSABLE;
 
 import stonering.entity.building.BuildingBlock;
-import stonering.enums.blocks.PassageEnum;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.util.geometry.PositionUtil;
 import stonering.util.global.Updatable;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.local_map.passage.NeighbourPositionStream;
 import stonering.game.model.system.EntityContainer;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.ModelComponent;
@@ -19,7 +17,6 @@ import stonering.util.geometry.Position;
 import stonering.util.logging.Logger;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 /**
  * Contains all Buildings on localMap.
@@ -83,7 +80,7 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
         ItemContainer container = GameMvc.model().get(ItemContainer.class);
         building.iterateBlocks(block -> {
             if (container.getItemsInPosition(block.position).isEmpty()) return; // no items in target position
-            Position newPosition = PositionUtil.allNeighbourDeltas.stream()
+            Position newPosition = PositionUtil.allNeighbour.stream()
                     .map(pos -> Position.add(block.position, pos))
                     .filter(position -> map().passageMap.passage.get(position) == PASSABLE.VALUE)
                     .findAny().orElse(null);

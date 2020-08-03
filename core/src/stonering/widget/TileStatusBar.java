@@ -71,7 +71,7 @@ public class TileStatusBar extends Container<Table> {
         date.setText(time.day.progress + " : " + time.hour.progress);
         this.area.setText(area);
         Optional.ofNullable(GameMvc.model().get(LiquidContainer.class).getTile(camera))
-                .ifPresentOrElse(tile -> liquid.setText(tile.amount + " stable: " + tile.stable),
+                .ifPresentOrElse(tile -> liquid.setText(tile.amount + " stable: " + tile.tpStable),
                         () -> liquid.setText(""));
     }
 }

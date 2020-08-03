@@ -1,10 +1,7 @@
 package stonering.entity.unit.aspects.needs;
 
 import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import stonering.entity.item.Item;
@@ -25,7 +22,6 @@ import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.liquid.LiquidContainer;
 import stonering.util.geometry.Position;
 import stonering.util.geometry.PositionUtil;
-import stonering.util.pathfinding.AStar;
 
 /**
  * Creates tasks for drinking.
@@ -84,7 +80,7 @@ public class WaterNeed extends Need {
     }
 
     private boolean hasAreaTileNear(Position center, int area, ByteArrayWithCounter areaArray) {
-        return PositionUtil.allNeighbourDeltas.stream()
+        return PositionUtil.allNeighbour.stream()
                 .map(pos -> Position.add(center, pos)) // positions around tile
                 .anyMatch(pos -> areaArray.get(pos) == area); // reachable positions
     }

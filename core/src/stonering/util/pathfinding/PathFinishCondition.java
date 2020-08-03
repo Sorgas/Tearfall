@@ -24,7 +24,7 @@ public class PathFinishCondition {
         if (targetType == EXACT || targetType == ANY) acceptable.add(target);
         if (targetType != NEAR && targetType != ANY) return;
         LocalMap map = GameMvc.model().get(LocalMap.class); // add near tiles
-        PositionUtil.allNeighbourDeltas.stream()
+        PositionUtil.allNeighbour.stream()
                 .map(delta -> Position.add(target, delta))
                 .filter(map::inMap)
                 .filter(pos -> map.passageMap.passage.get(pos) == PASSABLE.VALUE)

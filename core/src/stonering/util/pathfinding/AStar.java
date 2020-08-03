@@ -65,7 +65,7 @@ public class AStar implements ModelComponent {
             });
             closedSet.add(currentNode.position);
         }
-        Logger.PATH.logDebug("No path found");
+//        Logger.PATH.logDebug("No path found");
         return null;
     }
 

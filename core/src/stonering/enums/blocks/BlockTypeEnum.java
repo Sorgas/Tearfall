@@ -12,13 +12,13 @@ import static stonering.enums.blocks.PassageEnum.*;
  * @author Alexander Kuzyakov on 10.06.2017.
  */
 public enum BlockTypeEnum {
-    SPACE(0, IMPASSABLE, 16, true, 0, true, "space"), //not passable for walkers, liquids fall
-    WALL(1, IMPASSABLE, 0, false, 3, false, "wall"), // not passable
-    FLOOR(2, PASSABLE, 12, true, 1, false, "floor"), // passable, liquids don't fall
-    STAIRS(3, PASSABLE, 8, false, 2, false, "stairs"), // DF-like stairs
-    DOWNSTAIRS(4, PASSABLE, 14, true, 1, true, "downstairs"),
-    RAMP(5, PASSABLE, 6, false, 2, false, "ramp"), // passable, liquids don't fall
-    FARM(17, PASSABLE, 12, true, 1, false, "farm plot"); // passable
+    SPACE(0, IMPASSABLE, 16, true, 0, "space"), //not passable for walkers, liquids fall
+    WALL(1, IMPASSABLE, 0, false, 3, "wall"), // not passable
+    FLOOR(2, PASSABLE, 12, true, 1, "floor"), // passable, liquids don't fall
+    STAIRS(3, PASSABLE, 8, false, 2, "stairs"), // DF-like stairs
+    DOWNSTAIRS(4, PASSABLE, 14, true, 1, "downstairs"),
+    RAMP(5, PASSABLE, 6, false, 2, "ramp"), // passable, liquids don't fall
+    FARM(17, PASSABLE, 12, true, 1, "farm plot"); // passable
 
     public final byte CODE; // stored on map
     public final PassageEnum PASSING;
@@ -26,7 +26,6 @@ public enum BlockTypeEnum {
     public final int PRODUCT;
     // flat blocks rendered below other entities in a separate cycle
     public final boolean FLAT;
-    public final boolean PASS_LIQUID_DOWN;
     public final String NAME; // name of constructions.
 
     private static HashMap<Byte, BlockTypeEnum> map;
@@ -43,13 +42,12 @@ public enum BlockTypeEnum {
         }
     }
 
-    BlockTypeEnum(int code, PassageEnum passing, int open, boolean flat, int product, boolean passLiquidDown, String name) {
+    BlockTypeEnum(int code, PassageEnum passing, int open, boolean flat, int product, String name) {
         CODE = (byte) code;
         PASSING = passing;
         OPENNESS = (byte) open;
         FLAT = flat;
         PRODUCT = product;
-        PASS_LIQUID_DOWN = passLiquidDown;
         NAME = name;
     }
 

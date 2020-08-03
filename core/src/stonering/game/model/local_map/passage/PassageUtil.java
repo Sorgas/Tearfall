@@ -23,7 +23,7 @@ public class PassageUtil {
         byte fromArea = passage.area.get(from);
         if (passage.area.get(to) == fromArea) return true; // target in same area
         
-        return acceptNearTarget && PositionUtil.allNeighbourDeltas.stream()
+        return acceptNearTarget && PositionUtil.allNeighbour.stream()
                 .map(pos -> Position.add(to, pos))
                 .filter(map::inMap)
                 .map(passage.area::get)

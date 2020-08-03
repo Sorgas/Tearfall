@@ -6,7 +6,6 @@ import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.EntityContainer;
-import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.item.Item;
 import stonering.util.geometry.PositionUtil;
@@ -79,7 +78,7 @@ public class ItemContainer extends EntityContainer<Item> {
             Position containerPosition = contained.get(item).entity.position;
             LocalMap map = map();
             byte area = map.passageMap.area.get(position);
-            return PositionUtil.allNeighbourDeltas.stream()
+            return PositionUtil.allNeighbour.stream()
                     .map(pos -> Position.add(pos, containerPosition))
                     .filter(map::inMap)
                     .map(map.passageMap.area::get)

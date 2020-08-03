@@ -29,12 +29,17 @@ import stonering.util.pathfinding.AStar;
  * @author Alexander Kuzyakov on 02.07.2019.
  */
 public abstract class TestModel extends GameModel {
-    public static final int MAP_SIZE = 11;
+    public static int MAP_SIZE;
 
     public TestModel() {
-        createDefaultComponents();
+        this(11);
     }
 
+    public TestModel(int size) {
+        MAP_SIZE = size;
+        createDefaultComponents();
+    }
+    
     @Override
     public void init() {
         super.init();
