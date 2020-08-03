@@ -21,7 +21,7 @@ public class LiquidDrawer extends Drawer {
     private final LocalMap map;
     private final Color stable = Color.OLIVE;
     private final Color unstable = Color.PINK;
-    public boolean debugMode = true;
+    public boolean debugMode = false;
 
     public LiquidDrawer(SpriteDrawingUtil spriteUtil, ShapeDrawingUtil shapeUtil) {
         super(spriteUtil, shapeUtil);

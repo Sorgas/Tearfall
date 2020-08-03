@@ -1,11 +1,9 @@
 package stonering.test_chamber.model;
 
-import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.liquid.LiquidContainer;
-import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
 
@@ -35,19 +33,11 @@ public class LiquidFlowPlaytestModel extends TestModel {
         // U-tube
         new Int3dBounds(1, 0, 0, 9, 0, 0).iterate(this::setFloor); // horizontal
 //        new Int3dBounds(1, 0, 1, 9, 0, 1).iterate(this::setSpace);
-
         new Int3dBounds(1, 0, 1, 1, 0, 4).iterate(this::setSpace); // vertical
         new Int3dBounds(9, 0, 1, 9, 0, 4).iterate(this::setSpace); // vertical
-
-        new Int3dBounds(5, 0, 4, 5, 6, 5).iterate(this::setWall); // vertical
-
-
-//        localMap.blockType.setBlock(1, 0, 1, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
-//        localMap.blockType.setBlock(1, 0, 2, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
-//        localMap.blockType.setBlock(9, 0, 1, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
-//        localMap.blockType.setBlock(9, 0, 2, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
+        new Int3dBounds(5, 0, 4, 5, 6, 5).iterate(this::setWall); // barrier
         container.createLiquidSource(new Position(1, 0, 5), MaterialMap.getId("water"), 1);
-        get(EntitySelectorSystem.class).setSelectorPosition(new Position(5, 5, 2));
+        get(EntitySelectorSystem.class).setSelectorPosition(new Position(5, 5, 6));
     }
 
     @Override
