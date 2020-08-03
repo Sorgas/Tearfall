@@ -37,7 +37,7 @@ public class WorkbenchModel extends TestModel {
     }
 
     private Unit createUnit() {
-        return new CreatureGenerator().generateUnit(new Position(getMapSize() / 2, getMapSize() / 2, 2), "human");
+        return new CreatureGenerator().generateUnit(new Position(MAP_SIZE / 2, MAP_SIZE / 2, 2), "human");
     }
 
     private void createItems() {

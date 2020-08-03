@@ -25,7 +25,7 @@ public class SpriteDrawingUtil {
     public final float FONT_HEIGHT;
     private final float shadingStep = 0.06f;
     public final int maxZLevels = (int) (1f / shadingStep); // levels further are shaded to black
-    private Color batchColor;               // default batch color without light or transparency
+    private Color defaultColor = new Color();               // default batch color without light or transparency
 
     public SpriteDrawingUtil(Batch batch) {
         // TODO replace with skin with custom font
@@ -36,7 +36,6 @@ public class SpriteDrawingUtil {
         generator.dispose();
         this.batch = batch;
         batch.enableBlending();
-        batchColor = new Color();
         FONT_HEIGHT = font.getCapHeight();
     }
 
@@ -101,7 +100,7 @@ public class SpriteDrawingUtil {
      */
     public void shadeByZ(int dz) {
         float shadedColorChannel = 1 - (dz == 0 ? dz : dz + 3) * shadingStep;
-        batchColor.set(shadedColorChannel, shadedColorChannel, shadedColorChannel, 1f);
+        defaultColor.set(shadedColorChannel, shadedColorChannel, shadedColorChannel, 1f);
         resetColor();
     }
 
@@ -110,11 +109,11 @@ public class SpriteDrawingUtil {
     }
 
     public void resetColor() {
-        batch.setColor(batchColor);
+        batch.setColor(defaultColor);
     }
 
     public void shadeByLight(byte lightLevel) {
         float mod = lightLevel / (float) Byte.MAX_VALUE;
-        batch.setColor(batchColor.r * mod, batchColor.g * mod, batchColor.b * mod, batchColor.a);
+        batch.setColor(defaultColor.r * mod, defaultColor.g * mod, defaultColor.b * mod, defaultColor.a);
     }
 }

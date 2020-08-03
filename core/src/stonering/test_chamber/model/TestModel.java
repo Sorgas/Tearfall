@@ -9,6 +9,7 @@ import stonering.enums.materials.MaterialMap;
 import stonering.game.model.GameModel;
 import stonering.game.model.PlayerSettlementProperties;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
+import stonering.game.model.local_map.BlockTypeMap;
 import stonering.game.model.system.*;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
@@ -46,7 +47,7 @@ public abstract class TestModel extends GameModel {
      */
     void createDefaultComponents() {
         put(createWorld());
-        put(new LocalMap(getMapSize(), getMapSize(), 20));
+        put(new LocalMap(MAP_SIZE, MAP_SIZE, 20));
         put(new PlantContainer());
         put(new SubstrateContainer());
         put(new BuildingContainer());
@@ -67,8 +68,8 @@ public abstract class TestModel extends GameModel {
      */
     protected void updateLocalMap() {
         LocalMap localMap = get(LocalMap.class);
-        for (int x = 0; x < getMapSize(); x++) {
-            for (int y = 0; y < getMapSize(); y++) {
+        for (int x = 0; x < MAP_SIZE; x++) {
+            for (int y = 0; y < MAP_SIZE; y++) {
                 localMap.blockType.setBlock(x, y, 0, BlockTypeEnum.WALL.CODE, MaterialMap.getId("soil"));
                 localMap.blockType.setBlock(x, y, 1, BlockTypeEnum.WALL.CODE, MaterialMap.getId("soil"));
                 localMap.blockType.setBlock(x, y, 2, BlockTypeEnum.FLOOR.CODE, MaterialMap.getId("soil"));
@@ -89,7 +90,30 @@ public abstract class TestModel extends GameModel {
         return world;
     }
 
-    protected int getMapSize() {
-        return MAP_SIZE;
+    private void setWall(int x, int y, int z) {
+        BlockTypeMap map = get(LocalMap.class).blockType;
+        map.setBlock(x, y, z, BlockTypeEnum.WALL, MaterialMap.getId("soil"));
+        if (map.getEnumValue(x, y, z + 1) == BlockTypeEnum.SPACE)
+            map.setBlock(x, y, z + 1, BlockTypeEnum.FLOOR, MaterialMap.getId("soil"));
+    }
+
+    private void setSpace(int x, int y, int z) {
+        get(LocalMap.class).blockType.setBlock(x, y, z, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
+    }
+
+    private void setFloor(int x, int y, int z) {
+        get(LocalMap.class).blockType.setBlock(x, y, z, BlockTypeEnum.FLOOR, MaterialMap.getId("soil"));
+    }
+
+    public void setWall(Position pos) {
+        setWall(pos.x, pos.y, pos.z);
+    }
+
+    public void setSpace(Position pos) {
+        setSpace(pos.x, pos.y, pos.z);
+    }
+
+    public void setFloor(Position pos) {
+        setFloor(pos.x, pos.y, pos.z);
     }
 }

@@ -87,7 +87,7 @@ public class PassageUpdater {
      * @param posMap area number is mapped to set of positions of this area.
      */
     private void splitAreas(Position center, Map<Byte, List<Position>> posMap) {
-        Logger.PATH.logDebug("Splitting areas around " + center + " in positions " + posMap);
+//        Logger.PATH.logDebug("Splitting areas around " + center + " in positions " + posMap);
         for (Byte areaValue : posMap.keySet()) {
             List<Position> posList = posMap.get(areaValue);
             if (posList.size() < 2) continue;

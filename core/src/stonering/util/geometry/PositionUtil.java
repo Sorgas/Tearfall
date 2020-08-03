@@ -27,7 +27,7 @@ public class PositionUtil {
             new Position(-1, -1, 0)
     );
 
-    public static List<Position> lowerAndSameNeighbourDeltas = Arrays.asList(
+    public static List<Position> waterflow = Arrays.asList(
             new Position(0, 1, 0),
             new Position(0, -1, 0),
             new Position(1, 0, 0),

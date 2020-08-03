@@ -54,6 +54,7 @@ public class LiquidMovingSystem extends UtilitySystem {
 
         container.liquidSources.values().stream() // generate liquid in sources
                 .map(source -> source.position)
+                .filter(position -> localMap.blockType.get(position) != WALL.CODE)
                 .filter(position -> container.getAmount(position) < 7)
                 .collect(Collectors.toList())
                 .forEach(position -> createLiquidDelta(null, position, 1));
@@ -64,18 +65,44 @@ public class LiquidMovingSystem extends UtilitySystem {
         Position lowerPosition = Position.add(position, 0, 0, -1);
         BlockTypeEnum currentType = localMap.blockType.getEnumValue(position);
         BlockTypeEnum lowerType = localMap.blockType.getEnumValue(lowerPosition);
-        if ((currentType == SPACE || currentType == DOWNSTAIRS) && lowerType != WALL)
+        if ((currentType == SPACE || currentType == DOWNSTAIRS) && lowerType != WALL) // block does not contain floor and lower block is open
             if (container.getAmount(lowerPosition) < MAX_AMOUNT) { // can fall lower
-                createLiquidDelta(position, lowerPosition, 1);
-                return true;
+                return createLiquidDelta(position, lowerPosition, 1);
             } else {
                 Position pos = findPositionToTeleport(position);
-                if(pos != null) {
-                    createLiquidDelta(position, pos, 1);
-                    return true;
-                }
+                if (pos != null) return createLiquidDelta(position, pos, 1);
             }
         return false;
+    }
+
+    /**
+     * Finds positions to teleport liquid as regular flowing is too slow to handle waterfalls and U-shaped tubes.
+     * Collects all filled tiles under given, collects neighbours of filled tiles(outflows).
+     *
+     * @return position of lowest and emptiest outflow.
+     */
+    private Position findPositionToTeleport(Position from) {
+        List<Position> open = new ArrayList<>();
+        Set<Position> closed = new HashSet<>();
+        List<Position> out = new ArrayList<>();
+        open.add(from);
+        // collect all filled tiles and outflows
+        while (!open.isEmpty()) {
+            Position position = open.remove(0);
+            position.neighbourStream(waterflow)
+                    .filter(pos -> !closed.contains(pos))
+                    .filter(pos -> pos.z <= from.z) // change to < if breaks performance
+                    .filter(localMap::inMap)
+                    .filter(pos -> localMap.blockType.get(pos) != WALL.CODE)
+                    .forEach(pos -> {
+                        (container.getAmount(pos) == MAX_AMOUNT ? open : out).add(pos); // add position to open set or outflows
+                    });
+            closed.add(position);
+        }
+        return out.stream()
+                .min((pos1, pos2) -> pos1.z != pos2.z ? pos1.z - pos2.z : container.getAmount(pos1) - container.getAmount(pos2))
+                .filter(pos -> pos.z < from.z || (container.getAmount(from) - container.getAmount(pos) > 0))
+                .orElse(null);
     }
 
     private boolean tryFallOver(Position position) {
@@ -92,14 +119,13 @@ public class LiquidMovingSystem extends UtilitySystem {
         Position foundPosition = positions.size() == 1
                 ? positions.get(0)
                 : positions.get(random.nextInt(positions.size()));
-        createLiquidDelta(position, foundPosition, 1);
-        return true;
+        return createLiquidDelta(position, foundPosition, 1);
     }
 
     private boolean tryFlowToSide(Position position) {
         int currentAmount = container.getAmount(position);
         if (currentAmount < 2) return false;
-        List<Position> positions = allNeighbourDeltas.stream()
+        List<Position> positions = allNeighbourDeltas.stream() // find position to flow
                 .map(pos -> Position.add(position, pos)) // add deltas
                 .filter(localMap::inMap) // in map
                 .filter(pos -> localMap.blockType.getEnumValue(pos) != WALL) // non wall
@@ -107,8 +133,8 @@ public class LiquidMovingSystem extends UtilitySystem {
                 .collect(Collectors.toList());
         if (positions.isEmpty()) return false;
         Position foundPosition = positions.get(random.nextInt(positions.size()));
-        createLiquidDelta(position, foundPosition, 1);
-        allNeighbourDeltas.stream()
+        createLiquidDelta(position, foundPosition, 1); // move liquid
+        allNeighbourDeltas.stream() // destabilize near liquid
                 .map(pos -> Position.add(position, pos)) // add deltas
                 .map(container::getTile)
                 .filter(Objects::nonNull)
@@ -116,38 +142,9 @@ public class LiquidMovingSystem extends UtilitySystem {
         return true;
     }
 
-    private Position findPositionToTeleport(Position from) {
-        System.out.println("teleporting from " + from);
-        List<Position> open = new ArrayList<>();
-        Set<Position> closed = new HashSet<>();
-        open.add(from);
-        while (!open.isEmpty()) {
-            Position position = open.remove(0);
-            List<Position> positions = lowerAndSameNeighbourDeltas.stream()
-                    .map(pos -> Position.add(position, pos))
-                    .filter(pos -> pos.z <= from.z)
-                    .filter(localMap::inMap)
-                    .filter(pos -> !closed.contains(pos))
-                    .filter(pos -> localMap.blockType.getEnumValue(pos) != WALL)
-                    .collect(Collectors.toList());
-            for (Position pos : positions) {
-                int amount = container.getAmount(pos);
-                if (amount < MAX_AMOUNT) {
-                    System.out.println("to " + pos);
-                    return pos; // tp here
-                }
-                if (amount == MAX_AMOUNT) {
-                    if (!closed.contains(pos)) open.add(pos); // new unchecked tile
-                }
-            }
-            closed.add(position); // position checked
-        }
-        System.out.println("not found");
-        return null;
-    }
-
-    private void createLiquidDelta(@Nullable Position from, @Nullable Position to, int amount) {
+    private boolean createLiquidDelta(@Nullable Position from, @Nullable Position to, int amount) {
         if (to != null && localMap.inMap(to)) container.setAmount(to, container.getAmount(to) + amount);
         if (from != null && localMap.inMap(from)) container.setAmount(from, container.getAmount(from) - amount);
+        return true;
     }
 }

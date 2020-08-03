@@ -3,6 +3,8 @@ package stonering.util.geometry;
 import com.badlogic.gdx.math.Vector3;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.stream.Stream;
 
 /**
  * Class for storing in game coordinates, stores x, y, z integer values.
@@ -150,5 +152,9 @@ public class Position implements Serializable, Cloneable {
 
     public String toString() {
         return ("[" + x + " " + y + " " + z + "]");
+    }
+
+    public Stream<Position> neighbourStream(Collection<Position> deltas) {
+        return deltas.stream().map(delta -> Position.add(this, delta));
     }
 }

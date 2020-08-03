@@ -5,6 +5,8 @@ import stonering.enums.materials.MaterialMap;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.liquid.LiquidContainer;
+import stonering.util.geometry.Int2dBounds;
+import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
 
 /**
@@ -19,31 +21,38 @@ public class LiquidFlowPlaytestModel extends TestModel {
         super.init();
         localMap = get(LocalMap.class);
         container = get(LiquidContainer.class);
-//        Int3dBounds bounds = new Int3dBounds(0,0,3, MAP_SIZE - 1, MAP_SIZE - 1, 4);
-//        bounds.iterate(position -> localMap.blockType.setBlock(position, BlockTypeEnum.WALL, MaterialMap.getId("soil")));
-        for (int x = 1; x < 10; x++) {
-            localMap.blockType.setBlock(x, 0, 0, BlockTypeEnum.FLOOR, MaterialMap.getId("soil"));
-        }
-        localMap.blockType.setBlock(1, 0, 1, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
-        localMap.blockType.setBlock(1, 0, 2, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
-        localMap.blockType.setBlock(9, 0, 1, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
-        localMap.blockType.setBlock(9, 0, 2, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
+        // waterfall
+        new Int3dBounds(0, 6, 2, 6, 10, 6).iterate(this::setWall); // hill
+        // bed on the hill
+        new Int3dBounds(0, 8, 6, 6, 8, 6).iterate(this::setFloor);
+        new Int3dBounds(0, 8, 7, 6, 8, 7).iterate(this::setSpace);
+        // pond
+        new Int3dBounds(7, 7, 2, 10, 9, 2).iterate(this::setFloor);
+        new Int3dBounds(7, 7, 3, 10, 9, 4).iterate(this::setSpace);
+        container.createLiquidSource(new Position(0, 8, 6), MaterialMap.getId("water"), 1);
+
+
+        // U-tube
+        new Int3dBounds(1, 0, 0, 9, 0, 0).iterate(this::setFloor); // horizontal
+//        new Int3dBounds(1, 0, 1, 9, 0, 1).iterate(this::setSpace);
+
+        new Int3dBounds(1, 0, 1, 1, 0, 4).iterate(this::setSpace); // vertical
+        new Int3dBounds(9, 0, 1, 9, 0, 4).iterate(this::setSpace); // vertical
+
+        new Int3dBounds(5, 0, 4, 5, 6, 5).iterate(this::setWall); // vertical
+
+
+//        localMap.blockType.setBlock(1, 0, 1, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
+//        localMap.blockType.setBlock(1, 0, 2, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
+//        localMap.blockType.setBlock(9, 0, 1, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
+//        localMap.blockType.setBlock(9, 0, 2, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
         container.createLiquidSource(new Position(1, 0, 5), MaterialMap.getId("water"), 1);
-
-//        for (int x = 1; x < 5; x++) {
-//            localMap.blockType.setBlock(x, 1, 2, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
-//            localMap.blockType.setBlock(x, 1, 1, BlockTypeEnum.FLOOR, MaterialMap.getId("soil"));
-//        }
-//        container.setAmount(new Position(1, 1, 1), 7);
-//        container.setAmount(new Position(2, 1, 1), 6);
-//        container.setAmount(new Position(3, 1, 1), 7);
-//        container.setAmount(new Position(4, 1, 1), 7);
-
-//        container.setAmount(new Position(5, 10, 2), 7);
-//        container.createLiquidSource(new Position(1, 1, 6), MaterialMap.getId("water"), 1);
-//        container.createLiquidSource(new Position(3, 3, 6), MaterialMap.getId("water"), 1);
-//        container.createLiquidSource(new Position(5, 5, 6), MaterialMap.getId("water"), 1);
-        
         get(EntitySelectorSystem.class).setSelectorPosition(new Position(5, 5, 2));
+    }
+
+    @Override
+    protected void updateLocalMap() {
+        new Int3dBounds(0, 0, 0, MAP_SIZE - 1, MAP_SIZE - 1, 3).iterate(this::setWall);
+        new Int3dBounds(0, 0, 4, MAP_SIZE - 1, MAP_SIZE - 1, 4).iterate(this::setFloor);
     }
 }

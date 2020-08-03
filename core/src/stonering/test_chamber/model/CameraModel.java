@@ -35,9 +35,4 @@ public class CameraModel extends TestModel {
             localMap.blockType.setBlock(x, y, 3, BlockTypeEnum.FLOOR, MaterialMap.getId("soil"));
         }
     }
-
-    @Override
-    protected int getMapSize() {
-        return MAP_SIZE;
-    }
 }

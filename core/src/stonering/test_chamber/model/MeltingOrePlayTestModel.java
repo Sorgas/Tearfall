@@ -44,7 +44,7 @@ public class MeltingOrePlayTestModel extends TestModel {
     }
 
     private Unit createUnit() {
-        Unit unit = new CreatureGenerator().generateUnit(new Position(getMapSize() / 2, getMapSize() / 2, 2), "human");
+        Unit unit = new CreatureGenerator().generateUnit(new Position(MAP_SIZE / 2, MAP_SIZE / 2, 2), "human");
         unit.get(MovementAspect.class).speed = 0.2f;
         return unit;
     }
