@@ -6,29 +6,24 @@
 [
     {
         "name": "mining",
-        "levels": [40, 90, 180, 300, 500],
         "speed": 0.04
     }, {
     "name": "woodcutting",
-    "levels": [40, 90, 180, 300, 500],
     "speed": 0.04,
     "quantity": 0.01,
     "quality": 0.01
 }, {
     "name": "building",
-    "levels": [40, 90, 180, 300, 500],
     "speed": 0.04,
     "quantity": 0.01,
     "quality": 0.01
 }, {
     "name": "cooking",
-    "levels": [40, 90, 180, 300, 500],
     "speed": 0.04,
     "quantity": 0.01,
     "quality": 0.01
 }, {
     "name": "plant_harvesting",
-    "levels": [40, 90, 180, 300, 500],
     "speed": 0.04,
     "quantity": 0.01,
     "quality": 0.01

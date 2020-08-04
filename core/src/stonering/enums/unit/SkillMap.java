@@ -1,6 +1,7 @@
 package stonering.enums.unit;
 
 import com.badlogic.gdx.utils.Json;
+
 import stonering.util.global.FileUtil;
 
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import java.util.Map;
  * @author Alexander_Kuzyakov on 03.07.2019.
  */
 public class SkillMap {
+    public static final int[] LEVEL_BOUNDS = {100, 300, 600, 1000, 1500, 2100, 2800, 3600, 4500, 5500, 6700, 8100, 9700, 11500, 13500, 15700, 18100, 20700, 23500, 26500};
+
     private static SkillMap instance;
     private final Map<String, Skill> skills;
 
@@ -40,3 +43,4 @@ public class SkillMap {
         return instance().skills.get(skillName);
     }
 }
+

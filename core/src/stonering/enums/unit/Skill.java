@@ -8,7 +8,6 @@ package stonering.enums.unit;
  */
 public class Skill {
     public String name;
-    public int[] levels;
     public float speed;
     public float quality;
     public float quantity;

@@ -1,25 +1,25 @@
 package stonering.entity.unit.aspects.job;
 
+import static stonering.enums.unit.SkillMap.LEVEL_BOUNDS;
+
 /**
  * Divides value into sequence of levels.
  * Zero level always starts with 0. When value is updated, level recounted.
  *
  * @author Alexander on 26.01.2020
  */
-public class LeveledValue {
+public class SkillValue {
     private float value;
     private int level;
-    private int[] levelBounds; // min value of a level, [0] is level 1
 
-    public LeveledValue(int[] levelBounds) {
-        this.levelBounds = levelBounds;
+    public SkillValue() {
         value = 0;
         level = 0;
     }
 
     public void updateLevel() {
-        for (int i = 0; i < levelBounds.length; i++) {
-            if (levelBounds[i] > value) {
+        for (int i = 0; i < LEVEL_BOUNDS.length; i++) {
+            if (LEVEL_BOUNDS[i] > value) {
                 level = i;
                 break;
             }
@@ -38,12 +38,12 @@ public class LeveledValue {
 
     public void setLevel(int newLevel) {
         level = newLevel;
-        if (level >= levelBounds.length) level = levelBounds.length;
+        if (level >= LEVEL_BOUNDS.length) level = LEVEL_BOUNDS.length;
         if (level <= 0) {
             level = 0;
             value = 0;
         } else {
-            value = levelBounds[level - 1];
+            value = LEVEL_BOUNDS[level - 1];
         }
     }
 
@@ -56,6 +56,6 @@ public class LeveledValue {
     }
     
     public int maxLevel() {
-        return levelBounds.length;
+        return LEVEL_BOUNDS.length;
     }
 }

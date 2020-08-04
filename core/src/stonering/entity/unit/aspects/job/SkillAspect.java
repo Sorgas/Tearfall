@@ -1,34 +1,33 @@
 package stonering.entity.unit.aspects.job;
 
-import stonering.entity.Aspect;
-import stonering.entity.Entity;
-import stonering.enums.unit.SkillMap;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import stonering.entity.Aspect;
+import stonering.entity.Entity;
 
 /**
  * @author Alexander on 27.01.2020.
  */
 public class SkillAspect extends Aspect {
-    public final Map<String, SkillValue> skills;
+    public final Map<String, SkillState> skills;
 
     public SkillAspect(Entity entity) {
         super(entity);
         skills = new HashMap<>();
     }
 
-    public SkillValue getSkill(String skill) {
-        return skills.computeIfAbsent(skill, SkillValue::new); // create new skill with 0 experience
+    public SkillState getSkill(String skill) {
+        return skills.computeIfAbsent(skill, SkillState::new); // create new skill with 0 experience
     }
 
-    public static class SkillValue {
+    public static class SkillState {
         public final String skill;
-        public final LeveledValue state;
+        public final SkillValue state;
 
-        public SkillValue(String skill) {
+        public SkillState(String skill) {
             this.skill = skill;
-            state = new LeveledValue(SkillMap.getSkill(skill).levels);
+            state = new SkillValue();
         }
     }
 }
