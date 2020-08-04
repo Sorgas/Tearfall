@@ -149,5 +149,17 @@
             "0"
         ],
         "color": "0xffffffff"
+    },
+    {
+        "name": "dummy",
+        "title": "Bear",
+        "description": "Surprisingly grumpy for something that sleeps most of the year",
+        "bodyTemplate": "beast",
+        "baseHP": "200",
+        "atlasXY": [
+            "0",
+            "0"
+        ],
+        "color": "0xffffffff"
     }
 ]

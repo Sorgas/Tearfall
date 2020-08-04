@@ -40,7 +40,7 @@ public class LocalWorldStage extends UiStage {
         shapeDrawingUtil = new ShapeDrawingUtil(getBatch());
         tileDrawer = new TileDrawer(spriteDrawingUtil, shapeDrawingUtil, camera);
     }
-
+    
     /**
      * Renders local map with all entities to single batch frame.
      */

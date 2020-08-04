@@ -22,7 +22,8 @@ import java.util.Map;
 public class HealthAspect extends Aspect {
     public final Map<String, Float> properties; // make properties enumeration
     public final Map<HealthParameterEnum, HealthParameterState> parameters;
-
+    public boolean alive;
+    
     public HealthAspect(Entity entity) {
         super(entity);
         properties = new HashMap<>();

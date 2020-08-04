@@ -38,6 +38,17 @@
     "aspects": ["item_container(solid,100)"],
     "passage": "floor",
     "atlasXY": [7, 0],
+    "NSEWsprites": [
+        [0, 0], [0, 1], [1, 0], [1, 1]
+    ],
+    "color": "0xffffffff"
+}, {
+    "building": "training_dummy",
+    "title": "Training dummy",
+    "description": "Primitive wooden figure for introducing beginners to a melee combat.",
+    "aspects": [""],
+    "passage": "floor",
+    "atlasXY": [9, 0],
     "color": "0xffffffff"
 }
 ]
