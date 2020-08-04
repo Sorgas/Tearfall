@@ -2,7 +2,7 @@ package stonering.entity.unit.aspects.job;
 
 /**
  * Divides value into sequence of levels.
- * Zero level always starts with 0.
+ * Zero level always starts with 0. When value is updated, level recounted.
  *
  * @author Alexander on 26.01.2020
  */
@@ -26,10 +26,6 @@ public class LeveledValue {
         }
     }
 
-    public float getValue() {
-        return value;
-    }
-
     public void setValue(float value) {
         this.value = value;
         updateLevel();
@@ -38,10 +34,6 @@ public class LeveledValue {
     public void changeValue(int delta) {
         value += delta;
         updateLevel();
-    }
-
-    public int getLevel() {
-        return level;
     }
 
     public void setLevel(int newLevel) {
@@ -53,5 +45,17 @@ public class LeveledValue {
         } else {
             value = levelBounds[level - 1];
         }
+    }
+
+    public float value() {
+        return value;
+    }
+
+    public int level() {
+        return level;
+    }
+    
+    public int maxLevel() {
+        return levelBounds.length;
     }
 }

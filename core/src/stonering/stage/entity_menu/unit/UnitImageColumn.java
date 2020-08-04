@@ -12,7 +12,6 @@ import stonering.util.global.StaticSkin;
 import stonering.widget.item.ItemLabel;
 
 import java.util.Comparator;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -54,7 +53,7 @@ public class UnitImageColumn extends Table {
     private String getUnitBestSkill(Unit unit) {
         return Optional.ofNullable(unit.get(SkillAspect.class))
                 .map(aspect -> aspect.skills.values().stream())
-                .flatMap(stream -> stream.max(Comparator.comparingInt(skill -> skill.state.getLevel())))
+                .flatMap(stream -> stream.max(Comparator.comparingInt(skill -> skill.state.level())))
                 .map(skillValue -> skillValue.skill)
                 .orElse("Peasant");
     }

@@ -108,7 +108,7 @@ public abstract class Action {
     }
 
     protected int performerLevel() {
-        return task.performer.get(SkillAspect.class).getSkill(skill).state.getLevel();
+        return task.performer.get(SkillAspect.class).getSkill(skill).state.level();
     }
 
     protected Skill skill() {

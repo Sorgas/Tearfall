@@ -22,9 +22,6 @@ public class SkillAspect extends Aspect {
         return skills.computeIfAbsent(skill, SkillValue::new); // create new skill with 0 experience
     }
 
-    /**
-     * Holds current level and experience of some skill.
-     */
     public static class SkillValue {
         public final String skill;
         public final LeveledValue state;

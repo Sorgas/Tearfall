@@ -68,7 +68,7 @@ public class CraftItemAction extends ItemConsumingAction {
                     .orElse(0f);
             float skillBonus = Optional.ofNullable(SkillMap.getSkill(this.skill))
                     .map(skill -> Optional.ofNullable(task.performer.get(SkillAspect.class))
-                            .map(aspect -> aspect.getSkill(this.skill).state.getLevel())
+                            .map(aspect -> aspect.getSkill(this.skill).state.level())
                             .map(level -> level * skill.speed)
                             .orElse(0f)).orElse(0f);
             //TODO add WB tier bonus

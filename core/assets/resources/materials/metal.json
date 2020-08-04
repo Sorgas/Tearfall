@@ -52,18 +52,6 @@
     "atlasY": "0",
     "color": "ffffffff"
 }, {
-    "name": "zinc",
-    "tags": ["metal"],
-    "density": "7.1",
-    "reactions": {
-        "melt": [
-            "419"
-        ]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
-}, {
     "name": "lead",
     "tags": ["metal"],
     "density": "11.4",

@@ -20,39 +20,39 @@ public class LeveledValueTest {
 
     @Test
     void changeValueWithoutLevelUp() {
-        Assert.assertEquals(leveledValue.getLevel(), 0);
+        Assert.assertEquals(leveledValue.level(), 0);
         leveledValue.changeValue(5);
-        Assert.assertEquals(leveledValue.getLevel(), 0);
+        Assert.assertEquals(leveledValue.level(), 0);
     }
 
     @Test
     void changeValueWithLevelUp() {
-        Assert.assertEquals(leveledValue.getLevel(), 0);
+        Assert.assertEquals(leveledValue.level(), 0);
         leveledValue.changeValue(10);
-        Assert.assertEquals(leveledValue.getLevel(), 1);
+        Assert.assertEquals(leveledValue.level(), 1);
     }
 
     @Test
     void setLevelInRange() {
-        Assert.assertEquals(leveledValue.getLevel(), 0);
+        Assert.assertEquals(leveledValue.level(), 0);
         leveledValue.setLevel(3);
-        Assert.assertEquals(leveledValue.getLevel(), 3);
-        Assert.assertEquals(leveledValue.getValue(), 40);
+        Assert.assertEquals(leveledValue.level(), 3);
+        Assert.assertEquals(leveledValue.value(), 40);
     }
 
     @Test
     void setLevelLesserThanMin() {
-        Assert.assertEquals(leveledValue.getLevel(), 0);
+        Assert.assertEquals(leveledValue.level(), 0);
         leveledValue.setLevel(-1);
-        Assert.assertEquals(leveledValue.getLevel(), 0);
-        Assert.assertEquals(leveledValue.getValue(), 0);
+        Assert.assertEquals(leveledValue.level(), 0);
+        Assert.assertEquals(leveledValue.value(), 0);
     }
 
     @Test
     void setLevelMoreThanMax() {
-        Assert.assertEquals(leveledValue.getLevel(), 0);
+        Assert.assertEquals(leveledValue.level(), 0);
         leveledValue.setLevel(6);
-        Assert.assertEquals(leveledValue.getLevel(), 4);
-        Assert.assertEquals(leveledValue.getValue(), 70);
+        Assert.assertEquals(leveledValue.level(), 4);
+        Assert.assertEquals(leveledValue.value(), 70);
     }
 }

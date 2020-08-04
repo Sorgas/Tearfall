@@ -15,6 +15,7 @@ public abstract class AttackAction extends Action {
     
     public AttackAction(Entity entity) {
         super(new EntityActionTarget(entity, NEAR));
+        progress = 1;
         
         startCondition = () -> OK;
 
@@ -24,8 +25,6 @@ public abstract class AttackAction extends Action {
             strike();
             updateStrikeDelay();
         };
-        
-        // finishCondition is to be defined in subclasses 
     }
 
     /**
