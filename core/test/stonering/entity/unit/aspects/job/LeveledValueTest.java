@@ -10,12 +10,11 @@ import org.junit.jupiter.api.TestInstance;
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class LeveledValueTest {
-    private static int[] bounds = {10, 20, 40, 70};
     private static SkillValue leveledValue;
 
     @BeforeEach
     void setUp() {
-        leveledValue = new SkillValue(bounds);
+        leveledValue = new SkillValue();
     }
 
     @Test

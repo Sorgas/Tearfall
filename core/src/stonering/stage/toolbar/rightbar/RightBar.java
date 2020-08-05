@@ -12,6 +12,8 @@ import stonering.game.GameMvc;
 import stonering.widget.button.IconTextHotkeyButton;
 
 /**
+ * Vertical widget with buttons that shows settlement management menus.
+ * 
  * @author Alexander on 06.07.2020.
  */
 public class RightBar extends Container<Table> {
@@ -22,6 +24,7 @@ public class RightBar extends Container<Table> {
     public RightBar() {
         createLayout();
         createButton(RightBarMenuEnum.UNITS_MENU);
+        createButton(RightBarMenuEnum.MILITARY_MENU);
     }
 
     private void createButton(RightBarMenuEnum type) {

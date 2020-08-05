@@ -11,6 +11,7 @@ import stonering.stage.util.UiStage;
 import stonering.stage.entity_menu.building.BuildingMaterialTab;
 import stonering.stage.toolbar.rightbar.RightBar;
 import stonering.widget.TileStatusBar;
+import stonering.widget.util.KeyNotifierListener;
 
 /**
  * Contains toolbar and status bar.
@@ -33,7 +34,8 @@ public class ToolbarStage extends UiStage {
         addActor(rightBar = new RightBar());
         tabContainer.setFillParent(true);
         tabContainer.align(Align.bottomRight);
-        setKeyboardFocus(toolbar);
+        addListener(new KeyNotifierListener(toolbar));
+        addListener(new KeyNotifierListener(rightBar));
         addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
