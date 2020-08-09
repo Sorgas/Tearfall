@@ -1,6 +1,6 @@
 package stonering.entity.unit.aspects.health;
 
-import stonering.enums.unit.health.HealthParameterEnum;
+import stonering.enums.unit.health.NeedEnum;
 import stonering.enums.unit.health.HealthParameterRange;
 
 /**
@@ -8,12 +8,12 @@ import stonering.enums.unit.health.HealthParameterRange;
  *
  * @author Alexander on 06.10.2019.
  */
-public class HealthParameterState {
-    public final HealthParameterEnum parameter;
+public class NeedState {
+    public final NeedEnum parameter;
     private float current = 0;
     public float max = 100;
 
-    public HealthParameterState(HealthParameterEnum parameter) {
+    public NeedState(NeedEnum parameter) {
         this.parameter = parameter;
     }
 

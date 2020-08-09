@@ -1,6 +1,6 @@
 package stonering.test_chamber.model;
 
-import static stonering.enums.unit.health.HealthParameterEnum.HUNGER;
+import static stonering.enums.unit.health.NeedEnum.HUNGER;
 
 import stonering.entity.building.Building;
 import stonering.entity.item.Item;
@@ -27,7 +27,7 @@ public class FoodPlayTestModel extends TestModel {
     public void init() {
         super.init();
         Unit unit = new CreatureGenerator().generateUnit(new Position(0, 0, 2), "human");
-        unit.get(HealthAspect.class).parameters.get(HUNGER).setValue(65);
+        unit.get(HealthAspect.class).needStates.get(HUNGER).setValue(65);
         get(UnitContainer.class).addUnit(unit);
 
         ItemContainer itemContainer = get(ItemContainer.class);

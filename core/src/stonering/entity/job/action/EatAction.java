@@ -1,7 +1,7 @@
 package stonering.entity.job.action;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
-import static stonering.enums.unit.health.HealthParameterEnum.*;
+import static stonering.enums.unit.health.NeedEnum.*;
 
 import stonering.entity.building.Building;
 import stonering.entity.building.BuildingBlock;

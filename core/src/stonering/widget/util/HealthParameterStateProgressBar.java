@@ -1,6 +1,6 @@
 package stonering.widget.util;
 
-import stonering.entity.unit.aspects.health.HealthParameterState;
+import stonering.entity.unit.aspects.health.NeedState;
 
 /**
  * Progress bar that shows state of creature need.
@@ -8,9 +8,9 @@ import stonering.entity.unit.aspects.health.HealthParameterState;
  * @author Alexander on 23.12.2019.
  */
 public class HealthParameterStateProgressBar extends RatioLabelProgressBar {
-    private HealthParameterState state;
+    private NeedState state;
 
-    public HealthParameterStateProgressBar(HealthParameterState state) {
+    public HealthParameterStateProgressBar(NeedState state) {
         super(0, (int) state.max);
         this.state = state;
         bar.setValue(state.get());

@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.images.DrawableMap;
-import stonering.enums.unit.health.HealthParameterEnum;
+import stonering.enums.unit.health.NeedEnum;
 import stonering.widget.util.HealthParameterStateProgressBar;
 
 /**
@@ -26,15 +26,15 @@ public class UnitNeedsWidget extends Table {
 
     private void createBars(Unit unit) {
         HealthAspect aspect = unit.get(HealthAspect.class);
-        addBar("hunger:", HealthParameterEnum.HUNGER, aspect);
-        addBar("thirst:", HealthParameterEnum.THIRST, aspect);
-        addBar("fatigue:", HealthParameterEnum.FATIGUE, aspect);
+        addBar("hunger:", NeedEnum.HUNGER, aspect);
+        addBar("thirst:", NeedEnum.THIRST, aspect);
+        addBar("fatigue:", NeedEnum.FATIGUE, aspect);
     }
 
-    private void addBar(String drawableName, HealthParameterEnum parameter, HealthAspect aspect) {
+    private void addBar(String drawableName, NeedEnum parameter, HealthAspect aspect) {
         Drawable drawable = DrawableMap.ICON.getDrawable(drawableName);
         Image image = new Image(drawable);
         add(image).size(40);
-        add(new HealthParameterStateProgressBar(aspect.parameters.get(parameter))).growX().row();
+        add(new HealthParameterStateProgressBar(aspect.needStates.get(parameter))).growX().row();
     }
 }

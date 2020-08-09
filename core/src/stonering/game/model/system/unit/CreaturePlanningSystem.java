@@ -4,7 +4,7 @@ import stonering.entity.job.Task;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.TaskAspect;
-import stonering.entity.unit.aspects.needs.NeedsAspect;
+import stonering.entity.unit.aspects.needs.NeedAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.system.EntitySystem;
 import stonering.game.model.system.task.CreatureActionPerformingSystem;
@@ -15,7 +15,6 @@ import stonering.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Objects;
-import java.util.Optional;
 
 import static stonering.enums.action.TaskStatusEnum.*;
 
@@ -47,7 +46,7 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
 
     private void findNewTask(Unit unit) {
         ArrayList<Task> tasks = new ArrayList<>();
-        if (unit.has(NeedsAspect.class)) tasks.add(unit.get(NeedsAspect.class).satisfyingTask); // add need task
+        if (unit.has(NeedAspect.class)) tasks.add(unit.get(NeedAspect.class).satisfyingTask); // add need task
         tasks.add(taskContainer().getActiveTask(unit)); // get task from container
         tasks.stream()
                 .filter(Objects::nonNull)

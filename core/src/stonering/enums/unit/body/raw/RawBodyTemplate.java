@@ -12,7 +12,6 @@ import java.util.List;
  */
 public class RawBodyTemplate {
     public String name;
-    public List<String> defaultLayers;
     public List<String> needs;
     public List<String> desiredSlots = new ArrayList<>();
     public List<RawBodyPart> body;

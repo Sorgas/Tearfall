@@ -8,9 +8,10 @@ import java.util.stream.Stream;
 
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.unit.aspects.health.HealthAspect;
+import stonering.entity.unit.aspects.needs.NeedAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.materials.MaterialMap;
-import stonering.enums.unit.health.HealthParameterEnum;
+import stonering.enums.unit.health.NeedEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.liquid.LiquidContainer;
 import stonering.game.model.system.unit.UnitContainer;
@@ -39,12 +40,12 @@ public class DrinkFromTileAction extends Action {
 
         // set max progress to creature thirst
         onStart = () -> {
-            maxProgress = task.performer.get(HealthAspect.class).parameters.get(HealthParameterEnum.THIRST).get();
+            maxProgress = task.performer.get(NeedAspect.class).needs.get(NeedEnum.THIRST).get();
         };
 
         // subtract max progress from creature thirst
         onFinish = () -> {
-            GameMvc.model().get(UnitContainer.class).healthSystem.changeParameter(task.performer, HealthParameterEnum.THIRST, -maxProgress);
+            GameMvc.model().get(UnitContainer.class).healthSystem.changeParameter(task.performer, NeedEnum.THIRST, -maxProgress);
         };
     }
 }

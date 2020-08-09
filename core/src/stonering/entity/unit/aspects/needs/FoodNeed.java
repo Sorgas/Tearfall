@@ -2,7 +2,7 @@ package stonering.entity.unit.aspects.needs;
 
 import static stonering.enums.action.TaskPriorityEnum.NONE;
 import static stonering.enums.items.ItemTagEnum.*;
-import static stonering.enums.unit.health.HealthParameterEnum.HUNGER;
+import static stonering.enums.unit.health.NeedEnum.HUNGER;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -42,8 +42,8 @@ public class FoodNeed extends Need {
 
     @Override
     public TaskPriorityEnum countPriority(Unit unit) {
-        return unit.getOptional(HealthAspect.class)
-                .map(aspect -> aspect.parameters.get(HUNGER).getRelativeValue())
+        return unit.getOptional(NeedAspect.class)
+                .map(aspect -> aspect.needs.get(HUNGER).getRelativeValue())
                 .map(relValue -> HUNGER.PARAMETER.getRange(relValue).priority)
                 .orElse(NONE);
     }

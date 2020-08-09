@@ -5,12 +5,12 @@ import stonering.entity.building.Building;
 import stonering.entity.building.aspects.RestFurnitureAspect;
 import stonering.entity.job.action.plant.ChopTreeAction;
 import stonering.entity.job.action.target.EntityActionTarget;
-import stonering.entity.unit.aspects.health.HealthAspect;
-import stonering.entity.unit.aspects.health.HealthParameterState;
+import stonering.entity.unit.aspects.health.NeedState;
+import stonering.entity.unit.aspects.needs.NeedAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.enums.unit.health.FatigueParameter;
-import stonering.enums.unit.health.HealthParameterEnum;
+import stonering.enums.unit.health.NeedEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.building.BuildingContainer;
 
@@ -26,7 +26,7 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
  */
 public class SleepInBedAction extends Action {
     private float restSpeed;
-    private HealthParameterState fatigue;
+    private NeedState fatigue;
 
     public SleepInBedAction(Building bed) {
         super(new EntityActionTarget(bed, ActionTargetTypeEnum.EXACT));
@@ -39,7 +39,7 @@ public class SleepInBedAction extends Action {
             return FAIL;
         };
         onStart = () -> {
-            fatigue = task.performer.get(HealthAspect.class).parameters.get(HealthParameterEnum.FATIGUE);
+            fatigue = task.performer.get(NeedAspect.class).needs.get(NeedEnum.FATIGUE);
             task.performer.get(RenderAspect.class).rotation = -90;
             // lie to bed
             // disable vision

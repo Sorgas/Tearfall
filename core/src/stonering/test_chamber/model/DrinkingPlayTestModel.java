@@ -1,6 +1,6 @@
 package stonering.test_chamber.model;
 
-import static stonering.enums.unit.health.HealthParameterEnum.THIRST;
+import static stonering.enums.unit.health.NeedEnum.THIRST;
 
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.health.HealthAspect;
@@ -23,7 +23,7 @@ public class DrinkingPlayTestModel extends TestModel {
     public void init() {
         super.init();
         Unit unit = new CreatureGenerator().generateUnit(new Position(0, 0, 2), "human");
-        unit.get(HealthAspect.class).parameters.get(THIRST).setValue(65);
+        unit.get(HealthAspect.class).needStates.get(THIRST).setValue(65);
         get(UnitContainer.class).addUnit(unit);
 
         LocalMap map = get(LocalMap.class);

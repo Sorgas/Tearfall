@@ -13,7 +13,7 @@ import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.items.ItemTagEnum;
 import stonering.enums.materials.MaterialMap;
-import stonering.enums.unit.health.HealthParameterEnum;
+import stonering.enums.unit.health.NeedEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.ByteArrayWithCounter;
 import stonering.game.model.local_map.LocalMap;
@@ -36,9 +36,10 @@ public class WaterNeed extends Need {
 
     @Override
     public TaskPriorityEnum countPriority(Unit unit) {
-        HealthAspect aspect = unit.get(HealthAspect.class);
-        float relativeValue = aspect.parameters.get(HealthParameterEnum.THIRST).getRelativeValue();
-        return HealthParameterEnum.THIRST.PARAMETER.getRange(relativeValue).priority;
+        return Optional.ofNullable(unit.get(NeedAspect.class))
+                .map(aspect -> aspect.needs.get(NeedEnum.THIRST).getRelativeValue())
+                .map(relativeValue -> NeedEnum.THIRST.PARAMETER.getRange(relativeValue).priority)
+                .orElse(TaskPriorityEnum.NONE);
     }
 
     @Override

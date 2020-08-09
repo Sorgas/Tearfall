@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.entity.unit.aspects.needs.NeedEnum;
 import stonering.enums.unit.CreatureType;
-import stonering.entity.unit.aspects.needs.NeedsAspect;
+import stonering.entity.unit.aspects.needs.NeedAspect;
 import stonering.util.global.FileUtil;
 
 import java.util.Objects;
@@ -32,9 +32,9 @@ public class NeedAspectGenerator {
         templates = reader.parse(FileUtil.get(FileUtil.BODY_TEMPLATE_PATH));
     }
 
-    public NeedsAspect generateNeedAspect(CreatureType type) {
-        NeedsAspect needsAspect = new NeedsAspect(null);
-        type.bodyTemplate.needs.stream().map(NeedEnum::get).filter(Objects::nonNull).forEach(needsAspect.needs::add);
-        return needsAspect;
+    public NeedAspect generateNeedAspect(CreatureType type) {
+        NeedAspect needAspect = new NeedAspect(null);
+        type.bodyTemplate.needs.stream().map(NeedEnum::get).filter(Objects::nonNull).forEach(needAspect.needs::add);
+        return needAspect;
     }
 }

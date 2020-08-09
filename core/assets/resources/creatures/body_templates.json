@@ -8,7 +8,7 @@
 [
     {
         "name": "beast",
-        "defaultLayers": ["skin", "fat", "muscle", "bone"],
+//        "defaultLayers": ["skin", "fat", "muscle", "bone"],
         "needs": ["rest"],
         "body": [
             {
@@ -58,7 +58,7 @@
     }, {
     "name": "humanoid",
     "desiredSlots": ["foot", "legs"],
-    "defaultLayers": ["skin", "fat", "muscle", "bone"],
+//    "defaultLayers": ["skin", "fat", "muscle", "bone"],
     "needs": ["rest", "wear", "food", "water"],
     "body": [
         {
@@ -125,7 +125,7 @@
 },
     {
         "name": "bird",
-        "defaultLayers": ["skin", "fat", "muscle", "bone"],
+//        "defaultLayers": ["skin", "fat", "muscle", "bone"],
         "needs": ["rest", "wear", "food"],
         "body": [
             {

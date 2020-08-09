@@ -3,8 +3,9 @@ package stonering.game.model.system.unit;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.health.HealthAspect;
+import stonering.entity.unit.aspects.needs.NeedAspect;
 import stonering.enums.time.TimeUnitEnum;
-import stonering.enums.unit.health.HealthParameterEnum;
+import stonering.enums.unit.health.NeedEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.EntitySystem;
 import stonering.util.logging.Logger;
@@ -38,8 +39,8 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
     
     @Override
     public void update(Unit unit) {
-        unit.getOptional(HealthAspect.class)
-                .map(health -> health.parameters.keySet()).get()
+        unit.getOptional(NeedAspect.class)
+                .map(aspect -> aspect.needs.keySet()).get()
                 .forEach(param -> changeParameter(unit, param, param.DEFAULT_DELTA));
     }
 
@@ -53,22 +54,22 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
             Logger.UNITS.logError("Trying to add move fatigue to creature " + unit + " with no HealthAspect");
             return;
         }
-        changeParameter(unit, HealthParameterEnum.FATIGUE, moveParameterNoLoad + moveParameterFullLoad * unit.get(EquipmentAspect.class).getRelativeLoad());
+        changeParameter(unit, NeedEnum.FATIGUE, moveParameterNoLoad + moveParameterFullLoad * unit.get(EquipmentAspect.class).getRelativeLoad());
     }
 
-    public void changeParameter(Unit unit, HealthParameterEnum parameter, float delta) {
-        if(unit.get(HealthAspect.class).parameters.get(parameter).changeValue(delta)) resetParameter(unit, parameter);
+    public void changeParameter(Unit unit, NeedEnum parameter, float delta) {
+        if(unit.get(NeedAspect.class).needs.get(parameter).changeValue(delta)) resetParameter(unit, parameter);
     }
 
     public void resetCreatureHealth(Unit unit) {
-        for (HealthParameterEnum parameter : unit.get(HealthAspect.class).parameters.keySet())
+        for (NeedEnum parameter : unit.get(NeedAspect.class).needs.keySet())
             resetParameter(unit, parameter);
     }
 
-    private void resetParameter(Unit unit, HealthParameterEnum parameter) {
+    private void resetParameter(Unit unit, NeedEnum parameter) {
         buffSystem().removeBuff(unit, parameter.TAG); // remove previous buff
         unit.getOptional(HealthAspect.class)
-                .map(aspect -> aspect.parameters.get(parameter))
+                .map(aspect -> aspect.needStates.get(parameter))
                 .map(parameter.PARAMETER::getRange)
                 .map(range -> range.produceBuff.get())
                 .ifPresent(buff -> buffSystem().addBuff(unit, buff)); // add new buff if any

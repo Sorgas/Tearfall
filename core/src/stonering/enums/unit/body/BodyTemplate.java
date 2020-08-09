@@ -7,13 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Represents body structure of a creature. Store in {@link CreatureTypeMap}.
+ * Represents body structure of a creature. Stored in {@link CreatureTypeMap}.
  *
  * @author Alexander on 29.05.2019.
  */
 public class BodyTemplate {
     public String name;
-    public List<String> defaultLayers;
     public List<String> needs;
     public List<String> desiredSlots;
     public HashMap<String, BodyPart> body; // name to bodyPart
@@ -21,7 +20,6 @@ public class BodyTemplate {
 
     public BodyTemplate(RawBodyTemplate rawBodyTemplate) {
         name = rawBodyTemplate.name;
-        defaultLayers = rawBodyTemplate.defaultLayers;
         needs = rawBodyTemplate.needs;
         desiredSlots = rawBodyTemplate.desiredSlots;
         body = new HashMap<>();

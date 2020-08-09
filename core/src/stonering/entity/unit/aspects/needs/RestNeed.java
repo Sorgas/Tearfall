@@ -1,6 +1,6 @@
 package stonering.entity.unit.aspects.needs;
 
-import static stonering.enums.unit.health.HealthParameterEnum.*;
+import static stonering.enums.unit.health.NeedEnum.*;
 
 import stonering.entity.building.Building;
 import stonering.entity.building.aspects.RestFurnitureAspect;
@@ -9,7 +9,7 @@ import stonering.entity.job.action.Action;
 import stonering.entity.job.action.SleepInBedAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.health.HealthAspect;
-import stonering.entity.unit.aspects.health.HealthParameterState;
+import stonering.entity.unit.aspects.health.NeedState;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.unit.health.FatigueParameter;
 import stonering.game.GameMvc;
@@ -24,7 +24,7 @@ import java.util.Optional;
 
 /**
  * Need for rest. Part of {@link CreatureHealthSystem}.
- * Uses {@link FatigueParameter} and {@link HealthParameterState} in {@link HealthAspect} for calculating task priority.
+ * Uses {@link FatigueParameter} and {@link NeedState} in {@link HealthAspect} for calculating task priority.
  * Generates tasks for:
  * stop activities on medium exhaustion,
  * sleeping in a bed or a safe place (50-70),
@@ -39,9 +39,10 @@ import java.util.Optional;
 public class RestNeed extends Need {
     @Override
     public TaskPriorityEnum countPriority(Unit unit) {
-        HealthAspect health = unit.get(HealthAspect.class);
-        float relativeFatigue = health.parameters.get(FATIGUE).getRelativeValue();
-        return FATIGUE.PARAMETER.getRange(relativeFatigue).priority;
+        return Optional.ofNullable(unit.get(NeedAspect.class))
+                .map(aspect -> aspect.needs.get(FATIGUE).getRelativeValue())
+                .map(relativeFatigue -> FATIGUE.PARAMETER.getRange(relativeFatigue).priority)
+                .orElse(TaskPriorityEnum.NONE);
     }
 
     /**

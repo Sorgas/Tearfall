@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.job.JobsAspect;
-import stonering.entity.unit.aspects.needs.NeedsAspect;
+import stonering.entity.unit.aspects.needs.NeedAspect;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.enums.unit.JobMap;
 import stonering.game.GameMvc;
@@ -25,7 +25,7 @@ import java.util.*;
  * Contains all {@link Task} for player's units on map and {@link Designation}s for rendering.
  * Tasks are orders for unit. Tasks are created by player, buildings or zones(farms, storages, workbenches).
  * Tasks for different jobs stored separately.
- * Tasks for units needs stored on each unit's {@link NeedsAspect}.
+ * Tasks for units needs stored on each unit's {@link NeedAspect}.
  * Tasks and designations are linked to each other if needed.
  *
  * @author Alexander Kuzyakov

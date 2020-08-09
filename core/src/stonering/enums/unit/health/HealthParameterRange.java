@@ -1,14 +1,14 @@
 package stonering.enums.unit.health;
 
 import stonering.entity.unit.aspects.health.Buff;
-import stonering.entity.unit.aspects.health.HealthParameterState;
+import stonering.entity.unit.aspects.health.NeedState;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.util.math.ValueRange;
 
 import java.util.function.Supplier;
 
 /**
- * Represents single range of {@link HealthParameterState} value.
+ * Represents single range of {@link NeedState} value.
  * Stores task priority, can create {@link Buff}
  *
  * @author Alexander on 10.12.2019.

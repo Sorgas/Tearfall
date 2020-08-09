@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Points to creature's body, stored in type.
+ * Points to creature's body which is stored in creature type.
  * Stores wounds on the creature's body, which are individual.
  *
  * @author Alexander Kuzyakov on 19.10.2017.
