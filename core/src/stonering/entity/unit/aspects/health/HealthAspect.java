@@ -3,6 +3,8 @@ package stonering.entity.unit.aspects.health;
 
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
+import stonering.enums.unit.health.HealthFunctionEnum;
+import stonering.enums.unit.health.HealthFunctionValue;
 import stonering.enums.unit.health.NeedEnum;
 import stonering.game.model.system.unit.CreatureHealthSystem;
 
@@ -11,6 +13,8 @@ import java.util.Map;
 
 /**
  * Stores health condition of a unit. See {@link CreatureHealthSystem}
+ * Unit's health represented of general functions of its organism 
+ * 
  * Properties are values that can influence creature in a various way (speed, performance, etc).
  * Default values are 0, and only buff modifiers are stored. Buffs apply additive changes, which is removed when buff fades (10% == 0.1f).
  *
@@ -20,11 +24,21 @@ import java.util.Map;
  * @author Alexander_Kuzyakov
  */
 public class HealthAspect extends Aspect {
+    public HealthFunctionValue consciousness;
+    public HealthFunctionValue vision;
+    public HealthFunctionValue hearing;
+    public HealthFunctionValue breathing;
+    public HealthFunctionValue blood;
+    public HealthFunctionValue walking;
+    public HealthFunctionValue motoric;
+
+    public final Map<HealthFunctionEnum, HealthFunctionValue> functions;  
     public final Map<String, Float> properties; // make properties enumeration
     public boolean alive;
     
     public HealthAspect(Entity entity) {
         super(entity);
         properties = new HashMap<>();
+        functions = new HashMap<>();
     }
 }

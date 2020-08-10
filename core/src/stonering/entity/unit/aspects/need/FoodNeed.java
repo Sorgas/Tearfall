@@ -1,4 +1,4 @@
-package stonering.entity.unit.aspects.needs;
+package stonering.entity.unit.aspects.need;
 
 import static stonering.enums.action.TaskPriorityEnum.NONE;
 import static stonering.enums.items.ItemTagEnum.*;
@@ -12,7 +12,6 @@ import stonering.entity.item.aspects.FoodItemAspect;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.EatAction;
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.items.ItemTagEnum;
 import stonering.enums.unit.health.HungerParameter;

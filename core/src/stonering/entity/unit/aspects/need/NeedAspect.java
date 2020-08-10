@@ -1,9 +1,8 @@
-package stonering.entity.unit.aspects.needs;
+package stonering.entity.unit.aspects.need;
 
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.entity.job.Task;
-import stonering.entity.unit.aspects.health.NeedState;
 import stonering.game.model.system.unit.NeedTaskSystem;
 
 import java.util.HashMap;
@@ -16,8 +15,8 @@ import java.util.Map;
  * @author Alexander Kuzyakov on 16.09.2018.
  */
 public class NeedAspect extends Aspect {
-    public Task satisfyingTask; // taken by planning
     public final Map<NeedEnum, NeedState> needs; // creature needs
+    public Task satisfyingTask; // taken by planning
 
     public NeedAspect(Entity entity) {
         super(entity);

@@ -5,10 +5,22 @@ package stonering.enums.unit.health;
  */
 public enum HealthFunctionEnum {
     // general activity of a unit.
-    CONSCIOUSNESS, // low values cause unit to fall or die at 0
-    SIGHT,
+    CONSCIOUSNESS(true), // low values cause unit to fall or die at 0
+    VISION,
     HEARING,
-    BREATHING, //  
+    BREATHING(true), //  
     BLOOD, // production of blood. High values help resist poisons and recover from blood loss.
-    MOVING, // motoric activity. High values increase work and movement speed
+    WALKING, // High values increase movement speed
+    MOTORIC, // All actions performed by hands
+    ; 
+
+    public final boolean LETHAL; // loosing cause death
+
+    HealthFunctionEnum(boolean lethal) {
+        LETHAL = lethal;
+    }
+
+    HealthFunctionEnum() {
+        this(false);
+    }
 }

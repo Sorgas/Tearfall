@@ -4,7 +4,7 @@ import stonering.entity.job.Task;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.TaskAspect;
-import stonering.entity.unit.aspects.needs.NeedAspect;
+import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.system.EntitySystem;
 import stonering.game.model.system.task.CreatureActionPerformingSystem;

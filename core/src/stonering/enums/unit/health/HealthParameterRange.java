@@ -1,7 +1,7 @@
 package stonering.enums.unit.health;
 
 import stonering.entity.unit.aspects.health.Buff;
-import stonering.entity.unit.aspects.health.NeedState;
+import stonering.entity.unit.aspects.need.NeedState;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.util.math.ValueRange;
 

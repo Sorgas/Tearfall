@@ -4,9 +4,9 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
-import stonering.entity.unit.aspects.needs.NeedEnum;
+import stonering.entity.unit.aspects.need.NeedEnum;
 import stonering.enums.unit.CreatureType;
-import stonering.entity.unit.aspects.needs.NeedAspect;
+import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.util.global.FileUtil;
 
 import java.util.Objects;

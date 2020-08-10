@@ -1,0 +1,50 @@
+package stonering.entity.unit.aspects.need;
+
+import stonering.entity.unit.aspects.health.Disease;
+import stonering.util.logging.Logger;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+
+/**
+ * Creatures needs ore enumerated here. Each unit has counters of it's needs.
+ * If need counter reaches 0, special disease is applied. 
+ * TODO move need names to needs
+ *
+ * @author Alexander on 22.08.2019.
+ */
+public enum NeedEnum {
+    WEAR("wear", new WearNeed()),
+    REST("rest", new RestNeed(), Disease::new),
+    FOOD("food", new FoodNeed(), Disease::new),
+    WATER("water", new WaterNeed(), Disease::new),
+    WARMTH("warmth", null, Disease::new); // TODO 
+
+    public static final Map<String, NeedEnum> map = new HashMap<>();
+    
+    static {
+        for (NeedEnum value : NeedEnum.values()) {
+            map.put(value.NAME, value);
+        }
+    }
+    
+    public final String NAME;
+    public final Need NEED;
+    public final Supplier<Disease> DISEASE_SUPPLIER;  
+    
+    NeedEnum(String name, Need need, Supplier<Disease> supplier) {
+        NAME = name;
+        NEED = need;
+        DISEASE_SUPPLIER = supplier;
+    }
+
+    NeedEnum(String name, Need need) {
+        this(name, need, () -> null);
+    }
+
+    public static NeedEnum get(String needName) {
+        if(!map.containsKey(needName)) Logger.UNITS.logWarn("Getting invalid need " + needName);
+        return map.get(needName);
+    }
+}

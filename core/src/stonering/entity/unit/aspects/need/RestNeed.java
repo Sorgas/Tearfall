@@ -1,4 +1,4 @@
-package stonering.entity.unit.aspects.needs;
+package stonering.entity.unit.aspects.need;
 
 import static stonering.enums.unit.health.NeedEnum.*;
 
@@ -9,7 +9,6 @@ import stonering.entity.job.action.Action;
 import stonering.entity.job.action.SleepInBedAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.health.HealthAspect;
-import stonering.entity.unit.aspects.health.NeedState;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.unit.health.FatigueParameter;
 import stonering.game.GameMvc;

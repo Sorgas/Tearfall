@@ -3,7 +3,7 @@ package stonering.game.model.system.unit;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.health.HealthAspect;
-import stonering.entity.unit.aspects.needs.NeedAspect;
+import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.enums.unit.health.NeedEnum;
 import stonering.game.GameMvc;

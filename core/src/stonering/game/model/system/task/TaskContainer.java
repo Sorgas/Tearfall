@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.job.JobsAspect;
-import stonering.entity.unit.aspects.needs.NeedAspect;
+import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.enums.unit.JobMap;
 import stonering.game.GameMvc;

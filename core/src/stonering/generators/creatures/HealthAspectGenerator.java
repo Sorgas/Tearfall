@@ -2,7 +2,7 @@ package stonering.generators.creatures;
 
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.health.HealthAspect;
-import stonering.entity.unit.aspects.health.NeedState;
+import stonering.entity.unit.aspects.need.NeedState;
 
 import static stonering.enums.unit.health.NeedEnum.*;
 import static stonering.enums.unit.health.NeedEnum.THIRST;

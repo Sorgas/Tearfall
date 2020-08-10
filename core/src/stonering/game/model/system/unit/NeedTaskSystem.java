@@ -2,9 +2,9 @@ package stonering.game.model.system.unit;
 
 import stonering.entity.job.Task;
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.needs.NeedAspect;
+import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.entity.unit.aspects.TaskAspect;
-import stonering.entity.unit.aspects.needs.NeedEnum;
+import stonering.entity.unit.aspects.need.NeedEnum;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.system.EntitySystem;
 import stonering.game.model.system.task.TaskContainer;

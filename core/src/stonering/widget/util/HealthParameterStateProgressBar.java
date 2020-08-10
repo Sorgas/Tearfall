@@ -1,6 +1,6 @@
 package stonering.widget.util;
 
-import stonering.entity.unit.aspects.health.NeedState;
+import stonering.entity.unit.aspects.need.NeedState;
 
 /**
  * Progress bar that shows state of creature need.

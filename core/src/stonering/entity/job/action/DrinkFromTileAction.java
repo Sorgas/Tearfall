@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.unit.aspects.health.HealthAspect;
-import stonering.entity.unit.aspects.needs.NeedAspect;
+import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.unit.health.NeedEnum;

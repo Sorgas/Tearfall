@@ -1,4 +1,4 @@
-package stonering.entity.unit.aspects.needs;
+package stonering.entity.unit.aspects.need;
 
 import java.util.Comparator;
 import java.util.Optional;
@@ -8,7 +8,6 @@ import stonering.entity.item.Item;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.DrinkFromTileAction;
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.items.ItemTagEnum;

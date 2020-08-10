@@ -13,7 +13,7 @@ import stonering.entity.job.action.equipment.obtain.ObtainItemAction;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.job.action.target.ItemActionTarget;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
-import stonering.entity.unit.aspects.needs.FoodNeed;
+import stonering.entity.unit.aspects.need.FoodNeed;
 import stonering.enums.OrientationEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;

@@ -1,4 +1,4 @@
-package stonering.entity.unit.aspects.needs;
+package stonering.entity.unit.aspects.need;
 
 import static stonering.enums.action.TaskPriorityEnum.HEALTH_NEEDS;
 import static stonering.enums.action.TaskPriorityEnum.NONE;
