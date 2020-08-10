@@ -1,11 +1,11 @@
 package stonering.entity.unit.aspects.need;
 
-import stonering.entity.unit.aspects.health.Disease;
-import stonering.util.logging.Logger;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
+
+import stonering.entity.unit.aspects.body.Disease;
+import stonering.util.logging.Logger;
 
 /**
  * Creatures needs ore enumerated here. Each unit has counters of it's needs.
@@ -31,7 +31,7 @@ public enum NeedEnum {
     
     public final String NAME;
     public final Need NEED;
-    public final Supplier<Disease> DISEASE_SUPPLIER;  
+    public final Supplier<Disease> DISEASE_SUPPLIER;
     
     NeedEnum(String name, Need need, Supplier<Disease> supplier) {
         NAME = name;

@@ -48,7 +48,7 @@ public class SleepInBedAction extends Action {
         progressConsumer = (delta) -> {
             fatigue.changeValue(-delta); // decrease fatigue
         };
-        finishCondition = () -> fatigue.get() <= 0; // stop sleeping
+        finishCondition = () -> fatigue.current() <= 0; // stop sleeping
         onFinish = () -> {
             // restore vision and hearing
             task.performer.get(RenderAspect.class).rotation = 0;

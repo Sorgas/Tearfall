@@ -40,7 +40,7 @@ public class DrinkFromTileAction extends Action {
 
         // set max progress to creature thirst
         onStart = () -> {
-            maxProgress = task.performer.get(NeedAspect.class).needs.get(NeedEnum.THIRST).get();
+            maxProgress = task.performer.get(NeedAspect.class).needs.get(NeedEnum.THIRST).current();
         };
 
         // subtract max progress from creature thirst

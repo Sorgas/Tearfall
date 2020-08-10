@@ -1,14 +1,12 @@
 package stonering.game.model.system.unit;
 
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.enums.unit.health.NeedEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.EntitySystem;
-import stonering.util.logging.Logger;
 
 /**
  * Updates health condition of a unit ({@link HealthAspect}).
@@ -29,8 +27,6 @@ import stonering.util.logging.Logger;
  * @author Alexander on 16.09.2019.
  */
 public class CreatureHealthSystem extends EntitySystem<Unit> {
-    public float moveParameterNoLoad = 0.05f;
-    public float moveParameterFullLoad = 0.1f;
     private CreatureBuffSystem buffSystem;
     
     public CreatureHealthSystem() {
@@ -39,22 +35,7 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
     
     @Override
     public void update(Unit unit) {
-        unit.getOptional(NeedAspect.class)
-                .map(aspect -> aspect.needs.keySet()).get()
-                .forEach(param -> changeParameter(unit, param, param.DEFAULT_DELTA));
-    }
 
-    /**
-     * Called for every walked tile, adds delta to counter. Walking with high load increases delta.
-     * TODO check other effects (illness, )
-     */
-    public void applyMoveChange(Unit unit) {
-        HealthAspect aspect = unit.get(HealthAspect.class);
-        if (aspect == null) {
-            Logger.UNITS.logError("Trying to add move fatigue to creature " + unit + " with no HealthAspect");
-            return;
-        }
-        changeParameter(unit, NeedEnum.FATIGUE, moveParameterNoLoad + moveParameterFullLoad * unit.get(EquipmentAspect.class).getRelativeLoad());
     }
 
     public void changeParameter(Unit unit, NeedEnum parameter, float delta) {

@@ -3,6 +3,7 @@ package stonering.entity.unit.aspects.body;
 import java.util.ArrayList;
 import java.util.List;
 
+import stonering.entity.unit.Unit;
 import stonering.enums.unit.health.HealthFunctionEnum;
 import stonering.util.global.Pair;
 
@@ -17,12 +18,12 @@ public class Disease extends HealthEffect {
     public float progress = 0;
     
     @Override
-    public void apply() {
-        
+    public void apply(Unit unit) {
+
     }
 
     @Override
-    public void unapply() {
+    public void unapply(Unit unit) {
 
     }
 }
