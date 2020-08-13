@@ -46,10 +46,10 @@ public class PlantGenerator {
 
     private void updatePlantBlock(Plant plant) {
         PlantBlock block = plant.getBlock();
-        int stageIndex = plant.getOptional(PlantGrowthAspect.class)
+        int stageIndex = plant.optional(PlantGrowthAspect.class)
                 .map(aspect -> aspect.stageIndex)
                 .orElse(0);
-        block.getOptional(RenderAspect.class)
+        block.optional(RenderAspect.class)
                 .ifPresent(aspect -> aspect.region = AtlasesEnum.plants.getBlockTile(plant.type.atlasName, plant.type.atlasXY[0] + stageIndex, plant.type.atlasXY[1]));
     }
 

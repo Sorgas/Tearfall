@@ -16,11 +16,13 @@ public class BodyAspect extends Aspect {
     public final String bodyTemplate;
     public final List<String> bodyPartsToCover;
     public final List<Wound> wounds;
-
+    public final List<Disease> diseases;
+    
     public BodyAspect(Unit unit, String bodyTemplate) {
         super(unit);
         this.bodyTemplate = bodyTemplate;
         wounds = new ArrayList<>();
+        diseases = new ArrayList<>();
         bodyPartsToCover = new ArrayList<>();
     }
 }

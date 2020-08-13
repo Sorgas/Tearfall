@@ -51,7 +51,7 @@ public class GlobalJobsMenu extends Table {
 
     private void createUnitRow(Unit unit) {
         JobsAspect jobsAspect = unit.get(JobsAspect.class);
-        String name = unit.getOptional(NameAspect.class)
+        String name = unit.optional(NameAspect.class)
                 .map(aspect -> aspect.name)
                 .orElse(unit.toString());
         add(new Label(name, StaticSkin.skin()));

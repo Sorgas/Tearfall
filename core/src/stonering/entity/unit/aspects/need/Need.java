@@ -19,6 +19,6 @@ public abstract class Need {
     public abstract TaskPriorityEnum countPriority(Unit unit);
 
     public abstract Task tryCreateTask(Unit unit);
-
     
+    public abstract 
 }

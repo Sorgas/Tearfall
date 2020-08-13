@@ -41,7 +41,7 @@ public class FoodNeed extends Need {
 
     @Override
     public TaskPriorityEnum countPriority(Unit unit) {
-        return unit.getOptional(NeedAspect.class)
+        return unit.optional(NeedAspect.class)
                 .map(aspect -> aspect.needs.get(HUNGER).getRelativeValue())
                 .map(relValue -> HUNGER.PARAMETER.getRange(relValue).priority)
                 .orElse(NONE);

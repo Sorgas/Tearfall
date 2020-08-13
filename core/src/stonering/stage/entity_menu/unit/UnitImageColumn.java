@@ -44,7 +44,7 @@ public class UnitImageColumn extends Table {
     }
 
     private String getUnitCurrentTask(Unit unit) {
-        return unit.getOptional(TaskAspect.class)
+        return unit.optional(TaskAspect.class)
                 .map(aspect -> aspect.task)
                 .map(Task::toString)
                 .orElse("Doing nothing");

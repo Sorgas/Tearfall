@@ -35,7 +35,7 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
 
     @Override
     public void update(Unit unit) {
-        unit.getOptional(TaskAspect.class)
+        unit.optional(TaskAspect.class)
                 .map(aspect -> aspect.task)
                 .ifPresentOrElse(task -> handleTaskStatus(unit), () -> findNewTask(unit));
     }

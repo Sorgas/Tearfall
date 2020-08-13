@@ -1,11 +1,6 @@
 package stonering.entity.unit.aspects.body;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import stonering.entity.unit.Unit;
-import stonering.enums.unit.health.HealthFunctionEnum;
-import stonering.util.global.Pair;
 
 /**
  * Whole body disease. Diseases progress from 0 to 1 if not cured.
@@ -13,10 +8,14 @@ import stonering.util.global.Pair;
  * 
  * @author Alexander on 10.08.2020.
  */
-public class Disease extends HealthEffect {
-    public final List<Pair<HealthFunctionEnum, Float>> targetPenalties = new ArrayList<>();
+public abstract class Disease extends HealthEffect {
     public float progress = 0;
-    
+    public final boolean lethal;
+
+    public Disease(boolean lethal) {
+        this.lethal = lethal;
+    }
+
     @Override
     public void apply(Unit unit) {
 

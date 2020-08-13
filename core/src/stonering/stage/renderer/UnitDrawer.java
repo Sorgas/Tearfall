@@ -65,7 +65,7 @@ public class UnitDrawer extends Drawer {
     }
 
     private void drawHauledItem(Unit unit) {
-        unit.getOptional(EquipmentAspect.class)
+        unit.optional(EquipmentAspect.class)
                 .map(aspect -> aspect.itemBuffer)
                 .ifPresent(item -> {
                     cacheVector.set(unit.vectorPosition).add(0.25f, 0.25f, 0);

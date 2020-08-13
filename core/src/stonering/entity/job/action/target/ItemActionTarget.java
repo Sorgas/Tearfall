@@ -23,7 +23,7 @@ public class ItemActionTarget extends EntityActionTarget {
 
     @Override
     public ActionTargetStatusEnum check(Entity performer) {
-        if (performer.getOptional(EquipmentAspect.class).map(aspect -> aspect.items.contains(item)).orElse(false))
+        if (performer.optional(EquipmentAspect.class).map(aspect -> aspect.items.contains(item)).orElse(false))
             return READY; // item is in hands already
         return super.check(performer);
     }

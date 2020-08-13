@@ -1,6 +1,8 @@
 package stonering.game.model.system.unit;
 
 import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.body.BodyAspect;
+import stonering.entity.unit.aspects.body.Disease;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.enums.time.TimeUnitEnum;
@@ -20,9 +22,7 @@ import stonering.game.model.system.EntitySystem;
  * <p>
  * HUNGER - how hungry creature is. Hunger increased over time, by actions and movement. Eating lowers hunger.
  * Maximum hunger is based on endurance attribute and ilnesses.
- * TODO have 'fat' body parameter, decrease it on high hunger.
  * Creatures will look for food on 50%, eating priority increases with growing hunger.
- * TODO move constants to difficulty settings
  *
  * @author Alexander on 16.09.2019.
  */
@@ -35,7 +35,18 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
     
     @Override
     public void update(Unit unit) {
-
+        BodyAspect aspect = unit.get(BodyAspect.class);
+        // roll diseases
+        for (Disease disease : aspect.diseases) {
+            disease.progress += 0.01f;
+            if(disease.progress > 1f) {
+                // kill
+            }
+        }
+        aspect.diseases.stream().sorted()
+        for (Disease disease : aspect.diseases) {
+            // create task
+        }
     }
 
     public void changeParameter(Unit unit, NeedEnum parameter, float delta) {
@@ -49,7 +60,7 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
 
     private void resetParameter(Unit unit, NeedEnum parameter) {
         buffSystem().removeBuff(unit, parameter.TAG); // remove previous buff
-        unit.getOptional(HealthAspect.class)
+        unit.optional(HealthAspect.class)
                 .map(aspect -> aspect.needStates.get(parameter))
                 .map(parameter.PARAMETER::getRange)
                 .map(range -> range.produceBuff.get())
