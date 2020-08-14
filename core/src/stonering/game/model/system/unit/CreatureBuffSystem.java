@@ -1,7 +1,6 @@
 package stonering.game.model.system.unit;
 
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.BuffAspect;
 import stonering.entity.RenderAspect;
 import stonering.entity.unit.aspects.health.Buff;
 import stonering.enums.time.TimeUnitEnum;

@@ -14,6 +14,7 @@ import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.job.action.target.ItemActionTarget;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.need.FoodNeed;
+import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.enums.OrientationEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
@@ -75,7 +76,7 @@ public class EatAction extends Action {
 
         onFinish = () -> {
             if(chair != null && tableBlock != null) chair.occupied = false;
-            GameMvc.model().get(UnitContainer.class).healthSystem.changeParameter(task.performer, HUNGER, -item.get(FoodItemAspect.class).nutrition);
+            task.performer.get(NeedAspect.class).needs.get(HUNGER).changeValue(-item.get(FoodItemAspect.class).nutrition);
             GameMvc.model().get(ItemContainer.class).removeItem(item);
         };
     }

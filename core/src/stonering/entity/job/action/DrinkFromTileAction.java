@@ -2,6 +2,7 @@ package stonering.entity.job.action;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
 import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
+import static stonering.enums.unit.health.NeedEnum.*;
 
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -38,14 +39,10 @@ public class DrinkFromTileAction extends Action {
                     .anyMatch(tile -> tile.liquid == waterId) ? OK : FAIL;
         };
 
-        // set max progress to creature thirst
-        onStart = () -> {
-            maxProgress = task.performer.get(NeedAspect.class).needs.get(NeedEnum.THIRST).current();
-        };
+        // decrease thirst
+        progressConsumer = progress -> task.performer.get(NeedAspect.class).needs.get(THIRST).changeValue(-0.01f);
 
-        // subtract max progress from creature thirst
-        onFinish = () -> {
-            GameMvc.model().get(UnitContainer.class).healthSystem.changeParameter(task.performer, NeedEnum.THIRST, -maxProgress);
-        };
+        // finish when thirst quenched
+        finishCondition = () -> task.performer.get(NeedAspect.class).needs.get(THIRST).current() <= 0;
     }
 }

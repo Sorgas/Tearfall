@@ -2,11 +2,13 @@ package stonering.game.model.system.unit;
 
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.body.BodyAspect;
-import stonering.entity.unit.aspects.body.Disease;
+import stonering.entity.unit.aspects.body.DiseaseState;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.enums.unit.health.NeedEnum;
+import stonering.enums.unit.health.disease.DiseaseMap;
+import stonering.enums.unit.health.disease.DiseaseType;
 import stonering.game.GameMvc;
 import stonering.game.model.system.EntitySystem;
 
@@ -27,47 +29,25 @@ import stonering.game.model.system.EntitySystem;
  * @author Alexander on 16.09.2019.
  */
 public class CreatureHealthSystem extends EntitySystem<Unit> {
-    private CreatureBuffSystem buffSystem;
-    
+
     public CreatureHealthSystem() {
         updateInterval = TimeUnitEnum.MINUTE;
     }
-    
+
     @Override
     public void update(Unit unit) {
-        BodyAspect aspect = unit.get(BodyAspect.class);
-        // roll diseases
-        for (Disease disease : aspect.diseases) {
-            disease.progress += 0.01f;
-            if(disease.progress > 1f) {
-                // kill
-            }
+        BodyAspect body = unit.get(BodyAspect.class);
+        HealthAspect health = unit.get(HealthAspect.class);
+        for (DiseaseState state : body.diseases.values()) {
+            String prevStage = state.stageName;
+            if (!state.change(0.01f)) continue; // stage dod not changed
+            DiseaseType type = DiseaseMap.get(state.name);
+            type.stages.get(prevStage).effectsMap
+                    .forEach((function, value) -> health.functions.get(function).changeCurrent(-value)); // unapply previous
+            type.stages.get(state.stageName).effectsMap
+                    .forEach((function, value) -> health.functions.get(function).changeCurrent(value)); // apply new
         }
-        aspect.diseases.stream().sorted()
-        for (Disease disease : aspect.diseases) {
-            // create task
-        }
     }
 
-    public void changeParameter(Unit unit, NeedEnum parameter, float delta) {
-        if(unit.get(NeedAspect.class).needs.get(parameter).changeValue(delta)) resetParameter(unit, parameter);
-    }
 
-    public void resetCreatureHealth(Unit unit) {
-        for (NeedEnum parameter : unit.get(NeedAspect.class).needs.keySet())
-            resetParameter(unit, parameter);
-    }
-
-    private void resetParameter(Unit unit, NeedEnum parameter) {
-        buffSystem().removeBuff(unit, parameter.TAG); // remove previous buff
-        unit.optional(HealthAspect.class)
-                .map(aspect -> aspect.needStates.get(parameter))
-                .map(parameter.PARAMETER::getRange)
-                .map(range -> range.produceBuff.get())
-                .ifPresent(buff -> buffSystem().addBuff(unit, buff)); // add new buff if any
-    }
-    
-    private CreatureBuffSystem buffSystem() {
-        return buffSystem == null ? buffSystem = GameMvc.model().get(UnitContainer.class).buffSystem : buffSystem; 
-    }
 }

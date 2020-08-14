@@ -7,6 +7,4 @@ package stonering.entity.unit.aspects.body;
  */
 public class Wound {
     public String name;
-    public
-
 }

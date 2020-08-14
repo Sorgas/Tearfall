@@ -4,6 +4,7 @@ import static stonering.enums.action.TaskPriorityEnum.NONE;
 
 import java.util.Comparator;
 import java.util.Objects;
+import java.util.Optional;
 
 import stonering.entity.job.Task;
 import stonering.entity.unit.Unit;
@@ -14,6 +15,7 @@ import stonering.entity.unit.aspects.need.Need;
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.entity.unit.aspects.need.NeedState;
 import stonering.enums.time.TimeUnitEnum;
+import stonering.game.GameMvc;
 import stonering.game.model.system.EntitySystem;
 import stonering.game.model.system.task.TaskContainer;
 
@@ -22,6 +24,7 @@ import stonering.game.model.system.task.TaskContainer;
  * On update, counts creature needs and creates {@link Task} for strongest need in {@link NeedAspect}.
  * This task is stored in needs aspect (not in {@link TaskContainer}) and considered by {@link CreaturePlanningSystem}.
  * If some need has reached max value, creates disease for it.
+ * Creates mood penalties for needs. Penalties removed when satisfaction action is performed.
  *
  * @author Alexander on 22.08.2019.
  */
@@ -40,12 +43,14 @@ public class NeedSystem extends EntitySystem<Unit> {
     public void update(Unit unit) {
         NeedAspect aspect = unit.get(NeedAspect.class);
         if (aspect == null) return;
-        for (NeedState state : aspect.needs.values()) {
-            state.changeValue(DEFAULT_DELTA); // roll states
-            if (state.current() > 1f) addNeedDiseaseToUnit(unit, state.need.NEED); // add disease for 
-            if (state.current() > 0.5f) unit.get(MoodAspect.class).addEffect(state.need.NEED.getMoodPenalty(););
-        }
-        if (aspect.canAcceptTask()) tryAssignNewTask(unit, aspect);
+        aspect.needs.values().stream()
+                .filter(state -> state.current() < state.max)
+                .filter(state -> state.changeValue(DEFAULT_DELTA))
+                .forEach(state -> {
+                    addDisease(unit, state); // create disease
+                    unit.get(MoodAspect.class).addEffect(state.need.NEED.getMoodPenalty(unit, state)); // change mood
+                });
+        if (aspect.canAcceptTask()) tryAssignNewTask(unit, aspect); // create task
     }
 
     /**
@@ -61,8 +66,10 @@ public class NeedSystem extends EntitySystem<Unit> {
                 .findFirst().orElse(null); // find first successfully created task
     }
 
-    private void addNeedDiseaseToUnit(Unit unit, Need need) {
-        need.
-                unit.get(BodyAspect.class).diseases.put()
+    private void addDisease(Unit unit, NeedState state) {
+        Optional.ofNullable(state.need.NEED.createDisease())
+                .ifPresent(disease -> {
+                    GameMvc.model().get(UnitContainer.class).creatureDiseaseSystem.addNewDisease(unit, disease);
+                });
     }
 }

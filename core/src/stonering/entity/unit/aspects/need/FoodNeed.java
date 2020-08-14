@@ -12,6 +12,8 @@ import stonering.entity.item.aspects.FoodItemAspect;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.EatAction;
 import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.MoodEffect;
+import stonering.entity.unit.aspects.body.DiseaseState;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.items.ItemTagEnum;
 import stonering.enums.unit.health.HungerParameter;
@@ -40,11 +42,21 @@ public class FoodNeed extends Need {
     }
 
     @Override
-    public TaskPriorityEnum countPriority(Unit unit) {
+    public TaskPriorityEnum countPriority(NeedState state) {
+        if(state.current() < state.max) return TaskPriorityEnum.JOB;
+        // eat normal food
+        // raw food
+        // spoiled food
+        state.
         return unit.optional(NeedAspect.class)
                 .map(aspect -> aspect.needs.get(HUNGER).getRelativeValue())
                 .map(relValue -> HUNGER.PARAMETER.getRange(relValue).priority)
                 .orElse(NONE);
+    }
+
+    @Override
+    public TaskPriorityEnum countPriority() {
+        return null;
     }
 
     @Override
@@ -57,6 +69,16 @@ public class FoodNeed extends Need {
                 .map(EatAction::new)
                 .map(action -> new Task(action, priority.VALUE))
                 .orElse(null);
+    }
+
+    @Override
+    public DiseaseState createDisease() {
+        return null;
+    }
+
+    @Override
+    public MoodEffect getMoodPenalty(Unit unit, NeedState state) {
+        return null;
     }
 
     /**

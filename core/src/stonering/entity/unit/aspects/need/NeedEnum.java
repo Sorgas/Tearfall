@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import stonering.entity.unit.aspects.body.Disease;
+import stonering.entity.unit.aspects.body.DiseaseState;
 import stonering.util.logging.Logger;
 
 /**
@@ -31,9 +31,9 @@ public enum NeedEnum {
 
     public final String NAME;
     public final Need NEED;
-    public final Supplier<Disease> DISEASE_SUPPLIER;
+    public final Supplier<DiseaseState> DISEASE_SUPPLIER;
 
-    NeedEnum(String name, Need need, Supplier<Disease> supplier) {
+    NeedEnum(String name, Need need, Supplier<DiseaseState> supplier) {
         NAME = name;
         NEED = need;
         DISEASE_SUPPLIER = supplier;

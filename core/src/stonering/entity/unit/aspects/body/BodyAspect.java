@@ -2,6 +2,7 @@ package stonering.entity.unit.aspects.body;
 
 import stonering.entity.Aspect;
 import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.health.Buff;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,13 +19,15 @@ public class BodyAspect extends Aspect {
     public final String bodyTemplate;
     public final List<String> bodyPartsToCover;
     public final List<Wound> wounds;
-    public final Map<String, Disease> diseases;
-    
+    public final Map<String, DiseaseState> diseases; // disease name to state
+    public final Map<String, Buff> buffs;
+
     public BodyAspect(Unit unit, String bodyTemplate) {
         super(unit);
         this.bodyTemplate = bodyTemplate;
         wounds = new ArrayList<>();
         diseases = new HashMap<>();
         bodyPartsToCover = new ArrayList<>();
+        buffs = new HashMap<>();
     }
 }

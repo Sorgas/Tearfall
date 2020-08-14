@@ -2,8 +2,7 @@ package stonering.game.model.system.unit;
 
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.body.BodyAspect;
-import stonering.entity.unit.aspects.body.Disease;
-import stonering.entity.unit.aspects.health.HealthAspect;
+import stonering.entity.unit.aspects.body.DiseaseState;
 import stonering.game.model.system.EntitySystem;
 
 /**
@@ -16,12 +15,15 @@ public class CreatureDiseaseSystem extends EntitySystem<Unit> {
     @Override
     public void update(Unit unit) {
         BodyAspect aspect = unit.get(BodyAspect.class);
-        
+        if(aspect == null) return;
+        aspect.diseases.values().forEach(disease -> disease.progress += 1);
     }
 
-    public void addNewDisease(Unit unit, Disease disease) {
+    public void addNewDisease(Unit unit, DiseaseState disease) {
         BodyAspect aspect = unit.get(BodyAspect.class);
-        aspect.diseases.putIfAbsent(disease.name, disease);
-        unit.get(HealthAspect.class).functions
+        if(!aspect.diseases.containsKey(disease.name)) {
+            aspect.diseases.putIfAbsent(disease.name, disease);
+            disease.apply(unit);
+        }
     }
 }
