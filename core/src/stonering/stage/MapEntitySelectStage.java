@@ -30,6 +30,7 @@ import stonering.stage.entity_menu.item.ItemMenu;
 import stonering.stage.entity_menu.unit.UnitMenu;
 import stonering.stage.entity_menu.zone.FarmZoneMenu;
 import stonering.stage.util.SingleActorShadedStage;
+import stonering.stage.util.SingleMenuCornerStage;
 import stonering.stage.util.UiStage;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.logging.Logger;
@@ -119,6 +120,6 @@ public class MapEntitySelectStage extends UiStage {
     }
 
     private void tryShowUnitStage(@NotNull Unit unit) {
-        GameMvc.view().addStage(new SingleActorShadedStage<>(new UnitMenu(unit), false));
+        GameMvc.view().addStage(new SingleMenuCornerStage<>(new UnitMenu(unit), false));
     }
 }

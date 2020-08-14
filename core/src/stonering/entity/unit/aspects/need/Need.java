@@ -2,6 +2,8 @@ package stonering.entity.unit.aspects.need;
 
 import stonering.entity.job.Task;
 import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.MoodEffect;
+import stonering.entity.unit.aspects.body.Disease;
 import stonering.enums.action.TaskPriorityEnum;
 
 /**
@@ -16,9 +18,11 @@ public abstract class Need {
     /**
      * Returns priority of need. Returns -1 if need can be tolerated.
      */
-    public abstract TaskPriorityEnum countPriority(Unit unit);
+    public abstract TaskPriorityEnum countPriority(NeedState state);
 
     public abstract Task tryCreateTask(Unit unit);
     
-    public abstract 
+    public abstract Disease createDisease();
+    
+    public abstract MoodEffect getMoodPenalty(Unit unit, NeedState state);
 }

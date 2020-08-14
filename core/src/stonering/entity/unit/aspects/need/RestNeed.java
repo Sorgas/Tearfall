@@ -59,7 +59,6 @@ public class RestNeed extends Need {
                 //TODO sleep at home only
             case SAFETY:
                 //TODO sleep in any bed
-            case LIFE:
                 //TODO fall asleep at current place
                 return selectBuildingToSleep(unit.position)
                         .map(SleepInBedAction::new)

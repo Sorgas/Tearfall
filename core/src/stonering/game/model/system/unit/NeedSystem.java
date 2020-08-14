@@ -3,12 +3,11 @@ package stonering.game.model.system.unit;
 import static stonering.enums.action.TaskPriorityEnum.NONE;
 
 import java.util.Comparator;
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import stonering.entity.job.Task;
 import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.MoodAspect;
 import stonering.entity.unit.aspects.TaskAspect;
 import stonering.entity.unit.aspects.body.BodyAspect;
 import stonering.entity.unit.aspects.need.Need;
@@ -40,9 +39,11 @@ public class NeedSystem extends EntitySystem<Unit> {
     @Override
     public void update(Unit unit) {
         NeedAspect aspect = unit.get(NeedAspect.class);
+        if (aspect == null) return;
         for (NeedState state : aspect.needs.values()) {
             state.changeValue(DEFAULT_DELTA); // roll states
             if (state.current() > 1f) addNeedDiseaseToUnit(unit, state.need.NEED); // add disease for 
+            if (state.current() > 0.5f) unit.get(MoodAspect.class).addEffect(state.need.NEED.getMoodPenalty(););
         }
         if (aspect.canAcceptTask()) tryAssignNewTask(unit, aspect);
     }
@@ -59,8 +60,9 @@ public class NeedSystem extends EntitySystem<Unit> {
                 .filter(Objects::nonNull)
                 .findFirst().orElse(null); // find first successfully created task
     }
-    
+
     private void addNeedDiseaseToUnit(Unit unit, Need need) {
-        unit.get(BodyAspect.class).diseases.add()
+        need.
+                unit.get(BodyAspect.class).diseases.put()
     }
 }

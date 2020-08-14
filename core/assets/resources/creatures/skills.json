@@ -5,27 +5,14 @@
 */
 [
     {
-        "name": "mining",
-        "speed": 0.04
+        "name": "mining"
     }, {
-    "name": "woodcutting",
-    "speed": 0.04,
-    "quantity": 0.01,
-    "quality": 0.01
+    "name": "woodcutting"
 }, {
-    "name": "building",
-    "speed": 0.04,
-    "quantity": 0.01,
-    "quality": 0.01
+    "name": "building"
 }, {
-    "name": "cooking",
-    "speed": 0.04,
-    "quantity": 0.01,
-    "quality": 0.01
+    "name": "cooking"
 }, {
-    "name": "plant_harvesting",
-    "speed": 0.04,
-    "quantity": 0.01,
-    "quality": 0.01
+    "name": "plant_harvesting"
 }
 ]
