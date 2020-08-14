@@ -4,7 +4,9 @@ import stonering.entity.Aspect;
 import stonering.entity.unit.Unit;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Points to creature's body which is stored in creature type.
@@ -16,13 +18,13 @@ public class BodyAspect extends Aspect {
     public final String bodyTemplate;
     public final List<String> bodyPartsToCover;
     public final List<Wound> wounds;
-    public final List<Disease> diseases;
+    public final Map<String, Disease> diseases;
     
     public BodyAspect(Unit unit, String bodyTemplate) {
         super(unit);
         this.bodyTemplate = bodyTemplate;
         wounds = new ArrayList<>();
-        diseases = new ArrayList<>();
+        diseases = new HashMap<>();
         bodyPartsToCover = new ArrayList<>();
     }
 }

@@ -9,10 +9,12 @@ import stonering.entity.unit.Unit;
  * @author Alexander on 10.08.2020.
  */
 public abstract class Disease extends HealthEffect {
+    public final String name;
     public float progress = 0;
     public final boolean lethal;
 
-    public Disease(boolean lethal) {
+    public Disease(String name, boolean lethal) {
+        this.name = name;
         this.lethal = lethal;
     }
 
