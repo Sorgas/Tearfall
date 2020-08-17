@@ -17,7 +17,8 @@ public class CreatureType {
     public int baseHP;
     public int[] atlasXY;
     public String color;
-
+    public CombinedAppearance combinedAppearance;
+    
     public CreatureType(RawCreatureType rawType) {
         name = rawType.name;
         title = rawType.title;
@@ -27,6 +28,7 @@ public class CreatureType {
         atlasXY = rawType.atlasXY;
         color = rawType.color;
         aspects = rawType.aspects;
+        combinedAppearance = rawType.combinedAppearance;
     }
 
     public CreatureType() {}

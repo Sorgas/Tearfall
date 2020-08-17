@@ -38,9 +38,9 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
     public void update(Unit unit) {
         BodyAspect body = unit.get(BodyAspect.class);
         HealthAspect health = unit.get(HealthAspect.class);
-        for (DiseaseState state : body.diseases.values()) {
+        for (DiseaseState state : body.diseases.values()) { // roll diseases
             String prevStage = state.stageName;
-            if (!state.change(0.01f)) continue; // stage dod not changed
+            if (!state.change(0.01f)) continue; // stage did not changed
             DiseaseType type = DiseaseMap.get(state.name);
             type.stages.get(prevStage).effectsMap
                     .forEach((function, value) -> health.functions.get(function).changeCurrent(-value)); // unapply previous
@@ -48,6 +48,4 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
                     .forEach((function, value) -> health.functions.get(function).changeCurrent(value)); // apply new
         }
     }
-
-
 }

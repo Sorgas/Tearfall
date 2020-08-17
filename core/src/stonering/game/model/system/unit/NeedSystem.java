@@ -15,7 +15,9 @@ import stonering.entity.unit.aspects.need.Need;
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.entity.unit.aspects.need.NeedState;
 import stonering.enums.time.TimeUnitEnum;
+import stonering.enums.unit.GamePlayStatsEnum;
 import stonering.game.GameMvc;
+import stonering.game.model.GamePlayConstants;
 import stonering.game.model.system.EntitySystem;
 import stonering.game.model.system.task.TaskContainer;
 
@@ -29,7 +31,6 @@ import stonering.game.model.system.task.TaskContainer;
  * @author Alexander on 22.08.2019.
  */
 public class NeedSystem extends EntitySystem<Unit> {
-    public static float DEFAULT_DELTA = 1f / 16 / 100;
 
     public NeedSystem() {
         updateInterval = TimeUnitEnum.MINUTE;
@@ -45,7 +46,7 @@ public class NeedSystem extends EntitySystem<Unit> {
         if (aspect == null) return;
         aspect.needs.values().stream()
                 .filter(state -> state.current() < state.max)
-                .filter(state -> state.changeValue(DEFAULT_DELTA))
+                .filter(state -> state.changeValue(GamePlayConstants.DEFAULT_NEED_DELTA))
                 .forEach(state -> {
                     addDisease(unit, state); // create disease
                     unit.get(MoodAspect.class).addEffect(state.need.NEED.getMoodPenalty(unit, state)); // change mood

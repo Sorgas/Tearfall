@@ -8,11 +8,13 @@ import stonering.entity.job.action.Action;
 import stonering.entity.job.action.EatAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.CreatureStatusIcon;
+import stonering.entity.unit.aspects.HumanoidRenderAspect;
 import stonering.entity.unit.aspects.TaskAspect;
 import stonering.entity.RenderAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.system.unit.UnitContainer;
+import stonering.stage.toolbar.menus.ParentMenu;
 import stonering.util.geometry.Position;
 
 import java.util.List;
@@ -51,6 +53,12 @@ public class UnitDrawer extends Drawer {
     }
 
     private void drawUnit(Unit unit) {
+        Optional.ofNullable(unit.get(HumanoidRenderAspect.class)).ifPresent(aspect -> {
+            // feet
+            // body
+            // arm
+            // head
+        });
         Optional.ofNullable(unit.get(RenderAspect.class)).ifPresent(aspect -> {
             if (aspect.rotation != 0) {
                 spriteUtil.drawSpriteWithRotation(aspect.region, unit.vectorPosition, aspect.rotation);

@@ -9,7 +9,7 @@ package stonering.entity.unit.aspects.need;
 public class NeedState {
     public NeedEnum need;
     private float current = 0;
-    public float max = 100;
+    public float max = 1;
 
     public NeedState(NeedEnum need) {
         this.need = need;

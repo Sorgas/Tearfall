@@ -24,7 +24,7 @@ public enum AtlasesEnum {
     substrates(new Texture("sprites/substrates.png"), 64, 64, 32, 6), // flat plants like mosses
     liquids(new Texture("sprites/liquids.png"), 64, 64, 32, 6),
     plants("sprites/plants", 64, 64, 32), // all trees is plants
-    units(new Texture("sprites/units.png"), 64, 64, 0),
+    units(new Texture("sprites/units.png"), 64, 64, 32),
     buildings("sprites/buildings", 64, 64, 32), // buildings and furniture
     items("sprites/items", 32, 32, 0),
     creature_icons(new Texture("sprites/creature_icons.png"), 16, 16, 0),

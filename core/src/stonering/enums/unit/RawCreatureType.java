@@ -15,4 +15,5 @@ public class RawCreatureType {
     public int baseHP;
     public int[] atlasXY;
     public String color;
+    public CombinedAppearance combinedAppearance;
 }

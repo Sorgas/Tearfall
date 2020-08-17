@@ -30,6 +30,15 @@ public class TextureCache {
         this.FULL_TILE_HEIGHT = atlasType.FULL_TILE_HEIGHT;
     }
     
+    public TextureCache(Texture atlas, int width, int height) {
+        this.atlas = atlas;
+        spriteCache = new HashMap<>();
+        TILE_WIDTH = width;
+        TILE_HEIGHT = height;
+        TOPPING_TILE_HEIGHT = 0;
+        FULL_TILE_HEIGHT = height;
+    }
+    
     public TextureRegion getTile(int x, int y, int width, int height) {
         TileSpriteDescriptor key = new TileSpriteDescriptor(x, y, width, height, Color.WHITE.toIntBits(), false);
         return spriteCache.computeIfAbsent(key, key1 -> new TextureRegion(atlas,

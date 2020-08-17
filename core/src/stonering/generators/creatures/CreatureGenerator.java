@@ -1,15 +1,14 @@
 package stonering.generators.creatures;
 
 import stonering.entity.RenderAspect;
-import stonering.entity.unit.aspects.*;
+import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.MovementAspect;
+import stonering.entity.unit.aspects.TaskAspect;
 import stonering.entity.unit.aspects.job.JobsAspect;
 import stonering.entity.unit.aspects.job.SkillAspect;
 import stonering.enums.unit.CreatureType;
 import stonering.enums.unit.CreatureTypeMap;
-import stonering.game.GameMvc;
-import stonering.game.model.system.unit.UnitContainer;
 import stonering.generators.creatures.needs.NeedAspectGenerator;
-import stonering.entity.unit.Unit;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Position;
 import stonering.util.logging.Logger;
@@ -25,13 +24,15 @@ public class CreatureGenerator {
     private NeedAspectGenerator needAspectGenerator;
     private AttributeAspectGenerator attributeAspectGenerator;
     private HealthAspectGenerator healthAspectGenerator;
-
+    private HumanoidRenderGenerator humanoidRenderGenerator;
+    
     public CreatureGenerator() {
         bodyAspectGenerator = new BodyAspectGenerator();
         equipmentAspectGenerator = new EquipmentAspectGenerator();
         needAspectGenerator = new NeedAspectGenerator();
         attributeAspectGenerator = new AttributeAspectGenerator();
         healthAspectGenerator = new HealthAspectGenerator();
+        humanoidRenderGenerator = new HumanoidRenderGenerator();
     }
 
     /**
@@ -59,7 +60,6 @@ public class CreatureGenerator {
         unit.add(needAspectGenerator.generateNeedAspect(type));
         unit.add(attributeAspectGenerator.generateAttributeAspect(unit));
         unit.add(new RenderAspect(AtlasesEnum.units.getBlockTile(type.atlasXY)));
-        unit.add(new BuffAspect(unit));
         unit.add(healthAspectGenerator.generateHealthAspect(unit));
         unit.add(new SkillAspect(unit));
     }
@@ -80,6 +80,6 @@ public class CreatureGenerator {
     }
 
     private void updateBuffs(Unit unit) {
-        GameMvc.model().get(UnitContainer.class).healthSystem.resetCreatureHealth(unit);
+//        GameMvc.model().get(UnitContainer.class).healthSystem.resetCreatureHealth(unit);
     }
 }

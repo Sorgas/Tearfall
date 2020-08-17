@@ -6,6 +6,12 @@
         "bodyTemplate": "humanoid",
         "aspects" : ["equipment", "jobs"],
         "baseHP": "100",
+        "combinedAppearance" : {
+            "body": [1,4,1], // y, male, female
+            "head": [0,3,1],
+            "feet": [0,3],
+            "bodyHeight" : 48
+        },
         "atlasXY": ["0", "0"],
         "color": "0xffffffff"
     },

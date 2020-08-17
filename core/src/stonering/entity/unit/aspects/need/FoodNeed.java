@@ -1,6 +1,6 @@
 package stonering.entity.unit.aspects.need;
 
-import static stonering.enums.action.TaskPriorityEnum.NONE;
+import static stonering.enums.action.TaskPriorityEnum.*;
 import static stonering.enums.items.ItemTagEnum.*;
 import static stonering.enums.unit.health.NeedEnum.HUNGER;
 
@@ -26,6 +26,15 @@ import stonering.game.model.system.unit.CreatureHealthSystem;
  * Need for eating. Part of {@link CreatureHealthSystem}.
  * Checks if unit is hungry, and creates task for eating.
  * Item condition affects distance which unit will be ready to travel to it.
+ * The more hungry unit is, the worse food it will eat.
+ * 0-80% - prepared food, fruits,
+ * 80-100% - not prepared food,
+ * When malnutrition disease is present, unit will eat stale food, raw meat and corpses.
+ * 0-40% - stale food,
+ * 40-70% - raw meat,
+ * 70-85% - animal corpses,
+ * 85+% - meat and corpses of sapient species
+ * 
  * See also {@link HungerParameter}.
  *
  * @author Alexander on 30.09.2019.
@@ -43,7 +52,9 @@ public class FoodNeed extends Need {
 
     @Override
     public TaskPriorityEnum countPriority(NeedState state) {
-        if(state.current() < state.max) return TaskPriorityEnum.JOB;
+        if(state.current() < state.max / 2) return NONE;
+        if(state.current() < state.max) return JOB;
+        return HEALTH_NEEDS;
         // eat normal food
         // raw food
         // spoiled food
@@ -52,11 +63,6 @@ public class FoodNeed extends Need {
                 .map(aspect -> aspect.needs.get(HUNGER).getRelativeValue())
                 .map(relValue -> HUNGER.PARAMETER.getRange(relValue).priority)
                 .orElse(NONE);
-    }
-
-    @Override
-    public TaskPriorityEnum countPriority() {
-        return null;
     }
 
     @Override
