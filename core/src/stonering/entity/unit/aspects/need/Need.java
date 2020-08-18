@@ -19,7 +19,7 @@ public abstract class Need {
     /**
      * Returns priority of need. Returns -1 if need can be tolerated.
      */
-    public abstract TaskPriorityEnum countPriority(NeedState state);
+    public abstract TaskPriorityEnum countPriority(Unit unit);
 
     public abstract Task tryCreateTask(Unit unit);
     

@@ -2,7 +2,6 @@ package stonering.entity.unit.aspects.need;
 
 import static stonering.enums.action.TaskPriorityEnum.*;
 import static stonering.enums.items.ItemTagEnum.*;
-import static stonering.enums.unit.health.NeedEnum.HUNGER;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -15,7 +14,6 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MoodEffect;
 import stonering.entity.unit.aspects.body.BodyAspect;
 import stonering.entity.unit.aspects.body.DiseaseState;
-import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.items.ItemTagEnum;
 import stonering.enums.unit.health.HungerParameter;
@@ -53,21 +51,31 @@ public class FoodNeed extends Need {
     }
 
     @Override
-    public TaskPriorityEnum countPriority(NeedState state) {
-        float needProgress = state.getRelativeValue();
-        if(needProgress < state.max / 2) return NONE;
-        if(needProgress < state.max * 0.8f) return JOB;
-        if(needProgress < state.max ) return HEALTH_NEEDS;
+    public TaskPriorityEnum countPriority(Unit unit) {
+        float hungerLevel = hungerLevel(unit);
+        if(hungerLevel < 0.5f) return NONE;
+        if(hungerLevel < 0.8f) return JOB;
+        if(hungerLevel < 1) return HEALTH_NEEDS;
         return SAFETY;
     }
 
     @Override
     public Task tryCreateTask(Unit unit) {
         NeedState state = unit.get(NeedAspect.class).needs.get(NeedEnum.FOOD);
-        TaskPriorityEnum priority = countPriority(state);
+        TaskPriorityEnum priority = countPriority(unit);
+        switch(priority) {
+            case NONE:
+                return null;
+            case COMFORT:
+            case JOB:
+            case HEALTH_NEEDS:
+                break;
+            case SAFETY:
+                break;
+        }
+        
         return Optional.ofNullable(priority)
-                .filter(p -> p != NONE)
-                .map(p -> getPredicate(p, starvationProgress(unit)))
+                .map(p -> getPredicate(p, starvationLevel(unit)))
                 .map(predicate -> findFoodItem(unit, predicate))
                 .map(EatAction::new)
                 .map(action -> new Task(action, priority.VALUE))
@@ -84,13 +92,20 @@ public class FoodNeed extends Need {
         return null;
     }
 
-    /**
-     * Creates predicate for filtering food items basing on need severity.
-     */
-    private Predicate<Item> getPredicate(TaskPriorityEnum priority, float starvationProgress) {
+    private Predicate<Item> getPredicate(float hunger, float starvation) {
+        if(hunger < 0.5f) return item -> false; // never reached
+        if(hunger < 0.8f) return item -> !item.tags.contains(RAW) && !item.tags.contains(SPOILED); // prepared food and fruits
+        if(hunger < 1) return item -> !(item.tags.contains(MEAT) && item.tags.contains(MEAT)) && !item.tags.contains(SPOILED); // not prepared food, like turnip
+        if(starvation < 0.4f) return item -> !(item.tags.contains(MEAT) && item.tags.contains(MEAT)); // stale food
+        if(starvation < 0.7f) return item -> true; // raw meat
+        if(starvation < 0.85f) return item -> false; // animal corpses
+        return item -> false; // sapient meat
+        
+        
+        
         switch (priority) { // will eat any food (incl. raw and spoiled) for HEALTH_NEEDS priority
             case JOB:
-                return item -> !item.tags.contains(RAW) && !item.tags.contains(SPOILED);
+                return ;
             case HEALTH_NEEDS:
                 return
             case SAFETY:
@@ -130,11 +145,11 @@ public class FoodNeed extends Need {
                         .reduce(0, Integer::sum);
     }
 
-//    private float hungerProgress(Unit unit) {
-//        return unit.get(NeedAspect.class).needs.get(NeedEnum.FOOD).getRelativeValue();
-//    }
+    private float hungerLevel(Unit unit) {
+        return unit.get(NeedAspect.class).needs.get(NeedEnum.FOOD).getRelativeValue();
+    }
 
-    private float starvationProgress(Unit unit) {
+    private float starvationLevel(Unit unit) {
         return unit.get(BodyAspect.class).diseases.get("starvation").progress;
     }
 }
