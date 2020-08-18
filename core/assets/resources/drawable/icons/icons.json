@@ -18,7 +18,7 @@
     "name": "zones_menu",
     "bounds": [4, 0]
 }, {
-    "name": "roast_meal",
+    "name": "cook_meal",
     "bounds": [0, 1]
 }, {
     "name": "units_button",
