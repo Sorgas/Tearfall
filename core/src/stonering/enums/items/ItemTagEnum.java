@@ -33,6 +33,7 @@ public enum ItemTagEnum {
     DRINKABLE, // TODO replace with aspect
     RAW(true), // raw cow meat piece,
     SPOILED(true, item -> item.optional(FoodItemAspect.class).ifPresent(aspect -> aspect.nutrition = 10)), // spoiled raw cow meat peace
+    CORPSE(true),
     PREPARED(true, item -> item.optional(FoodItemAspect.class).ifPresent(aspect -> aspect.nutrition += 20)), // cow meat stew
 
     SEED_PRODUCE(false),

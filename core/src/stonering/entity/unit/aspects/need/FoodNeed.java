@@ -13,7 +13,9 @@ import stonering.entity.job.Task;
 import stonering.entity.job.action.EatAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MoodEffect;
+import stonering.entity.unit.aspects.body.BodyAspect;
 import stonering.entity.unit.aspects.body.DiseaseState;
+import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.items.ItemTagEnum;
 import stonering.enums.unit.health.HungerParameter;
@@ -52,25 +54,20 @@ public class FoodNeed extends Need {
 
     @Override
     public TaskPriorityEnum countPriority(NeedState state) {
-        if(state.current() < state.max / 2) return NONE;
-        if(state.current() < state.max) return JOB;
-        return HEALTH_NEEDS;
-        // eat normal food
-        // raw food
-        // spoiled food
-        state.
-        return unit.optional(NeedAspect.class)
-                .map(aspect -> aspect.needs.get(HUNGER).getRelativeValue())
-                .map(relValue -> HUNGER.PARAMETER.getRange(relValue).priority)
-                .orElse(NONE);
+        float needProgress = state.getRelativeValue();
+        if(needProgress < state.max / 2) return NONE;
+        if(needProgress < state.max * 0.8f) return JOB;
+        if(needProgress < state.max ) return HEALTH_NEEDS;
+        return SAFETY;
     }
 
     @Override
     public Task tryCreateTask(Unit unit) {
-        TaskPriorityEnum priority = countPriority(unit);
-        return Optional.of(priority)
+        NeedState state = unit.get(NeedAspect.class).needs.get(NeedEnum.FOOD);
+        TaskPriorityEnum priority = countPriority(state);
+        return Optional.ofNullable(priority)
                 .filter(p -> p != NONE)
-                .map(this::getPredicate)
+                .map(p -> getPredicate(p, starvationProgress(unit)))
                 .map(predicate -> findFoodItem(unit, predicate))
                 .map(EatAction::new)
                 .map(action -> new Task(action, priority.VALUE))
@@ -90,15 +87,13 @@ public class FoodNeed extends Need {
     /**
      * Creates predicate for filtering food items basing on need severity.
      */
-    private Predicate<Item> getPredicate(TaskPriorityEnum priority) {
+    private Predicate<Item> getPredicate(TaskPriorityEnum priority, float starvationProgress) {
         switch (priority) { // will eat any food (incl. raw and spoiled) for HEALTH_NEEDS priority
-            case COMFORT: // eat prepared and unprepared food
             case JOB:
-            case HEALTH_NEEDS:
                 return item -> !item.tags.contains(RAW) && !item.tags.contains(SPOILED);
+            case HEALTH_NEEDS:
+                return
             case SAFETY:
-                return item -> !item.tags.contains(SPOILED);
-            case LIFE:
                 return item -> true;
             case NONE: // no task if not hungry
             default:
@@ -133,5 +128,13 @@ public class FoodNeed extends Need {
                         .filter(Objects::nonNull)
                         .map(value -> value * priorityToDistanceMultiplier)
                         .reduce(0, Integer::sum);
+    }
+
+//    private float hungerProgress(Unit unit) {
+//        return unit.get(NeedAspect.class).needs.get(NeedEnum.FOOD).getRelativeValue();
+//    }
+
+    private float starvationProgress(Unit unit) {
+        return unit.get(BodyAspect.class).diseases.get("starvation").progress;
     }
 }
