@@ -30,8 +30,8 @@ import stonering.game.model.system.unit.CreatureHealthSystem;
  * 0-80% - prepared food, fruits,
  * 80-100% - not prepared food,
  * When malnutrition disease is present, unit will eat stale food, raw meat and corpses.
- * 0-40% - stale food,
- * 40-70% - raw meat,
+ * 0-40% - raw meat,
+ * 40-70% - stale food,
  * 70-85% - animal corpses,
  * 85+% - meat and corpses of sapient species
  * 
@@ -92,42 +92,33 @@ public class FoodNeed extends Need {
         return null;
     }
 
-    private Predicate<Item> getPredicate(float hunger, float starvation) {
-        if(hunger < 0.5f) return item -> false; // never reached
-        if(hunger < 0.8f) return item -> !item.tags.contains(RAW) && !item.tags.contains(SPOILED); // prepared food and fruits
-        if(hunger < 1) return item -> !(item.tags.contains(MEAT) && item.tags.contains(MEAT)) && !item.tags.contains(SPOILED); // not prepared food, like turnip
-        if(starvation < 0.4f) return item -> !(item.tags.contains(MEAT) && item.tags.contains(MEAT)); // stale food
+    private Predicate<String> getPredicate(float hunger, float starvation) {
+        if(hunger < 0.5f) return s -> false; // never reached
+        if(hunger < 0.8f) return s -> s.equals()
+                !item.tags.contains(RAW) && !item.tags.contains(SPOILED) && !item.tags.contains(CORPSE) && ; // prepared food and fruits
+        
+        if(hunger < 1) return item -> !(item.tags.contains(MEAT) && item.tags.contains(RAW)) && !item.tags.contains(SPOILED); // not prepared food, like turnip
+        
+        if(starvation < 0.4f) return item -> !item.tags.contains(SPOILED); // stale food
+        
         if(starvation < 0.7f) return item -> true; // raw meat
+        
         if(starvation < 0.85f) return item -> false; // animal corpses
+        
         return item -> false; // sapient meat
-        
-        
-        
-        switch (priority) { // will eat any food (incl. raw and spoiled) for HEALTH_NEEDS priority
-            case JOB:
-                return ;
-            case HEALTH_NEEDS:
-                return
-            case SAFETY:
-                return item -> true;
-            case NONE: // no task if not hungry
-            default:
-                return null;
-        }
     }
 
     /**
      * Selects best food item available to creature. Bad food quality decreases task priority.
      * Substracted from hunger level, this will make units refuse to eat bad food even being very hungry.
      */
-    private Item findFoodItem(Unit unit, Predicate<Item> predicate) {
+    private Item findFoodItem(Unit unit, Predicate<String> predicate) {
         //TODO find food in unit's equipment
         ItemContainer container = GameMvc.model().get(ItemContainer.class);
         LocalMap map = GameMvc.model().get(LocalMap.class);
         return container.objects.stream()
                 .filter(item -> !container.equipped.containsKey(item))
-                .filter(item -> item.has(FoodItemAspect.class))
-                .filter(predicate)
+                .filter(item -> item.optional(FoodItemAspect.class).map(aspect -> predicate.test(aspect.type)).orElse(false))
                 .filter(item -> map.passageMap.util.positionReachable(unit.position, item.position, false))
                 .min(Comparator.comparingInt(item -> countItemPriority(item, unit)))
                 .orElse(null);

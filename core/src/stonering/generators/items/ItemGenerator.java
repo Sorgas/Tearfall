@@ -155,6 +155,7 @@ public class ItemGenerator {
             case "item_container":
                 return new ItemContainerAspect(null);
             case "food":
+                // TODO set food type by tags
                 return new FoodItemAspect(null, Integer.parseInt(params.get(0)));
             default:
                 return null;
