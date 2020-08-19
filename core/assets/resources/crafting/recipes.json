@@ -42,19 +42,14 @@
     "itemName": "backpack",
     "ingredients": ["backpack:roll:cloth:1"]
 }, {
-    "name": "roast_meal",
-    "title": "Make roasted meal",
+    "name": "cook_meal",
+    "title": "Cook meal",
     "ingredients": ["main:any:cookable:1"],
     "newTag" : "prepared",
     "removeTag" : "raw",
-    "iconName": "roast_meal",
+    "iconName": "cook_meal",
     "workAmount": "500",
     "job": "cook"
-}, {
-    "name": "boil_meal",
-    "title": "Cook soup",
-    "itemName": "liquid",
-    "ingredients": ["meal:any:boilable:1", "consumed:any:water:1"]
 }, {
     "name": "boil_water",
     "title": "Boil water",
