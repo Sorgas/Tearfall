@@ -15,6 +15,7 @@ import stonering.entity.unit.aspects.MoodEffect;
 import stonering.entity.unit.aspects.body.BodyAspect;
 import stonering.entity.unit.aspects.body.DiseaseState;
 import stonering.enums.action.TaskPriorityEnum;
+import stonering.enums.items.FoodCategoryEnum;
 import stonering.enums.items.ItemTagEnum;
 import stonering.enums.unit.health.HungerParameter;
 import stonering.game.GameMvc;
@@ -34,7 +35,7 @@ import stonering.game.model.system.unit.CreatureHealthSystem;
  * 40-70% - stale food,
  * 70-85% - animal corpses,
  * 85+% - meat and corpses of sapient species
- * 
+ * <p>
  * See also {@link HungerParameter}.
  *
  * @author Alexander on 30.09.2019.
@@ -53,9 +54,9 @@ public class FoodNeed extends Need {
     @Override
     public TaskPriorityEnum countPriority(Unit unit) {
         float hungerLevel = hungerLevel(unit);
-        if(hungerLevel < 0.5f) return NONE;
-        if(hungerLevel < 0.8f) return JOB;
-        if(hungerLevel < 1) return HEALTH_NEEDS;
+        if (hungerLevel < 0.5f) return NONE;
+        if (hungerLevel < 0.8f) return JOB;
+        if (hungerLevel < 1) return HEALTH_NEEDS;
         return SAFETY;
     }
 
@@ -63,19 +64,10 @@ public class FoodNeed extends Need {
     public Task tryCreateTask(Unit unit) {
         NeedState state = unit.get(NeedAspect.class).needs.get(NeedEnum.FOOD);
         TaskPriorityEnum priority = countPriority(unit);
-        switch(priority) {
-            case NONE:
-                return null;
-            case COMFORT:
-            case JOB:
-            case HEALTH_NEEDS:
-                break;
-            case SAFETY:
-                break;
-        }
-        
+        if(priority == NONE) return null;
+
         return Optional.ofNullable(priority)
-                .map(p -> getPredicate(p, starvationLevel(unit)))
+                .map(p -> getPredicate(hungerLevel(unit), starvationLevel(unit)))
                 .map(predicate -> findFoodItem(unit, predicate))
                 .map(EatAction::new)
                 .map(action -> new Task(action, priority.VALUE))
@@ -89,36 +81,31 @@ public class FoodNeed extends Need {
 
     @Override
     public MoodEffect getMoodPenalty(Unit unit, NeedState state) {
+
         return null;
     }
 
-    private Predicate<String> getPredicate(float hunger, float starvation) {
-        if(hunger < 0.5f) return s -> false; // never reached
-        if(hunger < 0.8f) return s -> s.equals()
-                !item.tags.contains(RAW) && !item.tags.contains(SPOILED) && !item.tags.contains(CORPSE) && ; // prepared food and fruits
-        
-        if(hunger < 1) return item -> !(item.tags.contains(MEAT) && item.tags.contains(RAW)) && !item.tags.contains(SPOILED); // not prepared food, like turnip
-        
-        if(starvation < 0.4f) return item -> !item.tags.contains(SPOILED); // stale food
-        
-        if(starvation < 0.7f) return item -> true; // raw meat
-        
-        if(starvation < 0.85f) return item -> false; // animal corpses
-        
-        return item -> false; // sapient meat
+    private Predicate<Integer> getPredicate(float hunger, float starvation) {
+        if (hunger < 0.5f) return value -> false; // never reached
+        if (hunger < 0.8f) return value -> value == FoodCategoryEnum.READY_TO_EAT.WEIGHT; // prepared food and fruits
+        if (hunger < 1) return value -> value <= FoodCategoryEnum.UNPREPARED.WEIGHT; // not prepared food, like turnip
+        if (starvation < 0.4f) return value -> value <= FoodCategoryEnum.RAW_MEAT.WEIGHT;
+        if (starvation < 0.7f) return value -> value <= FoodCategoryEnum.STALE_FOOD.WEIGHT; // raw meat
+        if (starvation < 0.85f) return value -> value <= FoodCategoryEnum.CORPSE.WEIGHT; // animal corpses
+        return value -> value <= FoodCategoryEnum.SAPIENT.WEIGHT; // sapient meat
     }
 
     /**
      * Selects best food item available to creature. Bad food quality decreases task priority.
      * Substracted from hunger level, this will make units refuse to eat bad food even being very hungry.
      */
-    private Item findFoodItem(Unit unit, Predicate<String> predicate) {
+    private Item findFoodItem(Unit unit, Predicate<Integer> predicate) {
         //TODO find food in unit's equipment
         ItemContainer container = GameMvc.model().get(ItemContainer.class);
         LocalMap map = GameMvc.model().get(LocalMap.class);
         return container.objects.stream()
                 .filter(item -> !container.equipped.containsKey(item))
-                .filter(item -> item.optional(FoodItemAspect.class).map(aspect -> predicate.test(aspect.type)).orElse(false))
+                .filter(item -> item.optional(FoodItemAspect.class).map(aspect -> predicate.test(aspect.category.WEIGHT)).orElse(false))
                 .filter(item -> map.passageMap.util.positionReachable(unit.position, item.position, false))
                 .min(Comparator.comparingInt(item -> countItemPriority(item, unit)))
                 .orElse(null);

@@ -46,7 +46,7 @@ public class NeedSystem extends EntitySystem<Unit> {
         if (aspect == null) return;
         aspect.needs.values().stream()
                 .filter(state -> state.current() < state.max)
-                .filter(state -> state.changeValue(GamePlayConstants.DEFAULT_NEED_DELTA))
+                .filter(state -> state.changeValue(GamePlayConstants.DEFAULT_NEED_DELTA)) // roll state and retain
                 .forEach(state -> {
                     addDisease(unit, state); // create disease
                     unit.get(MoodAspect.class).addEffect(state.need.NEED.getMoodPenalty(unit, state)); // change mood

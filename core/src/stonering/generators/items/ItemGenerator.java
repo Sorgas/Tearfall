@@ -10,6 +10,7 @@ import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.item.aspects.SeedAspect;
 import stonering.entity.RenderAspect;
 import stonering.entity.item.aspects.FallingAspect;
+import stonering.enums.items.FoodCategoryEnum;
 import stonering.enums.items.ItemTagEnum;
 import stonering.enums.items.type.ItemType;
 import stonering.enums.items.type.ItemTypeMap;
@@ -28,11 +29,10 @@ import java.util.*;
  * @author Alexander Kuzyakov on 26.01.2018.
  */
 public class ItemGenerator {
-    private Map<String, List<String>> defaultAspects;
+    private Map<String, List<String>> defaultAspects = new HashMap<>();
 
     public ItemGenerator() {
-        defaultAspects = new HashMap<>();
-        defaultAspects.put("falling", Arrays.asList("1")); // most items fall down
+        defaultAspects.put("falling", Collections.singletonList("1")); // most items fall down
     }
 
     /**
@@ -84,12 +84,12 @@ public class ItemGenerator {
                 }); // add tag
         Optional.ofNullable(order.recipe.removeTag).ifPresent(item.tags::remove); // add tag
         generateItemAspects(item);
-        setItemMaterial(item, order);
+        setItemMaterialByOrder(item, order);
         updateItemTitle(item);
         return item;
     }
 
-    private void setItemMaterial(Item item, ItemOrder order) {
+    private void setItemMaterialByOrder(Item item, ItemOrder order) {
         if (!order.ingredientOrders.containsKey("main")) {
             ItemPart mainPart = item.parts.get(item.type.requiredParts.get(0));
             item.material = mainPart.material; // get material of main part
@@ -156,7 +156,7 @@ public class ItemGenerator {
                 return new ItemContainerAspect(null);
             case "food":
                 // TODO set food type by tags
-                return new FoodItemAspect(null, Integer.parseInt(params.get(0)));
+                return new FoodItemAspect(Integer.parseInt(params.get(0)), FoodCategoryEnum.READY_TO_EAT);
             default:
                 return null;
         }
