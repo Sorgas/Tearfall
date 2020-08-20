@@ -10,7 +10,7 @@ import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.enums.unit.health.FatigueParameter;
-import stonering.enums.unit.health.NeedEnum;
+import stonering.enums.unit.health.OldNeedEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.building.BuildingContainer;
 
@@ -39,7 +39,7 @@ public class SleepInBedAction extends Action {
             return FAIL;
         };
         onStart = () -> {
-            fatigue = task.performer.get(NeedAspect.class).needs.get(NeedEnum.FATIGUE);
+            fatigue = task.performer.get(NeedAspect.class).needs.get(OldNeedEnum.FATIGUE);
             task.performer.get(RenderAspect.class).rotation = -90;
             // lie to bed
             // disable vision

@@ -4,12 +4,9 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.body.BodyAspect;
 import stonering.entity.unit.aspects.body.DiseaseState;
 import stonering.entity.unit.aspects.health.HealthAspect;
-import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.enums.time.TimeUnitEnum;
-import stonering.enums.unit.health.NeedEnum;
 import stonering.enums.unit.health.disease.DiseaseMap;
 import stonering.enums.unit.health.disease.DiseaseType;
-import stonering.game.GameMvc;
 import stonering.game.model.system.EntitySystem;
 
 /**

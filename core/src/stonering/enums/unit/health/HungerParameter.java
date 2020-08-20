@@ -24,6 +24,6 @@ public class HungerParameter extends HealthParameter {
     }
 
     private Buff createPerformanceBuff(float delta, int iconX) {
-        return new HealthBuff(NeedEnum.HUNGER.TAG, delta, "performance", iconX, iconY);
+        return new HealthBuff(OldNeedEnum.HUNGER.TAG, delta, "performance", iconX, iconY);
     }
 }

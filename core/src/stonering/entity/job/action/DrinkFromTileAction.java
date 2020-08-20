@@ -2,7 +2,7 @@ package stonering.entity.job.action;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
 import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
-import static stonering.enums.unit.health.NeedEnum.*;
+import static stonering.enums.unit.health.OldNeedEnum.*;
 
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -12,10 +12,8 @@ import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.materials.MaterialMap;
-import stonering.enums.unit.health.NeedEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.liquid.LiquidContainer;
-import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.geometry.Position;
 
 /**

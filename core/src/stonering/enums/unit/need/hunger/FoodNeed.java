@@ -1,4 +1,4 @@
-package stonering.entity.unit.aspects.need;
+package stonering.enums.unit.need.hunger;
 
 import static stonering.enums.action.TaskPriorityEnum.*;
 import static stonering.enums.items.ItemTagEnum.*;
@@ -14,6 +14,11 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MoodEffect;
 import stonering.entity.unit.aspects.body.BodyAspect;
 import stonering.entity.unit.aspects.body.DiseaseState;
+import stonering.entity.unit.aspects.equipment.EquipmentAspect;
+import stonering.entity.unit.aspects.need.Need;
+import stonering.entity.unit.aspects.need.NeedAspect;
+import stonering.entity.unit.aspects.need.NeedEnum;
+import stonering.entity.unit.aspects.need.NeedState;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.items.FoodCategoryEnum;
 import stonering.enums.items.ItemTagEnum;
@@ -22,13 +27,14 @@ import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.unit.CreatureHealthSystem;
+import stonering.util.geometry.Position;
 
 /**
  * Need for eating. Part of {@link CreatureHealthSystem}.
  * Checks if unit is hungry, and creates task for eating.
  * Item condition affects distance which unit will be ready to travel to it.
  * The more hungry unit is, the worse food it will eat.
- * 0-80% - prepared food, fruits,
+ * 50-80% - prepared food, fruits,
  * 80-100% - not prepared food,
  * When malnutrition disease is present, unit will eat stale food, raw meat and corpses.
  * 0-40% - raw meat,
@@ -53,16 +59,12 @@ public class FoodNeed extends Need {
 
     @Override
     public TaskPriorityEnum countPriority(Unit unit) {
-        float hungerLevel = hungerLevel(unit);
-        if (hungerLevel < 0.5f) return NONE;
-        if (hungerLevel < 0.8f) return JOB;
-        if (hungerLevel < 1) return HEALTH_NEEDS;
-        return SAFETY;
+        return HungerLevelEnum.getLevel(hungerLevel(unit), starvationLevel(unit)).priority;
     }
 
     @Override
     public Task tryCreateTask(Unit unit) {
-        NeedState state = unit.get(NeedAspect.class).needs.get(NeedEnum.FOOD);
+        HungerLevelEnum level = HungerLevelEnum.getLevel(hungerLevel(unit), starvationLevel(unit));
         TaskPriorityEnum priority = countPriority(unit);
         if(priority == NONE) return null;
 
@@ -81,46 +83,24 @@ public class FoodNeed extends Need {
 
     @Override
     public MoodEffect getMoodPenalty(Unit unit, NeedState state) {
-
-        return null;
+        HungerLevelEnum level = HungerLevelEnum.getLevel(hungerLevel(unit), starvationLevel(unit));
+        return level.moodDelta != 0 
+                ? new MoodEffect("hunger", level.moodMessage, level.moodDelta, -1) 
+                : null;
     }
 
-    private Predicate<Integer> getPredicate(float hunger, float starvation) {
-        if (hunger < 0.5f) return value -> false; // never reached
-        if (hunger < 0.8f) return value -> value == FoodCategoryEnum.READY_TO_EAT.WEIGHT; // prepared food and fruits
-        if (hunger < 1) return value -> value <= FoodCategoryEnum.UNPREPARED.WEIGHT; // not prepared food, like turnip
-        if (starvation < 0.4f) return value -> value <= FoodCategoryEnum.RAW_MEAT.WEIGHT;
-        if (starvation < 0.7f) return value -> value <= FoodCategoryEnum.STALE_FOOD.WEIGHT; // raw meat
-        if (starvation < 0.85f) return value -> value <= FoodCategoryEnum.CORPSE.WEIGHT; // animal corpses
-        return value -> value <= FoodCategoryEnum.SAPIENT.WEIGHT; // sapient meat
-    }
-
-    /**
-     * Selects best food item available to creature. Bad food quality decreases task priority.
-     * Substracted from hunger level, this will make units refuse to eat bad food even being very hungry.
-     */
-    private Item findFoodItem(Unit unit, Predicate<Integer> predicate) {
+    private Item findFoodItem(Unit unit, FoodCategoryEnum maxCategory) {
         //TODO find food in unit's equipment
         ItemContainer container = GameMvc.model().get(ItemContainer.class);
         LocalMap map = GameMvc.model().get(LocalMap.class);
+        unit.get(EquipmentAspect.class).
+        
         return container.objects.stream()
                 .filter(item -> !container.equipped.containsKey(item))
-                .filter(item -> item.optional(FoodItemAspect.class).map(aspect -> predicate.test(aspect.category.WEIGHT)).orElse(false))
-                .filter(item -> map.passageMap.util.positionReachable(unit.position, item.position, false))
-                .min(Comparator.comparingInt(item -> countItemPriority(item, unit)))
+                .filter(item -> item.optional(FoodItemAspect.class).map(aspect -> aspect.category.WEIGHT <= maxCategory.WEIGHT).orElse(false)) // olny appropriate items
+                .filter(item -> map.passageMap.util.positionReachable(unit.position, item.position, false)) // reachable items 
+                .min(Comparator.comparingInt(item -> (int) item.position.getDistance(unit.position))) // nearest item
                 .orElse(null);
-    }
-
-    /**
-     * Calculated item 'priority'. Priority is higher for near and prepared items, and lower for raw and spoiled items.
-     */
-    private int countItemPriority(Item item, Unit unit) {
-        return (int) item.position.getDistance(unit.position) -
-                item.tags.stream()
-                        .map(itemsSelectionPriority::get)
-                        .filter(Objects::nonNull)
-                        .map(value -> value * priorityToDistanceMultiplier)
-                        .reduce(0, Integer::sum);
     }
 
     private float hungerLevel(Unit unit) {

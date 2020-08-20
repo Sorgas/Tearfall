@@ -1,6 +1,6 @@
 package stonering.test_chamber.model;
 
-import static stonering.enums.unit.health.NeedEnum.HUNGER;
+import static stonering.enums.unit.health.OldNeedEnum.HUNGER;
 
 import stonering.entity.building.Building;
 import stonering.entity.item.Item;

@@ -1,6 +1,6 @@
 package stonering.test_chamber.model;
 
-import static stonering.enums.unit.health.NeedEnum.THIRST;
+import static stonering.enums.unit.health.OldNeedEnum.THIRST;
 
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.health.HealthAspect;

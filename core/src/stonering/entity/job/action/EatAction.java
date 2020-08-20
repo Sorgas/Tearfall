@@ -1,7 +1,7 @@
 package stonering.entity.job.action;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
-import static stonering.enums.unit.health.NeedEnum.*;
+import static stonering.enums.unit.health.OldNeedEnum.*;
 
 import stonering.entity.building.Building;
 import stonering.entity.building.BuildingBlock;
@@ -13,14 +13,13 @@ import stonering.entity.job.action.equipment.obtain.ObtainItemAction;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.job.action.target.ItemActionTarget;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
-import stonering.entity.unit.aspects.need.FoodNeed;
+import stonering.enums.unit.need.hunger.FoodNeed;
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.enums.OrientationEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
-import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.geometry.Position;
 import stonering.util.global.Pair;
 

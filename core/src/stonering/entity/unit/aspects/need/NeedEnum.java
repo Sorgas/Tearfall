@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 import stonering.entity.unit.aspects.body.DiseaseState;
+import stonering.enums.unit.need.hunger.FoodNeed;
 import stonering.util.logging.Logger;
 
 /**

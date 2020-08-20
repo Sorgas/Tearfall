@@ -5,7 +5,6 @@ import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.enums.unit.health.HealthFunctionEnum;
 import stonering.enums.unit.health.HealthFunctionValue;
-import stonering.enums.unit.health.NeedEnum;
 import stonering.game.model.system.unit.CreatureHealthSystem;
 
 import java.util.HashMap;

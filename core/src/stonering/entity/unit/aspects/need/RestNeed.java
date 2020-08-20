@@ -1,6 +1,7 @@
 package stonering.entity.unit.aspects.need;
 
-import static stonering.enums.unit.health.NeedEnum.*;
+import static stonering.enums.action.TaskPriorityEnum.*;
+import static stonering.enums.unit.health.OldNeedEnum.*;
 
 import stonering.entity.building.Building;
 import stonering.entity.building.aspects.RestFurnitureAspect;
@@ -8,6 +9,8 @@ import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.SleepInBedAction;
 import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.MoodEffect;
+import stonering.entity.unit.aspects.body.DiseaseState;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.unit.health.FatigueParameter;
@@ -38,10 +41,11 @@ import java.util.Optional;
 public class RestNeed extends Need {
     @Override
     public TaskPriorityEnum countPriority(Unit unit) {
-        return Optional.ofNullable(unit.get(NeedAspect.class))
-                .map(aspect -> aspect.needs.get(FATIGUE).getRelativeValue())
-                .map(relativeFatigue -> FATIGUE.PARAMETER.getRange(relativeFatigue).priority)
-                .orElse(TaskPriorityEnum.NONE);
+        float fatigue = fatigueLevel(unit);
+        if(fatigue < 0.5f) return NONE;
+        if(fatigue < 0.7f) return JOB;
+        if(fatigue < 0.9f) return HEALTH_NEEDS;
+        return SAFETY;
     }
 
     /**
@@ -52,10 +56,10 @@ public class RestNeed extends Need {
         TaskPriorityEnum priority = countPriority(unit);
         switch (priority) {
             case NONE:
-                return Logger.NEED.logWarn("Attempt to create sleep task with none priority", null);
-            case COMFORT:
+                return Logger.NEED.logWarn("Attempt to create sleep task with none priority", null);0
             case JOB:
-            case HEALTH_NEEDS: // sleep in bed
+                // sleep in bed
+            case HEALTH_NEEDS: 
                 //TODO sleep at home only
             case SAFETY:
                 //TODO sleep in any bed
@@ -65,6 +69,19 @@ public class RestNeed extends Need {
                         .map(action -> new Task(action, priority.VALUE))
                         .orElse(null);
         }
+        return null;
+    }
+
+    @Override
+    public DiseaseState createDisease() {
+        // create insomnia disease
+        
+        return null;
+    }
+
+    @Override
+    public MoodEffect getMoodPenalty(Unit unit, NeedState state) {
+        
         return null;
     }
 
@@ -80,5 +97,9 @@ public class RestNeed extends Need {
     private Task createTaskToSleep(Building building, TaskPriorityEnum priority) {
         Action restAction = new SleepInBedAction(building);
         return new Task(restAction, priority.VALUE);
+    }
+    
+    private float fatigueLevel(Unit unit) {
+        return unit.get(NeedAspect.class).needs.get(NeedEnum.REST).getRelativeValue();
     }
 }

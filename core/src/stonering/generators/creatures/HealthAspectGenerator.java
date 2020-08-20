@@ -4,8 +4,8 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.need.NeedState;
 
-import static stonering.enums.unit.health.NeedEnum.*;
-import static stonering.enums.unit.health.NeedEnum.THIRST;
+import static stonering.enums.unit.health.OldNeedEnum.*;
+import static stonering.enums.unit.health.OldNeedEnum.THIRST;
 
 /**
  * Generates {@link HealthAspect} and fills it with default properties.
