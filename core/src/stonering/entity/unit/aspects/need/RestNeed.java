@@ -56,7 +56,7 @@ public class RestNeed extends Need {
         TaskPriorityEnum priority = countPriority(unit);
         switch (priority) {
             case NONE:
-                return Logger.NEED.logWarn("Attempt to create sleep task with none priority", null);0
+                return Logger.NEED.logWarn("Attempt to create sleep task with none priority", null);
             case JOB:
                 // sleep in bed
             case HEALTH_NEEDS: 

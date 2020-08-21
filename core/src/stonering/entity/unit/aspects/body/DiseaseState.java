@@ -4,21 +4,25 @@ import java.util.Comparator;
 
 import stonering.entity.unit.Unit;
 import stonering.enums.unit.health.disease.DiseaseMap;
+import stonering.enums.unit.health.disease.DiseaseStage;
+import stonering.enums.unit.health.disease.DiseaseType;
 
 /**
- * Whole body disease. Diseases progress from 0 to 1 if not cured.
- * Penalties applied proportionally during progression.
+ * Whole body disease of some {@link DiseaseType}. Diseases progress from 0 to 1 if not cured.
+ * Penalties are stored in {@link DiseaseStage} of type, and applied when progress reaches their ranges by {@link stonering.game.model.system.unit.CreatureHealthSystem}.
  * 
  * @author Alexander on 10.08.2020.
  */
-public abstract class DiseaseState extends HealthEffect {
+public class DiseaseState extends HealthEffect {
     public final String name;
+    public final DiseaseType type;
     public String stageName;
     public float progress = 0;
-    public float nextStage;
+    public float nextStage; // 
 
-    public DiseaseState(String name) {
-        this.name = name;
+    public DiseaseState(DiseaseType type) {
+        this.type = type;
+        name = type.name;
         findNextStage();
     }
 

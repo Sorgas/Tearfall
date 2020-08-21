@@ -1,10 +1,9 @@
 package stonering.enums.unit.need.hunger;
 
-import static stonering.enums.action.TaskPriorityEnum.*;
-import static stonering.enums.items.ItemTagEnum.*;
+import static stonering.enums.action.TaskPriorityEnum.NONE;
 
-import java.util.*;
-import java.util.function.Predicate;
+import java.util.Comparator;
+import java.util.Optional;
 
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.FoodItemAspect;
@@ -14,20 +13,18 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MoodEffect;
 import stonering.entity.unit.aspects.body.BodyAspect;
 import stonering.entity.unit.aspects.body.DiseaseState;
-import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.need.Need;
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.entity.unit.aspects.need.NeedEnum;
 import stonering.entity.unit.aspects.need.NeedState;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.items.FoodCategoryEnum;
-import stonering.enums.items.ItemTagEnum;
 import stonering.enums.unit.health.HungerParameter;
+import stonering.enums.unit.health.disease.DiseaseMap;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.unit.CreatureHealthSystem;
-import stonering.util.geometry.Position;
 
 /**
  * Need for eating. Part of {@link CreatureHealthSystem}.
@@ -47,14 +44,9 @@ import stonering.util.geometry.Position;
  * @author Alexander on 30.09.2019.
  */
 public class FoodNeed extends Need {
-    private Map<ItemTagEnum, Integer> itemsSelectionPriority; // effects of food items tags
-    private int priorityToDistanceMultiplier = 40; //TODO
 
     public FoodNeed() {
-        itemsSelectionPriority = new HashMap<>();
-        itemsSelectionPriority.put(PREPARED, 1);
-        itemsSelectionPriority.put(RAW, -1);
-        itemsSelectionPriority.put(SPOILED, -2);
+        relatedDisease = "starvation";
     }
 
     @Override
@@ -65,20 +57,17 @@ public class FoodNeed extends Need {
     @Override
     public Task tryCreateTask(Unit unit) {
         HungerLevelEnum level = HungerLevelEnum.getLevel(hungerLevel(unit), starvationLevel(unit));
-        TaskPriorityEnum priority = countPriority(unit);
-        if(priority == NONE) return null;
-
-        return Optional.ofNullable(priority)
-                .map(p -> getPredicate(hungerLevel(unit), starvationLevel(unit)))
-                .map(predicate -> findFoodItem(unit, predicate))
+        if(level.priority == NONE) return null;
+        return Optional.ofNullable(level.priority)
+                .map(predicate -> findFoodItem(unit, level.foodCategory))
                 .map(EatAction::new)
-                .map(action -> new Task(action, priority.VALUE))
+                .map(action -> new Task(action, level.priority.VALUE))
                 .orElse(null);
     }
 
     @Override
     public DiseaseState createDisease() {
-        return null;
+        return new DiseaseState(DiseaseMap.get(relatedDisease));
     }
 
     @Override
@@ -93,8 +82,6 @@ public class FoodNeed extends Need {
         //TODO find food in unit's equipment
         ItemContainer container = GameMvc.model().get(ItemContainer.class);
         LocalMap map = GameMvc.model().get(LocalMap.class);
-        unit.get(EquipmentAspect.class).
-        
         return container.objects.stream()
                 .filter(item -> !container.equipped.containsKey(item))
                 .filter(item -> item.optional(FoodItemAspect.class).map(aspect -> aspect.category.WEIGHT <= maxCategory.WEIGHT).orElse(false)) // olny appropriate items
@@ -108,6 +95,6 @@ public class FoodNeed extends Need {
     }
 
     private float starvationLevel(Unit unit) {
-        return unit.get(BodyAspect.class).diseases.get("starvation").progress;
+        return unit.get(BodyAspect.class).getDiseaseProgress(relatedDisease);
     }
 }

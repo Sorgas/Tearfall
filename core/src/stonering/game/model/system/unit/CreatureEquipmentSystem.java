@@ -1,7 +1,5 @@
 package stonering.game.model.system.unit;
 
-import java.util.Optional;
-
 import com.sun.istack.NotNull;
 
 import stonering.entity.item.Item;
@@ -78,14 +76,14 @@ public class CreatureEquipmentSystem extends EntitySystem<Unit> {
     }
 
     public boolean removeItem(EquipmentAspect equipment, Item item) {
-        EquipmentSlot itemSlot = equipment.getSlotWithItem(item).orElse(null);
+        EquipmentSlot itemSlot = equipment.slotWithItem(item).orElse(null);
         if (itemSlot != null) {
             itemSlot.item = null;
             equipment.items.remove(item);
             itemContainer().equippedItemsSystem.itemUnequipped(item);
             return true;
         }
-        GrabEquipmentSlot grabItemSlot = equipment.getGrabSlotWithItem(item).orElse(null);
+        GrabEquipmentSlot grabItemSlot = equipment.grabSlotWithItem(item).orElse(null);
         if (grabItemSlot != null) {
             grabItemSlot.grabbedItem = null;
             equipment.items.remove(item);

@@ -16,7 +16,7 @@ public class CreatureDiseaseSystem extends EntitySystem<Unit> {
     public void update(Unit unit) {
         BodyAspect aspect = unit.get(BodyAspect.class);
         if(aspect == null) return;
-        aspect.diseases.values().forEach(disease -> disease.progress += 1);
+        aspect.diseases.values().forEach(disease -> disease.progress += 0.01f);
     }
 
     public void addNewDisease(Unit unit, DiseaseState disease) {

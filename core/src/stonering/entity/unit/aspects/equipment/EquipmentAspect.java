@@ -5,8 +5,13 @@ import stonering.entity.Aspect;
 import stonering.entity.item.Item;
 import stonering.stage.entity_menu.unit.UnitEquipmentTab;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -16,10 +21,10 @@ import java.util.stream.Stream;
  * @author Alexander Kuzyakov on 03.01.2018.
  */
 public class EquipmentAspect extends Aspect {
-    public final HashMap<String, EquipmentSlot> slots;            // all slots of a creature (for wear)
-    public final HashMap<String, GrabEquipmentSlot> grabSlots;    // slots for tools (subset of all slots)
-    public final Set<Item> items;                           // items in worn containers and in hands
-    public final List<EquipmentSlot> desiredSlots;                // uncovered limbs give comfort penalty
+    public final HashMap<String, EquipmentSlot> slots;          // all slots of a creature (for wear)
+    public final HashMap<String, GrabEquipmentSlot> grabSlots;  // slots for tools (subset of all slots)
+    public final Set<Item> items;                               // items in worn containers and in hands
+    public final List<EquipmentSlot> desiredSlots;              // uncovered limbs give comfort penalty
     public Item itemBuffer;
     
     public EquipmentAspect(Entity entity) {
@@ -28,13 +33,6 @@ public class EquipmentAspect extends Aspect {
         grabSlots = new HashMap<>();
         items = new HashSet<>();
         desiredSlots = new ArrayList<>();
-    }
-
-    /**
-     * Current load / Max load [0,1].
-     */
-    public float getRelativeLoad() {
-        return 1; //TODO
     }
 
     /**
@@ -53,15 +51,11 @@ public class EquipmentAspect extends Aspect {
                 .anyMatch(toolAction -> Objects.equals(toolAction.action, action));
     }
 
-    public List<Item> getEquippedTools() {
-        return items.stream().filter(item -> item.type.tool != null).collect(Collectors.toList());
-    }
-
-    public Optional<EquipmentSlot> getSlotWithItem(Item item) {
+    public Optional<EquipmentSlot> slotWithItem(Item item) {
         return slotStream().filter(slot -> slot.item == item).findFirst();
     }
     
-    public Optional<GrabEquipmentSlot> getGrabSlotWithItem(Item item) {
+    public Optional<GrabEquipmentSlot> grabSlotWithItem(Item item) {
         return grabSlotStream().filter(slot -> slot.grabbedItem == item).findFirst();
     }
     

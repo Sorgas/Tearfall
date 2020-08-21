@@ -4,10 +4,7 @@ import stonering.entity.Aspect;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.health.Buff;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Points to creature's body which is stored in creature type.
@@ -19,7 +16,8 @@ public class BodyAspect extends Aspect {
     public final String bodyTemplate;
     public final List<String> bodyPartsToCover;
     public final List<Wound> wounds;
-    public final Map<String, DiseaseState> diseases; // disease name to state
+    public final Map<String, DiseaseState> diseases;
+    public final Map<String, DiseaseState> needDiseases;
     public final Map<String, Buff> buffs;
 
     public BodyAspect(Unit unit, String bodyTemplate) {
@@ -27,7 +25,14 @@ public class BodyAspect extends Aspect {
         this.bodyTemplate = bodyTemplate;
         wounds = new ArrayList<>();
         diseases = new HashMap<>();
+        needDiseases = new HashMap<>();
         bodyPartsToCover = new ArrayList<>();
         buffs = new HashMap<>();
+    }
+    
+    public float getDiseaseProgress(String name) {
+        return Optional.ofNullable(diseases.get(name))
+                .map(state -> state.progress)
+                .orElse(0f);
     }
 }

@@ -15,7 +15,8 @@ import stonering.enums.action.TaskPriorityEnum;
  */
 public abstract class Need {
     public float delta; // how quickly need progresses over time
-
+    public String relatedDisease;
+    
     /**
      * Returns priority of need. Returns -1 if need can be tolerated.
      */
