@@ -46,12 +46,17 @@ public class FoodNeed extends Need {
 
     @Override
     public TaskPriorityEnum countPriority(Unit unit) {
-        return HungerLevelEnum.getLevel(needLevel(unit), diseaseLevel(unit)).priority;
+        return HungerLevelEnum.getLevel(unit).priority;
+    }
+
+    @Override
+    public boolean isSatisfied(NeedState state) {
+        return HungerLevelEnum.getLevel(unit)
     }
 
     @Override
     public Task tryCreateTask(Unit unit) {
-        HungerLevelEnum level = HungerLevelEnum.getLevel(needLevel(unit), diseaseLevel(unit));
+        HungerLevelEnum level = HungerLevelEnum.getLevel(unit);
         if(level.priority == NONE) return null;
         return Optional.ofNullable(level.priority)
                 .map(predicate -> findFoodItem(unit, level.foodCategory))
@@ -62,7 +67,7 @@ public class FoodNeed extends Need {
 
     @Override
     public MoodEffect getMoodPenalty(Unit unit, NeedState state) {
-        HungerLevelEnum level = HungerLevelEnum.getLevel(needLevel(unit), diseaseLevel(unit));
+        HungerLevelEnum level = HungerLevelEnum.getLevel(unit);
         return level.moodDelta != 0 
                 ? new MoodEffect(moodEffectKey, level.moodMessage, level.moodDelta, -1)
                 : null;

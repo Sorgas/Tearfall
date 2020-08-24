@@ -27,15 +27,17 @@ public abstract class Need {
 
     public abstract TaskPriorityEnum countPriority(Unit unit);
 
+    public abstract boolean isSatisfied(Unit unit);
+
     public abstract Task tryCreateTask(Unit unit);
 
     public abstract MoodEffect getMoodPenalty(Unit unit, NeedState state);
 
-    protected float needLevel(Unit unit) {
+    public float needLevel(Unit unit) {
         return unit.get(NeedAspect.class).needs.get(need).getRelativeValue();
     }
 
-    protected float diseaseLevel(Unit unit) {
+    public float diseaseLevel(Unit unit) {
         return unit.get(BodyAspect.class).getDiseaseProgress(relatedDisease);
     }
 }

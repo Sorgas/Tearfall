@@ -3,8 +3,11 @@ package stonering.enums.unit.need.hunger;
 import static stonering.enums.action.TaskPriorityEnum.*;
 import static stonering.enums.items.FoodCategoryEnum.*;
 
+import stonering.entity.unit.Unit;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.items.FoodCategoryEnum;
+import stonering.enums.unit.need.Need;
+import stonering.enums.unit.need.NeedEnum;
 
 /**
  * Used in {@link FoodNeed}.
@@ -32,10 +35,12 @@ public enum HungerLevelEnum {
         this.foodCategory = foodCategory;
     }
 
-    public static HungerLevelEnum getLevel(float hunger, float starvation) {
+    public static HungerLevelEnum getLevel(Unit unit) {
+        float hunger = NeedEnum.FOOD.NEED.needLevel(unit);
         if (hunger < 0.5f) return NONE;
         if (hunger < 0.8f) return LIGHT;
         if (hunger < 1) return REGULAR;
+        float starvation = NeedEnum.FOOD.NEED.diseaseLevel(unit);
         if (starvation < 0.4f) return MEDIUM;
         if (starvation < 0.7f) return STRONG;
         if (starvation < 0.85f) return VERY_STRONG;

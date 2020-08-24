@@ -1,37 +1,19 @@
 package stonering.generators.creatures.needs;
 
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.JsonWriter;
-import stonering.enums.unit.need.NeedEnum;
-import stonering.entity.unit.aspects.need.NeedState;
-import stonering.enums.unit.CreatureType;
-import stonering.entity.unit.aspects.need.NeedAspect;
-import stonering.util.global.FileUtil;
-
 import java.util.Objects;
 
+import stonering.entity.unit.aspects.need.NeedAspect;
+import stonering.entity.unit.aspects.need.NeedState;
+import stonering.enums.unit.CreatureType;
+import stonering.enums.unit.need.NeedEnum;
+
 /**
- * Generates needs for creatures.
+ * Generates needs for creatures. Need names are listed in body template.
+ * NeedStates are created with 0 values(fully satisfied),
  *
  * @author Alexander on 21.09.2018.
  */
 public class NeedAspectGenerator {
-    private Json json;
-    private JsonReader reader;
-    private JsonValue templates;
-
-    public NeedAspectGenerator() {
-        init();
-    }
-
-    private void init() {
-        reader = new JsonReader();
-        json = new Json();
-        json.setOutputType(JsonWriter.OutputType.json);
-        templates = reader.parse(FileUtil.get(FileUtil.BODY_TEMPLATE_PATH));
-    }
 
     public NeedAspect generateNeedAspect(CreatureType type) {
         NeedAspect needAspect = new NeedAspect(null);

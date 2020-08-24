@@ -1,7 +1,6 @@
 package stonering.entity.unit.aspects.need;
 
 import stonering.enums.unit.need.Need;
-import stonering.enums.unit.need.NeedEnum;
 import stonering.game.model.GamePlayConstants;
 import stonering.game.model.system.unit.NeedSystem;
 
@@ -13,13 +12,8 @@ import stonering.game.model.system.unit.NeedSystem;
  * @author Alexander on 06.10.2019.
  */
 public class NeedState {
-    public NeedEnum need;
     private float current = 0;
     public float max = GamePlayConstants.DEFAULT_NEED_MAX;
-
-    public NeedState(NeedEnum need) {
-        this.need = need;
-    }
 
     public float getRelativeValue() {
         return max == 0 ? 0 : current / max * 100f;

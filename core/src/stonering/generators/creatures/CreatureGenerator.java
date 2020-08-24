@@ -54,13 +54,13 @@ public class CreatureGenerator {
      */
     private void addMandatoryAspects(Unit unit) {
         CreatureType type = unit.getType();
+        unit.add(needAspectGenerator.generateNeedAspect(type));
         unit.add(bodyAspectGenerator.generateBodyAspect(type));
+        unit.add(healthAspectGenerator.generateHealthAspect(unit));
         unit.add(new TaskAspect(null));
         unit.add(new MovementAspect(null));
-        unit.add(needAspectGenerator.generateNeedAspect(type));
         unit.add(attributeAspectGenerator.generateAttributeAspect(unit));
         unit.add(new RenderAspect(AtlasesEnum.units.getBlockTile(type.atlasXY)));
-        unit.add(healthAspectGenerator.generateHealthAspect(unit));
         unit.add(new SkillAspect(unit));
     }
 
