@@ -9,8 +9,7 @@ import stonering.entity.unit.aspects.need.NeedState;
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.time.TimeUnitEnum;
-import stonering.enums.unit.health.FatigueParameter;
-import stonering.enums.unit.health.OldNeedEnum;
+import stonering.enums.unit.need.NeedEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.building.BuildingContainer;
 
@@ -18,8 +17,8 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
 import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
 
 /**
- * Action for sleeping. Progress in this action replenished fatigue (see {@link FatigueParameter})
- * This action lasts till creature is fully rested, instead of fixed length as for {@link ChopTreeAction}.
+ * Action for sleeping. Progress in this action replenishes tiredness.
+ * This action continues till creature is fully rested, instead of fixed length as for {@link ChopTreeAction}.
  * TODO Creature will first lie without sleep being able to see the surroundings, and then sleep with closed eyes. Lengths of both phases are influenced by creature
  *
  * @author Alexander on 10.09.2019.
@@ -39,7 +38,7 @@ public class SleepInBedAction extends Action {
             return FAIL;
         };
         onStart = () -> {
-            fatigue = task.performer.get(NeedAspect.class).needs.get(OldNeedEnum.FATIGUE);
+            fatigue = task.performer.get(NeedAspect.class).needs.get(NeedEnum.REST);
             task.performer.get(RenderAspect.class).rotation = -90;
             // lie to bed
             // disable vision

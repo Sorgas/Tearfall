@@ -4,9 +4,8 @@ package stonering.enums.unit.health;
  * @author Alexander on 8/8/2020
  */
 public enum HealthFunctionEnum {
-    // general activity of a unit.
-    CONSCIOUSNESS(true), // low values cause unit to fall or die at 0
-    VISION,
+    CONSCIOUSNESS(true), // overall performance, low values cause unit to fall or die at 0
+    VISION, // range combat, detection.
     HEARING,
     BREATHING(true), //  
     BLOOD, // production of blood. High values help resist poisons and recover from blood loss.

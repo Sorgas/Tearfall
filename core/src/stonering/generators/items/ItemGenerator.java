@@ -1,4 +1,3 @@
-
 package stonering.generators.items;
 
 import stonering.entity.Aspect;

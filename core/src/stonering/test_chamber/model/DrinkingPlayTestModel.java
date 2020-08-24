@@ -1,11 +1,10 @@
 package stonering.test_chamber.model;
 
-import static stonering.enums.unit.health.OldNeedEnum.THIRST;
-
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.health.HealthAspect;
+import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.materials.MaterialMap;
+import stonering.enums.unit.need.NeedEnum;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.liquid.LiquidContainer;
@@ -23,7 +22,7 @@ public class DrinkingPlayTestModel extends TestModel {
     public void init() {
         super.init();
         Unit unit = new CreatureGenerator().generateUnit(new Position(0, 0, 2), "human");
-        unit.get(HealthAspect.class).needStates.get(THIRST).setValue(65);
+        unit.get(NeedAspect.class).needs.get(NeedEnum.WATER).setValue(1);
         get(UnitContainer.class).addUnit(unit);
 
         LocalMap map = get(LocalMap.class);

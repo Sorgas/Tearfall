@@ -4,18 +4,17 @@ import static stonering.enums.action.TaskPriorityEnum.NONE;
 
 import java.util.Comparator;
 import java.util.Objects;
-import java.util.Optional;
 
 import stonering.entity.job.Task;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MoodAspect;
 import stonering.entity.unit.aspects.TaskAspect;
-import stonering.entity.unit.aspects.body.BodyAspect;
-import stonering.entity.unit.aspects.need.Need;
+import stonering.entity.unit.aspects.body.DiseaseState;
+import stonering.enums.unit.need.Need;
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.entity.unit.aspects.need.NeedState;
 import stonering.enums.time.TimeUnitEnum;
-import stonering.enums.unit.GamePlayStatsEnum;
+import stonering.enums.unit.health.disease.DiseaseMap;
 import stonering.game.GameMvc;
 import stonering.game.model.GamePlayConstants;
 import stonering.game.model.system.EntitySystem;
@@ -46,10 +45,11 @@ public class NeedSystem extends EntitySystem<Unit> {
         if (aspect == null) return;
         // roll state
         for (NeedState state : aspect.needs.values()) {
+            Need need = state.need.NEED;
             if (state.current() < state.max) {
                 if (state.changeValue(GamePlayConstants.DEFAULT_NEED_DELTA)) {
-                    addDisease(unit, state); // create disease
-                    unit.get(MoodAspect.class).addEffect(state.need.NEED.getMoodPenalty(unit, state)); // change mood
+                    if(need.relatedDisease != null) addDisease(unit, need); // create disease
+                    unit.get(MoodAspect.class).addEffect(need.getMoodPenalty(unit, state)); // change mood
                 }
             }
         }
@@ -70,10 +70,8 @@ public class NeedSystem extends EntitySystem<Unit> {
                 .findFirst().orElse(null); // find first successfully created task
     }
 
-    private void addDisease(Unit unit, NeedState state) {
-        Optional.ofNullable(state.need.NEED.createDisease())
-                .ifPresent(disease -> {
-                    GameMvc.model().get(UnitContainer.class).creatureDiseaseSystem.addNewDisease(unit, disease);
-                });
+    private void addDisease(Unit unit, Need need) {
+        GameMvc.model().get(UnitContainer.class).creatureDiseaseSystem
+                .addNewDisease(unit, new DiseaseState(DiseaseMap.get(need.relatedDisease)));
     }
 }

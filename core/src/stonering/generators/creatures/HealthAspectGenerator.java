@@ -2,10 +2,8 @@ package stonering.generators.creatures;
 
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.health.HealthAspect;
-import stonering.entity.unit.aspects.need.NeedState;
-
-import static stonering.enums.unit.health.OldNeedEnum.*;
-import static stonering.enums.unit.health.OldNeedEnum.THIRST;
+import stonering.enums.unit.health.HealthFunctionEnum;
+import stonering.enums.unit.health.HealthFunctionValue;
 
 /**
  * Generates {@link HealthAspect} and fills it with default properties.
@@ -16,16 +14,11 @@ public class HealthAspectGenerator {
 
     public HealthAspect generateHealthAspect(Unit unit) {
         HealthAspect aspect = new HealthAspect(unit);
+        for (HealthFunctionEnum value : HealthFunctionEnum.values()) {
+            aspect.functions.put(value, new HealthFunctionValue(1f));
+        }
         aspect.properties.put("performance", 0f);
         aspect.properties.put("hp", 0f);
-        aspect.needStates.put(FATIGUE, generateStateForFatigue());
-        aspect.needStates.put(HUNGER, new NeedState(HUNGER));
-        aspect.needStates.put(THIRST, new NeedState(THIRST));
         return aspect;
-    }
-
-    public NeedState generateStateForFatigue() {
-        //TODO adjust max fatigue
-        return new NeedState(FATIGUE);
     }
 }

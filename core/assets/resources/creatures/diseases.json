@@ -5,7 +5,7 @@
             {
                 "name": "meager starvation",
                 "start": 0,
-                "effects": ["consciousness/-10", "blood/-10"],
+                "effects": ["consciousness/-10", "blood/-10"]
             }, {
                 "name": "moderate starvation",
                 "start": 0.2,
@@ -24,5 +24,30 @@
                 "effects": ["consciousness/-90", "blood/-60"]
             }
         ]
-    }
+    }, {
+    "name": "dehydration",
+    "stages": [
+        {
+            "name": "meager starvation",
+            "start": 0,
+            "effects": ["consciousness/-10", "blood/-10"]
+        }, {
+            "name": "moderate starvation",
+            "start": 0.2,
+            "effects": ["consciousness/-20", "blood/-20"]
+        }, {
+            "name": "serious starvation",
+            "start": 0.4,
+            "effects": ["consciousness/-30", "blood/-30"]
+        }, {
+            "name": "acute starvation",
+            "start": 0.6,
+            "effects": ["consciousness/-50", "blood/-40"]
+        }, {
+            "name": "extreme starvation",
+            "start": 0.85,
+            "effects": ["consciousness/-90", "blood/-60"]
+        }
+    ]
+}
 ]

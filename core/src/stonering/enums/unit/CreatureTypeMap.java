@@ -1,7 +1,7 @@
 package stonering.enums.unit;
 
 import com.badlogic.gdx.utils.Json;
-import stonering.entity.unit.aspects.need.NeedEnum;
+import stonering.enums.unit.need.NeedEnum;
 import stonering.enums.unit.body.BodyTemplate;
 import stonering.enums.unit.body.raw.BodyTemplateProcessor;
 import stonering.enums.unit.body.raw.RawBodyTemplate;

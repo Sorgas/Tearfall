@@ -2,6 +2,7 @@ package stonering.game.model.system.unit;
 
 import stonering.entity.unit.Unit;
 import stonering.entity.RenderAspect;
+import stonering.entity.unit.aspects.body.BodyAspect;
 import stonering.entity.unit.aspects.health.Buff;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.system.EntitySystem;
@@ -30,7 +31,7 @@ public class CreatureBuffSystem extends EntitySystem<Unit> {
      */
     @Override
     public void update(Unit unit) {
-        unit.optional(BuffAspect.class)
+        unit.optional(BodyAspect.class)
                 .ifPresent(aspect ->
                         aspect.buffs.values().stream()
                                 .peek(buff -> buff.decrease(unit)) // roll time for buffs
@@ -43,20 +44,20 @@ public class CreatureBuffSystem extends EntitySystem<Unit> {
     public void addBuff(Unit unit, @Nullable Buff buff) {
         Logger.UNITS.logDebug("Adding buff " + buff + " to " + unit);
         removeBuff(unit, buff.tag);
-        unit.optional(BuffAspect.class)
+        unit.optional(BodyAspect.class)
                 .ifPresent(aspect -> {
                     applyBuff(unit, buff);
-                    unit.get(BuffAspect.class).buffs.put(buff.tag, buff);
+                    unit.get(BodyAspect.class).buffs.put(buff.tag, buff);
                 });
     }
 
     public void removeBuff(Unit unit, String tag) {
         Logger.UNITS.logDebug("Removing buff with tag " + tag + " to " + unit);
-        unit.optional(BuffAspect.class)
+        unit.optional(BodyAspect.class)
                 .map(aspect -> aspect.buffs.get(tag))
                 .ifPresent(buff -> {
                     unapplyBuff(unit, buff);
-                    unit.get(BuffAspect.class).buffs.remove(tag);
+                    unit.get(BodyAspect.class).buffs.remove(tag);
                 });
     }
 

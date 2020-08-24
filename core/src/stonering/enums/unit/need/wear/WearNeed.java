@@ -1,4 +1,4 @@
-package stonering.entity.unit.aspects.need;
+package stonering.enums.unit.need.wear;
 
 import static stonering.enums.action.TaskPriorityEnum.HEALTH_NEEDS;
 import static stonering.enums.action.TaskPriorityEnum.NONE;
@@ -13,9 +13,12 @@ import stonering.entity.item.selectors.WearForSlotItemSelector;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.equipment.use.EquipWearItemAction;
 import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.MoodEffect;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
+import stonering.entity.unit.aspects.need.NeedState;
 import stonering.enums.action.TaskPriorityEnum;
+import stonering.enums.unit.need.Need;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 
@@ -26,6 +29,10 @@ import stonering.game.model.system.item.ItemContainer;
  */
 public class WearNeed extends Need {
     private static final int GET_WEAR_PRIORITY = 4; //priority for equipping item into desired slots.
+
+    public WearNeed(String relatedDisease, String moodEffectKey) {
+        super(relatedDisease, moodEffectKey);
+    }
 
     /**
      * Counts current priority for creature to find wear.
@@ -52,6 +59,12 @@ public class WearNeed extends Need {
                         .filter(Objects::nonNull) // filter not created tasks
                         .findFirst())
                 .orElse(null);
+    }
+
+    @Override
+    public MoodEffect getMoodPenalty(Unit unit, NeedState state) {
+        // TODO mood penalty for each missing items
+        return null;
     }
 
     /**

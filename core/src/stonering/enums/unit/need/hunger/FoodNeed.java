@@ -12,15 +12,12 @@ import stonering.entity.job.action.EatAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MoodEffect;
 import stonering.entity.unit.aspects.body.BodyAspect;
-import stonering.entity.unit.aspects.body.DiseaseState;
-import stonering.entity.unit.aspects.need.Need;
+import stonering.enums.unit.need.Need;
 import stonering.entity.unit.aspects.need.NeedAspect;
-import stonering.entity.unit.aspects.need.NeedEnum;
+import stonering.enums.unit.need.NeedEnum;
 import stonering.entity.unit.aspects.need.NeedState;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.items.FoodCategoryEnum;
-import stonering.enums.unit.health.HungerParameter;
-import stonering.enums.unit.health.disease.DiseaseMap;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.item.ItemContainer;
@@ -38,25 +35,23 @@ import stonering.game.model.system.unit.CreatureHealthSystem;
  * 40-70% - stale food,
  * 70-85% - animal corpses,
  * 85+% - meat and corpses of sapient species
- * <p>
- * See also {@link HungerParameter}.
  *
  * @author Alexander on 30.09.2019.
  */
 public class FoodNeed extends Need {
 
-    public FoodNeed() {
-        relatedDisease = "starvation";
+    public FoodNeed(String relatedDisease, String moodEffectKey) {
+        super(relatedDisease, moodEffectKey);
     }
 
     @Override
     public TaskPriorityEnum countPriority(Unit unit) {
-        return HungerLevelEnum.getLevel(hungerLevel(unit), starvationLevel(unit)).priority;
+        return HungerLevelEnum.getLevel(needLevel(unit), diseaseLevel(unit)).priority;
     }
 
     @Override
     public Task tryCreateTask(Unit unit) {
-        HungerLevelEnum level = HungerLevelEnum.getLevel(hungerLevel(unit), starvationLevel(unit));
+        HungerLevelEnum level = HungerLevelEnum.getLevel(needLevel(unit), diseaseLevel(unit));
         if(level.priority == NONE) return null;
         return Optional.ofNullable(level.priority)
                 .map(predicate -> findFoodItem(unit, level.foodCategory))
@@ -66,15 +61,10 @@ public class FoodNeed extends Need {
     }
 
     @Override
-    public DiseaseState createDisease() {
-        return new DiseaseState(DiseaseMap.get(relatedDisease));
-    }
-
-    @Override
     public MoodEffect getMoodPenalty(Unit unit, NeedState state) {
-        HungerLevelEnum level = HungerLevelEnum.getLevel(hungerLevel(unit), starvationLevel(unit));
+        HungerLevelEnum level = HungerLevelEnum.getLevel(needLevel(unit), diseaseLevel(unit));
         return level.moodDelta != 0 
-                ? new MoodEffect("hunger", level.moodMessage, level.moodDelta, -1) 
+                ? new MoodEffect(moodEffectKey, level.moodMessage, level.moodDelta, -1)
                 : null;
     }
 
@@ -88,13 +78,5 @@ public class FoodNeed extends Need {
                 .filter(item -> map.passageMap.util.positionReachable(unit.position, item.position, false)) // reachable items 
                 .min(Comparator.comparingInt(item -> (int) item.position.getDistance(unit.position))) // nearest item
                 .orElse(null);
-    }
-
-    private float hungerLevel(Unit unit) {
-        return unit.get(NeedAspect.class).needs.get(NeedEnum.FOOD).getRelativeValue();
-    }
-
-    private float starvationLevel(Unit unit) {
-        return unit.get(BodyAspect.class).getDiseaseProgress(relatedDisease);
     }
 }

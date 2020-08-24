@@ -1,7 +1,9 @@
-package stonering.entity.unit.aspects.need;
+package stonering.enums.unit.need.rest;
 
 import static stonering.enums.action.TaskPriorityEnum.*;
-import static stonering.enums.unit.health.OldNeedEnum.*;
+
+import java.util.Comparator;
+import java.util.Optional;
 
 import stonering.entity.building.Building;
 import stonering.entity.building.aspects.RestFurnitureAspect;
@@ -10,10 +12,11 @@ import stonering.entity.job.action.Action;
 import stonering.entity.job.action.SleepInBedAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MoodEffect;
-import stonering.entity.unit.aspects.body.DiseaseState;
-import stonering.entity.unit.aspects.health.HealthAspect;
+import stonering.entity.unit.aspects.need.NeedAspect;
+import stonering.entity.unit.aspects.need.NeedState;
 import stonering.enums.action.TaskPriorityEnum;
-import stonering.enums.unit.health.FatigueParameter;
+import stonering.enums.unit.need.Need;
+import stonering.enums.unit.need.NeedEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.building.BuildingContainer;
@@ -21,12 +24,9 @@ import stonering.game.model.system.unit.CreatureHealthSystem;
 import stonering.util.geometry.Position;
 import stonering.util.logging.Logger;
 
-import java.util.Comparator;
-import java.util.Optional;
-
 /**
  * Need for rest. Part of {@link CreatureHealthSystem}.
- * Uses {@link FatigueParameter} and {@link NeedState} in {@link HealthAspect} for calculating task priority.
+ * Uses {@link NeedState} in {@link NeedAspect} for calculating task priority.
  * Generates tasks for:
  * stop activities on medium exhaustion,
  * sleeping in a bed or a safe place (50-70),
@@ -39,6 +39,11 @@ import java.util.Optional;
  * @author Alexander on 22.08.2019.
  */
 public class RestNeed extends Need {
+
+    public RestNeed(String relatedDisease, String moodEffectKey) {
+        super(relatedDisease, moodEffectKey);
+    }
+
     @Override
     public TaskPriorityEnum countPriority(Unit unit) {
         float fatigue = fatigueLevel(unit);
@@ -69,13 +74,6 @@ public class RestNeed extends Need {
                         .map(action -> new Task(action, priority.VALUE))
                         .orElse(null);
         }
-        return null;
-    }
-
-    @Override
-    public DiseaseState createDisease() {
-        // create insomnia disease
-        
         return null;
     }
 

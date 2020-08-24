@@ -7,8 +7,8 @@ import stonering.entity.unit.aspects.health.Buff;
 import java.util.*;
 
 /**
+ * Stores creature's body with its parts, wounds, diseases and other effects.
  * Points to creature's body which is stored in creature type.
- * Stores wounds on the creature's body, which are individual.
  *
  * @author Alexander Kuzyakov on 19.10.2017.
  */

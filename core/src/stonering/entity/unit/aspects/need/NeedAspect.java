@@ -6,6 +6,7 @@ import static stonering.enums.action.TaskStatusEnum.FAILED;
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.entity.job.Task;
+import stonering.enums.unit.need.NeedEnum;
 import stonering.game.model.system.unit.NeedSystem;
 
 import java.util.HashMap;

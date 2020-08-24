@@ -7,9 +7,9 @@
         "aspects" : ["equipment", "jobs"],
         "baseHP": "100",
         "combinedAppearance" : {
-            "body": [1,4,1], // y, male, female
+            "body": [1,4,1], // y, number of male variants, number of female variants
             "head": [0,3,1],
-            "feet": [0,3],
+            "foot": [0,3],
             "bodyHeight" : 48
         },
         "atlasXY": ["0", "0"],

@@ -2,7 +2,7 @@ package stonering.entity.job.action;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
 import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
-import static stonering.enums.unit.health.OldNeedEnum.*;
+import static stonering.enums.unit.need.NeedEnum.WATER;
 
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -38,9 +38,9 @@ public class DrinkFromTileAction extends Action {
         };
 
         // decrease thirst
-        progressConsumer = progress -> task.performer.get(NeedAspect.class).needs.get(THIRST).changeValue(-0.01f);
+        progressConsumer = progress -> task.performer.get(NeedAspect.class).needs.get(WATER).changeValue(-0.01f);
 
         // finish when thirst quenched
-        finishCondition = () -> task.performer.get(NeedAspect.class).needs.get(THIRST).current() <= 0;
+        finishCondition = () -> task.performer.get(NeedAspect.class).needs.get(WATER).current() <= 0;
     }
 }

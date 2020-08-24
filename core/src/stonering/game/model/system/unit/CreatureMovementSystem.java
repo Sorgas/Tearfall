@@ -84,7 +84,6 @@ public class CreatureMovementSystem extends EntitySystem<Unit> {
             
             if (nextPosition.equals(unit.vectorPosition)) { // next tile reached
                 aspect.path.remove(0); // remove reached tile from path
-                unitContainer.healthSystem.applyMoveChange(unit);
                 if(aspect.path.isEmpty()) freeAspect(aspect); // path is finished
             }
             

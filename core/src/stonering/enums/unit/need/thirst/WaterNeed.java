@@ -1,4 +1,4 @@
-package stonering.entity.unit.aspects.need;
+package stonering.enums.unit.need.thirst;
 
 import java.util.Comparator;
 import java.util.Optional;
@@ -9,12 +9,15 @@ import stonering.entity.job.Task;
 import stonering.entity.job.action.DrinkFromTileAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MoodEffect;
-import stonering.entity.unit.aspects.body.DiseaseState;
+import stonering.entity.unit.aspects.body.BodyAspect;
+import stonering.entity.unit.aspects.need.NeedAspect;
+import stonering.entity.unit.aspects.need.NeedState;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.items.ItemTagEnum;
 import stonering.enums.materials.MaterialMap;
-import stonering.enums.unit.health.OldNeedEnum;
+import stonering.enums.unit.need.Need;
+import stonering.enums.unit.need.NeedEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.ByteArrayWithCounter;
 import stonering.game.model.local_map.LocalMap;
@@ -33,13 +36,14 @@ import stonering.util.geometry.PositionUtil;
  * @author Alexander on 08.10.2019.
  */
 public class WaterNeed extends Need {
-    
+
+    public WaterNeed(String relatedDisease, String moodEffectKey) {
+        super(relatedDisease, moodEffectKey);
+    }
+
     @Override
     public TaskPriorityEnum countPriority(Unit unit) {
-        return Optional.ofNullable(unit.get(NeedAspect.class))
-                .map(aspect -> aspect.needs.get(OldNeedEnum.THIRST).getRelativeValue())
-                .map(relativeValue -> OldNeedEnum.THIRST.PARAMETER.getRange(relativeValue).priority)
-                .orElse(TaskPriorityEnum.NONE);
+        return ThirstLevelEnum.getLevel(needLevel(unit), diseaseLevel(unit)).priority;
     }
 
     @Override
@@ -58,18 +62,8 @@ public class WaterNeed extends Need {
     }
 
     @Override
-    public DiseaseState createDisease() {
-        return new DiseaseState() {
-            @Override
-            public void apply(Unit unit) {
-                super.apply(unit);
-            }
-        };
-    }
-
-    @Override
     public MoodEffect getMoodPenalty(Unit unit, NeedState state) {
-        return null;
+        return new MoodEffect(moodEffectKey, "thirsty", 4, -1);
     }
 
     private Item findBestDrink(Unit unit) {

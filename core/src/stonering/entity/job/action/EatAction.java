@@ -1,7 +1,12 @@
 package stonering.entity.job.action;
 
-import static stonering.entity.job.action.ActionConditionStatusEnum.*;
-import static stonering.enums.unit.health.OldNeedEnum.*;
+import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
+import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
+
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import stonering.entity.building.Building;
 import stonering.entity.building.BuildingBlock;
@@ -13,20 +18,16 @@ import stonering.entity.job.action.equipment.obtain.ObtainItemAction;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.job.action.target.ItemActionTarget;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
-import stonering.enums.unit.need.hunger.FoodNeed;
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.enums.OrientationEnum;
+import stonering.enums.unit.need.NeedEnum;
+import stonering.enums.unit.need.hunger.FoodNeed;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.util.geometry.Position;
 import stonering.util.global.Pair;
-
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * Action for consuming edible items and satisfying {@link FoodNeed}.
@@ -75,7 +76,7 @@ public class EatAction extends Action {
 
         onFinish = () -> {
             if(chair != null && tableBlock != null) chair.occupied = false;
-            task.performer.get(NeedAspect.class).needs.get(HUNGER).changeValue(-item.get(FoodItemAspect.class).nutrition);
+            task.performer.get(NeedAspect.class).needs.get(NeedEnum.FOOD).changeValue(-item.get(FoodItemAspect.class).nutrition);
             GameMvc.model().get(ItemContainer.class).removeItem(item);
         };
     }
