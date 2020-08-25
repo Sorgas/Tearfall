@@ -47,8 +47,8 @@ public class FoodNeed extends Need {
     }
 
     @Override
-    public boolean isSatisfied(NeedState state) {
-        return HungerLevelEnum.getLevel(unit)
+    public boolean isSatisfied(Unit unit) {
+        return HungerLevelEnum.getLevel(unit).ordinal() <= HungerLevelEnum.REGULAR.ordinal();
     }
 
     @Override

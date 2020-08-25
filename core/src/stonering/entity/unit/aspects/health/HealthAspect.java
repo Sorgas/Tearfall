@@ -23,7 +23,7 @@ import java.util.Map;
  * @author Alexander_Kuzyakov
  */
 public class HealthAspect extends Aspect {
-    public final Map<HealthFunctionEnum, HealthFunctionValue> functions;  
+    public final Map<HealthFunctionEnum, HealthFunctionValue> functions;
     public final Map<String, Float> properties; // make properties enumeration
     public boolean alive;
     

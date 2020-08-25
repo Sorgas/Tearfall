@@ -28,7 +28,7 @@ public enum HungerLevelEnum {
     public final String moodMessage;
     public final FoodCategoryEnum foodCategory;
     
-    HungerLevelEnum(TaskPriorityEnum priority, int moodDelta, String moodMessage, FoodCategoryEnum foodCategory) {
+    HungerLevelEnum(int order, TaskPriorityEnum priority, int moodDelta, String moodMessage, FoodCategoryEnum foodCategory) {
         this.priority = priority;
         this.moodDelta = moodDelta;
         this.moodMessage = moodMessage;
