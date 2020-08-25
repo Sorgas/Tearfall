@@ -7,6 +7,7 @@ import stonering.entity.unit.aspects.body.BodyAspect;
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.entity.unit.aspects.need.NeedState;
 import stonering.enums.action.TaskPriorityEnum;
+import stonering.enums.unit.health.disease.DiseaseType;
 
 /**
  * Abstract class for needs. 
@@ -16,12 +17,11 @@ import stonering.enums.action.TaskPriorityEnum;
  * @author Alexander Kuzyakov on 21.09.2018.
  */
 public abstract class Need {
-    public final String relatedDisease;
     public final String moodEffectKey;
     public NeedEnum need;
+    public DiseaseType disease;
 
-    public Need(String relatedDisease, String moodEffectKey) {
-        this.relatedDisease = relatedDisease;
+    public Need(String moodEffectKey) {
         this.moodEffectKey = moodEffectKey;
     }
 
@@ -38,6 +38,8 @@ public abstract class Need {
     }
 
     public float diseaseLevel(Unit unit) {
-        return unit.get(BodyAspect.class).getDiseaseProgress(relatedDisease);
+        return disease != null 
+                ? unit.get(BodyAspect.class).getDiseaseProgress(disease.name)
+                : 0;
     }
 }

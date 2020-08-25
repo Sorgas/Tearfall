@@ -1,9 +1,6 @@
 package stonering.game.model.system.unit;
 
-import static stonering.enums.action.TaskPriorityEnum.NONE;
-
 import java.util.Comparator;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 
@@ -12,11 +9,11 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MoodAspect;
 import stonering.entity.unit.aspects.TaskAspect;
 import stonering.entity.unit.aspects.body.DiseaseState;
-import stonering.enums.unit.need.Need;
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.entity.unit.aspects.need.NeedState;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.enums.unit.health.disease.DiseaseMap;
+import stonering.enums.unit.need.Need;
 import stonering.enums.unit.need.NeedEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GamePlayConstants;
@@ -44,12 +41,13 @@ public class NeedSystem extends EntitySystem<Unit> {
         NeedAspect aspect = unit.get(NeedAspect.class);
         if (aspect == null) return;
         // roll state
-        aspect.needs
-        for (NeedState state : aspect.needs.values()) {
-            Need need = state.need.NEED;
+        for (Entry<NeedEnum, NeedState> entry : aspect.needs.entrySet()) {
+            NeedState state = entry.getValue();
             if (state.current() < state.max) {
                 if (state.changeValue(GamePlayConstants.DEFAULT_NEED_DELTA)) {
-                    if (need.relatedDisease != null) addDisease(unit, need); // create disease
+                    Need need = entry.getKey().NEED;
+                    if (need.disease != null)
+                        GameMvc.model().get(UnitContainer.class).creatureDiseaseSystem.addNewDisease(unit, new DiseaseState(need.disease)); // create disease
                     unit.get(MoodAspect.class).addEffect(need.getMoodPenalty(unit, state)); // change mood
                 }
             }
@@ -69,10 +67,5 @@ public class NeedSystem extends EntitySystem<Unit> {
                 .map(entry -> entry.getKey().NEED.tryCreateTask(unit))
                 .filter(Objects::nonNull)
                 .findFirst().orElse(null); // find first successfully created task
-    }
-
-    private void addDisease(Unit unit, Need need) {
-        GameMvc.model().get(UnitContainer.class).creatureDiseaseSystem
-                .addNewDisease(unit, new DiseaseState(DiseaseMap.get(need.relatedDisease)));
     }
 }

@@ -28,10 +28,9 @@ import stonering.game.model.system.item.ItemContainer;
  * @author Alexander Kuzyakov on 21.09.2018.
  */
 public class WearNeed extends Need {
-    private static final int GET_WEAR_PRIORITY = 4; //priority for equipping item into desired slots.
 
-    public WearNeed(String relatedDisease, String moodEffectKey) {
-        super(relatedDisease, moodEffectKey);
+    public WearNeed(String moodEffectKey) {
+        super(moodEffectKey);
     }
 
     /**
@@ -46,6 +45,11 @@ public class WearNeed extends Need {
                 .map(Stream::count)
                 .orElse(0L).intValue();
         return emptySlots != 0 ? HEALTH_NEEDS : NONE;
+    }
+
+    @Override
+    public boolean isSatisfied(Unit unit) {
+        return false;
     }
 
     /**

@@ -9,4 +9,6 @@ import java.util.List;
 public class RawDiseaseType {
     public String name;
     public List<RawDiseaseStage> stages = new ArrayList<>();
+    public String medicineType;
+    public String relatedNeed;
 }

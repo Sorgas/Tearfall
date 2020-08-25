@@ -40,8 +40,8 @@ import stonering.util.logging.Logger;
  */
 public class RestNeed extends Need {
 
-    public RestNeed(String relatedDisease, String moodEffectKey) {
-        super(relatedDisease, moodEffectKey);
+    public RestNeed(String moodEffectKey) {
+        super(moodEffectKey);
     }
 
     @Override
@@ -51,6 +51,11 @@ public class RestNeed extends Need {
         if(fatigue < 0.7f) return JOB;
         if(fatigue < 0.9f) return HEALTH_NEEDS;
         return SAFETY;
+    }
+
+    @Override
+    public boolean isSatisfied(Unit unit) {
+        return false;
     }
 
     /**

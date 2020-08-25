@@ -11,13 +11,10 @@ import stonering.entity.job.Task;
 import stonering.entity.job.action.EatAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MoodEffect;
-import stonering.entity.unit.aspects.body.BodyAspect;
-import stonering.enums.unit.need.Need;
-import stonering.entity.unit.aspects.need.NeedAspect;
-import stonering.enums.unit.need.NeedEnum;
 import stonering.entity.unit.aspects.need.NeedState;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.items.FoodCategoryEnum;
+import stonering.enums.unit.need.Need;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.item.ItemContainer;
@@ -40,8 +37,8 @@ import stonering.game.model.system.unit.CreatureHealthSystem;
  */
 public class FoodNeed extends Need {
 
-    public FoodNeed(String relatedDisease, String moodEffectKey) {
-        super(relatedDisease, moodEffectKey);
+    public FoodNeed(String moodEffectKey) {
+        super(moodEffectKey);
     }
 
     @Override

@@ -37,13 +37,18 @@ import stonering.util.geometry.PositionUtil;
  */
 public class WaterNeed extends Need {
 
-    public WaterNeed(String relatedDisease, String moodEffectKey) {
-        super(relatedDisease, moodEffectKey);
+    public WaterNeed(String moodEffectKey) {
+        super(moodEffectKey);
     }
 
     @Override
     public TaskPriorityEnum countPriority(Unit unit) {
         return ThirstLevelEnum.getLevel(needLevel(unit), diseaseLevel(unit)).priority;
+    }
+
+    @Override
+    public boolean isSatisfied(Unit unit) {
+        return false;
     }
 
     @Override
