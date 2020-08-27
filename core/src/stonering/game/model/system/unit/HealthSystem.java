@@ -3,6 +3,7 @@ package stonering.game.model.system.unit;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.body.BodyAspect;
 import stonering.entity.unit.aspects.body.DiseaseState;
+import stonering.entity.unit.aspects.body.HealthEffect;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.enums.unit.health.disease.DiseaseMap;
@@ -25,24 +26,21 @@ import stonering.game.model.system.EntitySystem;
  *
  * @author Alexander on 16.09.2019.
  */
-public class CreatureHealthSystem extends EntitySystem<Unit> {
+public class HealthSystem extends EntitySystem<Unit> {
 
-    public CreatureHealthSystem() {
+    public HealthSystem() {
         updateInterval = TimeUnitEnum.MINUTE;
     }
 
     @Override
     public void update(Unit unit) {
-        BodyAspect body = unit.get(BodyAspect.class);
-        HealthAspect health = unit.get(HealthAspect.class);
-        for (DiseaseState state : body.diseases.values()) { // roll diseases
-            String prevStage = state.stageName;
-            if (!state.change(0.01f)) continue; // stage did not changed
-            DiseaseType type = DiseaseMap.get(state.name);
-            type.stages.get(prevStage).effectsMap
-                    .forEach((function, value) -> health.functions.get(function).changeCurrent(-value)); // unapply previous
-            type.stages.get(state.stageName).effectsMap
-                    .forEach((function, value) -> health.functions.get(function).changeCurrent(value)); // apply new
-        }
+    }
+
+    public void applyEffect(HealthEffect effect, Unit unit) {
+
+    }
+
+    public void unapplyEffect(HealthEffect effect, Unit unit) {
+
     }
 }

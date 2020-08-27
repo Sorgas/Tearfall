@@ -18,10 +18,10 @@ import stonering.enums.unit.need.Need;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.item.ItemContainer;
-import stonering.game.model.system.unit.CreatureHealthSystem;
+import stonering.game.model.system.unit.HealthSystem;
 
 /**
- * Need for eating. Part of {@link CreatureHealthSystem}.
+ * Need for eating. Part of {@link HealthSystem}.
  * Checks if unit is hungry, and creates task for eating.
  * Item condition affects distance which unit will be ready to travel to it.
  * The more hungry unit is, the worse food it will eat.

@@ -30,7 +30,7 @@ public class BodyAspect extends Aspect {
     
     public float getDiseaseProgress(String name) {
         return Optional.ofNullable(diseases.get(name))
-                .map(state -> state.progress)
+                .map(state -> state.current)
                 .orElse(0f);
     }
 }

@@ -5,13 +5,13 @@ import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.enums.unit.health.HealthFunctionEnum;
 import stonering.enums.unit.health.HealthFunctionValue;
-import stonering.game.model.system.unit.CreatureHealthSystem;
+import stonering.game.model.system.unit.HealthSystem;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Stores health condition of a unit. See {@link CreatureHealthSystem}
+ * Stores health condition of a unit. See {@link HealthSystem}
  * Unit's health represented of general functions of its organism 
  * 
  * Properties are values that can influence creature in a various way (speed, performance, etc).

@@ -46,7 +46,7 @@ public class NeedSystem extends EntitySystem<Unit> {
                 if (state.changeValue(GamePlayConstants.DEFAULT_NEED_DELTA)) {
                     Need need = entry.getKey().NEED;
                     if (need.disease != null)
-                        GameMvc.model().get(UnitContainer.class).diseaseSystem.addNewDisease(unit, new DiseaseState(need.disease)); // create disease
+                        GameMvc.model().get(UnitContainer.class).diseaseSystem.addNewDisease(unit, need.disease); // create disease
                     unit.get(MoodAspect.class).addEffect(need.getMoodPenalty(unit, state)); // change mood
                 }
             }

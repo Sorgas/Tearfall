@@ -20,12 +20,12 @@ import stonering.enums.unit.need.NeedEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.building.BuildingContainer;
-import stonering.game.model.system.unit.CreatureHealthSystem;
+import stonering.game.model.system.unit.HealthSystem;
 import stonering.util.geometry.Position;
 import stonering.util.logging.Logger;
 
 /**
- * Need for rest. Part of {@link CreatureHealthSystem}.
+ * Need for rest. Part of {@link HealthSystem}.
  * Uses {@link NeedState} in {@link NeedAspect} for calculating task priority.
  * Generates tasks for:
  * stop activities on medium exhaustion,

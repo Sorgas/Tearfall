@@ -20,7 +20,7 @@ public class NeedAspectGenerator {
         type.bodyTemplate.needs.stream()
                 .map(NeedEnum.map::get)
                 .filter(Objects::nonNull)
-                .forEach(need -> needAspect.needs.put(need, new NeedState(need)));
+                .forEach(need -> needAspect.needs.put(need, new NeedState()));
         return needAspect;
     }
 }

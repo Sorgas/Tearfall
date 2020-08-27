@@ -1,8 +1,10 @@
 package stonering.enums.unit.health.disease;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
@@ -43,7 +45,7 @@ public class DiseaseMap {
     }
 
     private DiseaseType processDisease(RawDiseaseType raw) {
-        DiseaseType disease = new DiseaseType(raw);
+        DiseaseType diseaseType = new DiseaseType(raw);
         for (RawDiseaseStage rawStage : raw.stages) {
             DiseaseStage stage = new DiseaseStage(rawStage);
             for (String s : rawStage.effects) {
@@ -58,9 +60,16 @@ public class DiseaseMap {
                     return Logger.LOADING.logError("Invalid health function name " + s + " in disease " + raw.name, null);
                 }
             }
-            disease.stages.put(stage.name, stage);
+            diseaseType.stages.put(stage.name, stage);
         }
-        return disease;
+        List<DiseaseStage> sortedStages = diseaseType.stages.values().stream()
+                .sorted(Comparator.comparingDouble(stage -> stage.range.min)) // sort stages by start
+                .collect(Collectors.toList());
+        for (int i = 0; i < sortedStages.size(); i++) {
+            DiseaseStage stage = sortedStages.get(i);
+            stage.range.max = i == sortedStages.size() - 1 ? sortedStages.get(i + 1).range.min : 1f; // complete ranges
+        }
+        return diseaseType;
     }
 
     public static DiseaseType get(String name) {

@@ -3,43 +3,50 @@ package stonering.game.model.system.unit;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.body.BodyAspect;
 import stonering.entity.unit.aspects.body.DiseaseState;
+import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.entity.unit.aspects.need.NeedState;
+import stonering.enums.unit.health.disease.DiseaseStage;
+import stonering.enums.unit.health.disease.DiseaseType;
+import stonering.game.GameMvc;
 import stonering.game.model.system.EntitySystem;
 
 /**
- * System for applying and updating diseases, applying wounds, and healing. 
+ * System for applying and updating diseases, applying wounds, and healing.
  * Diseases added by needs are rolled up if need is not satisfied, and rolled down otherwise.
+ * <p>
+ * TODO use disease resistance (delta = delta - resistance);
  *
  * @author Alexander on 13.08.2020.
  */
 public class DiseaseSystem extends EntitySystem<Unit> {
+    private final float DISEASE_DELTA = 0.01f;
 
     @Override
     public void update(Unit unit) {
-        BodyAspect aspect = unit.get(BodyAspect.class);
+        BodyAspect body = unit.get(BodyAspect.class);
         NeedAspect needAspect = unit.get(NeedAspect.class);
-        if(aspect == null) return;
-        for (DiseaseState state : aspect.diseases.values()) {
-            float delta = 0.01f;
-            if(state.type.relatedNeed != null) {
+        if (body == null) return;
+        for (DiseaseState state : body.diseases.values()) {
+            float delta = DISEASE_DELTA;
+            if (state.type.relatedNeed != null) {
                 NeedState needState = needAspect.needs.get(state.type.relatedNeed);
-                if(needState != null && needState.current() < needState.max) {
-                    delta = - 0.01f;
-                    //TODO use disease resistance
-                }
+                if (needState != null && needState.current() < needState.max) delta = -delta;
             }
-            state.change(delta);
-            
-            // check stage
+            DiseaseStage prevStage = state.stage;
+            if (!state.change(delta)) continue; // stage did not changed
+            HealthSystem healthSystem = GameMvc.model().get(UnitContainer.class).healthSystem;
+            healthSystem.unapplyEffect(prevStage, unit);
+            healthSystem.applyEffect(state.stage, unit);
         }
     }
 
-    public void addNewDisease(Unit unit, DiseaseState disease) {
+    public void addNewDisease(Unit unit, DiseaseType diseaseType) {
         BodyAspect aspect = unit.get(BodyAspect.class);
-        if(!aspect.diseases.containsKey(disease.name)) {
-            aspect.diseases.putIfAbsent(disease.name, disease);
-            disease.apply(unit);
-        }
+        aspect.diseases.computeIfAbsent(diseaseType.name, diseaseName -> {
+            DiseaseState state = new DiseaseState(diseaseType);
+            GameMvc.model().get(UnitContainer.class).healthSystem.applyEffect(state.stage, unit);
+            return state;
+        });
     }
 }

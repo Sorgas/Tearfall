@@ -20,7 +20,7 @@ public class UnitContainer extends EntityContainer<Unit> {
     Map<Position, List<Unit>> unitsMap;
     public final NeedSystem needSystem;
     public final CreatureBuffSystem buffSystem;
-    public final CreatureHealthSystem healthSystem;
+    public final HealthSystem healthSystem;
     public final CreatureMovementSystem movementSystem;
     public final CreaturePlanningSystem planningSystem;
     public final CreatureActionPerformingSystem taskSystem;
@@ -35,7 +35,7 @@ public class UnitContainer extends EntityContainer<Unit> {
         unitsMap = new HashMap<>();
         put(needSystem = new NeedSystem());
         put(buffSystem = new CreatureBuffSystem());
-        put(healthSystem = new CreatureHealthSystem());
+        put(healthSystem = new HealthSystem());
         put(movementSystem = new CreatureMovementSystem());
         put(planningSystem = new CreaturePlanningSystem());
         put(taskSystem = new CreatureActionPerformingSystem());
