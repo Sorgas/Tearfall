@@ -17,7 +17,6 @@ public class BodyAspect extends Aspect {
     public final List<String> bodyPartsToCover;
     public final List<Wound> wounds;
     public final Map<String, DiseaseState> diseases;
-    public final Map<String, DiseaseState> needDiseases;
     public final Map<String, Buff> buffs;
 
     public BodyAspect(Unit unit, String bodyTemplate) {
@@ -25,7 +24,6 @@ public class BodyAspect extends Aspect {
         this.bodyTemplate = bodyTemplate;
         wounds = new ArrayList<>();
         diseases = new HashMap<>();
-        needDiseases = new HashMap<>();
         bodyPartsToCover = new ArrayList<>();
         buffs = new HashMap<>();
     }

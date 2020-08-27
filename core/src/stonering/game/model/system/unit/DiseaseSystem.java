@@ -21,16 +21,16 @@ public class DiseaseSystem extends EntitySystem<Unit> {
         NeedAspect needAspect = unit.get(NeedAspect.class);
         if(aspect == null) return;
         for (DiseaseState state : aspect.diseases.values()) {
+            float delta = 0.01f;
             if(state.type.relatedNeed != null) {
-                if(needAspect.needs.containsKey(state.type.relatedNeed) || )
-                NeedState needState = needAspect.needs.get(state.type.relatedNeed).;
-                if(needState.current() < needState.max) {
-
-                } else {
-
+                NeedState needState = needAspect.needs.get(state.type.relatedNeed);
+                if(needState != null && needState.current() < needState.max) {
+                    delta = - 0.01f;
+                    //TODO use disease resistance
                 }
             }
-            state.progress += 0.01f;
+            state.change(delta);
+            
             // check stage
         }
     }
