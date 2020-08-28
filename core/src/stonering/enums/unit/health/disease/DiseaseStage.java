@@ -15,11 +15,9 @@ import stonering.util.math.ValueRange;
 public class DiseaseStage extends HealthEffect {
     public final String name;
     public final ValueRange range;
-    public final Map<HealthFunctionEnum, Float> effectsMap;
 
     public DiseaseStage(RawDiseaseStage raw) {
         name = raw.name;
         range = new ValueRange(raw.start, null);
-        effectsMap = new HashMap<>();
     }
 }

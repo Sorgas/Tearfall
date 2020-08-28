@@ -53,7 +53,13 @@ public class DiseaseMap {
                 if (parts.length != 2)
                     return Logger.LOADING.logError("Invalid disease effect string " + s + " in disease " + raw.name, null);
                 try {
-                    stage.effectsMap.put(HealthFunctionEnum.valueOf(parts[0]), Float.valueOf(parts[1]));
+                    String effectName = parts[0];
+                    Float delta = Float.valueOf(parts[1]);
+                    if(HealthFunctionEnum.valueOf(effectName) != null) {
+                        stage.functionEffects.put(HealthFunctionEnum.valueOf(parts[0]), delta);
+                    } else {
+                        stage.realEffects.put(effectName, delta);
+                    }
                 } catch (NumberFormatException e) {
                     return Logger.LOADING.logError("Invalid health function delta number " + s + " in disease " + raw.name, null);
                 } catch (IllegalArgumentException e) {

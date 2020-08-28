@@ -6,7 +6,6 @@ import static stonering.enums.items.FoodCategoryEnum.*;
 import stonering.entity.unit.Unit;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.items.FoodCategoryEnum;
-import stonering.enums.unit.need.Need;
 import stonering.enums.unit.need.NeedEnum;
 
 /**
