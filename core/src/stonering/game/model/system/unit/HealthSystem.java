@@ -1,14 +1,12 @@
 package stonering.game.model.system.unit;
 
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.body.BodyAspect;
-import stonering.entity.unit.aspects.body.DiseaseState;
-import stonering.entity.unit.aspects.body.HealthEffect;
+import stonering.enums.unit.health.HealthEffect;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.time.TimeUnitEnum;
-import stonering.enums.unit.health.disease.DiseaseMap;
-import stonering.enums.unit.health.disease.DiseaseType;
+import stonering.enums.unit.health.HealthParameterMapping;
 import stonering.game.model.system.EntitySystem;
+import stonering.util.logging.Logger;
 
 /**
  * Updates health condition of a unit ({@link HealthAspect}).
@@ -27,6 +25,7 @@ import stonering.game.model.system.EntitySystem;
  * @author Alexander on 16.09.2019.
  */
 public class HealthSystem extends EntitySystem<Unit> {
+    private final HealthParameterMapping mapping = new HealthParameterMapping();
 
     public HealthSystem() {
         updateInterval = TimeUnitEnum.MINUTE;
@@ -37,10 +36,23 @@ public class HealthSystem extends EntitySystem<Unit> {
     }
 
     public void applyEffect(HealthEffect effect, Unit unit) {
-
+        HealthAspect health = unit.get(HealthAspect.class);
+        effect.attributeEffects.forEach(health::change);
+        effect.functionEffects.forEach(health::change);
+        mapping.collectProperties(effect).forEach(health::update);
+        effect.statEffects.forEach(health::change);
+        health.effects.put(effect.name, effect);
     }
 
     public void unapplyEffect(HealthEffect effect, Unit unit) {
-
+        HealthAspect health = unit.get(HealthAspect.class);
+        if(!health.effects.containsKey(effect.name)) {
+            Logger.UNITS.logError("Attempt to remove unpresent effect " + effect.name);
+            return;
+        }
+        effect.attributeEffects.forEach(health::change);
+        effect.functionEffects.forEach(health::change);
+        mapping.collectProperties(effect).forEach(health::update);
+        effect.statEffects.forEach(health::change);
     }
 }

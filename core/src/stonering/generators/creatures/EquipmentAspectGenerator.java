@@ -2,7 +2,7 @@ package stonering.generators.creatures;
 
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
 import stonering.entity.unit.aspects.equipment.GrabEquipmentSlot;
-import stonering.enums.unit.CreatureType;
+import stonering.enums.unit.race.CreatureType;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.unit.body.BodyTemplate;
 

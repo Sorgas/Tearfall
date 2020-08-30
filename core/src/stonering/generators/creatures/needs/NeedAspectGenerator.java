@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.entity.unit.aspects.need.NeedState;
-import stonering.enums.unit.CreatureType;
+import stonering.enums.unit.race.CreatureType;
 import stonering.enums.unit.need.NeedEnum;
 
 /**

@@ -104,7 +104,7 @@ public abstract class Action {
     }
 
     protected float performance() {
-        return task.performer.get(HealthAspect.class).properties.get("performance");
+        return task.performer.get(HealthAspect.class).stats.get("performance");
     }
 
     protected int performerLevel() {

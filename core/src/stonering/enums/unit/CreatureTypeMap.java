@@ -1,16 +1,21 @@
 package stonering.enums.unit;
 
 import com.badlogic.gdx.utils.Json;
+
+import stonering.enums.unit.health.GameplayStatEnum;
 import stonering.enums.unit.need.NeedEnum;
 import stonering.enums.unit.body.BodyTemplate;
 import stonering.enums.unit.body.raw.BodyTemplateProcessor;
 import stonering.enums.unit.body.raw.RawBodyTemplate;
+import stonering.enums.unit.race.CreatureType;
+import stonering.enums.unit.race.RawCreatureType;
 import stonering.util.global.FileUtil;
 import stonering.util.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Loads, and stores {@link CreatureType} and {@link BodyTemplate}.
@@ -49,16 +54,21 @@ public class CreatureTypeMap {
         ArrayList<RawCreatureType> types = json.fromJson(ArrayList.class, RawCreatureType.class, FileUtil.get(FileUtil.CREATURES_PATH));
         for (RawCreatureType rawType : types) {
             CreatureType type = processRawCreatureType(rawType);
-            if(type != null) creatureTypes.put(rawType.name, processRawCreatureType(rawType));
+            if (type != null) creatureTypes.put(rawType.name, processRawCreatureType(rawType));
         }
     }
 
     private CreatureType processRawCreatureType(RawCreatureType rawType) {
         CreatureType type = new CreatureType(rawType);
-        if(!bodyTemplates.containsKey(rawType.bodyTemplate)) {
+        if (!bodyTemplates.containsKey(rawType.bodyTemplate)) {
             Logger.LOADING.logWarn("Creature " + type.name + " has invalid body template " + type.bodyTemplate);
             return null;
         }
+        rawType.statMap.forEach((name, value) -> {
+            Optional.ofNullable(GameplayStatEnum.map.get(name))
+                    .ifPresentOrElse(stat -> type.statMap.put(stat, value),
+                            () -> Logger.LOADING.logError("Invalid stat name " + name + " in creature type " + rawType.name));
+        });
         type.bodyTemplate = bodyTemplates.get(rawType.bodyTemplate);
         if (type.desiredSlots == null) type.desiredSlots = type.bodyTemplate.desiredSlots;
         return type;
@@ -68,13 +78,9 @@ public class CreatureTypeMap {
      * Checks that creature is defined correctly.
      */
     private boolean validateTemplate(RawBodyTemplate template) {
-        for (String need : template.needs) {
-            if (!NeedEnum.map.containsKey(need)) {
-                Logger.LOADING.logWarn("Body template " + template.name + " has invalid need entry: " + need + ".");
-                return false;
-            }
-        }
-        return true;
+        return template.needs.stream().anyMatch(need -> !NeedEnum.map.containsKey(need))
+                ? Logger.LOADING.logWarn("Body template " + template.name + " has invalid need entry", false)
+                : true;
     }
 
     public CreatureType getCreatureType(String specimen) {

@@ -2,7 +2,7 @@ package stonering.entity.unit.aspects.body;
 
 import stonering.entity.Aspect;
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.health.Buff;
+import stonering.enums.unit.health.HealthEffect;
 
 import java.util.*;
 
@@ -17,7 +17,7 @@ public class BodyAspect extends Aspect {
     public final List<String> bodyPartsToCover;
     public final List<Wound> wounds;
     public final Map<String, DiseaseState> diseases;
-    public final Map<String, Buff> buffs;
+    public final Map<String, HealthEffect> buffs;
 
     public BodyAspect(Unit unit, String bodyTemplate) {
         super(unit);

@@ -18,7 +18,7 @@ import stonering.enums.items.ItemTagEnum;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.enums.items.recipe.RawRecipe;
 import stonering.enums.items.recipe.Recipe;
-import stonering.enums.unit.CreatureType;
+import stonering.enums.unit.race.CreatureType;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.MainGameModel;

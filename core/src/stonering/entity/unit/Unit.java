@@ -1,7 +1,7 @@
 package stonering.entity.unit;
 
 import stonering.entity.VectorPositionEntity;
-import stonering.enums.unit.CreatureType;
+import stonering.enums.unit.race.CreatureType;
 import stonering.util.geometry.Position;
 
 /**

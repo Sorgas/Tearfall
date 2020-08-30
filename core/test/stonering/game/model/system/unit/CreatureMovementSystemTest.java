@@ -9,7 +9,7 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.TaskAspect;
 import stonering.enums.blocks.BlockTypeEnum;
-import stonering.enums.unit.CreatureType;
+import stonering.enums.unit.race.CreatureType;
 import stonering.game.GameMvc;
 import stonering.game.model.MainGameModel;
 import stonering.game.model.local_map.LocalMap;

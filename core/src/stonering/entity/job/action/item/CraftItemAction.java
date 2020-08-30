@@ -64,7 +64,7 @@ public class CraftItemAction extends ItemConsumingAction {
             System.out.println("start action craft");
             maxProgress = itemOrder.recipe.workAmount * (1 + getMaterialWorkAmountMultiplier());
             float performanceBonus = Optional.ofNullable(task.performer.get(HealthAspect.class))
-                    .map(aspect -> aspect.properties.get("performance"))
+                    .map(aspect -> aspect.stats.get("performance"))
                     .orElse(0f);
             float skillBonus = Optional.ofNullable(SkillMap.getSkill(this.skill))
                     .map(skill -> Optional.ofNullable(task.performer.get(SkillAspect.class))

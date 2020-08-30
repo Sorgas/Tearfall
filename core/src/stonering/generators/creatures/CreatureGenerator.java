@@ -6,7 +6,7 @@ import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.TaskAspect;
 import stonering.entity.unit.aspects.job.JobsAspect;
 import stonering.entity.unit.aspects.job.SkillAspect;
-import stonering.enums.unit.CreatureType;
+import stonering.enums.unit.race.CreatureType;
 import stonering.enums.unit.CreatureTypeMap;
 import stonering.generators.creatures.needs.NeedAspectGenerator;
 import stonering.stage.renderer.AtlasesEnum;
@@ -22,7 +22,6 @@ public class CreatureGenerator {
     private BodyAspectGenerator bodyAspectGenerator;
     private EquipmentAspectGenerator equipmentAspectGenerator;
     private NeedAspectGenerator needAspectGenerator;
-    private AttributeAspectGenerator attributeAspectGenerator;
     private HealthAspectGenerator healthAspectGenerator;
     private HumanoidRenderGenerator humanoidRenderGenerator;
     
@@ -30,7 +29,6 @@ public class CreatureGenerator {
         bodyAspectGenerator = new BodyAspectGenerator();
         equipmentAspectGenerator = new EquipmentAspectGenerator();
         needAspectGenerator = new NeedAspectGenerator();
-        attributeAspectGenerator = new AttributeAspectGenerator();
         healthAspectGenerator = new HealthAspectGenerator();
         humanoidRenderGenerator = new HumanoidRenderGenerator();
     }
@@ -59,7 +57,6 @@ public class CreatureGenerator {
         unit.add(healthAspectGenerator.generateHealthAspect(unit));
         unit.add(new TaskAspect(null));
         unit.add(new MovementAspect(null));
-        unit.add(attributeAspectGenerator.generateAttributeAspect(unit));
         unit.add(new RenderAspect(AtlasesEnum.units.getBlockTile(type.atlasXY)));
         unit.add(new SkillAspect(unit));
     }

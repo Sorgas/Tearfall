@@ -1,4 +1,4 @@
-package stonering.enums.unit;
+package stonering.enums.unit.race;
 
 import java.util.List;
 

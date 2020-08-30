@@ -1,15 +1,14 @@
 package stonering.enums.unit.health.disease;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 
+import stonering.enums.unit.health.CreatureAttributeEnum;
 import stonering.enums.unit.health.HealthFunctionEnum;
+import stonering.enums.unit.health.GameplayStatEnum;
 import stonering.util.global.FileUtil;
 import stonering.util.logging.Logger;
 
@@ -53,17 +52,13 @@ public class DiseaseMap {
                 if (parts.length != 2)
                     return Logger.LOADING.logError("Invalid disease effect string " + s + " in disease " + raw.name, null);
                 try {
-                    String effectName = parts[0];
+                    String name = parts[0];
                     Float delta = Float.valueOf(parts[1]);
-                    if(HealthFunctionEnum.valueOf(effectName) != null) {
-                        stage.functionEffects.put(HealthFunctionEnum.valueOf(parts[0]), delta);
-                    } else {
-                        stage.realEffects.put(effectName, delta);
-                    }
+                    Optional.ofNullable(HealthFunctionEnum.map.get(name)).ifPresent(function -> stage.functionEffects.put(function, delta));
+                    Optional.ofNullable(CreatureAttributeEnum.map.get(name)).ifPresent(attribute -> stage.attributeEffects.put(attribute, delta.intValue()));
+                    Optional.ofNullable(GameplayStatEnum.map.get(name)).ifPresent(property -> stage.statEffects.put(property, delta));
                 } catch (NumberFormatException e) {
                     return Logger.LOADING.logError("Invalid health function delta number " + s + " in disease " + raw.name, null);
-                } catch (IllegalArgumentException e) {
-                    return Logger.LOADING.logError("Invalid health function name " + s + " in disease " + raw.name, null);
                 }
             }
             diseaseType.stages.put(stage.name, stage);

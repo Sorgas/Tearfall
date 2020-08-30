@@ -6,7 +6,7 @@ import java.util.Random;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import stonering.entity.unit.aspects.HumanoidRenderAspect;
-import stonering.enums.unit.CreatureType;
+import stonering.enums.unit.race.CreatureType;
 import stonering.stage.renderer.BodyPartTexturesEnum;
 
 /**

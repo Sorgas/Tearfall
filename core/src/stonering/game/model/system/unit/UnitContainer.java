@@ -19,7 +19,6 @@ import java.util.*;
 public class UnitContainer extends EntityContainer<Unit> {
     Map<Position, List<Unit>> unitsMap;
     public final NeedSystem needSystem;
-    public final CreatureBuffSystem buffSystem;
     public final HealthSystem healthSystem;
     public final CreatureMovementSystem movementSystem;
     public final CreaturePlanningSystem planningSystem;
@@ -34,7 +33,6 @@ public class UnitContainer extends EntityContainer<Unit> {
         cachePosition = new Position();
         unitsMap = new HashMap<>();
         put(needSystem = new NeedSystem());
-        put(buffSystem = new CreatureBuffSystem());
         put(healthSystem = new HealthSystem());
         put(movementSystem = new CreatureMovementSystem());
         put(planningSystem = new CreaturePlanningSystem());
