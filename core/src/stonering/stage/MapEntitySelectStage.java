@@ -120,6 +120,6 @@ public class MapEntitySelectStage extends UiStage {
     }
 
     private void tryShowUnitStage(@NotNull Unit unit) {
-        GameMvc.view().addStage(new SingleMenuCornerStage<>(new UnitMenu(unit), false));
+        GameMvc.view().toolbarStage.rightBar.showEntityMenu(new UnitMenu(unit));
     }
 }

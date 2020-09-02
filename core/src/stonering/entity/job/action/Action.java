@@ -16,6 +16,7 @@ import java.util.function.Supplier;
 import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
 import static stonering.entity.job.action.ActionConditionStatusEnum.NEW;
 import static stonering.enums.action.ActionStatusEnum.*;
+import static stonering.enums.unit.health.GameplayStatEnum.WORK_SPEED;
 
 /**
  * Action of a unit. All units behaviour except moving are defined in actions. Actions are parts of {@link Task}.
@@ -104,7 +105,7 @@ public abstract class Action {
     }
 
     protected float performance() {
-        return task.performer.get(HealthAspect.class).stats.get("performance");
+        return task.performer.get(HealthAspect.class).stats.get(WORK_SPEED);
     }
 
     protected int performerLevel() {

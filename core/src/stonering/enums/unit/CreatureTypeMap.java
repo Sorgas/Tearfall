@@ -12,10 +12,7 @@ import stonering.enums.unit.race.RawCreatureType;
 import stonering.util.lang.FileUtil;
 import stonering.util.logging.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Loads, and stores {@link CreatureType} and {@link BodyTemplate}.
@@ -64,11 +61,15 @@ public class CreatureTypeMap {
             Logger.LOADING.logWarn("Creature " + type.name + " has invalid body template " + type.bodyTemplate);
             return null;
         }
-        rawType.statMap.forEach((name, value) -> {
-            Optional.ofNullable(GameplayStatEnum.map.get(name))
-                    .ifPresentOrElse(stat -> type.statMap.put(stat, value),
-                            () -> Logger.LOADING.logError("Invalid stat name " + name + " in creature type " + rawType.name));
-        });
+
+        Arrays.stream(GameplayStatEnum.values()).forEach(value -> type.statMap.put(value, value.DEFAULT)); // save default values
+        for (String statName : rawType.statMap.keySet()) { // override default values
+            if (GameplayStatEnum.map.containsKey(statName)) {
+                type.statMap.put(GameplayStatEnum.map.get(statName), rawType.statMap.get(statName));
+            } else {
+                Logger.LOADING.logError("Invalid stat name " + statName + " in creature type " + rawType.name);
+            }
+        }
         type.bodyTemplate = bodyTemplates.get(rawType.bodyTemplate);
         if (type.desiredSlots == null) type.desiredSlots = type.bodyTemplate.desiredSlots;
         return type;

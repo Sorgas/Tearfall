@@ -32,7 +32,11 @@ public class HealthAspect extends Aspect {
     public final Map<String, HealthEffect> effects = new HashMap<>();
     public boolean alive;
 
+    /**
+     * Applies formula to health state and base value.
+     */
     public void update(GameplayStatEnum property) {
+        stats.put(property, property.FUNCTION.apply(this) * baseValues.get(property)); //
         //TODO individual formulas for properties
     }
 

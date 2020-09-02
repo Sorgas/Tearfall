@@ -34,8 +34,8 @@ public class ToolbarStage extends UiStage {
         addActor(rightBar = new RightBar());
         tabContainer.setFillParent(true);
         tabContainer.align(Align.bottomRight);
-        addListener(new KeyNotifierListener(toolbar));
         addListener(new KeyNotifierListener(rightBar));
+        addListener(new KeyNotifierListener(toolbar));
         addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

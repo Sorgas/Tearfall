@@ -10,7 +10,7 @@ import stonering.util.geometry.Position;
  * Represents living creatures
  */
 public class Unit extends VectorPositionEntity {
-    CreatureType type;
+    public final CreatureType type;
 
     public Unit(Position position, CreatureType type) {
         super(position);
