@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 /**
  * SelectBox, which can be observed with keys and selected with keys.

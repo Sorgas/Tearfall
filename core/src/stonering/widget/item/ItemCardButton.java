@@ -6,7 +6,7 @@ import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.item.selectors.SimpleItemSelector;
 import stonering.stage.renderer.AtlasesEnum;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 import stonering.widget.button.IconTextButton;
 
 /**

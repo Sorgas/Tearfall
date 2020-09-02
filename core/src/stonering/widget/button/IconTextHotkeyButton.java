@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 
 import stonering.enums.images.DrawableMap;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 /**
  * {@link IconTextButton} with a hotkey image and label added upon it. 

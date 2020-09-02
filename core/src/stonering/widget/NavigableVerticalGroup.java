@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import stonering.enums.ControlActionsEnum;
 import stonering.util.logging.Logger;
-import stonering.util.math.MathUtil;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -91,9 +90,9 @@ public class NavigableVerticalGroup<T extends Actor> extends VerticalGroup imple
     /**
      * Sets selected index to given. If child with this index not exists, sets to last child.
      */
-    public void setSelectedIndex(int newIndex) {
-        if (selectedIndex == newIndex) return;
-        selectedIndex = MathUtil.toRange(newIndex, -1, getChildren().size - 1);
+    public void setSelectedIndex(int index) {
+        if (selectedIndex == index) return;
+        selectedIndex = Math.min(Math.max(index, -1), getChildren().size - 1);
         selectListener.accept(getSelectedElement());
     }
 

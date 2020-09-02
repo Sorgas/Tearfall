@@ -8,7 +8,7 @@ import stonering.entity.unit.aspects.TaskAspect;
 import stonering.entity.RenderAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.job.SkillAspect;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 import stonering.widget.item.ItemLabel;
 
 import java.util.Comparator;

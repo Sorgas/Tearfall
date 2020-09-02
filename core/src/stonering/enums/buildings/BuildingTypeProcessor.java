@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import stonering.util.geometry.IntVector2;
-import stonering.util.global.Pair;
+import stonering.util.lang.Pair;
 
 /**
  * @author Alexander on 12.03.2020

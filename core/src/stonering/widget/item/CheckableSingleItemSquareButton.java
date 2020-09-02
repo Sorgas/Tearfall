@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import stonering.entity.item.Item;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 /**
  * Adds a checkbox to item button.

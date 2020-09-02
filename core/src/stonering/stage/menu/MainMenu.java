@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 
 import stonering.TearFall;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 import stonering.widget.ButtonMenu;
 import stonering.widget.util.KeyNotifierListener;
 

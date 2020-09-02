@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.JsonWriter;
 import stonering.enums.unit.health.CreatureAttributeEnum;
 import stonering.enums.unit.health.HealthFunctionEnum;
 import stonering.enums.unit.health.GameplayStatEnum;
-import stonering.util.global.FileUtil;
+import stonering.util.lang.FileUtil;
 import stonering.util.logging.Logger;
 
 /**

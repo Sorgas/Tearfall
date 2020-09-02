@@ -3,7 +3,7 @@ package stonering.entity.environment.aspects;
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.enums.time.TimeUnitEnum;
-import stonering.util.global.Initable;
+import stonering.util.lang.Initable;
 
 /**
  * Determines body state change over time. Has orbit position.

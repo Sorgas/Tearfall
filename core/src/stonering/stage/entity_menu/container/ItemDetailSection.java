@@ -8,7 +8,7 @@ import stonering.entity.RenderAspect;
 import stonering.entity.item.Item;
 import stonering.stage.entity_menu.building.item_container.ItemContainerMenu;
 import stonering.stage.entity_menu.building.MenuSection;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 /**
  * Section for {@link ItemContainerMenu}.

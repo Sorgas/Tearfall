@@ -11,7 +11,7 @@ import stonering.entity.item.aspects.SeedAspect;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantTypeMap;
 import stonering.stage.entity_menu.building.MenuSection;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 /**
  * Section for showing state of item's aspects.

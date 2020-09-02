@@ -15,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.entity.world.World;
 import stonering.screen.util.SimpleScreen;
 import stonering.util.geometry.Position;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 /**
  * ButtonMenu for choosing settlers and resources for game start.

@@ -7,7 +7,7 @@ import stonering.game.model.system.ModelComponent;
 import stonering.game.model.tilemaps.LocalTileMapUpdater;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
-import stonering.util.global.Initable;
+import stonering.util.lang.Initable;
 import stonering.util.logging.Logger;
 
 import java.io.IOException;

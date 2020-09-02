@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.enums.buildings.blueprint.Blueprint;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 import java.util.HashMap;
 import java.util.Map;

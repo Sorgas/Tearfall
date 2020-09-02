@@ -11,7 +11,7 @@ import stonering.enums.items.recipe.Recipe;
 import stonering.stage.entity_menu.building.MenuSection;
 import stonering.stage.entity_menu.building.workbench.WorkbenchMenu;
 import stonering.util.logging.Logger;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 import stonering.widget.NavigableTree;
 
 import java.util.HashMap;

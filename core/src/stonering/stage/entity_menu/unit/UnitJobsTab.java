@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Align;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.job.JobsAspect;
 import stonering.enums.unit.JobMap;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 /**
  * This tab shows list of all available jobs and allows to assign jobs to unit.

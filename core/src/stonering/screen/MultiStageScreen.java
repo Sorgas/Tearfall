@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import stonering.screen.util.SimpleScreen;
-import stonering.util.global.Initable;
+import stonering.util.lang.Initable;
 import stonering.util.logging.Logger;
 import stonering.widget.util.Resizeable;
 

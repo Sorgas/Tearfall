@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.Align;
 
 import stonering.entity.building.Building;
 import stonering.game.GameMvc;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 /**
  * Menu for showing general information about building.

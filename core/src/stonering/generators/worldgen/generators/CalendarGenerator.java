@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.Json;
 import stonering.entity.world.calendar.SeasonData;
 import stonering.entity.world.calendar.WorldCalendar;
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.util.global.FileUtil;
+import stonering.util.lang.FileUtil;
 
 import java.util.List;
 

@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Align;
 import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.util.geometry.Position;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 import stonering.widget.NavigableVerticalGroup;
 import stonering.widget.item.SelectedMaterialsWidget;
 

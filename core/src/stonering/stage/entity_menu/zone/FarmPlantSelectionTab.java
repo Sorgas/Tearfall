@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.Align;
 import stonering.entity.zone.aspect.FarmAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.PlayerSettlementProperties;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 /**
  * List for selecting plant type in {@link FarmZoneMenu}.

@@ -7,8 +7,8 @@ import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.GameTime;
 import stonering.game.model.system.ModelComponent;
-import stonering.util.global.Initable;
-import stonering.util.global.Updatable;
+import stonering.util.lang.Initable;
+import stonering.util.lang.Updatable;
 
 /**
  * Generic gameModel. Can store single objects of each class implementing interface {@link Initable}.

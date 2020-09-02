@@ -5,7 +5,7 @@ import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.ModelComponent;
-import stonering.util.global.Updatable;
+import stonering.util.lang.Updatable;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;
 

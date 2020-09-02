@@ -6,8 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import stonering.entity.Entity;
 import stonering.game.GameMvc;
-import stonering.util.global.CompatibleArray;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.CompatibleArray;
+import stonering.util.lang.StaticSkin;
 
 import java.util.List;
 import java.util.function.Consumer;

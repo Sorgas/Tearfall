@@ -6,7 +6,7 @@ import stonering.entity.building.BuildingBlock;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.util.geometry.PositionUtil;
-import stonering.util.global.Updatable;
+import stonering.util.lang.Updatable;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.EntityContainer;
 import stonering.game.model.system.item.ItemContainer;

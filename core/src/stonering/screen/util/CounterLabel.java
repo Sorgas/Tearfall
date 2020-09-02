@@ -2,9 +2,8 @@ package stonering.screen.util;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.badlogic.gdx.utils.Timer;
 
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 public class CounterLabel extends Label {
     private final String prefix;

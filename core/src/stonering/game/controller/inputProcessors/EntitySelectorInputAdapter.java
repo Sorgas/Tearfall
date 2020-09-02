@@ -10,7 +10,7 @@ import stonering.game.model.entity_selector.EntitySelectorInputHandler;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Position;
-import stonering.util.view.EnableableInputAdapter;
+import stonering.util.controller.EnableableInputAdapter;
 
 import static com.badlogic.gdx.Input.Keys.*;
 

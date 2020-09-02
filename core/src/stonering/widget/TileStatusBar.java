@@ -15,7 +15,7 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.system.GameTime;
 import stonering.game.model.system.liquid.LiquidContainer;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 import stonering.util.geometry.Position;
 
 /**

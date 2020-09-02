@@ -7,7 +7,7 @@ import stonering.entity.item.aspects.WearAspect;
 import stonering.enums.items.type.ItemType;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.util.logging.Logger;
-import stonering.util.global.Pair;
+import stonering.util.lang.Pair;
 
 import java.util.Arrays;
 import java.util.List;

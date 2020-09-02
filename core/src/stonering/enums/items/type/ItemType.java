@@ -3,7 +3,6 @@ package stonering.enums.items.type;
 import stonering.entity.Entity;
 import stonering.enums.items.ItemTagEnum;
 import stonering.enums.items.type.raw.RawItemType;
-import stonering.util.global.Pair;
 
 import java.util.*;
 

@@ -3,7 +3,7 @@ package stonering.stage.entity_menu.building;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Scaling;
 import stonering.enums.buildings.blueprint.MaterialSelectionConfig;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 /**
  * {@link Tree.Node} with two {@link Label}s and a {@link CheckBox}.

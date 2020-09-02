@@ -12,7 +12,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.building.WorkbenchSystem;
 import stonering.stage.renderer.AtlasesEnum;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 /**
  * Displays general information and order status for {@link ItemOrder}.

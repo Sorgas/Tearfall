@@ -14,9 +14,9 @@ import stonering.stage.entity_menu.building.MenuSection;
 import stonering.stage.entity_menu.building.workbench.details.OrderDetailsSection;
 import stonering.stage.entity_menu.building.workbench.orderlist.OrderListSection;
 import stonering.stage.entity_menu.building.workbench.recipelist.RecipeTreeSection;
-import stonering.util.global.Initable;
+import stonering.util.lang.Initable;
 import stonering.widget.Restoreable;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 import stonering.widget.util.KeyNotifierListener;
 
 /**

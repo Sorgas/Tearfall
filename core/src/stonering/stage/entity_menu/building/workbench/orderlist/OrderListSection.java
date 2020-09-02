@@ -15,7 +15,7 @@ import stonering.game.model.system.building.BuildingContainer;
 import stonering.stage.entity_menu.building.MenuSection;
 import stonering.stage.entity_menu.building.workbench.WorkbenchMenu;
 import stonering.widget.NavigableVerticalGroup;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 import static stonering.enums.ControlActionsEnum.SELECT;
 

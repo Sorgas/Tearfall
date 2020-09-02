@@ -16,7 +16,7 @@ import stonering.enums.unit.Job;
 import stonering.enums.unit.JobMap;
 import stonering.game.GameMvc;
 import stonering.game.model.system.unit.UnitContainer;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 import stonering.widget.util.WrappedLabel;
 
 /**

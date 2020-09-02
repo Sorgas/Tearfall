@@ -1,7 +1,7 @@
 package stonering.enums.unit.health.disease;
 
 import stonering.enums.unit.health.HealthEffect;
-import stonering.util.math.ValueRange;
+import stonering.util.geometry.ValueRange;
 
 /**
  * Stage of {@link DiseaseType} with its own effects and range of disease progression.

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import stonering.entity.job.Task;
 import stonering.enums.time.TimeUnitEnum;
-import stonering.util.global.Updatable;
+import stonering.util.lang.Updatable;
 import stonering.util.logging.Logger;
 
 /**

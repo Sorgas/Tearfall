@@ -2,7 +2,7 @@ package stonering.util.geometry;
 
 import java.util.function.Consumer;
 
-import stonering.util.global.TriConsumer;
+import stonering.util.lang.TriConsumer;
 
 /**
  * Represents 3d box.

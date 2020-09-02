@@ -1,4 +1,4 @@
-package stonering.util.math;
+package stonering.util.geometry;
 
 /**
  * Represents continuous range of a value.

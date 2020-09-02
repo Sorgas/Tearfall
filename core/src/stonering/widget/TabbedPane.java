@@ -15,9 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 
-import stonering.util.global.Initable;
-import stonering.util.global.Pair;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.Initable;
+import stonering.util.lang.Pair;
+import stonering.util.lang.StaticSkin;
 import stonering.widget.util.KeyNotifierListener;
 
 /**

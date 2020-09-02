@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.enums.items.type.raw.RawItemType;
 import stonering.enums.items.type.raw.RawItemTypeProcessor;
-import stonering.util.global.FileUtil;
+import stonering.util.lang.FileUtil;
 import stonering.util.logging.Logger;
 
 import java.util.ArrayList;

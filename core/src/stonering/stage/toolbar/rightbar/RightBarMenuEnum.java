@@ -5,6 +5,9 @@ import java.util.function.Supplier;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
+ * List of all menus for rightbar. Specifies constructor and button icon.
+ * Menu for entity does not have it's button and not listed here.
+ *
  * @author Alexander on 7/6/2020
  */
 public enum RightBarMenuEnum {

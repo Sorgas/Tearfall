@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import stonering.entity.unit.Unit;
 import stonering.game.GameMvc;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 import stonering.widget.TabbedPane;
 import stonering.widget.util.KeyNotifierListener;
 

@@ -4,8 +4,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 
 import stonering.game.GameMvc;
-import stonering.util.global.Initable;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.Initable;
+import stonering.util.lang.StaticSkin;
 
 /**
  * Stage for displaying one actor and shaded rectangle behind it.

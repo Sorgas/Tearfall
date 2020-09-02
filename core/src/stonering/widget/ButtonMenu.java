@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 import java.util.HashMap;
 

@@ -11,7 +11,7 @@ import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.enums.unit.JobMap;
 import stonering.game.GameMvc;
-import stonering.util.global.Updatable;
+import stonering.util.lang.Updatable;
 import stonering.game.model.local_map.passage.PassageMap;
 import stonering.game.model.system.ModelComponent;
 import stonering.game.model.local_map.LocalMap;

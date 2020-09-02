@@ -9,8 +9,8 @@ import stonering.entity.item.Item;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.enums.ControlActionsEnum;
 import stonering.stage.entity_menu.building.workbench.WorkbenchMenu;
-import stonering.util.global.CompatibleArray;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.CompatibleArray;
+import stonering.util.lang.StaticSkin;
 
 /**
  * This section shows list of items inside the container.

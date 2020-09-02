@@ -7,7 +7,7 @@ import stonering.entity.RenderAspect;
 import stonering.entity.item.Item;
 import stonering.enums.items.ItemTagEnum;
 import stonering.stage.entity_menu.building.MenuSection;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 /**
  * @author Alexander on 08.06.2020.

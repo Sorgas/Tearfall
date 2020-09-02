@@ -7,7 +7,7 @@ import stonering.entity.item.selectors.ItemSelector;
 import stonering.enums.buildings.blueprint.MaterialSelectionConfig;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.game.model.system.item.OnMapItemsStream;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 import java.util.*;
 import java.util.List;

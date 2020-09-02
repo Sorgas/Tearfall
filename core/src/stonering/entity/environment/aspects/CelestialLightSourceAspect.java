@@ -3,7 +3,7 @@ package stonering.entity.environment.aspects;
 import stonering.entity.Entity;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
-import stonering.util.global.Initable;
+import stonering.util.lang.Initable;
 
 /**
  * Light source of sun, moon, etc.

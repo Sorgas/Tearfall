@@ -2,7 +2,7 @@ package stonering.game.model.local_map.passage;
 
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.logging.Logger;
-import stonering.util.global.MutableInteger;
+import stonering.util.lang.MutableInteger;
 
 import java.util.*;
 import java.util.stream.Collectors;

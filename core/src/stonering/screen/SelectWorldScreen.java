@@ -18,7 +18,7 @@ import stonering.widget.lists.NavigableList;
 import stonering.screen.ui_components.MiniMap;
 import stonering.screen.ui_components.WorldListItem;
 import stonering.screen.util.WorldSaver;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 import java.io.File;
 

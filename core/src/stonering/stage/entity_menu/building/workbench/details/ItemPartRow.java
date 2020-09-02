@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.StringBuilder;
 import stonering.entity.crafting.IngredientOrder;
 import stonering.enums.items.ItemTagEnum;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 import java.util.List;
 

@@ -13,7 +13,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.system.task.DesignationSystem;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.util.geometry.Position;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 import java.util.List;
 

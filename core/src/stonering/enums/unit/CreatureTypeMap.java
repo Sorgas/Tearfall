@@ -9,7 +9,7 @@ import stonering.enums.unit.body.raw.BodyTemplateProcessor;
 import stonering.enums.unit.body.raw.RawBodyTemplate;
 import stonering.enums.unit.race.CreatureType;
 import stonering.enums.unit.race.RawCreatureType;
-import stonering.util.global.FileUtil;
+import stonering.util.lang.FileUtil;
 import stonering.util.logging.Logger;
 
 import java.util.ArrayList;

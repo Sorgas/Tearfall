@@ -14,7 +14,7 @@ import stonering.stage.entity_menu.building.workbench.WorkbenchMenu;
 import stonering.stage.entity_menu.building.workbench.orderlist.OrderItem;
 import stonering.stage.entity_menu.building.workbench.recipelist.RecipeItem;
 import stonering.util.logging.Logger;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 /**
  * This section of menu shows details of selected menu element.

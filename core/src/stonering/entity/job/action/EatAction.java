@@ -27,7 +27,7 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.util.geometry.Position;
-import stonering.util.global.Pair;
+import stonering.util.lang.Pair;
 
 /**
  * Action for consuming edible items and satisfying {@link FoodNeed}.

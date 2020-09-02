@@ -1,7 +1,7 @@
 package stonering.widget.lists;
 
 import com.badlogic.gdx.utils.Array;
-import stonering.util.global.CompatibleArray;
+import stonering.util.lang.CompatibleArray;
 
 import java.util.List;
 

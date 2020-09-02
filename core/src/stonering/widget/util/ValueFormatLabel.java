@@ -1,7 +1,7 @@
 package stonering.widget.util;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 /**
  * Label that shows some values in some format.

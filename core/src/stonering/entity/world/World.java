@@ -1,7 +1,7 @@
 package stonering.entity.world;
 
 import stonering.enums.time.TimeUnitEnum;
-import stonering.util.global.Updatable;
+import stonering.util.lang.Updatable;
 import stonering.game.model.system.ModelComponent;
 
 import java.io.Serializable;

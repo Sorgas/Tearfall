@@ -18,7 +18,7 @@ import stonering.generators.worldgen.WorldGeneratorContainer;
 import stonering.screen.ui_components.MiniMap;
 import stonering.screen.util.WorldCellInfo;
 import stonering.screen.util.WorldSaver;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 import stonering.widget.ButtonMenu;
 import stonering.widget.util.KeyNotifierListener;
 

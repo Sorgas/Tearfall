@@ -1,4 +1,4 @@
-package stonering.util.global;
+package stonering.util.lang;
 
 /**
  * Interface for objects that should be inited after creation.

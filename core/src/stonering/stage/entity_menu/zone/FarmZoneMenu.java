@@ -1,9 +1,7 @@
 package stonering.stage.entity_menu.zone;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import stonering.entity.zone.Zone;
 import stonering.entity.zone.aspect.FarmAspect;
@@ -12,7 +10,7 @@ import stonering.game.model.system.ZoneContainer;
 import stonering.stage.util.SingleActorStage;
 import stonering.widget.ButtonMenu;
 import stonering.widget.ConfirmationDialogue;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 import stonering.widget.util.KeyNotifierListener;
 
 /**

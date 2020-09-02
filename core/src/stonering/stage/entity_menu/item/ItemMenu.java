@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Align;
 
 import stonering.entity.item.Item;
 import stonering.game.GameMvc;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 import javax.validation.constraints.NotNull;
 

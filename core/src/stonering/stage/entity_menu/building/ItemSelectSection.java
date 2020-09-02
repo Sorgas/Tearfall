@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.enums.images.DrawableMap;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 /**
  * Section of {@link BuildingMaterialTab} for single building part. Has buttons to selecting all available items for construction.

@@ -11,7 +11,7 @@ import stonering.entity.item.Item;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.stage.entity_menu.building.MenuSection;
 import stonering.stage.entity_menu.container.ItemDetailSection;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 /**
  * Menu for observing items stored in {@link ItemContainerAspect}.

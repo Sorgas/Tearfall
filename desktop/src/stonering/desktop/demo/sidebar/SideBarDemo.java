@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.Align;
 import stonering.desktop.sidebar.ScrollList;
 import stonering.screen.util.SimpleScreen;
 import stonering.stage.util.UiStage;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 import java.util.List;
 import java.util.stream.Collectors;

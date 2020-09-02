@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.utils.Array;
 import stonering.widget.Highlightable;
 import stonering.util.logging.Logger;
-import stonering.util.global.StaticSkin;
+import stonering.util.lang.StaticSkin;
 
 /**
  * Extends {@link List} with navigation methods.

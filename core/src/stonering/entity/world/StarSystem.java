@@ -1,8 +1,7 @@
 package stonering.entity.world;
 
-import stonering.entity.Entity;
 import stonering.entity.environment.CelestialBody;
-import stonering.util.global.Updatable;
+import stonering.util.lang.Updatable;
 import stonering.game.model.system.EntityContainer;
 
 import java.io.Serializable;
