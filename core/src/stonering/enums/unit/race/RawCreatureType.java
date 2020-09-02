@@ -19,5 +19,5 @@ public class RawCreatureType {
     public int[] atlasXY;
     public String color;
     public CombinedAppearance combinedAppearance;
-    public HashMap<String, Float> statMap;
+    public HashMap<String, Float> statMap = new HashMap<>();
 }

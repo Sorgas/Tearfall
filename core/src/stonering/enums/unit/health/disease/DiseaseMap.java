@@ -34,7 +34,7 @@ public class DiseaseMap {
         Logger.LOADING.logDebug("loading diseases");
         Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
-        FileUtil.iterate(FileUtil.ITEMS_PATH, file -> {
+        FileUtil.iterate(FileUtil.DISEASES_PATH, file -> {
             List<RawDiseaseType> elements = json.fromJson(ArrayList.class, RawDiseaseType.class, file);
             elements.stream()
                     .map(this::processDisease)
@@ -68,7 +68,7 @@ public class DiseaseMap {
                 .collect(Collectors.toList());
         for (int i = 0; i < sortedStages.size(); i++) {
             DiseaseStage stage = sortedStages.get(i);
-            stage.range.max = i == sortedStages.size() - 1 ? sortedStages.get(i + 1).range.min : 1f; // complete ranges
+            stage.range.max = i < sortedStages.size() - 1 ? sortedStages.get(i + 1).range.min : 1f; // complete ranges
         }
         return diseaseType;
     }
