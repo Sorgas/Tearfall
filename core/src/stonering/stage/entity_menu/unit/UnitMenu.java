@@ -1,12 +1,8 @@
 package stonering.stage.entity_menu.unit;
 
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import stonering.entity.unit.Unit;
-import stonering.game.GameMvc;
 import stonering.stage.toolbar.rightbar.RightBar;
 import stonering.util.lang.StaticSkin;
 import stonering.widget.TabbedPane;
@@ -31,11 +27,12 @@ public class UnitMenu extends Table {
 
     public UnitMenu(Unit unit) {
         super();
-        add(new UnitImageColumn(unit)).size(300, 900);
+        add(new UnitImageColumn(unit)).width(300).bottom();
         TabbedPane pane = new TabbedPane();
         pane.add("equipment", new UnitEquipmentTab(unit));
         pane.add("jobs", new UnitJobsTab(unit));
-        add(pane).size(600, 900).fill();
+        pane.add("stats", new )
+        add(pane).fill().width(600);
         // TODO add other tabs
         addListener(new KeyNotifierListener(() -> pane));
         pane.setBackground(StaticSkin.generator.generate(StaticSkin.background));

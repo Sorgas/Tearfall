@@ -23,17 +23,23 @@ public class UnitEquipmentTab extends Table {
 
     public UnitEquipmentTab(Unit unit) {
         aspect = unit.get(EquipmentAspect.class);
-        defaults().width(300).top().left();
-        Label label = new Label("Equipped items" , StaticSkin.skin());
-        label.setAlignment(Align.center);
-        add(label).height(100).center();
-        label = new Label("Hauled items" , StaticSkin.skin());
-        label.setAlignment(Align.center);
-        add(label).height(100).center().row();
-        add(slotsWidget = new SlotsWidget(aspect)).left().height(775);
-        slotsWidget.top();
-        add(createHauledList()).height(775);
-        left();
+        defaults().align(Align.topLeft);
+        add(new Label("Equipped items" , StaticSkin.skin())).row();
+        aspect.items.forEach(item -> {
+            add(new ItemLabel(item)).left().padLeft(10).row();
+        });
+        align(Align.topLeft);
+        setWidth(300);
+        setDebug(true, true);
+//        label.setAlignment(Align.center);
+//        add(label).height(100).center();
+//        label = new Label("Hauled items" , StaticSkin.skin());
+//        label.setAlignment(Align.center);
+//        add(label).height(100).center().row();
+//        add(slotsWidget = new SlotsWidget(aspect)).left().height(775);
+//        slotsWidget.top();
+//        add(createHauledList()).height(775);
+//        left();
     }
 
     private Table createHauledList() {

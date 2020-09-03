@@ -7,6 +7,7 @@ import stonering.entity.unit.aspects.job.SkillAspect;
 import stonering.enums.action.ActionStatusEnum;
 import stonering.enums.unit.Skill;
 import stonering.enums.unit.SkillMap;
+import stonering.enums.unit.health.GameplayStatEnum;
 import stonering.game.model.system.unit.CreaturePlanningSystem;
 import stonering.util.logging.Logger;
 
@@ -105,7 +106,8 @@ public abstract class Action {
     }
 
     protected float performance() {
-        return task.performer.get(HealthAspect.class).stats.get(WORK_SPEED);
+        return task.performer.get(HealthAspect.class).stats.get(GameplayStatEnum.WORK_SPEED) + 
+                0.05f * task.performer.get(SkillAspect.class).getSkill(skill).state.level();
     }
 
     protected int performerLevel() {

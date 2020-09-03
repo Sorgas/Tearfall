@@ -20,7 +20,8 @@ import stonering.entity.unit.aspects.health.HealthAspect;
 public enum GameplayStatEnum {
     MOVEMENT_SPEED(3, health -> health.functions.get(WALKING) * health.functions.get(CONSCIOUSNESS)),
     ATTACK_SPEED(1, health -> (1 + 0.03f * health.attributes.get(AGILITY)) * health.functions.get(MOTORIC) * health.functions.get(CONSCIOUSNESS)),
-    WORK_SPEED(1, health -> health.functions.get(MOTORIC) * health.functions.get(CONSCIOUSNESS)), // additional components in action
+    // should be multiplied by skill for each action
+    WORK_SPEED(1, health -> health.functions.get(CONSCIOUSNESS) * health.functions.get(MOTORIC)) 
     ;
 
     public static final Map<String, GameplayStatEnum> map = new HashMap<>();

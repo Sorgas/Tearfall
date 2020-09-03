@@ -15,12 +15,12 @@ import java.util.function.Consumer;
 public class FileUtil {
     public final static String MATERIALS_PATH = "resources/materials";
     public final static String CREATURES_PATH = "resources/creatures/creatures.json";
+    public final static String DISEASES_PATH = "resources/creatures/diseases.json";
     public final static String BODY_TEMPLATE_PATH = "resources/creatures/body_templates.json";
     public final static String SKILLS_PATH = "resources/creatures/skills.json";
     public final static String UI_TILES_PATH = "resources/ui_tiles.json";
     public final static String ITEMTYPE_TAGS_PATH = "resources/itemtype_tags.json";
     public final static String ITEMS_PATH = "resources/items";
-    public final static String DISEASES_PATH = "resources/creatures/diseases.json";
     public final static String RECIPE_LISTS_PATH = "resources/crafting/lists.json";
     public final static String RECIPES_PATH = "resources/crafting/recipes.json";
     public final static String DRAWABLE_DESCRIPTORS_PATH = "resources/drawable/";

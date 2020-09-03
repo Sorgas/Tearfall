@@ -17,7 +17,8 @@ import java.util.Optional;
 
 /**
  * Shows picture, name, current task, tool, best skill, and needs state.
- *
+ * TODO equipped tool
+ * 
  * @author Alexander on 20.12.2019.
  */
 public class UnitImageColumn extends Table {
@@ -28,22 +29,21 @@ public class UnitImageColumn extends Table {
 
     private void createTable(Unit unit) {
         defaults().growX();
-        add(new Label("unit name", StaticSkin.getSkin())).colspan(2).row();
-        add(createImageContainer(unit)).colspan(2).expandY().row();
-        //TODO equipped tool/weapon
-        add(new Label("activity:", StaticSkin.getSkin())).height(80);
-        add(new Label(getUnitCurrentTask(unit), StaticSkin.getSkin())).height(80).row();
+        add(new Label("unit name", StaticSkin.skin())).row();
 
-        add(new Label("tools:", StaticSkin.getSkin())).colspan(2).row();
-        add(createToolsList(unit.get(EquipmentAspect.class))).height(120).colspan(2).row();
+        add(new Label("race, " + getUnitProfession(unit), StaticSkin.skin())).row();
+        
+        add(createImageContainer(unit)).row();
+        
+        //activity
+        add(new Label(getUnitCurrentTask(unit), StaticSkin.skin())).row();
+        
+        add(createToolsList(unit.get(EquipmentAspect.class))).row();
 
-        add(new Label(getUnitBestSkill(unit), StaticSkin.getSkin())).colspan(2).row();
-
-        add(new UnitNeedsWidget(unit)).colspan(2);
-        setWidth(300);
+        add(new UnitNeedsWidget(unit));
         setBackground(StaticSkin.getColorDrawable(StaticSkin.backgroundFocused));
     }
-
+    
     private String getUnitCurrentTask(Unit unit) {
         return unit.optional(TaskAspect.class)
                 .map(aspect -> aspect.task)
@@ -51,7 +51,7 @@ public class UnitImageColumn extends Table {
                 .orElse("Doing nothing");
     }
 
-    private String getUnitBestSkill(Unit unit) {
+    private String getUnitProfession(Unit unit) {
         return Optional.ofNullable(unit.get(SkillAspect.class))
                 .map(aspect -> aspect.skills.values().stream())
                 .flatMap(stream -> stream.max(Comparator.comparingInt(skill -> skill.state.level())))
@@ -64,14 +64,13 @@ public class UnitImageColumn extends Table {
         return new Container<>(image).size(200);
     }
 
-    private ScrollPane createToolsList(EquipmentAspect aspect) {
+    private Table createToolsList(EquipmentAspect aspect) {
         Table table = new Table();
-        ScrollPane pane = new ScrollPane(table);
         aspect.grabSlotStream()
                 .map(slot -> slot.grabbedItem)
                 .filter(Objects::nonNull)
                 .filter(item -> item.type.tool != null)
                 .forEach(item -> table.add(new ItemLabel(item)).growX().row()); // add table row for each tool item
-        return pane;
+        return table;
     }
 }

@@ -38,6 +38,7 @@ public class ItemTypeMap {
         RawItemTypeProcessor processor = new RawItemTypeProcessor();
         FileUtil.iterate(FileUtil.ITEMS_PATH, file -> {
             List<RawItemType> elements = json.fromJson(ArrayList.class, RawItemType.class, file);
+            if(elements == null) return;
             elements.stream()
                     .sorted((type1, type2) -> type1.baseItem == null ? 1 : -1)
                     .map(processor::process)

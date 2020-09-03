@@ -21,7 +21,6 @@ import java.util.Map;
  * @author Alexander_Kuzyakov
  */
 public class HealthAspect extends Aspect {
-
     public final Map<CreatureAttributeEnum, Integer> baseAttributes = new HashMap<>();
     public final Map<CreatureAttributeEnum, Integer> attributes = new HashMap<>();
     public final Map<HealthFunctionEnum, Float> functions = new HashMap<>();
