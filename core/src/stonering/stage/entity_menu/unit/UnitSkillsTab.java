@@ -18,12 +18,12 @@ import stonering.util.lang.StaticSkin;
  *
  * @author Alexander on 02.07.2020.
  */
-public class UnitJobsTab extends Table {
+public class UnitSkillsTab extends Table {
     private JobsAspect aspect;
     private ScrollPane pane;
     private Table listTable;
     
-    public UnitJobsTab(Unit unit) {
+    public UnitSkillsTab(Unit unit) {
         // header
         add(new Label("Assign jobs to unit.", StaticSkin.skin())).height(80).growX().row();
         listTable = new Table();

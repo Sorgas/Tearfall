@@ -25,9 +25,11 @@ public enum CreatureAttributeEnum {
     }
 
     public final String NAME;
+    public final String ICON;
 
     CreatureAttributeEnum(String name) {
         NAME = toString().toLowerCase();
+        ICON = name;
     }
 
     public static CreatureAttributeEnum get(String name) {
