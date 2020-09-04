@@ -19,7 +19,7 @@ public class UnitHealthTab extends Table {
         HealthAspect health = unit.get(HealthAspect.class);
         add(new Label("attributes", StaticSkin.skin())).row();
         health.baseAttributes.forEach((attr, base) -> {
-            add(new CreatureAttributeLabel(attr, base, health.attributes.get(attr) - base)).row();
+            add(new CreatureAttributeLabel(attr, base, health.attributes.get(attr) - base)).left().row();
         });
         align(Align.topLeft);
     }

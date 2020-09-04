@@ -1,70 +1,54 @@
 [
-  {
-    "name": "farmer",
-    "skill": "farming"
-  },
-  {
+    {
+        "name": "farmer",
+        "skill": "farming"
+    }, {
     "name": "cook",
     "skill": "cooking"
-  },
-  {
+}, {
     "name": "brewer",
     "skill": "brewing"
-  },
-  {
+}, {
     "name": "carpenter",
     "skill": "carpentry"
-  },
-  {
+}, {
     "name": "mason",
     "skill": "masonry"
-  },
-  {
+}, {
     "name": "mechanic",
     "skill": "mechanics"
-  },
-  {
+}, {
     "name": "butcher",
     "skill": "cook"
-  },
-  {
+}, {
     "name": "tailor",
     "skill": "tailoring"
-  },
-  {
+}, {
     "name": "weaver",
     "skill": "weaving"
-  },
-  {
+}, {
     "name": "armorsmith",
     "skill": "armorsmithing"
-  },
-  {
+}, {
     "name": "weaponsmith",
     "skill": "weaponsmithing"
-  },
-  {
+}, {
     "name": "blacksmith",
     "skill": "blacksmithing"
-  },
-  {
+}, {
     "name": "jeweler",
     "skill": "jewelry"
-  },
-  {
+}, {
     "name": "leaverworking",
     "skill": "leatherworking"
-  },
-  {
+}, {
     "name": "alchemist",
     "skill": "alchemy"
-  },
-  {
+}, {
     "name": "enchanter",
     "skill": "enchanting"
-  },
-  {
+}, {
     "name": "builder",
     "skill": "building"
-  }
+}
 ]

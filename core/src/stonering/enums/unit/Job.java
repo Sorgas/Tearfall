@@ -9,6 +9,7 @@ package stonering.enums.unit;
 public class Job {
     public String name;
     public String skill;
+    public String icon;
     
     public Job() {
     }

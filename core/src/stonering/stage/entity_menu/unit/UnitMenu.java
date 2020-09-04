@@ -30,7 +30,7 @@ public class UnitMenu extends Table {
         add(new UnitImageColumn(unit)).width(300).bottom();
         TabbedPane pane = new TabbedPane();
         pane.add("equipment", new UnitEquipmentTab(unit));
-        pane.add("jobs", new UnitSkillsTab(unit));
+        pane.add("jobs", new UnitJobSkillTab(unit));
         pane.add("stats", new UnitHealthTab(unit));
         add(pane).fill().width(600);
         // TODO add other tabs

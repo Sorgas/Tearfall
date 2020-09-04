@@ -1,18 +1,41 @@
-/*
-    All in-game skills. Specifies additive bonuses per level.
-    Default bonus value is 1%, giving 5% advantage of each type on level 5.
-    Exact usage of bonus values is defined in actions.
-*/
 [
     {
         "name": "mining"
     }, {
     "name": "woodcutting"
 }, {
-    "name": "building"
+    "name": "plant_harvesting"
+}, {
+    "name": "farming"
 }, {
     "name": "cooking"
 }, {
-    "name": "plant_harvesting"
+    "name": "brewing"
+}, {
+    "name": "carpentry"
+}, {
+    "name": "masonry"
+}, {
+    "name": "mechanics"
+}, {
+    "name": "tailoring"
+}, {
+    "name": "weaving"
+}, {
+    "name": "armorsmithing"
+}, {
+    "name": "weaponsmithing"
+}, {
+    "name": "blacksmithing"
+}, {
+    "name": "jewelry"
+}, {
+    "name": "leatherworking"
+}, {
+    "name": "alchemy"
+}, {
+    "name": "enchanting"
+}, {
+    "name": "building"
 }
 ]

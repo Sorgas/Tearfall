@@ -15,15 +15,16 @@ import stonering.util.lang.StaticSkin;
 
 /**
  * This tab shows list of all available jobs and allows to assign jobs to unit.
+ * Also shows skills and characteristic bonuses.
  *
  * @author Alexander on 02.07.2020.
  */
-public class UnitSkillsTab extends Table {
+public class UnitJobSkillTab extends Table {
     private JobsAspect aspect;
     private ScrollPane pane;
     private Table listTable;
     
-    public UnitSkillsTab(Unit unit) {
+    public UnitJobSkillTab(Unit unit) {
         // header
         add(new Label("Assign jobs to unit.", StaticSkin.skin())).height(80).growX().row();
         listTable = new Table();
