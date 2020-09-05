@@ -5,7 +5,7 @@ import static stonering.enums.blocks.BlockTypeEnum.RAMP;
 
 import stonering.entity.item.Item;
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.job.JobsAspect;
+import stonering.entity.unit.aspects.job.JobSkillAspect;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.system.item.ItemContainer;
@@ -53,7 +53,7 @@ public class DiggingModel extends TestModel {
 
     private Unit createUnit() {
         Unit unit =  new CreatureGenerator().generateUnit(new Position(5, 5, 10), "human");
-        unit.get(JobsAspect.class).enabledJobs.add("miner");
+        unit.get(JobSkillAspect.class).enabledJobs.add("miner");
         return unit;
     }
 }

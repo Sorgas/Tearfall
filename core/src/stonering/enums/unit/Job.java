@@ -10,7 +10,8 @@ public class Job {
     public String name;
     public String skill;
     public String icon;
-    
+    public int index; // order for unit menu and common jobs menu
+
     public Job() {
     }
 

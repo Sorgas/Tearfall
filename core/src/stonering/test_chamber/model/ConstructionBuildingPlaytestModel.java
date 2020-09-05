@@ -7,7 +7,7 @@ import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.item.selectors.ConfiguredItemSelector;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.job.JobsAspect;
+import stonering.entity.unit.aspects.job.JobSkillAspect;
 import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.enums.buildings.blueprint.BlueprintsMap;
 import stonering.enums.materials.MaterialMap;
@@ -75,7 +75,7 @@ public class ConstructionBuildingPlaytestModel extends TestModel {
 
     private Unit createUnit(Position position) {
         Unit human = new CreatureGenerator().generateUnit(position, "human");
-        human.get(JobsAspect.class).enabledJobs.add("builder");
+        human.get(JobSkillAspect.class).enabledJobs.add("builder");
         return human;
     }
 

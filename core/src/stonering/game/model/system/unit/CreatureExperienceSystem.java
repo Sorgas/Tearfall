@@ -1,7 +1,7 @@
 package stonering.game.model.system.unit;
 
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.job.SkillAspect;
+import stonering.entity.unit.aspects.job.JobSkillAspect;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.system.EntitySystem;
 
@@ -12,7 +12,7 @@ public class CreatureExperienceSystem extends EntitySystem<Unit> {
 
     public CreatureExperienceSystem() {
         updateInterval = TimeUnitEnum.DAY;
-        targetAspects.add(SkillAspect.class);
+        targetAspects.add(JobSkillAspect.class);
     }
 
     @Override
@@ -21,7 +21,7 @@ public class CreatureExperienceSystem extends EntitySystem<Unit> {
     }
 
     public void giveExperience(Unit unit, String skillName) {
-        unit.get(SkillAspect.class).getSkill(skillName).state.changeValue(1);
+        unit.get(JobSkillAspect.class).skills.get(skillName).changeValue(1);
         //TODO give mood buff on level up
         //TODO upgrade attributes
     }

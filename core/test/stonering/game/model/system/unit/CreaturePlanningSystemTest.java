@@ -6,7 +6,7 @@ import org.junit.jupiter.api.TestInstance;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.MoveAction;
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.job.JobsAspect;
+import stonering.entity.unit.aspects.job.JobSkillAspect;
 import stonering.entity.unit.aspects.TaskAspect;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.unit.race.CreatureType;
@@ -43,7 +43,7 @@ class CreaturePlanningSystemTest {
         model.put(taskContainer = new TaskContainer());
         unit = new Unit(new Position(), new CreatureType());
         unit.add(aspect = new TaskAspect(unit));
-        unit.add(new JobsAspect(unit));
+        unit.add(new JobSkillAspect(unit));
         model.get(UnitContainer.class).addUnit(unit);
         map.initAreas();
     }

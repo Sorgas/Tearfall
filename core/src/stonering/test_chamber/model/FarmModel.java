@@ -2,7 +2,7 @@ package stonering.test_chamber.model;
 
 import stonering.entity.item.Item;
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.job.JobsAspect;
+import stonering.entity.unit.aspects.job.JobSkillAspect;
 import stonering.enums.ZoneTypeEnum;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.entity_selector.tool.SelectionTools;
@@ -48,7 +48,7 @@ public class FarmModel extends TestModel {
 
     private Unit createUnit() {
         Unit unit = new CreatureGenerator().generateUnit(new Position(3, 3, 2), "human");
-        unit.get(JobsAspect.class).enabledJobs.add("farmer");
+        unit.get(JobSkillAspect.class).enabledJobs.add("farmer");
         return unit;
     }
 }

@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import stonering.entity.job.designation.Designation;
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.job.JobsAspect;
+import stonering.entity.unit.aspects.job.JobSkillAspect;
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.enums.unit.JobMap;
@@ -60,7 +60,7 @@ public class TaskContainer implements ModelComponent, Updatable {
      * TODO consider task priority
      */
     public Task getActiveTask(Unit unit) {
-        JobsAspect aspect = unit.get(JobsAspect.class);
+        JobSkillAspect aspect = unit.get(JobSkillAspect.class);
         if (aspect == null)
             return Logger.TASKS.logError("Creature " + unit + " without jobs aspect gets task from container", null);
         

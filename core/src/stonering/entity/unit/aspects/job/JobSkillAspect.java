@@ -13,11 +13,11 @@ import java.util.*;
  *
  * @author Alexander Kuzyakov on 31.01.2018.
  */
-public class JobsAspect extends Aspect {
+public class JobSkillAspect extends Aspect {
     public Set<String> enabledJobs;
     public Map<String, SkillValue> skills; // skill name to level.
 
-    public JobsAspect(Entity entity) {
+    public JobSkillAspect(Entity entity) {
         super(entity);
         enabledJobs = new HashSet<>();
         skills = new HashMap<>();

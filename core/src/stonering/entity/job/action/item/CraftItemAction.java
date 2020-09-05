@@ -10,7 +10,7 @@ import stonering.entity.crafting.ItemOrder;
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.unit.aspects.health.HealthAspect;
-import stonering.entity.unit.aspects.job.SkillAspect;
+import stonering.entity.unit.aspects.job.JobSkillAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.unit.SkillMap;
 import stonering.generators.items.ItemGenerator;
@@ -67,8 +67,8 @@ public class CraftItemAction extends ItemConsumingAction {
                     .map(aspect -> aspect.stats.get("performance"))
                     .orElse(0f);
             float skillBonus = Optional.ofNullable(SkillMap.getSkill(this.skill))
-                    .map(skill -> Optional.ofNullable(task.performer.get(SkillAspect.class))
-                            .map(aspect -> aspect.getSkill(this.skill).state.level())
+                    .map(skill -> Optional.ofNullable(task.performer.get(JobSkillAspect.class))
+                            .map(aspect -> aspect.skills.get(this.skill).level())
                             .map(level -> level * skill.speed)
                             .orElse(0f)).orElse(0f);
             //TODO add WB tier bonus

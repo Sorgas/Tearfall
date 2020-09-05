@@ -7,7 +7,8 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.TaskAspect;
 import stonering.entity.RenderAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
-import stonering.entity.unit.aspects.job.SkillAspect;
+import stonering.entity.unit.aspects.job.JobSkillAspect;
+import stonering.entity.unit.aspects.job.SkillValue;
 import stonering.util.lang.StaticSkin;
 import stonering.widget.item.ItemLabel;
 
@@ -52,10 +53,10 @@ public class UnitImageColumn extends Table {
     }
 
     private String getUnitProfession(Unit unit) {
-        return Optional.ofNullable(unit.get(SkillAspect.class))
+        return Optional.ofNullable(unit.get(JobSkillAspect.class))
                 .map(aspect -> aspect.skills.values().stream())
-                .flatMap(stream -> stream.max(Comparator.comparingInt(skill -> skill.state.level())))
-                .map(skillValue -> skillValue.skill)
+                .flatMap(stream -> stream.max(Comparator.comparingInt(SkillValue::level)))
+                .map(skillValue -> skillValue.skillName)
                 .orElse("Peasant");
     }
 

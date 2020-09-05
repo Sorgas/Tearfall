@@ -17,6 +17,7 @@ import java.util.Map;
  */
 public class SkillMap {
     public static final int[] LEVEL_BOUNDS = {100, 300, 600, 1000, 1500, 2100, 2800, 3600, 4500, 5500, 6700, 8100, 9700, 11500, 13500, 15700, 18100, 20700, 23500, 26500};
+    public static final int[] LEVEL_AMOUNT = {100, 200, 300, 4000, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2900};
 
     private static SkillMap instance;
     private final Map<String, Skill> skills;

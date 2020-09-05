@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.NameAspect;
-import stonering.entity.unit.aspects.job.JobsAspect;
+import stonering.entity.unit.aspects.job.JobSkillAspect;
 import stonering.enums.unit.Job;
 import stonering.enums.unit.JobMap;
 import stonering.game.GameMvc;
@@ -50,13 +50,13 @@ public class GlobalJobsMenu extends Table {
     }
 
     private void createUnitRow(Unit unit) {
-        JobsAspect jobsAspect = unit.get(JobsAspect.class);
+        JobSkillAspect jobSkillAspect = unit.get(JobSkillAspect.class);
         String name = unit.optional(NameAspect.class)
                 .map(aspect -> aspect.name)
                 .orElse(unit.toString());
         add(new Label(name, StaticSkin.skin()));
         jobList.forEach(job -> {
-            boolean enabled = jobsAspect.enabledJobs.contains(job.name);
+            boolean enabled = jobSkillAspect.enabledJobs.contains(job.name);
             CheckBox checkBox = new CheckBox(null, StaticSkin.getSkin());
             checkBox.setChecked(enabled);
             checkBox.getStyle().checkboxOff.setMinWidth(25);
@@ -67,9 +67,9 @@ public class GlobalJobsMenu extends Table {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     if (checkBox.isChecked()) {
-                        jobsAspect.enabledJobs.add(job.name);
+                        jobSkillAspect.enabledJobs.add(job.name);
                     } else {
-                        jobsAspect.enabledJobs.remove(job.name);
+                        jobSkillAspect.enabledJobs.remove(job.name);
                     }
                 }
             });

@@ -1,71 +1,57 @@
 package stonering.stage.entity_menu.unit;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import java.util.List;
+
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.job.JobsAspect;
+import stonering.entity.unit.aspects.job.JobSkillAspect;
+import stonering.enums.unit.Job;
 import stonering.enums.unit.JobMap;
 import stonering.util.lang.StaticSkin;
+import stonering.widget.unit.JobWidget;
+import stonering.widget.unit.SkilledJobWidget;
+import stonering.widget.unit.UnskilledJobWidget;
 
 /**
  * This tab shows list of all available jobs and allows to assign jobs to unit.
- * Also shows skills and characteristic bonuses.
+ * Shows different widget for job with skill(has progress bar) and without skill.
+ * Jobs without skill listed in separate column.
  *
  * @author Alexander on 02.07.2020.
  */
 public class UnitJobSkillTab extends Table {
-    private JobsAspect aspect;
-    private ScrollPane pane;
+    private JobSkillAspect aspect;
     private Table listTable;
-    
+
     public UnitJobSkillTab(Unit unit) {
+        aspect = unit.get(JobSkillAspect.class);
+
         // header
-        add(new Label("Assign jobs to unit.", StaticSkin.skin())).height(80).growX().row();
-        listTable = new Table();
+        add(new Label("Unit skills and jobs.", StaticSkin.skin())).height(80).growX().row();
+        add(listTable = new Table()).grow();
         listTable.defaults().height(25).pad(5);
         listTable.align(Align.topLeft);
-        add(pane = new ScrollPane(listTable)).grow();
-        aspect = unit.get(JobsAspect.class);
-        aspect.enabledJobs.forEach(job -> addRowForJob(job, true));
-        JobMap.all().stream()
-                .map(job -> job.name)
-                .filter(jobName -> !aspect.enabledJobs.contains(jobName))
-                .forEach(jobName -> addRowForJob(jobName, false));
-        top();
-        setDebug(true, true);
+        List<Job> skilledJobs = JobMap.skilled();
+        List<Job> unskilledJobs = JobMap.unskilled();
+        int rowCount = Math.max((int) Math.ceil(skilledJobs.size() / 2f), unskilledJobs.size());
+        List<Job> column1 = skilledJobs.subList(0, rowCount);
+        List<Job> column2 = skilledJobs.subList(rowCount, skilledJobs.size());
+
+        for (int i = 0; i < rowCount; i++) {
+            listTable.add(createWidget(i < column1.size() ? column1.get(i) : null));
+            listTable.add(createWidget(i < column2.size() ? column2.get(i) : null));
+            listTable.add(createWidget(i < unskilledJobs.size() ? unskilledJobs.get(i) : null));
+            listTable.row();
+        }
     }
 
-    private void addRowForJob(String jobName, boolean enabled) {
-        if(jobName == null) return;
-        Table rowTable = new Table();
-        rowTable.add(new Label(jobName, StaticSkin.skin())).width(200);
-        CheckBox checkBox = new CheckBox(null, StaticSkin.getSkin());
-        checkBox.setChecked(enabled);
-        
-        checkBox.getStyle().checkboxOff.setMinWidth(25);
-        checkBox.getStyle().checkboxOff.setMinHeight(25);
-        checkBox.getStyle().checkboxOn.setMinWidth(25);
-        checkBox.getStyle().checkboxOn.setMinHeight(25);
-        
-        checkBox.addListener(new ChangeListener() {
-
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                if(checkBox.isChecked()) {
-                    aspect.enabledJobs.add(jobName);
-                } else {
-                    aspect.enabledJobs.remove(jobName);
-                }
-            }
-        });
-        rowTable.add(checkBox).width(25);
-        rowTable.setBackground(StaticSkin.generator.generate(StaticSkin.backgroundFocused));
-        listTable.add(rowTable).row();
+    private JobWidget createWidget(Job job) {
+        if (job == null) return null;
+        return job.skill == null
+                ? new UnskilledJobWidget(job, aspect)
+                : new SkilledJobWidget(job, aspect);
     }
 }

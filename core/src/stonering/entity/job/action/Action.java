@@ -3,7 +3,7 @@ package stonering.entity.job.action;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.Task;
 import stonering.entity.unit.aspects.health.HealthAspect;
-import stonering.entity.unit.aspects.job.SkillAspect;
+import stonering.entity.unit.aspects.job.JobSkillAspect;
 import stonering.enums.action.ActionStatusEnum;
 import stonering.enums.unit.Skill;
 import stonering.enums.unit.SkillMap;
@@ -17,7 +17,6 @@ import java.util.function.Supplier;
 import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
 import static stonering.entity.job.action.ActionConditionStatusEnum.NEW;
 import static stonering.enums.action.ActionStatusEnum.*;
-import static stonering.enums.unit.health.GameplayStatEnum.WORK_SPEED;
 
 /**
  * Action of a unit. All units behaviour except moving are defined in actions. Actions are parts of {@link Task}.
@@ -107,11 +106,11 @@ public abstract class Action {
 
     protected float performance() {
         return task.performer.get(HealthAspect.class).stats.get(GameplayStatEnum.WORK_SPEED) + 
-                0.05f * task.performer.get(SkillAspect.class).getSkill(skill).state.level();
+                0.05f * performerLevel();
     }
 
     protected int performerLevel() {
-        return task.performer.get(SkillAspect.class).getSkill(skill).state.level();
+        return task.performer.get(JobSkillAspect.class).skills.get(skill).level();
     }
 
     protected Skill skill() {

@@ -4,8 +4,7 @@ import stonering.entity.RenderAspect;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.TaskAspect;
-import stonering.entity.unit.aspects.job.JobsAspect;
-import stonering.entity.unit.aspects.job.SkillAspect;
+import stonering.entity.unit.aspects.job.JobSkillAspect;
 import stonering.enums.unit.race.CreatureType;
 import stonering.enums.unit.CreatureTypeMap;
 import stonering.generators.creatures.needs.NeedAspectGenerator;
@@ -58,7 +57,7 @@ public class CreatureGenerator {
         unit.add(new TaskAspect(null));
         unit.add(new MovementAspect(null));
         unit.add(new RenderAspect(AtlasesEnum.units.getBlockTile(type.atlasXY)));
-        unit.add(new SkillAspect(unit));
+        unit.add(new JobSkillAspect(unit));
     }
 
     private void addOptionalAspects(Unit unit) {
@@ -70,7 +69,7 @@ public class CreatureGenerator {
                     continue;
                 }
                 case "jobs": {
-                    unit.add(new JobsAspect(null));
+                    unit.add(new JobSkillAspect(null));
                 }
             }
         }
