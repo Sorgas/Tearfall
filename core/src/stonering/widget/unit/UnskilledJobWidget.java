@@ -13,13 +13,7 @@ public class UnskilledJobWidget extends JobWidget {
 
     public UnskilledJobWidget(Job job, JobSkillAspect aspect) {
         super(job, aspect);
-    }
-
-    protected Table table(Job job, JobSkillAspect jobSkillAspect) {
-        Table table = new Table();
-        table.add(new Label("n/a", StaticSkin.skin())); // numeric level
-        table.add(new Label(job.name, StaticSkin.skin())).fill().left().size(200, 25);
-        //TODO attr bonus
-        return table;
+        levelLabel.setText("n/a"); // numeric level
+        labelStack.add(new Label(job.name, StaticSkin.skin()));
     }
 }

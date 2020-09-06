@@ -16,6 +16,7 @@ import stonering.widget.BackgroundGenerator;
 public class StaticSkin {
     // https://coolors.co/555555-737373-8f8f8f-aa9f6f-e2ce79-f0f0f0
     public static final Color shade = new Color(120 / 256f, 120 / 256f, 120 / 256f, 0.25f);
+    public static final Color ui_shade = new Color(100 / 256f, 100 / 256f, 100 / 256f, 0.6f);
 
     public static final Color background = Color.valueOf("555555ff"); // grey 1
     public static final Color backgroundFocused = Color.valueOf("737373ff"); // grey 2

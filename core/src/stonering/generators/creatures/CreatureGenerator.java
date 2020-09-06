@@ -23,13 +23,15 @@ public class CreatureGenerator {
     private NeedAspectGenerator needAspectGenerator;
     private HealthAspectGenerator healthAspectGenerator;
     private HumanoidRenderGenerator humanoidRenderGenerator;
-    
+    private JobSkillAspectGenerator jobSkillAspectGenerator;
+
     public CreatureGenerator() {
         bodyAspectGenerator = new BodyAspectGenerator();
         equipmentAspectGenerator = new EquipmentAspectGenerator();
         needAspectGenerator = new NeedAspectGenerator();
         healthAspectGenerator = new HealthAspectGenerator();
         humanoidRenderGenerator = new HumanoidRenderGenerator();
+        jobSkillAspectGenerator = new JobSkillAspectGenerator();
     }
 
     /**
@@ -42,7 +44,6 @@ public class CreatureGenerator {
         Unit unit = new Unit(position.clone(), type);
         addMandatoryAspects(unit);
         addOptionalAspects(unit);
-        updateBuffs(unit);
         return unit;
     }
 
@@ -57,7 +58,7 @@ public class CreatureGenerator {
         unit.add(new TaskAspect(null));
         unit.add(new MovementAspect(null));
         unit.add(new RenderAspect(AtlasesEnum.units.getBlockTile(type.atlasXY)));
-        unit.add(new JobSkillAspect(unit));
+
     }
 
     private void addOptionalAspects(Unit unit) {
@@ -69,13 +70,9 @@ public class CreatureGenerator {
                     continue;
                 }
                 case "jobs": {
-                    unit.add(new JobSkillAspect(null));
+                    unit.add(jobSkillAspectGenerator.generate());
                 }
             }
         }
-    }
-
-    private void updateBuffs(Unit unit) {
-//        GameMvc.model().get(UnitContainer.class).healthSystem.resetCreatureHealth(unit);
     }
 }

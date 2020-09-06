@@ -32,7 +32,7 @@ public class UnitJobSkillTab extends Table {
         // header
         add(new Label("Unit skills and jobs.", StaticSkin.skin())).height(80).growX().row();
         add(listTable = new Table()).grow();
-        listTable.defaults().height(25).pad(5);
+        listTable.defaults().width(200).fill();
         listTable.align(Align.topLeft);
         List<Job> skilledJobs = JobMap.skilled();
         List<Job> unskilledJobs = JobMap.unskilled();
@@ -46,6 +46,7 @@ public class UnitJobSkillTab extends Table {
             listTable.add(createWidget(i < unskilledJobs.size() ? unskilledJobs.get(i) : null));
             listTable.row();
         }
+        listTable.debugAll();
     }
 
     private JobWidget createWidget(Job job) {

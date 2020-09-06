@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Json;
 import stonering.util.lang.FileUtil;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,10 +21,10 @@ public class SkillMap {
     public static final int[] LEVEL_AMOUNT = {100, 200, 300, 4000, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2900};
 
     private static SkillMap instance;
-    private final Map<String, Skill> skills;
+    private final Map<String, Skill> map;
 
     private SkillMap() {
-        skills = new HashMap<>();
+        map = new HashMap<>();
         loadTemplates();
     }
 
@@ -36,12 +37,16 @@ public class SkillMap {
         Json json = new Json();
         ArrayList<Skill> skills = json.fromJson(ArrayList.class, Skill.class, FileUtil.get(FileUtil.SKILLS_PATH));
         for (Skill skill : skills) {
-            this.skills.put(skill.name, skill);
+            this.map.put(skill.name, skill);
         }
     }
 
     public static Skill getSkill(String skillName) {
-        return instance().skills.get(skillName);
+        return instance().map.get(skillName);
+    }
+
+    public static Collection<Skill> all() {
+        return instance().map.values();
     }
 }
 

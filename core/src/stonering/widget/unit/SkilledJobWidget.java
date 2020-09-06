@@ -18,19 +18,11 @@ public class SkilledJobWidget extends JobWidget {
 
     public SkilledJobWidget(Job job, JobSkillAspect aspect) {
         super(job, aspect);
-    }
-
-    protected Table table(Job job, JobSkillAspect jobSkillAspect) {
-        Table table = new Table();
-        SkillValue state = jobSkillAspect.skills.get(job.skill);
-        table.add(new Label(state.level() + "", StaticSkin.skin())); // numeric level
-        Stack progressStack = new Stack();
-        ProgressBar progress =new ProgressBar(0f, 1f, 0.01f, false, StaticSkin.skin()); // exp
+        SkillValue state = aspect.skills.get(job.skill);
+        levelLabel.setText(state.level()); // numeric level
+        ProgressBar progress = new ProgressBar(0f, 1f, 0.01f, false, StaticSkin.skin()); // exp
         progress.setValue(state.nextLevelProgress());
-        progressStack.add(progress);
-        progressStack.add(new Label(job.name, StaticSkin.skin())); // caption
-        table.add(progressStack).fill().left().size(200, 25);
-        //TODO attr bonus
-        return table;
+        labelStack.add(progress);
+        labelStack.add(new Label(job.name, StaticSkin.skin())); // caption
     }
 }
