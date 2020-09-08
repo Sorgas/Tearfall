@@ -8,7 +8,7 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.enums.images.DrawableMap;
 import stonering.enums.unit.need.NeedEnum;
-import stonering.widget.util.HealthParameterStateProgressBar;
+import stonering.widget.util.NeedStateProgressBar;
 
 /**
  * Displays hunger, thirst, and fatigue of a unit.
@@ -29,6 +29,6 @@ public class UnitNeedsWidget extends Table {
         Drawable drawable = DrawableMap.ICON.getDrawable(drawableName);
         Image image = new Image(drawable);
         add(image).size(40);
-        add(new HealthParameterStateProgressBar(aspect.needs.get(parameter))).growX().row();
+        add(new NeedStateProgressBar(aspect.needs.get(parameter))).growX().row();
     }
 }

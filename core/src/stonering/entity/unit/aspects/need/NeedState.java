@@ -20,7 +20,7 @@ public class NeedState {
     }
 
     public boolean setValue(float value) {
-        current = Math.max(0, value);
+        current = Math.max(0, value); // prevents negative values
         return current > max;
     }
 

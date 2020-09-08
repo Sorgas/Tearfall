@@ -18,6 +18,7 @@ public class RatioLabel extends ValueFormatLabel {
 
     public void setDividend(int dividend) {
         setValue(0, dividend);
+        updateText();
     }
 
     public int getDivisor() {
@@ -26,5 +27,6 @@ public class RatioLabel extends ValueFormatLabel {
 
     public void setDivisor(int divisor) {
         setValue(1, divisor);
+        updateText();
     }
 }

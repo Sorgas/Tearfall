@@ -31,9 +31,9 @@ public class UnitImageColumn extends Table {
 
     private void createTable(Unit unit) {
         defaults().growX();
-        add(new Label("unit name", StaticSkin.skin())).row();
+        add(new Label("unit name", StaticSkin.skin())).row(); // TODO name generation
 
-        add(new Label("race, " + getUnitProfession(unit), StaticSkin.skin())).row();
+        add(new Label("race, " + getUnitProfession(unit), StaticSkin.skin())).row(); // TODO race
         
         add(createImageContainer(unit)).row();
         
