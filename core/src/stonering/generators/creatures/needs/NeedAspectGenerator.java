@@ -17,8 +17,7 @@ public class NeedAspectGenerator {
 
     public NeedAspect generateNeedAspect(CreatureType type) {
         NeedAspect needAspect = new NeedAspect(null);
-        type.bodyTemplate.needs.stream()
-                .map(NeedEnum.map::get)
+        type.needs.stream()
                 .filter(Objects::nonNull)
                 .forEach(need -> needAspect.needs.put(need, new NeedState()));
         return needAspect;

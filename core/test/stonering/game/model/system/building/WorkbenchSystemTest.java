@@ -66,7 +66,7 @@ public class WorkbenchSystemTest {
     private void createEntities() {
         unit = new Unit(new Position(), new CreatureType());
         unit.add(new TaskAspect(unit));
-        unit.add(new JobSkillAspect(unit));
+        unit.add(new JobSkillAspect());
         GameMvc.model().get(UnitContainer.class).addUnit(unit);
         
         workbench = new Building(new Position(), new BuildingType(), OrientationEnum.N);

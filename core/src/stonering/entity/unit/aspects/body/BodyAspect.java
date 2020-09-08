@@ -2,31 +2,23 @@ package stonering.entity.unit.aspects.body;
 
 import stonering.entity.Aspect;
 import stonering.entity.unit.Unit;
+import stonering.enums.unit.body.BodyPart;
 import stonering.enums.unit.health.HealthEffect;
 
 import java.util.*;
 
 /**
- * Stores creature's body with its parts, wounds, diseases and other effects.
- * Points to creature's body which is stored in creature type.
+ * Stores state of creature body. Body parts are listed in {@link stonering.enums.unit.race.CreatureType}.
+ * Aspect stores wounds on body parts, missing parts, diseases of a creature, and effects of diseases and wounds.
  *
  * @author Alexander Kuzyakov on 19.10.2017.
  */
 public class BodyAspect extends Aspect {
-    public final String bodyTemplate;
-    public final List<String> bodyPartsToCover;
-    public final List<Wound> wounds;
-    public final Map<String, DiseaseState> diseases;
-    public final Map<String, HealthEffect> buffs;
-
-    public BodyAspect(Unit unit, String bodyTemplate) {
-        super(unit);
-        this.bodyTemplate = bodyTemplate;
-        wounds = new ArrayList<>();
-        diseases = new HashMap<>();
-        bodyPartsToCover = new ArrayList<>();
-        buffs = new HashMap<>();
-    }
+    public final Map<String, Wound> wounds = new HashMap<>(); // body part to wound
+    public final Set<String> missingParts = new HashSet<>(); 
+    public final Map<String, DiseaseState> diseases = new HashMap<>();
+    public final Map<String, HealthEffect> effects = new HashMap<>();
+    public final List<String> requiredSlots = new ArrayList<>();
     
     public float getDiseaseProgress(String name) {
         return Optional.ofNullable(diseases.get(name))

@@ -39,7 +39,7 @@ public class CreatureGenerator {
      */
     public Unit generateUnit(Position position, String specimen) {
         Logger.GENERATION.log("generating unit " + specimen);
-        CreatureType type = CreatureTypeMap.instance().getCreatureType(specimen);
+        CreatureType type = CreatureTypeMap.instance().creatureTypes.get(specimen);
         if (type == null) return null;
         Unit unit = new Unit(position.clone(), type);
         addMandatoryAspects(unit);

@@ -1,5 +1,6 @@
 package stonering.enums.unit.race;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,9 +14,8 @@ public class RawCreatureType {
     public String title;
     public String description;
     public String bodyTemplate;
-    public List<String> limbsToCover;
-    public List<String> aspects;
-    public int baseHP;
+    public List<String> desiredSlots = new ArrayList<>();
+    public List<String> aspects = new ArrayList<>();
     public int[] atlasXY;
     public String color;
     public CombinedAppearance combinedAppearance;

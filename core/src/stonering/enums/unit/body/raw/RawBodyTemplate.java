@@ -12,8 +12,7 @@ import java.util.List;
  */
 public class RawBodyTemplate {
     public String name;
-    public List<String> needs;
-    public List<String> desiredSlots = new ArrayList<>();
     public List<RawBodyPart> body;
+    public List<String> desiredSlots = new ArrayList<>();
     public List<List<String>> slots = new ArrayList<>();
 }

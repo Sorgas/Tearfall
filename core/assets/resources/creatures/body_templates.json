@@ -3,13 +3,12 @@
     slots:
         slot name, slot limbs
     slots include only mandatory limbs. all covered limbs are defined in item.
-    slots are mirrored, if they use mirrored limbs (giving two slots). if both mirrored and single limbs are used in one slot, it is not mirrored.
+    slots are mirrored, if they use mirrored limbs (giving two slots). if both mirrored and single limbs are used in one slot, slot is not mirrored (pants).
 */
 [
     {
         "name": "beast",
 //        "defaultLayers": ["skin", "fat", "muscle", "bone"],
-        "needs": ["rest"],
         "body": [
             {
                 "name": "upper torso",
@@ -59,7 +58,6 @@
     "name": "humanoid",
     "desiredSlots": ["foot", "legs"],
 //    "defaultLayers": ["skin", "fat", "muscle", "bone"],
-    "needs": ["rest", "wear", "food", "water"],
     "body": [
         {
             "name": "upper torso",
@@ -126,7 +124,6 @@
     {
         "name": "bird",
 //        "defaultLayers": ["skin", "fat", "muscle", "bone"],
-        "needs": ["rest", "wear", "food"],
         "body": [
             {
                 "name": "upper torso",

@@ -14,7 +14,7 @@ public class LeveledValueTest {
 
     @BeforeEach
     void setUp() {
-        leveledValue = new SkillValue();
+        leveledValue = new SkillValue("qwer");
     }
 
     @Test

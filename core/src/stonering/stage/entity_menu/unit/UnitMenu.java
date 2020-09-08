@@ -32,6 +32,7 @@ public class UnitMenu extends Table {
         pane.add("jobs", new UnitJobSkillTab(unit));
         pane.add("equipment", new UnitEquipmentTab(unit));
         pane.add("stats", new UnitHealthTab(unit));
+        pane.add("stats", new UnitHealthTab(unit));
         add(pane).fill().width(600);
         // TODO add other tabs
         addListener(new KeyNotifierListener(() -> pane));

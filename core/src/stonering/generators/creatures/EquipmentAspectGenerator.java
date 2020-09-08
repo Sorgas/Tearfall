@@ -24,12 +24,12 @@ public class EquipmentAspectGenerator {
         equipmentAspect.desiredSlots.addAll(type.desiredSlots.stream().map(equipmentAspect.slots::get).collect(Collectors.toList()));
         return equipmentAspect;
     }
-
+    
     /**
      * Loops through body parts of creature, generating slots for them.
      */
     private void generateSlots(CreatureType type, EquipmentAspect aspect) {
-        Map<String, List<String>> slotLimbs = type.bodyTemplate.slots;
+        Map<String, List<String>> slotLimbs = type.slots;
         for (String name : slotLimbs.keySet()) {
             EquipmentSlot slot = isGrabSlot(name, type)
                     ? new GrabEquipmentSlot(name, slotLimbs.get(name), aspect)
@@ -40,6 +40,6 @@ public class EquipmentAspectGenerator {
     }
 
     private boolean isGrabSlot(String slotName, CreatureType type) {
-        return type.bodyTemplate.slots.get(slotName).stream().anyMatch(s -> type.bodyTemplate.body.get(s).tags.contains("grab"));
+        return type.slots.get(slotName).stream().anyMatch(s -> type.bodyParts.get(s).tags.contains("grab"));
     }
 }

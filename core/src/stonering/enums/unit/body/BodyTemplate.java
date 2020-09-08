@@ -11,17 +11,13 @@ import java.util.List;
  *
  * @author Alexander on 29.05.2019.
  */
-public class BodyTemplate {
+public class  BodyTemplate {
     public String name;
-    public List<String> needs;
-    public List<String> desiredSlots;
     public HashMap<String, BodyPart> body; // name to bodyPart
     public HashMap<String, List<String>> slots; // slot name to default limbs
 
     public BodyTemplate(RawBodyTemplate rawBodyTemplate) {
         name = rawBodyTemplate.name;
-        needs = rawBodyTemplate.needs;
-        desiredSlots = rawBodyTemplate.desiredSlots;
         body = new HashMap<>();
         slots = new HashMap<>();
     }

@@ -28,14 +28,13 @@ public class RawBodyPart implements Cloneable {
     @Override
     protected Object clone() {
         RawBodyPart clone = new RawBodyPart();
-        clone.root = root;
-        clone.internal.addAll(internal);
-        clone.external.addAll(external);
-        clone.tags.addAll(tags);
-        clone.layers.addAll(layers);
         clone.name = name;
         clone.root = root;
         clone.mirrored = mirrored;
+        clone.layers.addAll(layers);
+        clone.tags.addAll(tags);
+        clone.internal.addAll(internal);
+        clone.external.addAll(external);
         return clone;
     }
 }
