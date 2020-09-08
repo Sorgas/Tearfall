@@ -11,7 +11,7 @@ import java.util.List;
 public class RawBodyPart implements Cloneable {
     public String name;
     public String root;
-    public boolean mirrored; // bi for left and right, quadro for front left, rear right, etc
+    public boolean mirrored; // bi for left and right, quadro for front left, rear right, etc todo
     public final List<String> layers;
     public final List<String> internal;
     public final List<String> external;

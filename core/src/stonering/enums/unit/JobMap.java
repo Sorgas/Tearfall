@@ -73,4 +73,11 @@ public class JobMap {
     public static List<Job> unskilled() {
         return instance().unskilled;
     }
+    
+    public static Job bySkill(String name) {
+        return skilled().stream()
+                .filter(job -> name.equals(job.skill))
+                .findFirst()
+                .orElse(null);
+    }
 }
