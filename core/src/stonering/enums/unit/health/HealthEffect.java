@@ -7,7 +7,7 @@ import stonering.entity.unit.aspects.CreatureStatusIcon;
 
 /**
  * Represents any effect that changes health state of a creature, such as wounds, diseases, buffs etc.
- * Effects apply some delta to some health functions, see {@link HealthFunctionEnum}.
+ * Effect applies some deltas to any combination of {@link HealthFunctionEnum}, {@link CreatureAttributeEnum} and {@link GameplayStatEnum}.
  * 
  * @author Alexander on 10.08.2020.
  */

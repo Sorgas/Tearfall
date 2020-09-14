@@ -1,7 +1,7 @@
 package stonering.entity.unit.aspects.need;
 
 import stonering.enums.unit.need.Need;
-import stonering.game.model.GamePlayConstants;
+import stonering.game.model.GameplayConstants;
 import stonering.game.model.system.unit.NeedSystem;
 import stonering.util.geometry.ValueRange;
 
@@ -16,7 +16,7 @@ public class NeedState extends ValueRange {
     private float current = 0;
 
     public NeedState() {
-        super(0f, GamePlayConstants.DEFAULT_NEED_MAX);
+        super(0f, GameplayConstants.NEED_MAX);
     }
 
     public float getRelativeValue() {

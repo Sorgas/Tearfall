@@ -23,7 +23,7 @@ public class DiseaseState {
 
     public boolean change(float delta) {
         current += delta;
-        if(stage.range.check(current)) return false; // stage did not change
+         if(stage.range.check(current)) return false; // stage did not change
         updateStage();
         return true;
     }

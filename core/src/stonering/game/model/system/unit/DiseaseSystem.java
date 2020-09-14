@@ -3,12 +3,13 @@ package stonering.game.model.system.unit;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.body.BodyAspect;
 import stonering.entity.unit.aspects.body.DiseaseState;
-import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.entity.unit.aspects.need.NeedState;
+import stonering.enums.time.TimeUnitEnum;
 import stonering.enums.unit.health.disease.DiseaseStage;
 import stonering.enums.unit.health.disease.DiseaseType;
 import stonering.game.GameMvc;
+import stonering.game.model.GameplayConstants;
 import stonering.game.model.system.EntitySystem;
 
 /**
@@ -21,6 +22,10 @@ import stonering.game.model.system.EntitySystem;
  */
 public class DiseaseSystem extends EntitySystem<Unit> {
     private final float DISEASE_DELTA = 0.01f;
+
+    public DiseaseSystem() {
+        updateInterval = TimeUnitEnum.MINUTE;
+    }
 
     @Override
     public void update(Unit unit) {
@@ -41,8 +46,8 @@ public class DiseaseSystem extends EntitySystem<Unit> {
                 healthSystem.applyEffect(state.stage, unit);
             } else if (state.current <= 0) {
                 body.diseases.remove(state.type.name);
-            } else if (state.current >= state.stage.range.max) {
-                System.out.println("died of " + state.stage.name);
+            } else if (state.current >= GameplayConstants.NEED_MAX) {
+                healthSystem.kill(unit);
             }
         }
     }

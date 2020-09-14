@@ -1,31 +1,24 @@
 package stonering.game.model.system.unit;
 
 import stonering.entity.unit.Unit;
+import stonering.enums.unit.health.CreatureAttributeEnum;
+import stonering.enums.unit.health.GameplayStatEnum;
 import stonering.enums.unit.health.HealthEffect;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.time.TimeUnitEnum;
-import stonering.enums.unit.health.HealthParameterMapping;
+import stonering.enums.unit.health.HealthFunctionEnum;
+import stonering.game.GameMvc;
 import stonering.game.model.system.EntitySystem;
 import stonering.util.logging.Logger;
 
 /**
  * Updates health condition of a unit ({@link HealthAspect}).
- * Iterates health parameters of a creature, adding some constant (delta) to them.
- * Updates buffs if needed.
- * Health condition buffs depend on relative value of health parameter.
- * MVP: constant parameter ranges, increase/restore speeds, no treats.
- * <p>
- * FATIGUE - shows creature's tiredness. Performing actions, moving, and being awake increase fatigue.
- * Rest lowers fatigue. Maximum fatigue is based on endurance attribute, illness, worn items.
- * <p>
- * HUNGER - how hungry creature is. Hunger increased over time, by actions and movement. Eating lowers hunger.
- * Maximum hunger is based on endurance attribute and ilnesses.
- * Creatures will look for food on 50%, eating priority increases with growing hunger.
+ * Applies {@link HealthEffect} to unit's {@link HealthAspect}.
+ * {@link GameplayStatEnum} depends on {@link HealthFunctionEnum} and {@link CreatureAttributeEnum} values, and changed after change of these values takes effect.
  *
  * @author Alexander on 16.09.2019.
  */
 public class HealthSystem extends EntitySystem<Unit> {
-    private final HealthParameterMapping mapping = new HealthParameterMapping();
 
     public HealthSystem() {
         updateInterval = TimeUnitEnum.MINUTE;
@@ -36,23 +29,32 @@ public class HealthSystem extends EntitySystem<Unit> {
     }
 
     public void applyEffect(HealthEffect effect, Unit unit) {
-        HealthAspect health = unit.get(HealthAspect.class);
-        effect.attributeEffects.forEach(health::change); // apply effect
-        effect.functionEffects.forEach(health::change); // apply effect
-        mapping.collectProperties(effect).forEach(health::update); // update dependent properties
-        effect.statEffects.forEach(health::change); // apply effect
-        health.effects.put(effect.name, effect); // save effect as applied
+        unit.optional(HealthAspect.class).ifPresentOrElse(health -> {
+                    effect.attributeEffects.forEach(health::change); // apply effect
+                    effect.functionEffects.forEach(health::change); // apply effect
+                    GameplayStatEnum.collectProperties(effect).forEach(health::update); // update dependent properties
+                    effect.statEffects.forEach(health::change); // apply effect
+                    health.effects.put(effect.name, effect); // save effect as applied
+                },
+                () -> Logger.UNITS.logError("Cannot apply health effect " + effect.name + "Unit " + unit + " has no health aspect"));
     }
 
     public void unapplyEffect(HealthEffect effect, Unit unit) {
-        HealthAspect health = unit.get(HealthAspect.class);
-        if(!health.effects.containsKey(effect.name)) {
-            Logger.UNITS.logError("Attempt to remove unpresent effect " + effect.name);
-            return;
-        }
-        effect.attributeEffects.forEach(health::change);
-        effect.functionEffects.forEach(health::change);
-        mapping.collectProperties(effect).forEach(health::update);
-        effect.statEffects.forEach(health::change);
+        unit.optional(HealthAspect.class).ifPresentOrElse(health -> {
+                    if (!health.effects.containsKey(effect.name)) {
+                        Logger.UNITS.logError("Attempt to remove unpresent effect " + effect.name);
+                        return;
+                    }
+                    effect.attributeEffects.forEach((attribute, delta) -> health.change(attribute, -delta));
+                    effect.functionEffects.forEach((function, delta) -> health.change(function, -delta));
+                    GameplayStatEnum.collectProperties(effect).forEach(health::update);
+                    effect.statEffects.forEach((stat, delta) -> health.change(stat, -delta));
+                },
+                () -> Logger.UNITS.logError("Cannot unapply health effect " + effect.name + "Unit " + unit + " has no health aspect"));
+    }
+
+    public void kill(Unit unit) {
+        GameMvc.model().get(UnitContainer.class).objects.remove(unit);
+        GameMvc.model().get(UnitContainer.class).unitsMap.get(unit.position).remove(unit);
     }
 }

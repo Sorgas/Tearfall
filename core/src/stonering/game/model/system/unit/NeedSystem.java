@@ -14,7 +14,7 @@ import stonering.enums.time.TimeUnitEnum;
 import stonering.enums.unit.need.Need;
 import stonering.enums.unit.need.NeedEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.GamePlayConstants;
+import stonering.game.model.GameplayConstants;
 import stonering.game.model.system.EntitySystem;
 import stonering.game.model.system.task.TaskContainer;
 
@@ -41,7 +41,7 @@ public class NeedSystem extends EntitySystem<Unit> {
         for (Entry<NeedEnum, NeedState> entry : aspect.needs.entrySet()) {
             NeedState state = entry.getValue();
             if (state.current() < state.max) {
-                if (state.changeValue(GamePlayConstants.DEFAULT_NEED_DELTA)) {
+                if (state.changeValue(GameplayConstants.DEFAULT_NEED_DELTA)) {
                     Need need = entry.getKey().NEED;
                     if (need.disease != null)
                         GameMvc.model().get(UnitContainer.class).diseaseSystem.addNewDisease(unit, need.disease); // create disease

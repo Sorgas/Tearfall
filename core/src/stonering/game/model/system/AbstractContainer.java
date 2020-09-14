@@ -13,12 +13,11 @@ import java.util.List;
  * @author Alexander on 16.03.2020.
  */
 public abstract class AbstractContainer<T> implements ModelComponent, Updatable {
-    public final List<T> objects;
-    private final HashMap<TimeUnitEnum, List<UtilitySystem>> systems;
+    public final List<T> objects = new ArrayList<>();
+    public final List<T> toRemove = new ArrayList<>(); // TODO add removing of entity
+    private final HashMap<TimeUnitEnum, List<UtilitySystem>> systems = new HashMap<>();
 
     public AbstractContainer() {
-        objects = new ArrayList<>();
-        systems = new HashMap<>();
         Arrays.stream(TimeUnitEnum.values()).forEach(value -> systems.put(value, new ArrayList<>()));
     }
 
