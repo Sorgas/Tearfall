@@ -10,15 +10,11 @@ public class ValueRange {
     public Float max;
 
     public ValueRange(Float min, Float max) {
-        set(min, max);
-    }
-
-    public void set(Float min, Float max) {
         this.min = min != null ? min : Float.NEGATIVE_INFINITY;
         this.max = max != null ? max : Float.POSITIVE_INFINITY;
     }
 
     public boolean check(float value) {
-        return value > min && value <= max;
+        return value >= min && value <= max;
     }
 }

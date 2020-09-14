@@ -1,4 +1,4 @@
-package stonering.stage.entity_menu.unit;
+package stonering.stage.entity_menu.unit.tab;
 
 import java.util.List;
 

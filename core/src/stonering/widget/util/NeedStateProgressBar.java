@@ -11,15 +11,15 @@ import stonering.entity.unit.aspects.need.NeedState;
 public class NeedStateProgressBar extends RatioLabelProgressBar {
     private NeedState state;
 
+    public NeedStateProgressBar(NeedState state) {
+        super(0, (int) (state.max * 100));
+        this.state = state;
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);
         bar.setValue(state.current() * 100f);
         label.setDividend((int) (state.current() * 100));
-    }
-
-    public NeedStateProgressBar(NeedState state) {
-        super(0, (int) state.max * 100);
-        this.state = state;
     }
 }

@@ -5,5 +5,5 @@ package stonering.game.model;
  */
 public class GamePlayConstants {
     public static final float DEFAULT_NEED_MAX = 1f;
-    public static final float DEFAULT_NEED_DELTA = 1f / 1600; // 
+    public static final float DEFAULT_NEED_DELTA = 10f / 1600; // 
 }

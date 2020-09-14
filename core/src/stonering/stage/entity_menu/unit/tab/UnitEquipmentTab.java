@@ -1,4 +1,4 @@
-package stonering.stage.entity_menu.unit;
+package stonering.stage.entity_menu.unit.tab;
 
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Align;
 import stonering.entity.item.Item;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
+import stonering.stage.entity_menu.unit.SlotsWidget;
 import stonering.util.lang.StaticSkin;
 import stonering.widget.item.ItemLabel;
 import stonering.widget.item.SingleItemSquareButton;

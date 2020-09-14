@@ -1,9 +1,6 @@
 package stonering.enums.unit.health;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -27,10 +24,12 @@ public class HealthParameterMapping {
     public Set<GameplayStatEnum> collectProperties(HealthEffect effect) {
         Set<GameplayStatEnum> properties = effect.attributeEffects.keySet().stream()
                 .map(attributes::get)
+                .filter(Objects::nonNull)
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet());
         effect.functionEffects.keySet().stream()
                 .map(functions::get)
+                .filter(Objects::nonNull)
                 .flatMap(Set::stream)
                 .forEach(properties::add);
         return properties;

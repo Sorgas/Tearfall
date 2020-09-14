@@ -38,7 +38,6 @@ public class NeedSystem extends EntitySystem<Unit> {
     public void update(Unit unit) {
         NeedAspect aspect = unit.get(NeedAspect.class);
         if (aspect == null) return;
-        // roll state
         for (Entry<NeedEnum, NeedState> entry : aspect.needs.entrySet()) {
             NeedState state = entry.getValue();
             if (state.current() < state.max) {

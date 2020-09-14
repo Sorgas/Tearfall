@@ -3,7 +3,7 @@ package stonering.entity.unit.aspects.equipment;
 import stonering.entity.Entity;
 import stonering.entity.Aspect;
 import stonering.entity.item.Item;
-import stonering.stage.entity_menu.unit.UnitEquipmentTab;
+import stonering.stage.entity_menu.unit.tab.UnitEquipmentTab;
 
 import java.util.ArrayList;
 import java.util.HashMap;

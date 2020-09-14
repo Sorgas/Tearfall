@@ -26,18 +26,24 @@ public class DiseaseSystem extends EntitySystem<Unit> {
     public void update(Unit unit) {
         BodyAspect body = unit.get(BodyAspect.class);
         NeedAspect needAspect = unit.get(NeedAspect.class);
+        HealthSystem healthSystem = GameMvc.model().get(UnitContainer.class).healthSystem;
         if (body == null) return;
         for (DiseaseState state : body.diseases.values()) {
             float delta = DISEASE_DELTA;
             if (state.type.relatedNeed != null) {
                 NeedState needState = needAspect.needs.get(state.type.relatedNeed);
-                if (needState != null && needState.current() < needState.max) delta = -delta;
+                if (needState != null && needState.current() < needState.max) delta = -delta; // disease diminishes if need is satisfied
             }
             DiseaseStage prevStage = state.stage;
             if (!state.change(delta)) continue; // stage did not changed
-            HealthSystem healthSystem = GameMvc.model().get(UnitContainer.class).healthSystem;
-            healthSystem.unapplyEffect(prevStage, unit);
-            healthSystem.applyEffect(state.stage, unit);
+            healthSystem.unapplyEffect(prevStage, unit); // unapply previous effect
+            if(state.stage != null) { // stage changed to another stage
+                healthSystem.applyEffect(state.stage, unit);
+            } else if (state.current <= 0) {
+                body.diseases.remove(state.type.name);
+            } else if (state.current >= state.stage.range.max) {
+                System.out.println("died of " + state.stage.name);
+            }
         }
     }
 

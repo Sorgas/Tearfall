@@ -3,6 +3,7 @@ package stonering.entity.unit.aspects.need;
 import stonering.enums.unit.need.Need;
 import stonering.game.model.GamePlayConstants;
 import stonering.game.model.system.unit.NeedSystem;
+import stonering.util.geometry.ValueRange;
 
 /**
  * State of {@link Need}. Current value is constantly increased by {@link NeedSystem}, and doing satisfying actions,
@@ -11,9 +12,12 @@ import stonering.game.model.system.unit.NeedSystem;
  *
  * @author Alexander on 06.10.2019.
  */
-public class NeedState {
+public class NeedState extends ValueRange {
     private float current = 0;
-    public float max = GamePlayConstants.DEFAULT_NEED_MAX;
+
+    public NeedState() {
+        super(0f, GamePlayConstants.DEFAULT_NEED_MAX);
+    }
 
     public float getRelativeValue() {
         return max == 0 ? 0 : current / max * 100f;

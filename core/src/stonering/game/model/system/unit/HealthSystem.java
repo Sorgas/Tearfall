@@ -37,11 +37,11 @@ public class HealthSystem extends EntitySystem<Unit> {
 
     public void applyEffect(HealthEffect effect, Unit unit) {
         HealthAspect health = unit.get(HealthAspect.class);
-        effect.attributeEffects.forEach(health::change);
-        effect.functionEffects.forEach(health::change);
-        mapping.collectProperties(effect).forEach(health::update);
-        effect.statEffects.forEach(health::change);
-        health.effects.put(effect.name, effect);
+        effect.attributeEffects.forEach(health::change); // apply effect
+        effect.functionEffects.forEach(health::change); // apply effect
+        mapping.collectProperties(effect).forEach(health::update); // update dependent properties
+        effect.statEffects.forEach(health::change); // apply effect
+        health.effects.put(effect.name, effect); // save effect as applied
     }
 
     public void unapplyEffect(HealthEffect effect, Unit unit) {

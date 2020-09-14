@@ -2,6 +2,7 @@ package stonering.generators.creatures;
 
 import stonering.entity.RenderAspect;
 import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.MoodAspect;
 import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.TaskAspect;
 import stonering.entity.unit.aspects.job.JobSkillAspect;
@@ -58,7 +59,7 @@ public class CreatureGenerator {
         unit.add(new TaskAspect(null));
         unit.add(new MovementAspect(null));
         unit.add(new RenderAspect(AtlasesEnum.units.getBlockTile(type.atlasXY)));
-
+        unit.add(new MoodAspect());
     }
 
     private void addOptionalAspects(Unit unit) {
