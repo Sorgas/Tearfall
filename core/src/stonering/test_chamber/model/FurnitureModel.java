@@ -25,7 +25,7 @@ public class FurnitureModel extends TestModel {
         super.init();
         generator = new BuildingGenerator();
         get(EntitySelectorSystem.class).selector.position.set(MAP_SIZE / 2, MAP_SIZE / 2, 2);
-        get(UnitContainer.class).addUnit(createUnit());
+        get(UnitContainer.class).add(createUnit());
         get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(createItem(), new Position(7, 7, 2));
         get(BuildingContainer.class).addBuilding(generator.generateBuilding("kitchen", new Position(0, 4, 2), OrientationEnum.N));
         get(BuildingContainer.class).addBuilding(generator.generateBuilding("kitchen", new Position(3, 4, 2), OrientationEnum.S));

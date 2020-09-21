@@ -37,7 +37,7 @@ public class MeltingOrePlayTestModel extends TestModel {
     @Override
     public void init() {
         super.init();
-        get(UnitContainer.class).addUnit(createUnit());
+        get(UnitContainer.class).add(createUnit());
         get(EntitySelectorSystem.class).selector.position.set(4, 4, 2);
         createItems();
         createOrders();

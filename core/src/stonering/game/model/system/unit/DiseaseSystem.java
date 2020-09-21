@@ -11,6 +11,7 @@ import stonering.enums.unit.health.disease.DiseaseType;
 import stonering.game.GameMvc;
 import stonering.game.model.GameplayConstants;
 import stonering.game.model.system.EntitySystem;
+import stonering.util.logging.Logger;
 
 /**
  * System for applying and updating diseases, applying wounds, and healing.
@@ -47,7 +48,9 @@ public class DiseaseSystem extends EntitySystem<Unit> {
             } else if (state.current <= 0) {
                 body.diseases.remove(state.type.name);
             } else if (state.current >= GameplayConstants.NEED_MAX) {
+                Logger.UNITS.logDebug(unit + " died of " + state.type.name);
                 healthSystem.kill(unit);
+                break;
             }
         }
     }

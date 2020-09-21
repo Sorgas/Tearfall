@@ -8,7 +8,6 @@
 [
     {
         "name": "beast",
-//        "defaultLayers": ["skin", "fat", "muscle", "bone"],
         "body": [
             {
                 "name": "upper torso",
@@ -57,7 +56,6 @@
     }, {
     "name": "humanoid",
     "desiredSlots": ["foot", "legs"],
-//    "defaultLayers": ["skin", "fat", "muscle", "bone"],
     "body": [
         {
             "name": "upper torso",
@@ -123,7 +121,6 @@
 },
     {
         "name": "bird",
-//        "defaultLayers": ["skin", "fat", "muscle", "bone"],
         "body": [
             {
                 "name": "upper torso",

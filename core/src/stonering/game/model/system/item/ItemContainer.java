@@ -37,9 +37,9 @@ public class ItemContainer extends EntityContainer<Item> {
     private LocalMap map;
 
     public ItemContainer() {
-        put(containedItemsSystem = new ContainedItemsSystem(this));
-        put(equippedItemsSystem = new EquippedItemsSystem(this));
-        put(onMapItemsSystem = new OnMapItemsSystem(this));
+        addSystem(containedItemsSystem = new ContainedItemsSystem(this));
+        addSystem(equippedItemsSystem = new EquippedItemsSystem(this));
+        addSystem(onMapItemsSystem = new OnMapItemsSystem(this));
         cachePosition = new Position();
     }
 

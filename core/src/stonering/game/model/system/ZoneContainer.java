@@ -22,8 +22,8 @@ public class ZoneContainer extends EntityContainer<Zone> {
     private final Map<Position, Zone> zoneMap = new HashMap<>();
     
     public ZoneContainer() {
-        put(new FarmTileWitherSystem());
-        put(new FarmZoneSystem(this));
+        addSystem(new FarmTileWitherSystem());
+        addSystem(new FarmZoneSystem(this));
     }
 
     /**

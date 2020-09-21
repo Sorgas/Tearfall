@@ -36,8 +36,8 @@ public class ConstructionBuildingPlaytestModel extends TestModel {
     @Override
     public void init() {
         super.init();
-        get(UnitContainer.class).addUnit(createUnit(new Position(0,0,2)));
-        get(UnitContainer.class).addUnit(createUnit(new Position(1,0,2)));
+        get(UnitContainer.class).add(createUnit(new Position(0,0,2)));
+        get(UnitContainer.class).add(createUnit(new Position(1,0,2)));
         get(EntitySelectorSystem.class).selector.position.set(4, 4, 2);
         createItems();
         createOrders();

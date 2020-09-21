@@ -36,7 +36,7 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
         buildingBlocks = new HashMap<>();
         buildingGenerator = new BuildingGenerator();
         removedBuildings = new ArrayList<>();
-        put(workbenchSystem = new WorkbenchSystem());
+        addSystem(workbenchSystem = new WorkbenchSystem());
         cachePosition = new Position();
     }
 

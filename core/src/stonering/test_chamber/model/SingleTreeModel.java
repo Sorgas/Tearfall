@@ -23,7 +23,7 @@ public class SingleTreeModel extends TestModel {
     @Override
     public void init() {
         super.init();
-        get(UnitContainer.class).addUnit(createUnit());
+        get(UnitContainer.class).add(createUnit());
         get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(createItem(), new Position(0, 0, 2));
         gameTime.minute.max = 1;
         gameTime.hour.max = 1;

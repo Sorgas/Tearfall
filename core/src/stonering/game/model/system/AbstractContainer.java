@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Model component which contains some objects and can update them with {@link System}.
+ *
  * @author Alexander on 16.03.2020.
  */
 public abstract class AbstractContainer<T> implements ModelComponent, Updatable {
@@ -22,10 +23,19 @@ public abstract class AbstractContainer<T> implements ModelComponent, Updatable 
     }
 
     public void update(TimeUnitEnum unit) {
+        toRemove.forEach(objects::remove);
         systems.get(unit).forEach(UtilitySystem::update);
     }
     
-    public <S extends System> void put(S system) {
+    public void add(T object) {
+        objects.add(object);
+    }
+
+    public void remove(T object) {
+        if(objects.contains(object)) toRemove.add(object);
+    }
+
+    public <S extends System> void addSystem(S system) {
         if(system instanceof UtilitySystem) systems.get(system.updateInterval).add((UtilitySystem) system);
     }
 }

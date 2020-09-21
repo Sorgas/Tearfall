@@ -15,26 +15,37 @@ import stonering.util.lang.StaticSkin;
  * @author Alexander on 03.09.2020.
  */
 public class UnitHealthTab extends Table {
-    private final HealthAspect aspect;
+    private final HealthAspect healthAspect;
     private final BodyAspect bodyAspect;
 
     public UnitHealthTab(Unit unit) {
-        aspect = unit.get(HealthAspect.class);
+        healthAspect = unit.get(HealthAspect.class);
         bodyAspect = unit.get(BodyAspect.class);
+        defaults().growX().left();
         add(new Label("health", StaticSkin.skin()));
-        add(new Label("missing parts", StaticSkin.skin())).row();
-        add(damagedBodyTable());
-        add(missingBodyPartsTable());
+        add(new Label("damaged body parts", StaticSkin.skin())).row();
+        add(healthTable());
+        add(damagedBodyPartsTable());
+        debugAll();
         align(Align.topLeft);
     }
     
-    private Table damagedBodyTable() {
+    private Table healthTable() {
         Table table = new Table();
+        healthAspect.effects.forEach((name, effect) -> {
+            Table effectTable = new Table();
+            effectTable.defaults().padLeft(20).fillX().height(25);
+            effectTable.add(new Label(name, StaticSkin.skin())).padLeft(0).row();
+            effect.attributeEffects.forEach((attribute, delta) -> effectTable.add(new Label(attribute.toString() + " " + delta, StaticSkin.skin())).row());
+            effect.functionEffects.forEach((function, delta) -> effectTable.add(new Label(function.toString() + " " + delta, StaticSkin.skin())).row());
+            effect.statEffects.forEach((stat, delta) -> effectTable.add(new Label(stat.toString() + " " + delta, StaticSkin.skin())).row());
+            table.add(effectTable).row();
+        });
         bodyAspect.wounds.forEach((part, wound) -> table.add(new Label(part + wound.name, StaticSkin.skin())).row());
         return table;
     }
     
-    private Table missingBodyPartsTable() {
+    private Table damagedBodyPartsTable() {
         Table table = new Table();
         bodyAspect.missingParts .forEach(part -> table.add(new Label(part, StaticSkin.skin())).row());
         return table;

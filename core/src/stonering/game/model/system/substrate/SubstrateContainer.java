@@ -23,7 +23,7 @@ public class SubstrateContainer extends EntityContainer<SubstratePlant> implemen
 
     public SubstrateContainer() {
         substrateBlocks = new HashMap<>();
-        put(new SubstrateGrowingSystem(this));
+        addSystem(new SubstrateGrowingSystem(this));
         cachePosition = new Position();
     }
 

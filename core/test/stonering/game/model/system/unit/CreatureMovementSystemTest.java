@@ -82,7 +82,7 @@ public class CreatureMovementSystemTest {
         unit = new Unit(new Position(0, 0, 0), type);
         unit.add(movementAspect = new MovementAspect(unit));
         unit.add(taskAspect = new TaskAspect(unit));
-        GameMvc.model().get(UnitContainer.class).addUnit(unit);
+        GameMvc.model().get(UnitContainer.class).add(unit);
     }
 
     private void createTask() {

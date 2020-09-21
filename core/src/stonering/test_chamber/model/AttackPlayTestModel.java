@@ -20,7 +20,7 @@ public class AttackPlayTestModel extends TestModel {
     public void init() {
         super.init();
         CreatureGenerator generator = new CreatureGenerator();
-        get(UnitContainer.class).addUnit(generator.generateUnit(new Position(1, 5, 2), "human"));
+        get(UnitContainer.class).add(generator.generateUnit(new Position(1, 5, 2), "human"));
         Building dummy = new BuildingGenerator().generateBuilding("training_dummy", new Position(6, 5, 2), OrientationEnum.N);
         get(BuildingContainer.class).addBuilding(dummy);
         get(TaskContainer.class).addTask(new Task(new AttackBuildingTrainingAction(dummy)));

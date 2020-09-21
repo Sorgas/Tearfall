@@ -26,7 +26,7 @@ public class DiggingModel extends TestModel {
     public void init() {
         super.init();
         get(EntitySelectorSystem.class).selector.position.set(MAP_SIZE / 2, MAP_SIZE / 2, 10);
-        get(UnitContainer.class).addUnit(createUnit());
+        get(UnitContainer.class).add(createUnit());
         Item pickaxe = new ItemGenerator().generateItem("pickaxe", "iron", null);
         get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(pickaxe, new Position(0, 0, 10));
     }

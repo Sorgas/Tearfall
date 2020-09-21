@@ -29,6 +29,7 @@ public class HealthSystem extends EntitySystem<Unit> {
     }
 
     public void applyEffect(HealthEffect effect, Unit unit) {
+        System.out.println("applying effect " + effect + " to unit " + unit);
         unit.optional(HealthAspect.class).ifPresentOrElse(health -> {
                     effect.attributeEffects.forEach(health::change); // apply effect
                     effect.functionEffects.forEach(health::change); // apply effect
@@ -40,6 +41,7 @@ public class HealthSystem extends EntitySystem<Unit> {
     }
 
     public void unapplyEffect(HealthEffect effect, Unit unit) {
+        System.out.println("unapplying effect " + effect + " to unit " + unit);
         unit.optional(HealthAspect.class).ifPresentOrElse(health -> {
                     if (!health.effects.containsKey(effect.name)) {
                         Logger.UNITS.logError("Attempt to remove unpresent effect " + effect.name);
@@ -54,7 +56,6 @@ public class HealthSystem extends EntitySystem<Unit> {
     }
 
     public void kill(Unit unit) {
-        GameMvc.model().get(UnitContainer.class).objects.remove(unit);
-        GameMvc.model().get(UnitContainer.class).unitsMap.get(unit.position).remove(unit);
+        GameMvc.model().get(UnitContainer.class).remove(unit);
     }
 }

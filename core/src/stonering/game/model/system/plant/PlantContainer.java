@@ -35,8 +35,8 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements Mo
     public PlantContainer() {
         plantBlocks = new HashMap<>();
         plantProductGenerator = new PlantProductGenerator();
-        put(new PlantSeedSystem());
-        put(new PlantGrowthSystem());
+        addSystem(new PlantSeedSystem());
+        addSystem(new PlantGrowthSystem());
         cachePosition = new Position();
     }
 

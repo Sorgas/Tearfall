@@ -14,10 +14,10 @@ import java.util.*;
  * @author Alexander Kuzyakov on 19.10.2017.
  */
 public class BodyAspect extends Aspect {
+    public final Map<String, String> bodyParts = new HashMap<>();
     public final Map<String, Wound> wounds = new HashMap<>(); // body part to wound
     public final Set<String> missingParts = new HashSet<>(); 
     public final Map<String, DiseaseState> diseases = new HashMap<>();
-    public final Map<String, HealthEffect> effects = new HashMap<>();
     public final List<String> requiredSlots = new ArrayList<>();
     
     public float getDiseaseProgress(String name) {

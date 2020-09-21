@@ -67,7 +67,7 @@ public class WorkbenchSystemTest {
         unit = new Unit(new Position(), new CreatureType());
         unit.add(new TaskAspect(unit));
         unit.add(new JobSkillAspect());
-        GameMvc.model().get(UnitContainer.class).addUnit(unit);
+        GameMvc.model().get(UnitContainer.class).add(unit);
         
         workbench = new Building(new Position(), new BuildingType(), OrientationEnum.N);
         workbench.add(aspect = new WorkbenchAspect(workbench));

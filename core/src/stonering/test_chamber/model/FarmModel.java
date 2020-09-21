@@ -27,7 +27,7 @@ public class FarmModel extends TestModel {
     public void init() {
         super.init();
         get(EntitySelectorSystem.class).selector.position.set(MAP_SIZE / 2, MAP_SIZE / 2, 2);
-        get(UnitContainer.class).addUnit(createUnit());
+        get(UnitContainer.class).add(createUnit());
         Item hoe = generator.generateItem("hoe", "iron", new Position(0, 0, 2));
         get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(hoe, hoe.position);
         Item sickle = generator.generateItem("sickle", "iron", new Position(0, 0, 2));

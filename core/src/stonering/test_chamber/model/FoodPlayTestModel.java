@@ -27,7 +27,7 @@ public class FoodPlayTestModel extends TestModel {
         super.init();
         Unit unit = new CreatureGenerator().generateUnit(new Position(0, 0, 2), "human");
         unit.get(NeedAspect.class).needs.get(NeedEnum.FOOD).setValue(65);
-        get(UnitContainer.class).addUnit(unit);
+        get(UnitContainer.class).add(unit);
 
         ItemContainer itemContainer = get(ItemContainer.class);
         BuildingContainer buildingContainer = get(BuildingContainer.class);

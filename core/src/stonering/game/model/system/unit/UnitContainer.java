@@ -17,7 +17,7 @@ import java.util.*;
  * @author Alexander Kuzyakov on 03.12.2017.
  */
 public class UnitContainer extends EntityContainer<Unit> {
-    Map<Position, List<Unit>> unitsMap;
+    public final Map<Position, List<Unit>> unitsMap;
     public final NeedSystem needSystem;
     public final HealthSystem healthSystem;
     public final CreatureMovementSystem movementSystem;
@@ -32,48 +32,42 @@ public class UnitContainer extends EntityContainer<Unit> {
     public UnitContainer() {
         cachePosition = new Position();
         unitsMap = new HashMap<>();
-        put(needSystem = new NeedSystem());
-        put(healthSystem = new HealthSystem());
-        put(movementSystem = new CreatureMovementSystem());
-        put(planningSystem = new CreaturePlanningSystem());
-        put(taskSystem = new CreatureActionPerformingSystem());
-        put(experienceSystem = new CreatureExperienceSystem());
-        put(equipmentSystem = new CreatureEquipmentSystem());
-        put(diseaseSystem = new DiseaseSystem());
+        addSystem(needSystem = new NeedSystem());
+        addSystem(healthSystem = new HealthSystem());
+        addSystem(movementSystem = new CreatureMovementSystem());
+        addSystem(planningSystem = new CreaturePlanningSystem());
+        addSystem(taskSystem = new CreatureActionPerformingSystem());
+        addSystem(experienceSystem = new CreatureExperienceSystem());
+        addSystem(equipmentSystem = new CreatureEquipmentSystem());
+        addSystem(diseaseSystem = new DiseaseSystem());
     }
 
-    /**
-     * Add unit to container. Unit's position should be set.
-     */
-    public void addUnit(Unit unit) {
-        addUnitToMap(unit);
-        objects.add(unit);
+    @Override
+    public void add(Unit unit) {
+        super.add(unit);
+        putUnitToMap(unit);
     }
 
-    /**
-     * Removes Unit from container. Unit's position should be valid.
-     */
-    private void removeUnit(Unit unit) {
+    @Override
+    public void remove(Unit unit) {
+        super.remove(unit);
         removeUnitFromMap(unit);
-        objects.remove(unit);
     }
 
     public void updateUnitPosition(Unit unit, Vector3 vector) {
         removeUnitFromMap(unit);
         unit.setPosition(vector);
-        addUnitToMap(unit);
+        putUnitToMap(unit);
     }
 
     public void updateUnitPosition(Unit unit, Position position) {
         removeUnitFromMap(unit);
         unit.setPosition(position);
-        addUnitToMap(unit);
+        putUnitToMap(unit);
     }
 
-    private void addUnitToMap(Unit unit) {
-        Position position = unit.position.clone();
-        if (!unitsMap.containsKey(position)) unitsMap.put(position, new ArrayList<>());
-        unitsMap.get(position).add(unit);
+    private void putUnitToMap(Unit unit) {
+        unitsMap.computeIfAbsent(unit.position.clone(), pos -> new ArrayList<>()).add(unit);
     }
 
     private void removeUnitFromMap(Unit unit) {
@@ -82,9 +76,6 @@ public class UnitContainer extends EntityContainer<Unit> {
         if (unitsInOldPosition.isEmpty()) unitsMap.remove(unit.position);
     }
 
-    /**
-     * returns list of unit in given position. Returns null, if no unit exist in this position.
-     */
     public List<Unit> getUnitsInPosition(int x, int y, int z) {
         return getUnitsInPosition(cachePosition.set(x, y, z));
     }

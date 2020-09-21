@@ -42,7 +42,7 @@ public class CreatureActionPerformingTest {
         unit = new Unit(new Position(), new CreatureType());
         unit.add(aspect = new TaskAspect(unit));
         unit.add(new JobSkillAspect());
-        model.get(UnitContainer.class).addUnit(unit);
+        model.get(UnitContainer.class).add(unit);
         map.initAreas();
     }
 

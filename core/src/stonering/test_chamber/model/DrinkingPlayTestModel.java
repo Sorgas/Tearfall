@@ -23,7 +23,7 @@ public class DrinkingPlayTestModel extends TestModel {
         super.init();
         Unit unit = new CreatureGenerator().generateUnit(new Position(0, 0, 2), "human");
         unit.get(NeedAspect.class).needs.get(NeedEnum.WATER).setValue(1);
-        get(UnitContainer.class).addUnit(unit);
+        get(UnitContainer.class).add(unit);
 
         LocalMap map = get(LocalMap.class);
         map.blockType.set(5, 5, 2, BlockTypeEnum.SPACE);

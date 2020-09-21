@@ -1,7 +1,6 @@
 package stonering.game.model.system;
 
 import stonering.entity.Entity;
-import stonering.entity.building.Building;
 import stonering.enums.time.TimeUnitEnum;
 
 import java.util.ArrayList;
@@ -32,8 +31,8 @@ public abstract class EntityContainer<T extends Entity> extends AbstractContaine
     }
 
     @Override
-    public <S extends System> void put(S system) {
-        super.put(system);
+    public <S extends System> void addSystem(S system) {
+        super.addSystem(system);
         if(system instanceof EntitySystem) entitySystems.get(system.updateInterval).add((EntitySystem) system);
     }
 
