@@ -9,6 +9,7 @@ import stonering.entity.RenderAspect;
 import stonering.entity.item.Item;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
+import stonering.stage.renderer.atlas.AtlasesEnum;
 
 /**
  * Draws items laying on the ground. Multiple items on the same tile are drawn with offsets.

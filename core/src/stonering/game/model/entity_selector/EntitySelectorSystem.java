@@ -9,7 +9,7 @@ import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.entity_selector.tool.SelectionTools;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.ModelComponent;
-import stonering.stage.renderer.AtlasesEnum;
+import stonering.stage.renderer.atlas.AtlasesEnum;
 import stonering.util.geometry.Position;
 
 /**

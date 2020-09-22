@@ -63,6 +63,7 @@ public class UnitImageColumn extends Table {
     }
 
     private Container<Image> createImageContainer(Unit unit) {
+        
         Image image = new Image(unit.get(RenderAspect.class).region);
         return new Container<>(image).size(200, 300);
     }

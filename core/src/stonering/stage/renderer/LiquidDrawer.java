@@ -1,7 +1,7 @@
 package stonering.stage.renderer;
 
 import static stonering.enums.blocks.BlockTypeEnum.SPACE;
-import static stonering.stage.renderer.AtlasesEnum.liquids;
+import static stonering.stage.renderer.atlas.AtlasesEnum.liquids;
 
 import java.util.Optional;
 

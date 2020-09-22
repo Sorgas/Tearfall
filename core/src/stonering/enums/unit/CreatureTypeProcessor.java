@@ -26,6 +26,7 @@ public class CreatureTypeProcessor {
             return Logger.LOADING.logWarn("Creature " + type.name + " has invalid body template " + raw.bodyTemplate, null);
         }
 
+        if(type.combinedAppearance != null) type.combinedAppearance.process();
         Arrays.stream(GameplayStatEnum.values()).forEach(value -> type.statMap.put(value, value.DEFAULT)); // save default values
         for (String statName : raw.statMap.keySet()) { // override default values
             if (GameplayStatEnum.map.containsKey(statName)) {

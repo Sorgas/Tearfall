@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.item.selectors.SimpleItemSelector;
-import stonering.stage.renderer.AtlasesEnum;
+import stonering.stage.renderer.atlas.AtlasesEnum;
 import stonering.util.lang.StaticSkin;
 import stonering.widget.button.IconTextButton;
 

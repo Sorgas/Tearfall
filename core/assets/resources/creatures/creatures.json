@@ -6,9 +6,9 @@
         "bodyTemplate": "humanoid",
         "aspects" : ["equipment", "jobs"],
         "combinedAppearance" : {
-            "body": [1,4,1], // y, number of male variants, number of female variants
-            "head": [0,3,1],
-            "foot": [0,3],
+            "body": "1/4/1/53:36:36:25", // y, number of male variants, number of female variants, widths of variants
+            "head": "0/3/1",
+            "foot": "0/3/0",
             "bodyHeight" : 48
         },
         "atlasXY": ["0", "0"],

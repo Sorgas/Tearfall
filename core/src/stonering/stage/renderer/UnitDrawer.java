@@ -14,13 +14,13 @@ import stonering.entity.RenderAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.system.unit.UnitContainer;
-import stonering.stage.toolbar.menus.ParentMenu;
+import stonering.stage.renderer.atlas.AtlasesEnum;
 import stonering.util.geometry.Position;
 
 import java.util.List;
 import java.util.Optional;
 
-import static stonering.stage.renderer.AtlasesEnum.creature_icons;
+import static stonering.stage.renderer.atlas.AtlasesEnum.creature_icons;
 
 /**
  * Renders all units in a certain position.
@@ -54,10 +54,14 @@ public class UnitDrawer extends Drawer {
 
     private void drawUnit(Unit unit) {
         Optional.ofNullable(unit.get(HumanoidRenderAspect.class)).ifPresent(aspect -> {
-            // feet
-            // body
-            // arm
-            // head
+            cacheVector.set(unit.vectorPosition).add(0, 0.5f, 0);
+            spriteUtil.drawSprite(aspect.region, cacheVector); // body
+            cacheVector.set(unit.vectorPosition).add(0.25f, aspect.bodyHeight / 64f + 0.25f, 0);
+            spriteUtil.drawSprite(aspect.head, cacheVector); // body
+            cacheVector.set(unit.vectorPosition).add(0.5f - aspect.bodyWidth / 128f, 0.25f, 0);
+            spriteUtil.drawSprite(aspect.foot, cacheVector); // foot
+            cacheVector.set(unit.vectorPosition).add(0.25f + aspect.bodyWidth / 128f, 0.25f, 0);
+            spriteUtil.drawSprite(aspect.foot, cacheVector); // foot
         });
         Optional.ofNullable(unit.get(RenderAspect.class)).ifPresent(aspect -> {
             if (aspect.rotation != 0) {

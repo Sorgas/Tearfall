@@ -4,7 +4,7 @@ import stonering.entity.RenderAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
-import stonering.stage.renderer.AtlasesEnum;
+import stonering.stage.renderer.atlas.AtlasesEnum;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.logging.Logger;
 

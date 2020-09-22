@@ -19,7 +19,7 @@ import stonering.util.geometry.Position;
 import stonering.util.validation.PositionValidator;
 
 import static stonering.enums.blocks.BlockTypeEnum.*;
-import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
+import static stonering.stage.renderer.atlas.AtlasesEnum.ui_tiles;
 
 /**
  * Renders {@link EntitySelector} sprite and frame.

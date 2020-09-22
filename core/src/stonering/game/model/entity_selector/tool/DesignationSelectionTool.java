@@ -5,7 +5,7 @@ import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.system.task.TaskContainer;
-import stonering.stage.renderer.AtlasesEnum;
+import stonering.stage.renderer.atlas.AtlasesEnum;
 import stonering.util.geometry.Int3dBounds;
 
 /**

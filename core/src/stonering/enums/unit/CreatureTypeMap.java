@@ -53,4 +53,8 @@ public class CreatureTypeMap {
                 .filter(Objects::nonNull)
                 .forEach(type -> creatureTypes.put(type.name, type));
     }
+    
+    public static CreatureType getType(String specimen) {
+        return instance().creatureTypes.get(specimen);
+    }
 }

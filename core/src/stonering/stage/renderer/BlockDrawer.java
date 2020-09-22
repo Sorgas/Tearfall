@@ -1,8 +1,6 @@
 package stonering.stage.renderer;
 
-import static stonering.stage.renderer.AtlasesEnum.blocks;
-
-import com.badlogic.gdx.math.Vector3;
+import static stonering.stage.renderer.atlas.AtlasesEnum.blocks;
 
 import stonering.enums.blocks.BlockTileMapping;
 import stonering.enums.blocks.BlockTypeEnum;

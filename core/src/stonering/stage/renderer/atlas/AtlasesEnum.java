@@ -1,4 +1,4 @@
-package stonering.stage.renderer;
+package stonering.stage.renderer.atlas;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -6,6 +6,8 @@ import com.sun.istack.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 
+import stonering.stage.renderer.SpriteDrawingUtil;
+import stonering.stage.renderer.TileDrawer;
 import stonering.util.geometry.IntVector2;
 
 import java.util.HashMap;
@@ -29,10 +31,14 @@ public enum AtlasesEnum {
     items("sprites/items", 32, 32, 0),
     creature_icons(new Texture("sprites/creature_icons.png"), 16, 16, 0),
     zones(new Texture("sprites/zones.png"), 64, 64, 32),
-    icons(new Texture("sprites/icons.png"), 64, 64, 0); // ui and designation icons
+    icons(new Texture("sprites/icons.png"), 64, 64, 0), // ui and designation icons
+    humanoid_head(new Texture("sprites/unit/humanoid/head.png"), 32, 32, 0),
+    humanoid_body(new Texture("sprites/unit/humanoid/body.png"), 64, 72, 0),
+    humanoid_foot(new Texture("sprites/unit/humanoid/foot.png"), 16, 16, 0),
+    ;
 
-    public TextureCache cache; // for single textures
-    public Map<String, TextureCache> caches = new HashMap<>(); // for multiple textures
+    public ToppingTextureCache cache; // for single textures
+    public Map<String, ToppingTextureCache> caches = new HashMap<>(); // for multiple textures
 
     public String texturePath; // path to folder with texture files
     public final int WIDTH;
@@ -41,11 +47,10 @@ public enum AtlasesEnum {
     public final int TOPPING_HEIGHT;
     public final int TILE_HEIGHT; // depth and height
     public final int TOPPING_TILE_HEIGHT; // depth and height
-    public final int FULL_TILE_HEIGHT;
 
     AtlasesEnum(Texture atlas, int width, int depth, int height, int toppingHeight) {
         this(width, depth, height, toppingHeight);
-        cache = new TextureCache(atlas, this);
+        cache = new ToppingTextureCache(atlas, this);
     }
 
     AtlasesEnum(String texturePath, int width, int depth, int height, int toppingHeight) {
@@ -69,7 +74,6 @@ public enum AtlasesEnum {
         TILE_HEIGHT = height + depth;
         TOPPING_HEIGHT = toppingHeight;
         TOPPING_TILE_HEIGHT = TOPPING_HEIGHT != 0 ? TOPPING_HEIGHT + DEPTH : 0;
-        FULL_TILE_HEIGHT = TILE_HEIGHT + TOPPING_TILE_HEIGHT;
     }
 
     public TextureRegion getBlockTile(int x, int y, int width, int height) {
@@ -98,7 +102,7 @@ public enum AtlasesEnum {
     public TextureRegion getBlockTile(@Nullable String atlasName, int x, int y, int width, int height) {
         return atlasName == null
                 ? getBlockTile(x, y, width, height)
-                : caches.computeIfAbsent(atlasName, name -> new TextureCache(new Texture(texturePath + "/" + atlasName + ".png"), this))
+                : caches.computeIfAbsent(atlasName, name -> new ToppingTextureCache(new Texture(texturePath + "/" + atlasName + ".png"), this))
                 .getTile(x, y, width, height);
     }
 
@@ -109,17 +113,8 @@ public enum AtlasesEnum {
     public TextureRegion getBlockTile(@Nullable String atlasName, @NotNull IntVector2 xy, @NotNull IntVector2 size) {
         return getBlockTile(atlasName, xy.x, xy.y, size.x, size.y);
     }
-
-    /**
-     * Cuts topping part of a block tile from x y position in specified atlas.
-     * Atlas should have toppings.
-     */
+    
     public TextureRegion getToppingTile(int x, int y) {
         return cache.getToppingTile(x, y);
-    }
-
-    public TextureRegion getToppingTile(String atlasName, int x, int y) {
-        return caches.computeIfAbsent(atlasName, name -> new TextureCache(new Texture(texturePath + "/" + atlasName + ".png"), this))
-                .getToppingTile(x, y);
     }
 }

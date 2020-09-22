@@ -7,7 +7,7 @@ import stonering.enums.buildings.BuildingType;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.generation.PlacingTagEnum;
-import stonering.stage.renderer.AtlasesEnum;
+import stonering.stage.renderer.atlas.AtlasesEnum;
 import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
 import stonering.util.geometry.RotationUtil;

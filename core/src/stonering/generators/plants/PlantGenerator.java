@@ -9,7 +9,7 @@ import stonering.entity.plant.aspects.PlantGrowthAspect;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantBlocksTypeEnum;
 import stonering.enums.plants.PlantTypeMap;
-import stonering.stage.renderer.AtlasesEnum;
+import stonering.stage.renderer.atlas.AtlasesEnum;
 
 /**
  * Generates single tile plants (not trees).

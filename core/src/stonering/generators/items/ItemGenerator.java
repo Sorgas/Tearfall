@@ -16,7 +16,7 @@ import stonering.enums.items.type.ItemTypeMap;
 import stonering.entity.material.Material;
 import stonering.enums.materials.MaterialMap;
 import stonering.entity.item.Item;
-import stonering.stage.renderer.AtlasesEnum;
+import stonering.stage.renderer.atlas.AtlasesEnum;
 import stonering.util.geometry.Position;
 import stonering.util.logging.Logger;
 

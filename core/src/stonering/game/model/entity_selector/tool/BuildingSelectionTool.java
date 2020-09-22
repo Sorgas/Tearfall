@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static stonering.enums.OrientationEnum.*;
-import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
+import static stonering.stage.renderer.atlas.AtlasesEnum.ui_tiles;
 
 /**
  * Tool for selecting place for new building. Buildings are placed one by one and can be rotated.

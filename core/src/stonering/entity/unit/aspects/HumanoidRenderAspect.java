@@ -1,6 +1,5 @@
 package stonering.entity.unit.aspects;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import stonering.entity.RenderAspect;
@@ -14,12 +13,16 @@ import stonering.entity.RenderAspect;
  */
 public class HumanoidRenderAspect extends RenderAspect {
     public TextureRegion head;
-    public TextureRegion arm;
     public TextureRegion foot;
-    public Sprite qwer;
+    public int bodyHeight;
+    public int bodyWidth;
     //TODO wear and tool sprites
-    
-    public HumanoidRenderAspect(TextureRegion region) {
-        super(region);
+    //TODO add oriented sprites
+
+
+    public HumanoidRenderAspect(TextureRegion body, TextureRegion head, TextureRegion foot) {
+        super(body);
+        this.head = head;
+        this.foot = foot;
     }
 }

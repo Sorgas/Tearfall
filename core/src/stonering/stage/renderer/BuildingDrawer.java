@@ -6,8 +6,6 @@ import stonering.game.GameMvc;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.util.geometry.Position;
 
-import static stonering.stage.renderer.AtlasesEnum.buildings;
-
 /**
  * Draws buildings. All buildings are drawn as a whole, using sprite from {@link RenderAspect}.
  * Buildings have array of {@link BuildingBlock}s, oriented in building and placed to map.

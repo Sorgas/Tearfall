@@ -6,9 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
-import stonering.enums.images.DrawableMap;
 import stonering.enums.plants.PlantTypeMap;
-import stonering.stage.renderer.AtlasesEnum;
 
 /**
  * @author Alexander on 14.07.2020.

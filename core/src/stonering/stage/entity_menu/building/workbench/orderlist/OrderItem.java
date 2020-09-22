@@ -11,7 +11,7 @@ import stonering.enums.items.type.ItemTypeMap;
 import stonering.game.GameMvc;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.building.WorkbenchSystem;
-import stonering.stage.renderer.AtlasesEnum;
+import stonering.stage.renderer.atlas.AtlasesEnum;
 import stonering.util.lang.StaticSkin;
 
 /**

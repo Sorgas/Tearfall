@@ -5,7 +5,7 @@ import stonering.entity.building.Building;
 import stonering.enums.OrientationEnum;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.blocks.PassageEnum;
-import stonering.stage.renderer.AtlasesEnum;
+import stonering.stage.renderer.atlas.AtlasesEnum;
 import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.RotationUtil;
 

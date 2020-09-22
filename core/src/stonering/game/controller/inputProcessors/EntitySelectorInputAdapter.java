@@ -8,7 +8,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.EntitySelectorInputHandler;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
-import stonering.stage.renderer.AtlasesEnum;
+import stonering.stage.renderer.atlas.AtlasesEnum;
 import stonering.util.geometry.Position;
 import stonering.util.controller.EnableableInputAdapter;
 

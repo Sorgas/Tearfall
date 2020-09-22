@@ -12,7 +12,7 @@ import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.task.TaskContainer;
-import stonering.stage.renderer.AtlasesEnum;
+import stonering.stage.renderer.atlas.AtlasesEnum;
 import stonering.util.geometry.Position;
 import stonering.entity.job.Task;
 
