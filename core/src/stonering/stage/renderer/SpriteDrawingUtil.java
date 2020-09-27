@@ -55,6 +55,10 @@ public class SpriteDrawingUtil {
         batch.draw(sprite, getBatchX(position.x), getBatchY(position.y, position.z), width, height);
     }
 
+    public void draw() {
+
+    }
+
     /**
      * Draws sprite with rotation around sprite center.
      */

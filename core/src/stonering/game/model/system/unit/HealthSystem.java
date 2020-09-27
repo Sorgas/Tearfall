@@ -1,6 +1,12 @@
 package stonering.game.model.system.unit;
 
+import java.util.Random;
+
+import stonering.entity.RenderAspect;
 import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.HumanoidRenderAspect;
+import stonering.entity.unit.aspects.TaskAspect;
+import stonering.enums.action.TaskStatusEnum;
 import stonering.enums.unit.health.CreatureAttributeEnum;
 import stonering.enums.unit.health.GameplayStatEnum;
 import stonering.enums.unit.health.HealthEffect;
@@ -19,9 +25,11 @@ import stonering.util.logging.Logger;
  * @author Alexander on 16.09.2019.
  */
 public class HealthSystem extends EntitySystem<Unit> {
+    private final Random random;
 
     public HealthSystem() {
         updateInterval = TimeUnitEnum.MINUTE;
+        random = new Random();
     }
 
     @Override
@@ -56,6 +64,10 @@ public class HealthSystem extends EntitySystem<Unit> {
     }
 
     public void kill(Unit unit) {
-        GameMvc.model().get(UnitContainer.class).remove(unit);
+//        GameMvc.model().get(UnitContainer.class).remove(unit);
+        unit.get(HealthAspect.class).alive = false;
+        unit.get(TaskAspect.class).task.status = TaskStatusEnum.FAILED;
+        unit.optional(RenderAspect.class).or(() -> unit.optional(HumanoidRenderAspect.class))
+                .ifPresent(aspect -> aspect.rotation = 45 * (random.nextInt(6) + 1));
     }
 }

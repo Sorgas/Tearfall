@@ -53,7 +53,7 @@ public class UnitDrawer extends Drawer {
     }
 
     private void drawUnit(Unit unit) {
-        Optional.ofNullable(unit.get(HumanoidRenderAspect.class)).ifPresent(aspect -> {
+        unit.optional(HumanoidRenderAspect.class).ifPresent(aspect -> {
             cacheVector.set(unit.vectorPosition).add(0, 0.5f, 0);
             spriteUtil.drawSprite(aspect.region, cacheVector); // body
             cacheVector.set(unit.vectorPosition).add(0.25f, aspect.bodyHeight / 64f + 0.25f, 0);
@@ -63,7 +63,7 @@ public class UnitDrawer extends Drawer {
             cacheVector.set(unit.vectorPosition).add(0.25f + aspect.bodyWidth / 128f, 0.25f, 0);
             spriteUtil.drawSprite(aspect.foot, cacheVector); // foot
         });
-        Optional.ofNullable(unit.get(RenderAspect.class)).ifPresent(aspect -> {
+        unit.optional(RenderAspect.class).ifPresent(aspect -> {
             if (aspect.rotation != 0) {
                 spriteUtil.drawSpriteWithRotation(aspect.region, unit.vectorPosition, aspect.rotation);
             } else {
@@ -96,7 +96,7 @@ public class UnitDrawer extends Drawer {
     }
 
     private void drawEatenFoodItem(int x, int y, int z, Unit unit) {
-        Optional.ofNullable(unit.get(TaskAspect.class))
+        unit.optional(TaskAspect.class)
                 .map(aspect -> aspect.task)
                 .map(task -> task.nextAction)
                 .filter(action -> action instanceof EatAction)
