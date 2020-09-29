@@ -29,7 +29,7 @@ public class ToppingTextureCache extends TextureCache {
     }
 
     public TextureRegion getTile(int x, int y, int width, int height) {
-        return toppingsCache.computeIfAbsent(new TileKey(x, y, width, height, Color.WHITE.toIntBits()), key1 -> new TextureRegion(atlas,
+        return tileCache.computeIfAbsent(new TileKey(x, y, width, height, Color.WHITE.toIntBits()), key1 -> new TextureRegion(atlas,
                 x * TILE_WIDTH,
                 y * FULL_TILE_HEIGHT + TOPPING_TILE_HEIGHT, // skip topping of current tile
                 TILE_WIDTH * width,

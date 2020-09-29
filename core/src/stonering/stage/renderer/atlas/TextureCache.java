@@ -17,7 +17,7 @@ import stonering.stage.renderer.TileKey;
  */
 public class TextureCache {
     protected final Texture atlas;
-    protected final Map<TileKey, TextureRegion> spriteCache = new HashMap<>();
+    protected final Map<TileKey, TextureRegion> tileCache = new HashMap<>();
     protected final TileKey cacheDescriptor = new TileKey(1, 1, 1, 1, 1);
 
     public final int TILE_WIDTH;
@@ -30,7 +30,7 @@ public class TextureCache {
     }
 
     public TextureRegion getTile(int x, int y, int width, int height) {
-        return spriteCache.computeIfAbsent(new TileKey(x, y, width, height, Color.WHITE.toIntBits()), key1 -> new TextureRegion(atlas,
+        return tileCache.computeIfAbsent(new TileKey(x, y, width, height, Color.WHITE.toIntBits()), key1 -> new TextureRegion(atlas,
                 x * TILE_WIDTH,
                 y * TILE_HEIGHT, // skip topping of current tile
                 TILE_WIDTH * width,
