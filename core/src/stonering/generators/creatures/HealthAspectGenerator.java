@@ -26,7 +26,7 @@ public class HealthAspectGenerator {
             aspect.attributes.put(attribute, value);
         }
         for (GameplayStatEnum stat : GameplayStatEnum.values()) {
-            aspect.baseValues.putAll(unit.type.statMap); // copy base values from type
+            aspect.baseStats.putAll(unit.type.statMap); // copy base values from type
             // TODO modify base values by traits.
             aspect.update(stat);
         }

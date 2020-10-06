@@ -59,6 +59,7 @@ public class HealthSystem extends EntitySystem<Unit> {
                     effect.functionEffects.forEach((function, delta) -> health.change(function, -delta));
                     GameplayStatEnum.collectProperties(effect).forEach(health::update);
                     effect.statEffects.forEach((stat, delta) -> health.change(stat, -delta));
+                    health.effects.remove(effect.name);
                 },
                 () -> Logger.UNITS.logError("Cannot unapply health effect " + effect.name + "Unit " + unit + " has no health aspect"));
     }
@@ -66,7 +67,9 @@ public class HealthSystem extends EntitySystem<Unit> {
     public void kill(Unit unit) {
 //        GameMvc.model().get(UnitContainer.class).remove(unit);
         unit.get(HealthAspect.class).alive = false;
-        unit.get(TaskAspect.class).task.status = TaskStatusEnum.FAILED;
+        unit.optional(TaskAspect.class)
+                .map(aspect -> aspect.task)
+                .ifPresent(task -> task.status = TaskStatusEnum.FAILED);
         unit.optional(RenderAspect.class).or(() -> unit.optional(HumanoidRenderAspect.class))
                 .ifPresent(aspect -> aspect.rotation = 45 * (random.nextInt(6) + 1));
     }

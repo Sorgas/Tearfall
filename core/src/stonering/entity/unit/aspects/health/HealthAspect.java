@@ -24,14 +24,14 @@ public class HealthAspect extends Aspect {
     public final Map<CreatureAttributeEnum, Integer> attributes = new HashMap<>();
     public final Map<HealthFunctionEnum, Float> functions = new HashMap<>();
 
-    public final Map<GameplayStatEnum, Float> baseValues = new HashMap<>();
+    public final Map<GameplayStatEnum, Float> baseStats = new HashMap<>();
     public final Map<GameplayStatEnum, Float> stats = new HashMap<>();
 
     public final Map<String, HealthEffect> effects = new HashMap<>();
     public boolean alive;
 
     public void update(GameplayStatEnum property) {
-        stats.put(property, property.FUNCTION.apply(this) * baseValues.get(property)); //
+        stats.put(property, property.FUNCTION.apply(this) * baseStats.get(property)); //
     }
 
     public void change(CreatureAttributeEnum attribute, int delta) {
