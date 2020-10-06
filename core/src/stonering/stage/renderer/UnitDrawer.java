@@ -54,14 +54,14 @@ public class UnitDrawer extends Drawer {
 
     private void drawUnit(Unit unit) {
         unit.optional(HumanoidRenderAspect.class).ifPresent(aspect -> {
-            cacheVector.set(unit.vectorPosition).add(0, 0.5f, 0);
-            spriteUtil.drawSprite(aspect.region, cacheVector); // body
-            cacheVector.set(unit.vectorPosition).add(0.25f, aspect.bodyHeight / 64f + 0.25f, 0);
-            spriteUtil.drawSprite(aspect.head, cacheVector); // body
             cacheVector.set(unit.vectorPosition).add(0.5f - aspect.bodyWidth / 128f, 0.25f, 0);
             spriteUtil.drawSprite(aspect.foot, cacheVector); // foot
             cacheVector.set(unit.vectorPosition).add(0.25f + aspect.bodyWidth / 128f, 0.25f, 0);
             spriteUtil.drawSprite(aspect.foot, cacheVector); // foot
+            cacheVector.set(unit.vectorPosition).add(0, 0.375f, 0);
+            spriteUtil.drawSprite(aspect.region, cacheVector); // body
+            cacheVector.set(unit.vectorPosition).add(0.25f, aspect.bodyHeight / 64f + 0.25f, 0);
+            spriteUtil.drawSprite(aspect.head, cacheVector); // head
         });
         unit.optional(RenderAspect.class).ifPresent(aspect -> {
             if (aspect.rotation != 0) {

@@ -26,7 +26,11 @@ public class DiggingModel extends TestModel {
     public void init() {
         super.init();
         get(EntitySelectorSystem.class).selector.position.set(MAP_SIZE / 2, MAP_SIZE / 2, 10);
-        get(UnitContainer.class).add(createUnit());
+        get(UnitContainer.class).add(createUnit(new Position(1, 5, 10)));
+        get(UnitContainer.class).add(createUnit(new Position(2, 5, 10)));
+        get(UnitContainer.class).add(createUnit(new Position(3, 5, 10)));
+        get(UnitContainer.class).add(createUnit(new Position(4, 5, 10)));
+        get(UnitContainer.class).add(createUnit(new Position(5, 5, 10)));
         Item pickaxe = new ItemGenerator().generateItem("pickaxe", "iron", null);
         get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(pickaxe, new Position(0, 0, 10));
     }
@@ -51,8 +55,8 @@ public class DiggingModel extends TestModel {
         }
     }
 
-    private Unit createUnit() {
-        Unit unit =  new CreatureGenerator().generateUnit(new Position(5, 5, 10), "human");
+    private Unit createUnit(Position position) {
+        Unit unit =  new CreatureGenerator().generateUnit(position, "human");
         unit.get(JobSkillAspect.class).enabledJobs.add("miner");
         return unit;
     }

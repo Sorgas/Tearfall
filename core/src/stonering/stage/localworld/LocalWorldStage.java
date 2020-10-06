@@ -11,14 +11,9 @@ import stonering.stage.renderer.EntitySelectorDrawer;
 import stonering.stage.renderer.TileDrawer;
 
 /**
- * Contains {@link Drawer} for drawing local world and launches them in a sequence.
- * <p>
  * Draws LocalMap. Blocks and plants are taken from LocalTileMap,
  * Buildings, unit, and item are taken from LocalMap.
- *
- * <p>
- * TODO move color from batch to sprites.
- * <p>
+ * Contains {@link TileDrawer} for drawing local world and launches them in a sequence.
  * Zooming is made with {@link MovableCamera}.
  * Has util classes for drawing sprites and shapes. Sprite and shape batches updated with camera projection matrix.
  *
@@ -28,7 +23,6 @@ public class LocalWorldStage extends UiStage {
     private MovableCamera camera;
     private TileDrawer tileDrawer;
     //TODO zone renderer.
-    private EntitySelectorDrawer entitySelectorRenderer;
 
     private final SpriteDrawingUtil spriteDrawingUtil;
     private final ShapeDrawingUtil shapeDrawingUtil;
@@ -66,9 +60,6 @@ public class LocalWorldStage extends UiStage {
         }
     }
 
-    /**
-     * Called in window resize. Resizes camera to update it's visible area.
-     */
     public void resize(int width, int height) {
         super.resize(width, height);
         camera.resize(width, height);
