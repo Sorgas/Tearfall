@@ -6,7 +6,7 @@ import stonering.entity.RenderAspect;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MoodAspect;
 import stonering.entity.unit.aspects.MovementAspect;
-import stonering.entity.unit.aspects.TaskAspect;
+import stonering.entity.unit.aspects.job.TaskAspect;
 import stonering.enums.unit.race.CreatureType;
 import stonering.enums.unit.CreatureTypeMap;
 import stonering.generators.creatures.needs.NeedAspectGenerator;

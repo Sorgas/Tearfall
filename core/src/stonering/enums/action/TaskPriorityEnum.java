@@ -13,6 +13,7 @@ public enum TaskPriorityEnum {
     HEALTH_NEEDS(7),    // will stop job for satisfying need
     SAFETY(10);         // avoiding health harm (heavy need level)
 
+    public static final int MAX = 10;
     public final int VALUE; // numeric value for comparing priorities
 
     TaskPriorityEnum(int value) {

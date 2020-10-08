@@ -9,7 +9,7 @@ import stonering.entity.job.action.EatAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.CreatureStatusIcon;
 import stonering.entity.unit.aspects.HumanoidRenderAspect;
-import stonering.entity.unit.aspects.TaskAspect;
+import stonering.entity.unit.aspects.job.TaskAspect;
 import stonering.entity.RenderAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.GameMvc;

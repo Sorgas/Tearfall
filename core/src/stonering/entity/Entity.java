@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
+
 /**
  * Class for all game entities. Contains its aspects.
  *
@@ -28,16 +30,16 @@ public abstract class Entity implements Serializable, Cloneable {
         this.position = position != null ? position.clone() : null;
     }
 
-    public <T extends Aspect> boolean has(Class<T> type) {
+    public <T extends Aspect> boolean has(@Nonnull Class<T> type) {
         return aspects.containsKey(type);
     }
 
-    public <T extends Aspect> T get(Class<T> type) {
+    public <T extends Aspect> T get(@Nonnull Class<T> type) {
         return (T) aspects.get(type);
     }
 
     public <T extends Aspect> Optional<T> optional(Class<T> type) {
-        return Optional.ofNullable((T) aspects.get(type));
+        return Optional.ofNullable(get(type));
     }
 
     public <T extends Aspect> void add(T aspect) {
@@ -45,9 +47,16 @@ public abstract class Entity implements Serializable, Cloneable {
         aspect.entity = this;
         aspects.put(aspect.getClass(), aspect);
     }
-    
+
+    public <T extends Aspect> void remove(@Nonnull Class<T> type) {
+        optional(type).ifPresent(aspect -> {
+            aspect.entity = null;
+            aspects.remove(type);
+        });
+    }
+
     public void setPosition(Position position) {
-        if(this.position == null) this.position = new Position();
+        if (this.position == null) this.position = new Position();
         this.position.set(position);
     }
 

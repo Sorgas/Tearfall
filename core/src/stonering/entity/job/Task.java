@@ -63,7 +63,7 @@ public class Task {
     }
 
     public void reset() {
-        Logger.TASKS.logDebug("Resetting task " + this);
+        Logger.TASKS.logDebug("Resetting " + this);
         initialAction.reset();
         preActions.clear();
         postActions.clear();

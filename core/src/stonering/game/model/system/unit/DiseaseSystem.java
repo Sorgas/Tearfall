@@ -3,6 +3,7 @@ package stonering.game.model.system.unit;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.body.BodyAspect;
 import stonering.entity.unit.aspects.body.DiseaseState;
+import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.entity.unit.aspects.need.NeedState;
 import stonering.enums.time.TimeUnitEnum;
@@ -30,6 +31,7 @@ public class DiseaseSystem extends EntitySystem<Unit> {
 
     @Override
     public void update(Unit unit) {
+        if(!unit.get(HealthAspect.class).alive) return;
         BodyAspect body = unit.get(BodyAspect.class);
         NeedAspect needAspect = unit.get(NeedAspect.class);
         HealthSystem healthSystem = GameMvc.model().get(UnitContainer.class).healthSystem;
@@ -41,20 +43,25 @@ public class DiseaseSystem extends EntitySystem<Unit> {
                 if (needState != null && needState.current() < needState.max) delta = -delta; // disease diminishes if need is satisfied
             }
             DiseaseStage prevStage = state.stage;
-            if (!state.change(delta)) continue; // stage did not changed
-            healthSystem.unapplyEffect(prevStage, unit); // unapply previous effect
-            if(state.stage != null) { // stage changed to another stage
-                healthSystem.applyEffect(state.stage, unit);
-            } else if (state.current <= 0) {
-                body.diseases.remove(state.type.name);
-            } else if (state.current >= GameplayConstants.NEED_MAX) {
-                Logger.UNITS.logDebug(unit + " died of " + state.type.name);
-                healthSystem.kill(unit);
-                break;
+            if (state.change(delta)) { // stage changed
+                healthSystem.unapplyEffect(prevStage, unit); // unapply previous effect
+                if (state.stage != null) { // stage changed to another stage
+                    healthSystem.applyEffect(state.stage, unit);
+                } else if (state.current <= 0) {
+                    body.diseases.remove(state.type.name);
+                } else if (state.current >= GameplayConstants.NEED_MAX) {
+                    Logger.UNITS.logDebug(unit + " died of " + state.type.name);
+                    healthSystem.kill(unit);
+                    break;
+                }
             }
         }
     }
 
+    private void updateDisease() {
+        
+    }
+    
     public void addNewDisease(Unit unit, DiseaseType diseaseType) {
         BodyAspect aspect = unit.get(BodyAspect.class);
         aspect.diseases.computeIfAbsent(diseaseType.name, diseaseName -> {

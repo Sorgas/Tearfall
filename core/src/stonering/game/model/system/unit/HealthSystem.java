@@ -5,7 +5,8 @@ import java.util.Random;
 import stonering.entity.RenderAspect;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.HumanoidRenderAspect;
-import stonering.entity.unit.aspects.TaskAspect;
+import stonering.entity.unit.aspects.MovementAspect;
+import stonering.entity.unit.aspects.job.TaskAspect;
 import stonering.enums.action.TaskStatusEnum;
 import stonering.enums.unit.health.CreatureAttributeEnum;
 import stonering.enums.unit.health.GameplayStatEnum;
@@ -13,7 +14,6 @@ import stonering.enums.unit.health.HealthEffect;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.enums.unit.health.HealthFunctionEnum;
-import stonering.game.GameMvc;
 import stonering.game.model.system.EntitySystem;
 import stonering.util.logging.Logger;
 
@@ -63,14 +63,22 @@ public class HealthSystem extends EntitySystem<Unit> {
                 },
                 () -> Logger.UNITS.logError("Cannot unapply health effect " + effect.name + "Unit " + unit + " has no health aspect"));
     }
-
+    
     public void kill(Unit unit) {
-//        GameMvc.model().get(UnitContainer.class).remove(unit);
         unit.get(HealthAspect.class).alive = false;
         unit.optional(TaskAspect.class)
                 .map(aspect -> aspect.task)
-                .ifPresent(task -> task.status = TaskStatusEnum.FAILED);
+                .ifPresent(task -> {
+                    task.status = TaskStatusEnum.FAILED;
+                    unit.remove(TaskAspect.class);
+                });
+        
+        unit.remove(MovementAspect.class);
+        unit.vectorPosition.set(unit.position.x, unit.position.y, unit.position.z);
+        
         unit.optional(RenderAspect.class).or(() -> unit.optional(HumanoidRenderAspect.class))
                 .ifPresent(aspect -> aspect.rotation = 45 * (random.nextInt(6) + 1));
+        // change name
+        // drop tools
     }
 }

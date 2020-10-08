@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector3;
 import stonering.entity.VectorPositionEntity;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
-import stonering.entity.unit.aspects.TaskAspect;
+import stonering.entity.unit.aspects.job.TaskAspect;
 import stonering.enums.action.TaskStatusEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;

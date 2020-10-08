@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 
 import stonering.entity.job.Task;
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.TaskAspect;
+import stonering.entity.unit.aspects.job.TaskAspect;
 import stonering.entity.RenderAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.job.JobSkillAspect;
@@ -15,7 +15,6 @@ import stonering.widget.item.ItemLabel;
 
 import java.util.Comparator;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Shows picture, name, current task, tool, best skill, and needs state.

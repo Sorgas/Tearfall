@@ -11,7 +11,7 @@ import stonering.entity.crafting.ItemOrder;
 import stonering.entity.job.action.item.CraftItemAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.job.JobSkillAspect;
-import stonering.entity.unit.aspects.TaskAspect;
+import stonering.entity.unit.aspects.job.TaskAspect;
 import stonering.enums.action.TaskStatusEnum;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.items.ItemTagEnum;

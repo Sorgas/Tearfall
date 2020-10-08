@@ -5,7 +5,7 @@ import stonering.entity.job.action.ActionConditionStatusEnum;
 import stonering.entity.job.action.MoveAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
-import stonering.entity.unit.aspects.TaskAspect;
+import stonering.entity.unit.aspects.job.TaskAspect;
 import stonering.enums.action.ActionStatusEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;

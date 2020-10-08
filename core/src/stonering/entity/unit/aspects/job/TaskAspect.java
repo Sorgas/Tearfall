@@ -1,4 +1,4 @@
-package stonering.entity.unit.aspects;
+package stonering.entity.unit.aspects.job;
 
 import stonering.entity.job.Task;
 import stonering.entity.Aspect;

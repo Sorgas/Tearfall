@@ -2,8 +2,13 @@ package stonering.game.model.system.task;
 
 import static stonering.enums.action.ActionTargetTypeEnum.EXACT;
 
+import java.util.*;
+
+import javax.annotation.Nonnull;
+
 import org.jetbrains.annotations.NotNull;
 
+import stonering.entity.job.Task;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.job.JobSkillAspect;
@@ -11,15 +16,12 @@ import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.enums.unit.JobMap;
 import stonering.game.GameMvc;
-import stonering.util.lang.Updatable;
+import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.local_map.passage.PassageMap;
 import stonering.game.model.system.ModelComponent;
-import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
-import stonering.entity.job.Task;
+import stonering.util.lang.Updatable;
 import stonering.util.logging.Logger;
-
-import java.util.*;
 
 /**
  * Contains all {@link Task} for player's units on map and {@link Designation}s for rendering.
@@ -60,15 +62,15 @@ public class TaskContainer implements ModelComponent, Updatable {
      * TODO consider task priority
      */
     public Task getActiveTask(Unit unit) {
-        JobSkillAspect aspect = unit.get(JobSkillAspect.class);
-        if (aspect == null)
-            return Logger.TASKS.logError("Creature " + unit + " without jobs aspect gets task from container", null);
-        
-        return tasks.entrySet().stream()
-                .filter(entry -> aspect.enabledJobs.contains(entry.getKey()) || entry.getKey().equals("none")) // allowed unit jobs
-                .flatMap(entry -> entry.getValue().tasks.stream())
+        List<String> enabledJobs = new ArrayList<>();
+        enabledJobs.add("none");
+        unit.optional(JobSkillAspect.class).ifPresent(aspect -> enabledJobs.addAll(aspect.enabledJobs));
+        return tasks.keySet().stream()
+                .filter(enabledJobs::contains)
+                .map(tasks::get)
+                .flatMap(taskList -> taskList.tasks.stream())
                 .filter(task -> taskTargetReachable(unit, task)) // tasks with reachable targets
-                .min(Comparator.comparingInt(task -> task.initialAction.target.getPosition().fastDistance(unit.position)))// nearest target
+                .min(Comparator.comparingInt(task -> task.initialAction.target.getPosition().fastDistance(unit.position))) // nearest target
                 .orElse(null);
     }
 
@@ -99,18 +101,18 @@ public class TaskContainer implements ModelComponent, Updatable {
      * Adds task to special list for failed tasks, which should be reopened after a delay.
      * Task should be OPEN and have no performer.
      */
-    public void addReopenedTask(Task task) {
-        Optional.ofNullable(task)
-                .map(task1 -> tasks.get(task1.job))
-                .ifPresent(list -> {
-                    list.addReopenedTask(task);
-                    if (task.designation != null) designations.put(task.designation.position, task.designation);
-                    Logger.TASKS.logDebug("Reopened task " + task + " added to TaskContainer.");
-                });
+    public void reopenTask(@Nonnull Task task) {
+        task.reset(); // delete actions
+        TaskList list = tasks.get(task.job);
+        list.addReopenedTask(task);
+        if (task.designation != null) designations.put(task.designation.position, task.designation);
+        Logger.TASKS.logDebug(task + "reopened");
     }
 
-    public boolean removeTask(Task task) {
-        return assignedTasks.remove(task) || tasks.get(task.job).remove(task);
+    public void removeTask(@Nonnull Task task) {
+        if(task.designation != null) designations.remove(task.designation.position);
+        assignedTasks.remove(task);
+        tasks.get(task.job).remove(task);
     }
 
     private boolean taskTargetReachable(Unit unit, Task task) {

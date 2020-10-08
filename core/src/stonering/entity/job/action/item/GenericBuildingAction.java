@@ -35,9 +35,7 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
         super(buildingOrder, new BuildingActionTarget(buildingOrder));
         buildingTarget = (BuildingActionTarget) target;
         this.buildingOrder = buildingOrder;
-
-        takingCondition = () -> ((BuildingDesignation) task.designation).checkSite(); // TODO delete designation on fail
-
+        
         startCondition = () -> {
             if (!checkBuilderPosition()) return failAction(); // find position for builder
             if(order.ingredientOrders.containsKey("main")) return failAction(); // buildings cannot have main ingredient

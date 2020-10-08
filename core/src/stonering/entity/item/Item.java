@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * In-game item.
  * 
@@ -46,12 +48,12 @@ public class Item extends Entity {
     }
  
     @Override
-    public <T extends Aspect> boolean has(Class<T> type) {
+    public <T extends Aspect> boolean has(@NotNull Class<T> type) {
         return super.has(type) || this.type.has(type);
     }
 
     @Override
-    public <T extends Aspect> T get(Class<T> type) {
+    public <T extends Aspect> T get(@NotNull Class<T> type) {
         if (this.type.has(type)) return this.type.get(type);
         return super.get(type);
     }

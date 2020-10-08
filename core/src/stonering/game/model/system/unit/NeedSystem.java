@@ -7,7 +7,7 @@ import java.util.Objects;
 import stonering.entity.job.Task;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MoodAspect;
-import stonering.entity.unit.aspects.TaskAspect;
+import stonering.entity.unit.aspects.job.TaskAspect;
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.entity.unit.aspects.need.NeedState;
 import stonering.enums.time.TimeUnitEnum;

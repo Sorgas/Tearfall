@@ -82,7 +82,7 @@ public class DesignationSystem {
         Optional.ofNullable(container.designations.get(position)) // cancel previous designation
                 .map(foundDesignation -> foundDesignation.task)
                 .ifPresent(task -> {
-                    task.status = CANCELED;
+                    task.status = CANCELED; // task will be removed in TaskStatusSystem
                     container.designations.remove(position);
                 });
     }

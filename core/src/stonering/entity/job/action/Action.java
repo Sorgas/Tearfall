@@ -47,7 +47,6 @@ public abstract class Action {
      * Should check tool, consumed items, target reachability for performer. 
      * Can use {@code task.performer}, as it is assigned to task before calling by {@link CreaturePlanningSystem}.
      */
-    public Supplier<Boolean> takingCondition;
     public Supplier<ActionConditionStatusEnum> startCondition; // called before performing, can create sub actions
     public Runnable onStart; // performed on phase start
     public Consumer<Float> progressConsumer; // performs logic
@@ -69,7 +68,6 @@ public abstract class Action {
         if(skill != null && SkillMap.getSkill(skill) == null) Logger.TASKS.logError("Skill " + skill + " not found.");
         this.skill = skill;
         target.action = this;
-        takingCondition = () -> true; // most actions have no special taking conditions
         startCondition = () -> FAIL; // prevent starting
         onStart = () -> {};
         progressConsumer = delta -> progress += delta;

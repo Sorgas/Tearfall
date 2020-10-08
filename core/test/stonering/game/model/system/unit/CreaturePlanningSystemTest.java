@@ -7,7 +7,7 @@ import stonering.entity.job.Task;
 import stonering.entity.job.action.MoveAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.job.JobSkillAspect;
-import stonering.entity.unit.aspects.TaskAspect;
+import stonering.entity.unit.aspects.job.TaskAspect;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.unit.race.CreatureType;
 import stonering.game.GameMvc;

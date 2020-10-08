@@ -1,16 +1,11 @@
 package stonering.game.model.system.task;
 
-import stonering.entity.job.Task;
-import stonering.entity.unit.aspects.TaskAspect;
-import stonering.game.GameMvc;
-import stonering.game.model.system.unit.UnitContainer;
-import stonering.util.logging.Logger;
+import static stonering.enums.action.TaskStatusEnum.*;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static stonering.enums.action.TaskStatusEnum.OPEN;
+import stonering.entity.job.Task;
 
 /**
  * System for handling different statuses of tasks in {@link TaskContainer}.
@@ -26,49 +21,38 @@ import static stonering.enums.action.TaskStatusEnum.OPEN;
  */
 public class TaskStatusSystem {
     private TaskContainer container;
-
+    private final List<Task> toRemove = new ArrayList<>();
+    private final List<Task> toReopen = new ArrayList<>();
+    
     public TaskStatusSystem(TaskContainer container) {
         this.container = container;
     }
 
     public void update() {
-        for (TaskList list : container.tasks.values()) {
-            for (Iterator<Task> iterator = list.tasks.iterator(); iterator.hasNext(); ) {
-                Task task = iterator.next();
-                switch (task.status) {
-                    case ACTIVE:
-                    case COMPLETE:
-                    case FAILED:
-                        Logger.TASKS.logError(task + " with status " + task.status + " in unassigned tasks");
-                        break;
-                    case CANCELED: // remove task canceled by player
-                        iterator.remove();
-                        if (task.designation != null)
-                            container.designations.remove(task.designation.position); // remove designation
-                        break;
-                }
+        toRemove.clear();
+        toReopen.clear();
+        // canceled unassigned designations removed
+        container.tasks.values().stream()
+                .flatMap(taskList -> taskList.tasks.stream())
+                .filter(task -> task.status == CANCELED)
+                .forEach(toRemove::add);
+        // canceled and complete assigned designations removed
+        container.assignedTasks.stream()
+                .filter(task -> task.status == COMPLETE || task.status == CANCELED)
+                .forEach(toRemove::add);
+        // failed assigned designations recreated
+        container.assignedTasks.stream()
+                .filter(task -> task.status == FAILED)
+                .forEach(toReopen::add);
+        
+        toRemove.forEach(task -> container.removeTask(task)); // removes task and designation
+        
+        toReopen.forEach(task -> {
+            if(task.designation != null) {
+                container.reopenTask(task);
+            } else {
+                container.removeTask(task);
             }
-        }
-        for (Iterator<Task> iterator = container.assignedTasks.iterator(); iterator.hasNext(); ) {
-            Task task = iterator.next();
-            switch (task.status) {
-                case OPEN:
-                    Logger.TASKS.logError(task.status + " task in assigned tasks");
-                    break;
-                case COMPLETE: // complete designations are removed by actions
-                case CANCELED: // canceled designation are removed in designations system
-                    iterator.remove();
-                    if (task.designation != null)
-                        container.designationSystem.removeDesignation(task.designation.position);
-                    break;
-                case FAILED: // failed tasks are removed
-                    iterator.remove();
-                    if (task.designation != null) {
-                        System.out.println("reopening task");
-                        task.reset();
-                        container.addReopenedTask(task);
-                    }
-            }
-        }
+        });
     }
 }

@@ -3,7 +3,7 @@ package stonering.game.model.system.unit;
 import stonering.entity.job.Task;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
-import stonering.entity.unit.aspects.TaskAspect;
+import stonering.entity.unit.aspects.job.TaskAspect;
 import stonering.entity.unit.aspects.need.NeedAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.system.EntitySystem;
@@ -41,21 +41,23 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
     }
 
     private void handleTaskStatus(Unit unit) {
-        if (unit.get(TaskAspect.class).task.status != ACTIVE) removeTaskFromUnit(unit);
+        if (unit.get(TaskAspect.class).task.status != ACTIVE) removeTaskFromUnit(unit); // unit stopped to perform task for any reason
     }
 
     private void findNewTask(Unit unit) {
         ArrayList<Task> tasks = new ArrayList<>();
-        if (unit.has(NeedAspect.class)) tasks.add(unit.get(NeedAspect.class).satisfyingTask); // add need task
+        unit.optional(NeedAspect.class) // add need task
+                .map(aspect -> aspect.satisfyingTask)
+                .ifPresent(tasks::add);
         tasks.add(taskContainer().getActiveTask(unit)); // get task from container
         tasks.stream()
                 .filter(Objects::nonNull)
                 .filter(task -> task.status == OPEN)
-                .filter(task -> checkTaskForUnit(task, unit))
-                .max(Comparator.comparingInt(task1 -> task1.priority))
+                .max(Comparator.comparingInt(task1 -> task1.priority)) // need tasks may be more important
                 .ifPresent(task -> {
                     Logger.TASKS.logDebug("Assigning task " + task + " to unit " + unit);
-                    taskContainer().claimTask(task);
+                    taskContainer().claimTask(task); // others should not take this task
+                    task.performer = unit;
                     unit.get(TaskAspect.class).task = task;
                     task.status = ACTIVE;
                 });
@@ -64,22 +66,6 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
     public void removeTaskFromUnit(Unit unit) {
         unit.get(MovementAspect.class).reset();
         unit.get(TaskAspect.class).task = null;
-    }
-
-    /**
-     * Finds appropriate task for unit.
-     * Checks priorities of all available tasks.
-     * TODO combat tasks
-     * TODO non possible tasks with high priority can block other tasks
-     */
-    private boolean checkTaskForUnit(Task task, Unit unit) {
-        task.performer = unit;
-        if (!task.initialAction.takingCondition.get()) {
-            System.out.println("checking task for unit");
-            task.reset();
-            return false;
-        }
-        return true;
     }
     
     private TaskContainer taskContainer() {
