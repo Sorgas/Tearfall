@@ -23,7 +23,7 @@ public class TaskStatusSystem {
     private TaskContainer container;
     private final List<Task> toRemove = new ArrayList<>();
     private final List<Task> toReopen = new ArrayList<>();
-    
+
     public TaskStatusSystem(TaskContainer container) {
         this.container = container;
     }
@@ -44,12 +44,15 @@ public class TaskStatusSystem {
         container.assignedTasks.stream()
                 .filter(task -> task.status == FAILED)
                 .forEach(toReopen::add);
-        
-        toRemove.forEach(task -> container.removeTask(task)); // removes task and designation
-        
+
+        toRemove.forEach(task1 -> {
+            container.removeTask(task1);
+        });
+
         toReopen.forEach(task -> {
-            if(task.designation != null) {
+            if (task.designation != null) {
                 container.reopenTask(task);
+                task.status = OPEN;
             } else {
                 container.removeTask(task);
             }

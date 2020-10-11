@@ -1,5 +1,6 @@
 package stonering.enums.unit;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import stonering.enums.unit.body.BodyTemplate;
@@ -27,7 +28,8 @@ public class CreatureTypeProcessor {
         }
 
         if(type.combinedAppearance != null) type.combinedAppearance.process();
-        Arrays.stream(GameplayStatEnum.values()).forEach(value -> type.statMap.put(value, value.DEFAULT)); // save default values
+        Arrays.stream(GameplayStatEnum.values())
+                .forEach(value -> type.statMap.put(value, value.DEFAULT)); // save default values
         for (String statName : raw.statMap.keySet()) { // override default values
             if (GameplayStatEnum.map.containsKey(statName)) {
                 type.statMap.put(GameplayStatEnum.map.get(statName), raw.statMap.get(statName));
@@ -37,6 +39,7 @@ public class CreatureTypeProcessor {
         }
         BodyTemplate template = typeMap.bodyTemplates.get(raw.bodyTemplate);
         template.body.forEach((name, part) -> type.bodyParts.put(name, part.clone()));
+        template.slots.forEach((name, slot) -> type.slots.put(name, new ArrayList<>(slot)));
         type.desiredSlots.addAll(raw.desiredSlots);
         type.needs.addAll(Arrays.asList(defaultNeeds));
         return type;

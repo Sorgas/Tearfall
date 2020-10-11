@@ -1,9 +1,12 @@
 package stonering.enums.unit;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 import com.badlogic.gdx.utils.Json;
 
-import stonering.enums.unit.health.GameplayStatEnum;
-import stonering.enums.unit.need.NeedEnum;
 import stonering.enums.unit.body.BodyTemplate;
 import stonering.enums.unit.body.raw.BodyTemplateProcessor;
 import stonering.enums.unit.body.raw.RawBodyTemplate;
@@ -11,8 +14,6 @@ import stonering.enums.unit.race.CreatureType;
 import stonering.enums.unit.race.RawCreatureType;
 import stonering.util.lang.FileUtil;
 import stonering.util.logging.Logger;
-
-import java.util.*;
 
 /**
  * Loads, and stores {@link CreatureType} and {@link BodyTemplate}.
@@ -45,9 +46,10 @@ public class CreatureTypeMap {
     }
 
     private void loadCreatures() {
+        Logger.LOADING.logDebug("loading creature types");
         Json json = new Json();
-        ArrayList<RawCreatureType> types = json.fromJson(ArrayList.class, RawCreatureType.class, FileUtil.get(FileUtil.CREATURES_PATH));
         CreatureTypeProcessor typeProcessor = new CreatureTypeProcessor(this);
+        ArrayList<RawCreatureType> types = json.fromJson(ArrayList.class, RawCreatureType.class, FileUtil.get(FileUtil.CREATURES_PATH));
         types.stream()
                 .map(typeProcessor::process)
                 .filter(Objects::nonNull)

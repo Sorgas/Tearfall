@@ -63,7 +63,7 @@ public class Task {
     }
 
     public void reset() {
-        Logger.TASKS.logDebug("Resetting " + this);
+//        Logger.TASKS.logDebug("Resetting " + this);
         initialAction.reset();
         preActions.clear();
         postActions.clear();
@@ -105,7 +105,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task of: " + initialAction;
+        return initialAction.toString();
     }
 
     public ActionTarget initialTarget() {

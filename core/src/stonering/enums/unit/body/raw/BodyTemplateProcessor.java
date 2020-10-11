@@ -21,8 +21,8 @@ public class BodyTemplateProcessor {
     public BodyTemplate process(RawBodyTemplate rawTemplate) {
         BodyTemplate template = new BodyTemplate(rawTemplate);
         log("processing " + rawTemplate.name + " body template");
-        log("    rawtemplate size " + rawTemplate.body.size() + " " + rawTemplate.body.stream().map(part -> part.name).collect(Collectors.toList()));
-        Map<String, RawBodyPart> rawPartMap = rawTemplate.body.stream().collect(Collectors.toMap(part -> part.name, part -> part)); // part name to part
+        Map<String, RawBodyPart> rawPartMap = rawTemplate.body
+                .stream().collect(Collectors.toMap(part -> part.name, part -> part)); // part name to part
         log("    rawPartMap " + rawPartMap.size() + " " + rawPartMap.keySet());
         updateLimbsMirroringFlags(rawPartMap);
         log("    unmirrored slots " + rawTemplate.slots.size());
@@ -36,7 +36,8 @@ public class BodyTemplateProcessor {
     }
 
     /**
-     * Mirrors slots which use only mirrored parts. Mirrors only limbs in a slot, if there are non-mirrored limbs in that slot.
+     * Mirrors slots which use only mirrored parts (boots). 
+     * Mirrors only limbs in a slot, if there are non-mirrored limbs in that slot (pants).
      * Side prefixes are added in this method. After mirroring limbs, limbs and slots become consistent.
      * Also mirrors desired slots.
      */
@@ -102,30 +103,27 @@ public class BodyTemplateProcessor {
      * There should be only one flag on the path from root to leaf limb.
      */
     private void updateLimbsMirroringFlags(Map<String, RawBodyPart> map) {
-        for (RawBodyPart currentLimb : map.values()) {
-            if (currentLimb.mirrored) continue; // limb already have mirroring
-            RawBodyPart limb = currentLimb;
-            while (!limb.root.equals("body")) { // cycle to the root limb
-                if (map.get(limb.root).mirrored) { // limb with mirroring found
-                    currentLimb.mirrored = map.get(limb.root).mirrored; // copy flag
-                    log("        limb " + currentLimb.name + " gets mirroring [" + currentLimb.mirrored + "]");
-                    break;
-                }
-                limb = map.get(limb.root); // go to next limb
-            }
-        }
+        map.values().stream()
+                .filter(rawBodyPart -> !rawBodyPart.mirrored)
+                .filter(rawBodyPart -> {
+                    RawBodyPart limb = rawBodyPart;
+                    while (!limb.root.equals("body")) { // cycle to the root limb
+                        if (map.get(limb.root).mirrored) return true;
+                        limb = map.get(limb.root); // go to next limb
+                    }
+                    return false;
+                })
+                .forEach(rawBodyPart -> rawBodyPart.mirrored = true);
     }
 
     /**
      * Creates body parts and links the between each other.
      */
     private void fillBodyParts(Map<String, RawBodyPart> rawPartsMap, BodyTemplate bodyTemplate) {
-        for (RawBodyPart rawPart : rawPartsMap.values()) { // create limbs
-            bodyTemplate.body.put(rawPart.name, new BodyPart(rawPart));
-        }
-        for (BodyPart part : bodyTemplate.body.values()) { // link limbs
-            part.root = bodyTemplate.body.get(rawPartsMap.get(part.name).root);
-        }
+        rawPartsMap.values() // create limbs
+                .forEach(rawPart -> bodyTemplate.body.put(rawPart.name, new BodyPart(rawPart)));
+        bodyTemplate.body.values() // link limbs
+                .forEach(part -> part.root = bodyTemplate.body.get(rawPartsMap.get(part.name).root));
     }
 
     private void log(String message) {

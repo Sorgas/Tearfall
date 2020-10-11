@@ -33,11 +33,13 @@ import stonering.util.logging.Logger;
  * @author Alexander Kuzyakov
  */
 public class TaskContainer implements ModelComponent, Updatable {
-    public Map<String, TaskList> tasks; // task job to all tasks with this job
+    public final Map<String, TaskList> tasks; // task job to all tasks with this job
     public final Set<Task> assignedTasks; // tasks, taken by some unit.
     public final HashMap<Position, Designation> designations; //this map is for rendering and modifying designations
+    
     public final DesignationSystem designationSystem;
     public final TaskStatusSystem taskStatusSystem;
+    
     private PassageMap map;
 
     public TaskContainer() {
@@ -103,10 +105,8 @@ public class TaskContainer implements ModelComponent, Updatable {
      */
     public void reopenTask(@Nonnull Task task) {
         task.reset(); // delete actions
-        TaskList list = tasks.get(task.job);
-        list.addReopenedTask(task);
-        if (task.designation != null) designations.put(task.designation.position, task.designation);
-        Logger.TASKS.logDebug(task + "reopened");
+        assignedTasks.remove(task);
+        tasks.get(task.job).reopen(task);
     }
 
     public void removeTask(@Nonnull Task task) {
