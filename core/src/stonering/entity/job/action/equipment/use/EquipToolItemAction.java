@@ -21,7 +21,7 @@ public class EquipToolItemAction extends PutItemToDestinationAction {
                     .filter(GrabEquipmentSlot::isGrabFree)
                     .findFirst()
                     .ifPresent(slot -> system.fillGrabSlot(equipment(), slot, item));
-            equipment().itemBuffer = null;
+            equipment().hauledItem = null;
             System.out.println(item + " equipped as tool");
             //TODO select one or more hands to maintain main/off hand logic
         };

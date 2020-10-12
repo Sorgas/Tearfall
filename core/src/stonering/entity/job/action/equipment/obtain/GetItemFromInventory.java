@@ -18,8 +18,8 @@ public class GetItemFromInventory extends EquipmentAction {
 
         // item is in some slot
         startCondition = () -> {
-            if (equipment().itemBuffer != null)
-                return addPreAction(new PutItemToPositionAction(equipment().itemBuffer, task.performer.position));
+            if (equipment().hauledItem != null)
+                return addPreAction(new PutItemToPositionAction(equipment().hauledItem, task.performer.position));
             return validate() && equipment().items.contains(item) ? OK : FAIL;
         };
 
@@ -27,7 +27,7 @@ public class GetItemFromInventory extends EquipmentAction {
 
         onFinish = () -> {
             itemContainer.equippedItemsSystem.removeItemFromEquipment(item);
-            equipment().itemBuffer = item;
+            equipment().hauledItem = item;
             System.out.println(item + " got from inventory");
         };
     }

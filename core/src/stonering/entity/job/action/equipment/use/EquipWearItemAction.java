@@ -4,9 +4,6 @@ import stonering.entity.item.Item;
 import stonering.entity.item.aspects.WearAspect;
 import stonering.entity.job.action.target.SelfActionTarget;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
-import stonering.util.logging.Logger;
-
-import java.util.Optional;
 
 /**
  * Action for equipping wear items.
@@ -27,7 +24,7 @@ public class EquipWearItemAction extends PutItemToDestinationAction {
             itemContainer.onMapItemsSystem.addItemToMap(previousItem, task.performer.position);
 
             targetSlot.item = targetItem;
-            equipment().itemBuffer = null;
+            equipment().hauledItem = null;
         };
     }
 

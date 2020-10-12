@@ -12,7 +12,7 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 
 /**
  * Action for picking up item. Performer should have {@link EquipmentAspect}.
- * Item is put to special {@link EquipmentAspect#itemBuffer} field.
+ * Item is put to special {@link EquipmentAspect#hauledItem} field.
  * Item should be on the ground, (see {@link ObtainItemAction}).
  *
  * @author Alexander on 12.01.2019.
@@ -25,8 +25,8 @@ public class GetItemFromGroundAction extends EquipmentAction {
         this.item = item;
 
         startCondition = () -> {
-            if (equipment().itemBuffer != null)
-                return addPreAction(new PutItemToPositionAction(equipment().itemBuffer, task.performer.position));
+            if (equipment().hauledItem != null)
+                return addPreAction(new PutItemToPositionAction(equipment().hauledItem, task.performer.position));
             return !validate() ? FAIL : OK;
         };
 
@@ -34,7 +34,7 @@ public class GetItemFromGroundAction extends EquipmentAction {
 
         onFinish = () -> { // add item to unit
             itemContainer.onMapItemsSystem.removeItemFromMap(item);
-            equipment().itemBuffer = item;
+            equipment().hauledItem = item;
             System.out.println(item + " got from ground");
         };
     }

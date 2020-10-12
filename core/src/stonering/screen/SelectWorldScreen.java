@@ -28,14 +28,14 @@ import java.io.File;
  * @author Alexander Kuzyakov on 14.04.2017.
  */
 public class SelectWorldScreen extends SimpleScreen {
-    private World world;
-    private TearFall game;
-    private Stage stage;
-    private NavigableList<WorldListItem> worldList;
-    private MiniMap minimap;
+    public World world;
+    public TearFall game;
+    public Stage stage;
+    public NavigableList<WorldListItem> worldList;
+    public MiniMap minimap;
 
-    private TextButton proceedButton;
-    private TextButton backButton;
+    public TextButton proceedButton;
+    public TextButton backButton;
 
     public SelectWorldScreen(TearFall game) {
         this.game = game;
@@ -153,7 +153,7 @@ public class SelectWorldScreen extends SimpleScreen {
             proceedButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    game.switchLocationSelectMenu(getWorld());
+                    game.switchLocationSelectMenu(world);
                 }
             });
         } else {
@@ -174,8 +174,7 @@ public class SelectWorldScreen extends SimpleScreen {
         minimap = new MiniMap(new Texture("sprites/map_tiles.png"));
         WorldListItem item = worldList.getSelected();
         if (item != null) {
-            World world = new WorldSaver().loadWorld(item.getTitle());
-            setWorld(world);
+            world = new WorldSaver().loadWorld(item.getTitle());
             minimap.setWorld(world);
         }
         return minimap;
@@ -187,8 +186,7 @@ public class SelectWorldScreen extends SimpleScreen {
         worldList.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                World world = new WorldSaver().loadWorld(((List<WorldListItem>) actor).getSelected().getTitle());
-                setWorld(world);
+                world = new WorldSaver().loadWorld(((List<WorldListItem>) actor).getSelected().getTitle());
                 minimap.setWorld(world);
             }
         });
@@ -196,17 +194,5 @@ public class SelectWorldScreen extends SimpleScreen {
             worldList.setSelected(worldList.getItems().get(0));
         }
         return worldList;
-    }
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public World getWorld() {
-        return world;
-    }
-
-    public void setWorld(World world) {
-        this.world = world;
     }
 }

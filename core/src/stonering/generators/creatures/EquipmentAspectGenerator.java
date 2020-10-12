@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class EquipmentAspectGenerator {
 
     public EquipmentAspect generateEquipmentAspect(CreatureType type) {
-        EquipmentAspect equipmentAspect = new EquipmentAspect(null);
+        EquipmentAspect equipmentAspect = new EquipmentAspect();
         generateSlots(type, equipmentAspect);
         equipmentAspect.desiredSlots.addAll(type.desiredSlots.stream().map(equipmentAspect.slots::get).collect(Collectors.toList()));
         return equipmentAspect;

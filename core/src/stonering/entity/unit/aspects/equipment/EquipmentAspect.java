@@ -1,6 +1,5 @@
 package stonering.entity.unit.aspects.equipment;
 
-import stonering.entity.Entity;
 import stonering.entity.Aspect;
 import stonering.entity.item.Item;
 import stonering.stage.entity_menu.unit.tab.UnitEquipmentTab;
@@ -21,19 +20,11 @@ import java.util.stream.Stream;
  * @author Alexander Kuzyakov on 03.01.2018.
  */
 public class EquipmentAspect extends Aspect {
-    public final HashMap<String, EquipmentSlot> slots;          // all slots of a creature (for wear)
-    public final HashMap<String, GrabEquipmentSlot> grabSlots;  // slots for tools (subset of all slots)
-    public final Set<Item> items;                               // items in worn containers and in hands
-    public final List<EquipmentSlot> desiredSlots;              // uncovered limbs give comfort penalty
-    public Item itemBuffer;
-    
-    public EquipmentAspect(Entity entity) {
-        super(entity);
-        slots = new HashMap<>();
-        grabSlots = new HashMap<>();
-        items = new HashSet<>();
-        desiredSlots = new ArrayList<>();
-    }
+    public final HashMap<String, EquipmentSlot> slots = new HashMap<>();          // all slots of a creature (for wear)
+    public final HashMap<String, GrabEquipmentSlot> grabSlots = new HashMap<>();  // slots for tools (subset of all slots)
+    public final Set<Item> items = new HashSet<>();                               // items in worn containers and in hands
+    public final List<EquipmentSlot> desiredSlots = new ArrayList<>();              // uncovered limbs give comfort penalty
+    public Item hauledItem;
 
     /**
      * Filters and returns slots needed to be filled to avoid nudity penalty.

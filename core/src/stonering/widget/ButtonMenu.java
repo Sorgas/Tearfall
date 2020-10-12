@@ -20,9 +20,10 @@ import java.util.HashMap;
 public class ButtonMenu extends Table {
     protected HashMap<Integer, Button> buttons;
     protected boolean forbidEventPass = false; // if true, key events will not be handled further
-    protected boolean vertical = true; // most menus are verticalssss
+    protected boolean vertical; // most menus are vertical
 
-    public ButtonMenu() {
+    public ButtonMenu(boolean vertical) {
+        this.vertical = vertical;
         buttons = new HashMap<>();
         addListener(new InputListener() {
             @Override
@@ -36,9 +37,8 @@ public class ButtonMenu extends Table {
         });
     }
 
-    public ButtonMenu(boolean vertical) {
-        this();
-        this.vertical = vertical;
+    public ButtonMenu() {
+        this(true);
     }
 
     public void addButton(String text, int hotKey, Runnable action) {

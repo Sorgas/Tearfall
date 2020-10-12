@@ -20,7 +20,7 @@ public class PutItemToPositionAction extends PutItemToDestinationAction {
         super(new PositionActionTarget(targetPosition, ActionTargetTypeEnum.ANY), targetItem);
 
         onFinish = () -> {
-            equipment().itemBuffer = null;
+            equipment().hauledItem = null;
             GameMvc.model().get(ItemContainer.class).onMapItemsSystem.addItemToMap(targetItem, targetPosition);
         };
     }

@@ -31,7 +31,7 @@ public class PlantingAction extends EquipmentAction {
         super(new PositionActionTarget(designation.position, ActionTargetTypeEnum.NEAR));
         seedSelector = new SeedItemSelector(designation.specimen);
         startCondition = () -> {
-            if(seedSelector.checkItem(equipment().itemBuffer)) return OK;
+            if(seedSelector.checkItem(equipment().hauledItem)) return OK;
             return Optional.ofNullable(GameMvc.model().get(ItemContainer.class).util.getItemAvailableBySelector(seedSelector, task.performer.position))
                     .map(item -> addPreAction(new ObtainItemAction(item)))
                     .orElse(FAIL);
@@ -39,8 +39,8 @@ public class PlantingAction extends EquipmentAction {
         
         onFinish = () -> { 
             Logger.TASKS.logDebug("Planting seed of " + seedSelector.getSpecimen() + " to " + target.getPosition());
-            createPlant(equipment().itemBuffer);
-            equipment().itemBuffer = null;
+            createPlant(equipment().hauledItem);
+            equipment().hauledItem = null;
         };
     }
 

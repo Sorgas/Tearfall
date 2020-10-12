@@ -14,6 +14,7 @@ import stonering.screen.*;
 import stonering.screen.util.SingleStageScreen;
 import stonering.stage.menu.MainMenu;
 import stonering.stage.menu.WorldGenMenu;
+import stonering.stage.menu.WorldSelectMenu;
 import stonering.stage.util.SingleActorStage;
 import stonering.util.geometry.Position;
 import stonering.widget.GameWithCustomCursor;
@@ -47,8 +48,8 @@ public class TearFall extends GameWithCustomCursor {
     }
 
     public void switchWorldsSelectMenu() {
-        if (selectWorldScreen == null) selectWorldScreen = new SelectWorldScreen(this);
-        setScreen(selectWorldScreen);
+        Optional.ofNullable(getScreen()).ifPresent(Screen::dispose);
+        showMenuScreen(new WorldSelectMenu(this));
     }
 
     public void switchLocationSelectMenu(World world) {

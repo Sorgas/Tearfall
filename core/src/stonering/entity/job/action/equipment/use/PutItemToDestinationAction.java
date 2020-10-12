@@ -22,7 +22,7 @@ public abstract class PutItemToDestinationAction extends EquipmentAction {
 
         startCondition = () -> {
             if (!validate()) return FAIL;
-            if (equipment().itemBuffer == targetItem) return OK; // performer has item
+            if (equipment().hauledItem == targetItem) return OK; // performer has item
             return addPreAction(new ObtainItemAction(targetItem));
         };
 

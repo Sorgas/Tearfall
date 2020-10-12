@@ -18,7 +18,7 @@ public class PutItemToContainerAction extends PutItemToDestinationAction {
         super(new EntityActionTarget(containerAspect.entity, ActionTargetTypeEnum.NEAR), targetItem);
 
         onFinish = () -> {
-            equipment().itemBuffer = null;
+            equipment().hauledItem = null;
             GameMvc.model().get(ItemContainer.class).containedItemsSystem.addItemToContainer(targetItem, containerAspect);
         };
     }

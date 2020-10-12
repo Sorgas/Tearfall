@@ -76,9 +76,13 @@ public class UnitDrawer extends Drawer {
         });
     }
 
+    private void drawIcons(Unit unit) {
+        
+    }
+    
     private void drawHauledItem(Unit unit) {
         unit.optional(EquipmentAspect.class)
-                .map(aspect -> aspect.itemBuffer)
+                .map(aspect -> aspect.hauledItem)
                 .ifPresent(item -> {
                     cacheVector.set(unit.vectorPosition).add(0.25f, 0.25f, 0);
                     spriteUtil.drawSprite(item.get(RenderAspect.class).region, cacheVector);

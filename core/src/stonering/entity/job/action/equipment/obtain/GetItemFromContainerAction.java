@@ -27,8 +27,8 @@ public class GetItemFromContainerAction extends EquipmentAction {
         this.item = item;
 
         startCondition = () -> {
-            if (equipment().itemBuffer != null)
-                return addPreAction(new PutItemToPositionAction(equipment().itemBuffer, task.performer.position));
+            if (equipment().hauledItem != null)
+                return addPreAction(new PutItemToPositionAction(equipment().hauledItem, task.performer.position));
             return !validate() ? FAIL : OK;
         };
 
@@ -36,7 +36,7 @@ public class GetItemFromContainerAction extends EquipmentAction {
 
         onFinish = () -> {
             itemContainer.containedItemsSystem.removeItemFromContainer(item); // remove from container
-            equipment().itemBuffer = item;
+            equipment().hauledItem = item;
             System.out.println(item + " got from container");
         };
     }
