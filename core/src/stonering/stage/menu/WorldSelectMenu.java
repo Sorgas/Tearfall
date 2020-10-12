@@ -6,9 +6,6 @@ import java.util.Optional;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
@@ -16,7 +13,7 @@ import com.badlogic.gdx.utils.Array;
 
 import stonering.TearFall;
 import stonering.entity.world.World;
-import stonering.screen.ui_components.MiniMap;
+import stonering.screen.ui_components.WorldMiniMap;
 import stonering.screen.ui_components.WorldListItem;
 import stonering.screen.util.WorldSaver;
 import stonering.util.lang.StaticSkin;
@@ -33,20 +30,20 @@ public class WorldSelectMenu extends Table {
     
     private NavigableList<WorldListItem> worldList;
     private ButtonMenu buttonMenu;
-    private MiniMap minimap;
+    private WorldMiniMap minimap;
     
     public WorldSelectMenu(TearFall game) {
         this.game = game;
         createLayout();
-        addListener(new KeyNotifierListener(() -> worldList));
-        addListener(new KeyNotifierListener(() -> buttonMenu));
+        addListener(new KeyNotifierListener(worldList));
+        addListener(new KeyNotifierListener(buttonMenu));
     }
 
     private void createLayout() {
         defaults().fill().expandY();
         align(Align.bottomLeft);
         add(createLeftPanel());
-        add(createMinimap()).expandX();
+        add(createRightPanel()).expandX();
     }
 
     private Table createLeftPanel() {
@@ -58,17 +55,22 @@ public class WorldSelectMenu extends Table {
         leftPanel.add(createButtonMenu());
         return leftPanel;
     }
+    
+    private Table createRightPanel() {
+        Table rightPanel = new Table();
+        rightPanel.align(Align.topLeft);
+        rightPanel.add(new Label("World name", StaticSkin.getSkin())).growX().row(); // TODO
+        rightPanel.add(new Label("World description", StaticSkin.getSkin())).growX().row(); // TODO
+        rightPanel.add(createMinimap()).grow();
+        return rightPanel;
+    }
 
     private ButtonMenu createButtonMenu() {
         buttonMenu = new ButtonMenu();
         buttonMenu.defaults().height(50).width(300).pad(10, 0, 0, 0);
         buttonMenu.pad(0, 10, 10, 10);
-        buttonMenu.addButton("Proceed", Input.Keys.E, () -> {
-            game.switchLocationSelectMenu(world);
-        });
-        buttonMenu.addButton("Back", Input.Keys.Q, () -> {
-            game.switchMainMenu();
-        });
+        buttonMenu.addButton("Proceed", Input.Keys.E, () -> game.switchLocationSelectMenu(world));
+        buttonMenu.addButton("Back", Input.Keys.Q, () -> game.switchMainMenu());
         return buttonMenu;
     }
     
@@ -88,8 +90,8 @@ public class WorldSelectMenu extends Table {
         return worldList;
     }
 
-    private Table createMinimap() {
-        minimap = new MiniMap(new Texture("sprites/map_tiles.png"));
+    private Container createMinimap() {
+        minimap = new WorldMiniMap(new Texture("sprites/map_tiles.png"));
         Optional.ofNullable(worldList.getSelected())
                 .ifPresent(item -> {
                     world = new WorldSaver().loadWorld(item.getTitle());

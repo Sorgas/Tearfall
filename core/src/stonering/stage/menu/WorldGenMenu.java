@@ -15,7 +15,7 @@ import stonering.TearFall;
 import stonering.entity.world.World;
 import stonering.generators.worldgen.WorldGenConfig;
 import stonering.generators.worldgen.WorldGeneratorContainer;
-import stonering.screen.ui_components.MiniMap;
+import stonering.screen.ui_components.WorldMiniMap;
 import stonering.screen.util.WorldCellInfo;
 import stonering.screen.util.WorldSaver;
 import stonering.util.lang.StaticSkin;
@@ -34,7 +34,7 @@ public class WorldGenMenu extends Table {
     private int worldSize = 100; // changed from ui
     private TearFall game;
     private Random random = new Random();
-    private MiniMap minimap;
+    private WorldMiniMap minimap;
     private WorldCellInfo worldCellInfo = new WorldCellInfo();
     private ButtonMenu bottomMenu;
     private TextButton randomizeSeedButton;
@@ -128,8 +128,8 @@ public class WorldGenMenu extends Table {
         return bottomMenu;
     }
 
-    private MiniMap createMinimap() {
-        minimap = new MiniMap(new Texture("sprites/map_tiles.png"));
+    private WorldMiniMap createMinimap() {
+        minimap = new WorldMiniMap(new Texture("sprites/map_tiles.png"));
         minimap.setWorld(world);
         return minimap;
     }

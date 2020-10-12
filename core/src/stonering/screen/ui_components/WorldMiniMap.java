@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import stonering.entity.world.World;
@@ -18,21 +19,21 @@ import stonering.screen.util.TileChooser;
  *
  * @author Alexander Kuzyakov on 19.04.2017.
  */
-public class MiniMap extends Table {
+public class WorldMiniMap extends Container {
     private World world;
     private WorldMap map;
     private TileChooser tileChooser;
     private float tileScale = 1f;
     private int tileSize = 8;
     private Position focus = new Position(0, 0, 0);
-    private Position size = new Position(0, 0, 0);
+    private Position size = new Position(0, 0, 0); // size in tiles
     private ShapeRenderer shapeRenderer;
     private int pixelSize = 2;
     private int baseScreenOffsetX = 385;
     private int screenOffsetY = 100;
     private boolean debugMode = true;
 
-    public MiniMap(Texture tiles) {
+    public WorldMiniMap(Texture tiles) {
         super();
         tileChooser = new TileChooser(tiles);
         shapeRenderer = new ShapeRenderer();
@@ -82,11 +83,6 @@ public class MiniMap extends Table {
         if (map != null && size.y > map.getHeight()) {
             size.y = map.getHeight();
         }
-    }
-
-    public void setFocus(int x, int y) {
-        focus.x = x;
-        focus.y = y;
     }
 
     public void moveFocus(int dx, int dy) {

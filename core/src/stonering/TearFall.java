@@ -6,13 +6,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.utils.Align;
 
 import stonering.entity.world.World;
 import stonering.game.GameMvc;
-import stonering.screen.*;
+import stonering.screen.LocalGenerationScreen;
+import stonering.screen.PrepareExpeditionMenu;
 import stonering.screen.util.SingleStageScreen;
 import stonering.stage.menu.MainMenu;
+import stonering.stage.menu.LocationSelectMenu;
 import stonering.stage.menu.WorldGenMenu;
 import stonering.stage.menu.WorldSelectMenu;
 import stonering.stage.util.SingleActorStage;
@@ -25,7 +26,6 @@ import stonering.widget.GameWithCustomCursor;
  * @author Alexander Kuzyakov on 08.04.2017.
  */
 public class TearFall extends GameWithCustomCursor {
-    private SelectLocationMenu selectLocationMenu;
     private PrepareExpeditionMenu prepareExpeditionMenuMvc;
     private LocalGenerationScreen localGenScreen;
     private Texture cursor;
@@ -52,9 +52,8 @@ public class TearFall extends GameWithCustomCursor {
     }
 
     public void switchLocationSelectMenu(World world) {
-        if (selectLocationMenu == null) selectLocationMenu = new SelectLocationMenu(this);
-        selectLocationMenu.setWorld(world);
-        setScreen(selectLocationMenu);
+        Optional.ofNullable(getScreen()).ifPresent(Screen::dispose);
+        showMenuScreen(new LocationSelectMenu(this, world));
     }
 
     public void switchPrepareExpeditionMenu(World world, Position location) {

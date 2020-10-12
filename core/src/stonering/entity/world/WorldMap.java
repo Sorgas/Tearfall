@@ -9,21 +9,21 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class WorldMap implements Serializable {
-    public float[][] elevation;
-    public float[][] drainage;
-    public float[][] summerTemperature;
-    public float[][] winterTemperature;
-    public float[][] rainfall;
-    public Vector2[][] rivers;
-    public Vector2[][] brooks;
-    public Vector2[][] debug;
-    public int[][] biome;
+    public final float[][] elevation;
+    public final float[][] drainage;
+    public final float[][] summerTemperature;
+    public final float[][] winterTemperature;
+    public final float[][] rainfall;
+    public final Vector2[][] rivers;
+    public final Vector2[][] brooks;
+    public final Vector2[][] debug;
+    public final int[][] biome;
 
-    public int width;
-    public int height;
+    public final int width;
+    public final int height;
     public long seed;
     public ArrayList<TectonicPlate> tectonicPlates;
-    public ArrayList<Position> lakes;
+    public final ArrayList<Position> lakes;
 
     public WorldMap(int xSize, int ySize) {
         this.width = xSize;
@@ -49,16 +49,8 @@ public class WorldMap implements Serializable {
         return width;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
     public int getHeight() {
         return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 
     public float getElevation(int x, int y) {
