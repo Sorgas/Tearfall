@@ -25,7 +25,6 @@ import stonering.widget.GameWithCustomCursor;
  * @author Alexander Kuzyakov on 08.04.2017.
  */
 public class TearFall extends GameWithCustomCursor {
-    private SelectWorldScreen selectWorldScreen;
     private SelectLocationMenu selectLocationMenu;
     private PrepareExpeditionMenu prepareExpeditionMenuMvc;
     private LocalGenerationScreen localGenScreen;
