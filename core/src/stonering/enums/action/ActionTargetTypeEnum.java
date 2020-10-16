@@ -5,6 +5,6 @@ package stonering.enums.action;
  */
 public enum ActionTargetTypeEnum {
     EXACT, // performer should stand in same position
-    NEAR, // performer should stand in adjacent tile
+    NEAR, // performer should stand in adjacent tile or lower ramp
     ANY // any of above
 }

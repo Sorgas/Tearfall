@@ -100,8 +100,7 @@ public class TaskContainer implements ModelComponent, Updatable {
     }
 
     /**
-     * Adds task to special list for failed tasks, which should be reopened after a delay.
-     * Task should be OPEN and have no performer.
+     * Task should have no performer.
      */
     public void reopenTask(@Nonnull Task task) {
         task.reset(); // delete actions

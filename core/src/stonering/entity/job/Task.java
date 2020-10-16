@@ -67,6 +67,7 @@ public class Task {
         initialAction.reset();
         preActions.clear();
         postActions.clear();
+        updateNextAction();
         performer = null;
     }
 

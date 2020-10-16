@@ -17,8 +17,8 @@ import stonering.util.logging.Logger;
  * @author Alexander on 6/28/2020
  */
 public class TaskList implements Updatable {
-    public LinkedList<Task> tasks = new LinkedList<>();
-    public Map<Task, Integer> reopened = new HashMap<>(); // task to time counter
+    public final LinkedList<Task> tasks = new LinkedList<>();
+    public final Map<Task, Integer> reopened = new HashMap<>(); // task to time counter
     private int delayLimit = 12;
     private int cycle = delayLimit - 1;
 
@@ -44,11 +44,12 @@ public class TaskList implements Updatable {
     }
 
     private void promote(Task task) {
+        task.reset();
         reopened.remove(task);
         add(task);
         System.out.println(task + " promoted");
     }
-    
+
     public boolean remove(Task task) {
         return tasks.remove(task) || reopened.remove(task) != null;
     }

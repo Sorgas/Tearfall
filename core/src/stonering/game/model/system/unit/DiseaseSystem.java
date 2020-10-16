@@ -63,11 +63,11 @@ public class DiseaseSystem extends EntitySystem<Unit> {
     }
     
     public void addNewDisease(Unit unit, DiseaseType diseaseType) {
-        BodyAspect aspect = unit.get(BodyAspect.class);
-        aspect.diseases.computeIfAbsent(diseaseType.name, diseaseName -> {
-            DiseaseState state = new DiseaseState(diseaseType);
-            GameMvc.model().get(UnitContainer.class).healthSystem.applyEffect(state.stage, unit);
-            return state;
-        });
+//        BodyAspect aspect = unit.get(BodyAspect.class);
+//        aspect.diseases.computeIfAbsent(diseaseType.name, diseaseName -> {
+//            DiseaseState state = new DiseaseState(diseaseType);
+//            GameMvc.model().get(UnitContainer.class).healthSystem.applyEffect(state.stage, unit);
+//            return state;
+//        });
     }
 }

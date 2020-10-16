@@ -38,9 +38,10 @@ public class DigAction extends Action {
         type = designation.type;
 
         startCondition = () -> {
-            if (!type.VALIDATOR.apply(target.getPosition())) return FAIL; // tile did not change
+            if (!type.VALIDATOR.apply(target.getPosition())) return FAIL; // tile still valid
             EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
-            if (equipment == null) return FAIL;
+            if (equipment == null)
+                return FAIL;
             if (equipment.toolWithActionEquipped(toolActionName)) return OK; // tool already equipped
             return addEquipAction();
         };
@@ -62,7 +63,8 @@ public class DigAction extends Action {
 
     private ActionConditionStatusEnum addEquipAction() {
         Item target = GameMvc.model().get(ItemContainer.class).util.getItemAvailableBySelector(new ToolWithActionItemSelector(toolActionName), task.performer.position);
-        if (target == null) return FAIL; // no tool available
+        if (target == null)
+            return FAIL; // no tool available
         return addPreAction(new EquipToolItemAction(target));
     }
 

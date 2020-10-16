@@ -54,7 +54,7 @@ public class TaskStatusSystem {
                 container.reopenTask(task);
                 task.status = OPEN;
             } else {
-                container.removeTask(task);
+                container.removeTask(task); // removes task and designation
             }
         });
     }
