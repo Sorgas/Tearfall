@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import stonering.entity.RenderAspect;
-import stonering.entity.unit.aspects.HumanoidRenderAspect;
 import stonering.enums.unit.race.CombinedAppearanceRange;
 import stonering.enums.unit.race.CreatureType;
 import stonering.stage.renderer.atlas.AtlasesEnum;

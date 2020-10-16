@@ -5,6 +5,7 @@ import stonering.entity.unit.aspects.MovementAspect;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.EntitySystem;
 import stonering.util.geometry.Position;
 
 /**
@@ -12,10 +13,11 @@ import stonering.util.geometry.Position;
  * 
  * @author Alexander on 23.10.2019.
  */
-public class CreatureFallingSystem {
+public class CreatureFallingSystem extends EntitySystem<Unit> {
     private UnitContainer container;
     private LocalMap map;
 
+    @Override
     public void update(Unit unit) {
         container = GameMvc.model().get(UnitContainer.class);
         map = GameMvc.model().get(LocalMap.class);

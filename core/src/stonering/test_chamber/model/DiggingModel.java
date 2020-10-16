@@ -26,13 +26,12 @@ public class DiggingModel extends TestModel {
     public void init() {
         super.init();
         get(EntitySelectorSystem.class).selector.position.set(MAP_SIZE / 2, MAP_SIZE / 2, 10);
-//        get(UnitContainer.class).add(createUnit(new Position(1, 5, 10)));
-//        get(UnitContainer.class).add(createUnit(new Position(2, 5, 10)));
-//        get(UnitContainer.class).add(createUnit(new Position(3, 5, 10)));
-//        get(UnitContainer.class).add(createUnit(new Position(4, 5, 10)));
+        get(UnitContainer.class).add(createUnit(new Position(1, 5, 10)));
         get(UnitContainer.class).add(createUnit(new Position(5, 5, 10)));
         Item pickaxe = new ItemGenerator().generateItem("pickaxe", "iron", null);
         get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(pickaxe, new Position(0, 0, 10));
+        pickaxe = new ItemGenerator().generateItem("pickaxe", "iron", null);
+        get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(pickaxe, new Position(0, 1, 10));
     }
 
     @Override

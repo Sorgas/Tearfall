@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import stonering.entity.unit.aspects.CreatureStatusIcon;
@@ -19,7 +18,6 @@ public class RenderAspect extends Aspect {
     public TextureRegion region;
     public float rotation = 0;
     public Color color;
-    public Animation<TextureRegion> animation;
     
     public RenderAspect(TextureRegion region) {
         this.region = region;

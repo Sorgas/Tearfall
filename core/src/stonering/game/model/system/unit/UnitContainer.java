@@ -26,7 +26,8 @@ public class UnitContainer extends EntityContainer<Unit> {
     public final CreatureExperienceSystem experienceSystem;
     public final CreatureEquipmentSystem equipmentSystem;
     public final DiseaseSystem diseaseSystem;
-
+    public final CreatureFallingSystem creatureFallingSystem;
+    
     private Position cachePosition; // used for faster getting unit from map
 
     public UnitContainer() {
@@ -40,6 +41,7 @@ public class UnitContainer extends EntityContainer<Unit> {
         addSystem(experienceSystem = new CreatureExperienceSystem());
         addSystem(equipmentSystem = new CreatureEquipmentSystem());
         addSystem(diseaseSystem = new DiseaseSystem());
+        addSystem(creatureFallingSystem = new CreatureFallingSystem());
     }
 
     @Override

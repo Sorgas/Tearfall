@@ -4,7 +4,6 @@ import java.util.Random;
 
 import stonering.entity.RenderAspect;
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.HumanoidRenderAspect;
 import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.job.TaskAspect;
 import stonering.enums.action.TaskStatusEnum;
@@ -76,7 +75,7 @@ public class HealthSystem extends EntitySystem<Unit> {
         unit.remove(MovementAspect.class);
         unit.vectorPosition.set(unit.position.x, unit.position.y, unit.position.z);
         
-        unit.optional(RenderAspect.class).or(() -> unit.optional(HumanoidRenderAspect.class))
+        unit.optional(RenderAspect.class).or(() -> unit.optional(RenderAspect.class))
                 .ifPresent(aspect -> aspect.rotation = 45 * (random.nextInt(6) + 1));
         // change name
         // drop tools
