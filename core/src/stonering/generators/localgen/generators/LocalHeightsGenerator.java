@@ -22,7 +22,7 @@ public class LocalHeightsGenerator extends LocalGenerator {
 
     public LocalHeightsGenerator(LocalGenContainer container) {
         super(container);
-        this.worldMap = container.model.get(World.class).getWorldMap();
+        this.worldMap = container.model.get(World.class).worldMap;
         localAreaSize = config.areaSize;
     }
 

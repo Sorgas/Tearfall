@@ -86,12 +86,12 @@ public abstract class TestModel extends GameModel {
      * Creates world with one cell.
      */
     protected World createWorld() {
-        World world = new World(1, 1);
+        World world = new World(1, 1, 123);
         CelestialBody sun = new CelestialBody();
         sun.add(new CelestialLightSourceAspect(sun));
         float orbitSpeed = 0.01f;
         sun.add(new CelestialCycleAspect(orbitSpeed, sun));
-        world.getStarSystem().objects.add(sun);
+        world.starSystem.objects.add(sun);
         return world;
     }
 

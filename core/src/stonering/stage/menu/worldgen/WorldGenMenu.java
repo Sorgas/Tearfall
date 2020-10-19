@@ -1,4 +1,4 @@
-package stonering.stage.menu;
+package stonering.stage.menu.worldgen;
 
 import java.util.Random;
 
@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.Align;
 import stonering.TearFall;
 import stonering.entity.world.World;
 import stonering.generators.worldgen.WorldGenConfig;
-import stonering.generators.worldgen.WorldGeneratorContainer;
+import stonering.generators.worldgen.WorldGenSequence;
 import stonering.screen.ui_components.WorldMiniMap;
 import stonering.screen.util.WorldCellInfo;
 import stonering.screen.util.WorldSaver;
@@ -28,9 +28,11 @@ import stonering.widget.util.KeyNotifierListener;
  * @author Alexander on 08.07.2020.
  */
 public class WorldGenMenu extends Table {
-    private WorldGeneratorContainer worldGeneratorContainer;
+    private final int INITIAL_WORLD_SIZE = 100;
+    
+    private final WorldGenSequence sequence;
+    private final WorldGenConfig config;
     private World world;
-    private long seed; // gets updated from ui
     private int worldSize = 100; // changed from ui
     private TearFall game;
     private Random random = new Random();
@@ -43,7 +45,8 @@ public class WorldGenMenu extends Table {
     
     public WorldGenMenu(TearFall game) {
         this.game = game;
-        seed = random.nextLong();
+        config = new WorldGenConfig(random.nextInt(), INITIAL_WORLD_SIZE, INITIAL_WORLD_SIZE);
+        sequence = new WorldGenSequence(config);
         createLayout();
         createListener();
         setDebug(true, true);
@@ -59,16 +62,15 @@ public class WorldGenMenu extends Table {
     }
     
     private void generateWorld() {
-        WorldGenConfig config = new WorldGenConfig(seed, worldSize, worldSize);
-        worldGeneratorContainer = new WorldGeneratorContainer(config);
-        worldGeneratorContainer.runContainer();
-        world = worldGeneratorContainer.getWorld();
+        sequence.runGenerators();
+        world = sequence.getWorld();
     }
 
     private Table createLeftPanel() {
         Table table = new Table();
         table.defaults().size(300, 50);
         table.add(new Label("Generate new world", StaticSkin.skin())).row(); // caption
+        table.add(new WorldGenSettingsWidget(sequence.config));
         table.add(new Label("Seed: ", StaticSkin.skin())).row(); // caption 2
         table.add(createSeedTable()).row();
         table.add(new Label("World size: ", StaticSkin.skin())).row(); // caption 2
@@ -81,13 +83,13 @@ public class WorldGenMenu extends Table {
 
     private Table createSeedTable() {
         Table table = new Table();
-        table.add(seedField = new TextField(Long.toString(seed), StaticSkin.skin())).size(240, 50).fillX();
+        table.add(seedField = new TextField(Long.toString(config.seed), StaticSkin.skin())).size(240, 50).fillX();
         table.add(randomizeSeedButton = new TextButton("R", StaticSkin.skin())).size(50, 50).padLeft(10).row();
         randomizeSeedButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                seed = random.nextLong();
-                seedField.setText(Long.toString(seed));
+                config.seed = random.nextInt();
+                seedField.setText(Long.toString(config.seed));
             }
         });
         return table;

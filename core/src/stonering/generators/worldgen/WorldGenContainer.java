@@ -15,40 +15,50 @@ import java.util.Random;
  * @author Alexander Kuzyakov on 05.03.2017.
  */
 public class WorldGenContainer {
-    public final Random random;
     public final WorldGenConfig config;
-    private World world;
-    private int width;
-    private int height;
+    public final World world;
+    public final Random random;
+    public final int width;
+    public final int height;
 
-    private ArrayList<TectonicPlate> tectonicPlates;
+    public final ArrayList<TectonicPlate> tectonicPlates;
     public float[][] elevation;
-    private float[][] drainage;
-    private float[][] slopeAngles;
-    private float[][] summerTemperature;
-    private float[][] winterTemperature;
-    private float[][] rainfall;
-    private float[][] debug;
-    private int[][] biome;
-    private Vector2[][] rivers;
-    private Vector2[][] brooks;
-    private HashSet<Position> lakes;
-
-    private float landPart;
+    public final float[][] drainage;
+    public final float[][] slopeAngles;
+    public final float[][] summerTemperature;
+    public final float[][] winterTemperature;
+    public final float[][] rainfall;
+    public final float[][] debug;
+    public final int[][] biome;
+    public final Vector2[][] rivers;
+    public final Vector2[][] brooks;
+    public final HashSet<Position> lakes;
 
     public WorldGenContainer(WorldGenConfig config) {
-        this.width = config.getWidth();
-        this.height = config.getHeight();
         this.config = config;
+        this.width = config.width;
+        this.height = config.height;
+        world = new World(width, height, config.seed);
+        elevation = new float[width][height];
+        drainage = new float[width][height];
+        slopeAngles = new float[width][height];
+        summerTemperature = new float[width][height];
+        winterTemperature = new float[width][height];
+        rainfall = new float[width][height];
+        debug = new float[width][height];
+        biome = new int[width][height];
+        rivers = new Vector2[width][height];
+        brooks = new Vector2[width][height];
+        tectonicPlates = new ArrayList<>();
+        lakes = new HashSet<>();
         random = new Random(config.seed);
-        reset();
     }
 
     /**
      * flushes collections from container to map
      */
     public void fillMap() {
-        WorldMap map = world.getWorldMap();
+        WorldMap map = world.worldMap;
         map.setTectonicPlates(tectonicPlates);
         float maxElevation = 0;
         for (int x = 0; x < width; x++) {
@@ -69,28 +79,12 @@ public class WorldGenContainer {
         map.getLakes().addAll(lakes);
     }
 
-    public void reset() {
-        world = new World(width, height);
-        elevation = new float[width][height];
-        drainage = new float[width][height];
-        slopeAngles = new float[width][height];
-        summerTemperature = new float[width][height];
-        winterTemperature = new float[width][height];
-        rainfall = new float[width][height];
-        debug = new float[width][height];
-        biome = new int[width][height];
-        rivers = new Vector2[width][height];
-        brooks = new Vector2[width][height];
-        tectonicPlates = new ArrayList<>();
-        lakes = new HashSet<>();
-    }
-
     public boolean inMap(int x, int y) {
         return (x >= 0 && y >= 0 && x < width && y < height);
     }
 
     public boolean inMap(float x, float y) {
-        return world.getWorldMap().inMap(x, y);
+        return world.worldMap.inMap(x, y);
     }
 
     public float getSlopeAngles(int x, int y) {
@@ -102,7 +96,7 @@ public class WorldGenContainer {
     }
     
     public WorldMap getMap() {
-        return world.getWorldMap();
+        return world.worldMap;
     }
 
     public void setElevation(int x, int y, float value) {
@@ -159,10 +153,6 @@ public class WorldGenContainer {
         return inMap(x, y) ? rainfall[x][y] : 0;
     }
 
-    public void setLandPart(float landPart) {
-        this.landPart = landPart;
-    }
-
     public void setRiver(int x, int y, Vector2 value) {
         if (inMap(x, y)) {
             rivers[x][y] = value;
@@ -201,9 +191,5 @@ public class WorldGenContainer {
         if (inMap(x, y)) {
             biome[x][y] = value;
         }
-    }
-
-    public World getWorld() {
-        return world;
     }
 }

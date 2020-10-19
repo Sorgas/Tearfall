@@ -8,55 +8,55 @@ import java.util.Random;
  * @author Alexander Kuzyakov on 06.03.2017.
  */
 public class WorldGenConfig {
-    public final long seed;
+    public int seed;
     public int width;
     public int height;
 
     //for plate worldgen
-    private int plateDensity = 2500;
-    private int minPlateSpeed = 3;
-    private int maxPlateSpeed = 6;
-    private float centerMargin = 0.07f;
+    public int plateDensity = 2500;
+    public int minPlateSpeed = 3;
+    public int maxPlateSpeed = 6;
+    public float centerMargin = 0.07f;
 
     // for mountain worldgen
     // minimal distance between tops
-    private float PlateSpeedToHeightModifier = 2.0f;
-    private int mountainsTopsDensity = 10;
-    private float topOffsetModifier = 2.5f;
+    public float PlateSpeedToHeightModifier = 2.0f;
+    public int mountainsTopsDensity = 10;
+    public float topOffsetModifier = 2.5f;
 
     //for valleys worldgen
-    private float plateSpeedToDepthModifier = 3.0f;
-    private int valleysTopsDensity = 5;
-    private float worldBorderDepth = -1.8f;
+    public float plateSpeedToDepthModifier = 3.0f;
+    public int valleysTopsDensity = 5;
+    public float worldBorderDepth = -1.8f;
 
     //for valleys renderer
-    private int smoothIterations = 0;
-    private int smoothRadius = 1;
+    public int smoothIterations = 0;
+    public int smoothRadius = 1;
 
     //for hill worldgen
-    private int hillDensity = 120;
-    private float hillMargin = 0.08f;
+    public int hillDensity = 120;
+    public float hillMargin = 0.08f;
 
     //for ocean filler
-    private float seaLevel = 0.5f;
+    public float seaLevel = 0.5f;
 
     //for river worldgen
-    private int riverDensity = 1000;
-    private float largeRiverStartLevel = 0.7f;
+    public int riverDensity = 1000;
+    public float largeRiverStartLevel = 0.7f;
 
     //for temperature worldgen
-    private float polarLineWidth = 0.04f;
-    private float equatorLineWidth = 0.03f;
-    private float maxTemperature = 35;
-    private float minTemperature = -15;
-    private float seasonalDeviation = 5;
-    private float elevationInfluence = 4f;
+    public float polarLineWidth = 0.04f;
+    public float equatorLineWidth = 0.03f;
+    public float maxTemperature = 35;
+    public float minTemperature = -15;
+    public float seasonalDeviation = 5;
+    public float elevationInfluence = 4f;
 
     //rainfall x3 for sm/y
-    private int minRainfall = 5; // deserts and glaciers
-    private int maxRainfall = 75; // tropical forests
+    public int minRainfall = 5; // deserts and glaciers
+    public int maxRainfall = 75; // tropical forests
 
-    public WorldGenConfig(long seed, int width, int height) {
+    public WorldGenConfig(int seed, int width, int height) {
         this.seed = seed;
         this.width = width;
         this.height = height;
@@ -64,7 +64,7 @@ public class WorldGenConfig {
     }
 
     public WorldGenConfig(int width, int height) {
-        this(new Random().nextLong(), width, height);
+        this(new Random().nextInt(), width, height);
     }
 
     public float getTopOffsetModifier() {

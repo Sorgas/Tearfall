@@ -15,7 +15,6 @@ import java.io.Serializable;
 public class CelestialBody extends Entity implements Serializable {
 
     public CelestialBody() {
-        super(); //TODO redesign entity hierarchy
-        add(new CelestialLightSourceAspect(this));
+        //TODO redesign entity hierarchy
     }
 }

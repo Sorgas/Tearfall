@@ -14,7 +14,7 @@ import stonering.screen.PrepareExpeditionMenu;
 import stonering.screen.util.SingleStageScreen;
 import stonering.stage.menu.MainMenu;
 import stonering.stage.menu.LocationSelectMenu;
-import stonering.stage.menu.WorldGenMenu;
+import stonering.stage.menu.worldgen.WorldGenMenu;
 import stonering.stage.menu.WorldSelectMenu;
 import stonering.stage.util.SingleActorStage;
 import stonering.util.geometry.Position;

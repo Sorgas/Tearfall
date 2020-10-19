@@ -15,22 +15,15 @@ import java.io.Serializable;
  */
 public class World implements Serializable, ModelComponent, Updatable {
     public String name;
-    private WorldMap worldMap;
-    private StarSystem starSystem;
-    private int seed;
+    public final WorldMap worldMap;
+    public final StarSystem starSystem;
+    public final int seed;
 
-    public World(int width, int height) {
+    public World(int width, int height, int seed) {
         worldMap = new WorldMap(width, height);
+        this.seed = seed;
         starSystem = new StarSystem();
         name = "";
-    }
-
-    public WorldMap getWorldMap() {
-        return worldMap;
-    }
-
-    public StarSystem getStarSystem() {
-        return starSystem;
     }
 
     @Override

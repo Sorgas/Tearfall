@@ -8,8 +8,7 @@ import stonering.entity.world.TectonicPlate;
 import stonering.generators.worldgen.WorldGenContainer;
 import stonering.entity.world.WorldMap;
 import stonering.entity.world.Edge;
-import stonering.entity.world.Mountain;
-import stonering.stage.menu.WorldGenMenu;
+import stonering.stage.menu.worldgen.WorldGenMenu;
 import stonering.util.geometry.Position;
 
 import java.util.Iterator;
@@ -125,10 +124,10 @@ public class MapDrawer {
 
     private void drawOceans() {
         WorldMap map = container.getMap();
-        for (int x = 0; x < map.getWidth(); x++) {
+        for (int x = 0; x < map.width; x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 float elevation = map.getElevation(x, y);
-                if (elevation < container.config.getSeaLevel()) {
+                if (elevation < container.config.seaLevel) {
                     if (useTiles) {
                         if (elevation > -5) {
                             drawTile(x, y, 0, 0);

@@ -27,7 +27,7 @@ public class LocalGenContainer {
 
     public LocalGenContainer(LocalGenConfig config, World world) {
         this.config = config;
-        localElevation = (int) (world.getWorldMap().getElevation(config.getLocation().x, config.getLocation().y) * config.getWorldToLocalElevationModifier());
+        localElevation = (int) (world.worldMap.getElevation(config.getLocation().x, config.getLocation().y) * config.getWorldToLocalElevationModifier());
         model = new MainGameModel(new LocalMap(config.areaSize, config.areaSize, localElevation + config.getAirLayersAboveGround()));
         model.createComponents(world);
         GameMvc.createInstance(model).init();

@@ -18,6 +18,9 @@ public class CelestialLightSourceAspect extends AbstractLightSourceAspect implem
         super(entity);
     }
 
+    public CelestialLightSourceAspect() {
+    }
+
     @Override
     public void init() {
         applyLightToMap();

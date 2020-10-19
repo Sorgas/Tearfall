@@ -257,8 +257,8 @@ public class WorldMiniMap extends Container {
 
     public void setWorld(World world) {
         if (world == null) return;
-        this.map = world.getWorldMap();
-        tileChooser.setMap(world.getWorldMap());
+        this.map = world.worldMap;
+        tileChooser.setMap(map);
         focus.x = map.getWidth() / 2;
         focus.y = map.getHeight() / 2;
         updateSize();

@@ -16,6 +16,8 @@ public abstract class AbstractLightSourceAspect extends Aspect {
     public AbstractLightSourceAspect(Entity entity) {
         super(entity);
     }
+    
+    public AbstractLightSourceAspect() {}
 
     /**
      * Recreates light spot from this source.
