@@ -17,19 +17,19 @@ import java.util.List;
  */
 public class CalendarGenerator extends WorldGenerator {
 
-    public CalendarGenerator(WorldGenContainer container) {
-        super(container);
+    @Override
+    public void set(WorldGenContainer container) {
+
     }
 
     @Override
-    public boolean execute() {
+    public void run() {
         WorldCalendar calendar = new WorldCalendar();
         Json json = new Json();
         List<SeasonData> seasons = json.fromJson(List.class, SeasonData.class, new FileHandle(FileUtil.SEASONS_PATH));
         for (SeasonData season : seasons) {
 
         }
-        return false;
     }
 
     private String generateSeasonName(SeasonData data) {

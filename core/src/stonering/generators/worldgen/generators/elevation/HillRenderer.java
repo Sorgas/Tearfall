@@ -19,15 +19,15 @@ public class HillRenderer  extends WorldGenerator {
 	private int smoothIterations = 1;
 	private int smoothRadius = 2;
 
-	public HillRenderer(WorldGenContainer container) {
-		super(container);
-		this.width = container.config.getWidth();
-		this.height = container.config.getHeight();
+	@Override
+	public void set(WorldGenContainer container) {
+		this.width = container.config.width;
+		this.height = container.config.height;
 		elevation = new float[width][height];
 	}
 
 	@Override
-	public boolean execute() {
+	public void run() {
 		System.out.println("rendering hills");
 //		for (Iterator<Mountain> iterator = container.getHills().iterator(); iterator.hasNext(); ) {
 //			Mountain hill = iterator.next();
@@ -39,7 +39,6 @@ public class HillRenderer  extends WorldGenerator {
 				container.setElevation(x, y, container.getElevation(x,y) + elevation[x][y]);
 			}
 		}
-		return false;
 	}
 
 	private void renderHill(Mountain hill) {

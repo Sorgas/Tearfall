@@ -16,15 +16,16 @@ import stonering.entity.environment.aspects.CelestialCycleAspect;
  */
 public class CelestialBodiesGenerator extends WorldGenerator {
 
-    public CelestialBodiesGenerator(WorldGenContainer container) {
-        super(container);
+    @Override
+    public void set(WorldGenContainer container) {
+
     }
 
     @Override
-    public boolean execute() {
+    public void run() {
         generateSun();
         generateMainPlanet();
-        return false;
+
     }
 
     /**
@@ -55,8 +56,8 @@ public class CelestialBodiesGenerator extends WorldGenerator {
     private void generatePlanets() {
 
     }
-    
+
     private void generateMainPlanet() {
-        
+
     }
 }

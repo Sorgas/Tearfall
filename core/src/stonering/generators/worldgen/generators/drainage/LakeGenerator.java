@@ -16,19 +16,19 @@ import java.util.HashSet;
 public class LakeGenerator extends WorldGenerator {
     private ArrayList<Lake> lakes;
 
-    public LakeGenerator(WorldGenContainer container) {
-        super(container);
+    @Override
+    public void set(WorldGenContainer container) {
         lakes = new ArrayList<>();
     }
 
-    public boolean execute() {
+    @Override
+    public void run() {
         System.out.println("generating lakes");
         container.getLakes().forEach(position -> lakes.add(new Lake(position)));
         container.getLakes().clear();
-        lakes.forEach(lake -> expandLake(lake));
-        lakes.forEach(lake -> normalizeLakeElavation(lake));
+        lakes.forEach(this::expandLake);
+        lakes.forEach(this::normalizeLakeElavation);
         lakes.forEach(lake -> container.getLakes().addAll(lake.positions));
-        return false;
     }
 
     /**
@@ -42,7 +42,7 @@ public class LakeGenerator extends WorldGenerator {
         int lakeSize = getLakeSize(position.x, position.y);
         for (int i = 0; i < lakeSize; i++) {
             Position newPosition = getLowestPosition(neighbours, lake.positions);
-            if (container.getElevation(newPosition) < container.config.getSeaLevel()) {
+            if (container.getElevation(newPosition) < container.config.seaLevel) {
                 break;
             }
             lake.positions.add(newPosition);

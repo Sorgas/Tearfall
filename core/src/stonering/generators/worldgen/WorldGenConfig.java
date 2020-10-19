@@ -20,7 +20,7 @@ public class WorldGenConfig {
 
     // for mountain worldgen
     // minimal distance between tops
-    public float PlateSpeedToHeightModifier = 2.0f;
+    public float plateSpeedToHeightModifier = 2.0f;
     public int mountainsTopsDensity = 10;
     public float topOffsetModifier = 2.5f;
 
@@ -65,117 +65,5 @@ public class WorldGenConfig {
 
     public WorldGenConfig(int width, int height) {
         this(new Random().nextInt(), width, height);
-    }
-
-    public float getTopOffsetModifier() {
-        return topOffsetModifier;
-    }
-
-    public int getPlateDensity() {
-        return plateDensity;
-    }
-
-    public int getMountainsTopsDensity() {
-        return mountainsTopsDensity;
-    }
-
-    public float getPlateSpeedToHeightModifier() {
-        return PlateSpeedToHeightModifier;
-    }
-
-    public float getPlateSpeedToDepthModifier() {
-        return plateSpeedToDepthModifier;
-    }
-
-    public int getValleysTopsDensity() {
-        return valleysTopsDensity;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public int getMinPlateSpeed() {
-        return minPlateSpeed;
-    }
-
-    public int getMaxPlateSpeed() {
-        return maxPlateSpeed;
-    }
-
-    public int getSmoothIterations() {
-        return smoothIterations;
-    }
-
-    public int getSmoothRadius() {
-        return smoothRadius;
-    }
-
-    public int getHillDensity() {
-        return hillDensity;
-    }
-
-    public float getWorldBorderDepth() {
-        return worldBorderDepth;
-    }
-
-    public float getCenterMargin() {
-        return centerMargin;
-    }
-
-    public float getSeaLevel() {
-        return seaLevel;
-    }
-
-    public float getHillMargin() {
-        return hillMargin;
-    }
-
-    public float getPolarLineWidth() {
-        return polarLineWidth;
-    }
-
-    public float getEquatorLineWidth() {
-        return equatorLineWidth;
-    }
-
-    public float getMaxTemperature() {
-        return maxTemperature;
-    }
-
-    public float getMinTemperature() {
-        return minTemperature;
-    }
-
-    public int getMinRainfall() {
-        return minRainfall;
-    }
-
-    public int getMaxRainfall() {
-        return maxRainfall;
-    }
-
-    public float getLargeRiverStartLevel() {
-        return largeRiverStartLevel;
-    }
-
-    public float getElevationInfluence() {
-        return elevationInfluence;
-    }
-
-    public float getSeasonalDeviation() {
-        return seasonalDeviation;
     }
 }

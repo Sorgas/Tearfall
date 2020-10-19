@@ -23,22 +23,19 @@ public class MountainGenerator extends WorldGenerator {
     private float topOffsetModifier;
     private int topsDensity;
 
-    public MountainGenerator(WorldGenContainer container) {
-        super(container);
-    }
-
-    private void extractContainer() {
+    @Override
+    public void set(WorldGenContainer container) {
         random = container.random;
 //        edges = container.getEdges();
-        width = container.config.getWidth();
-        height = container.config.getHeight();
-        topsDensity = container.config.getMountainsTopsDensity();
-        plateSpeedToHeightModifier = container.config.getPlateSpeedToHeightModifier();
-        topOffsetModifier = container.config.getTopOffsetModifier();
+        width = container.config.width;
+        height = container.config.height;
+        topsDensity = container.config.mountainsTopsDensity;
+        plateSpeedToHeightModifier = container.config.plateSpeedToHeightModifier;
+        topOffsetModifier = container.config.topOffsetModifier;
     }
 
     @Override
-    public boolean execute() {
+    public void run() {
         System.out.println("generating mountains");
 //		extractContainer();
 //		for (Edge edge : edges) {
@@ -50,7 +47,6 @@ public class MountainGenerator extends WorldGenerator {
 //				applyOffsetVectors(edge);
 //			}
 //		}
-        return false;
     }
 
     private void mergeMountainChains(Edge edge) {

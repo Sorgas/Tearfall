@@ -48,7 +48,7 @@ public class LocalRiverGenerator extends LocalGenerator {
     }
 
     private void extractContainer() {
-        worldMap = container.model.get(World.class).getWorldMap();
+        worldMap = container.model.get(World.class).worldMap;
         location = container.config.getLocation();
         inflows = new ArrayList<>();
         flows = new ArrayList<>();

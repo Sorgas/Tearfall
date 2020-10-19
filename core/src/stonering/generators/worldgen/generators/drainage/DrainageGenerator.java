@@ -13,26 +13,21 @@ public class DrainageGenerator extends WorldGenerator {
     private int width;
     private int height;
 
-    public DrainageGenerator(WorldGenContainer container) {
-        super(container);
+    @Override
+    public void set(WorldGenContainer container) {
+        width = container.config.width;
+        height = container.config.height;
+        evaporation = new float[width][height];
+        slopesDrainage = new float[width][height];
+        basinsDrainage = new float[width][height];
     }
 
     @Override
-    public boolean execute() {
-        extractContainer();
+    public void run() {
         createEvaporationMap();
         countSlopeDrainage();
         applyBasins();
         renderDrainage();
-        return false;
-    }
-
-    private void extractContainer() {
-        width = container.config.getWidth();
-        height = container.config.getHeight();
-        evaporation = new float[width][height];
-        slopesDrainage = new float[width][height];
-        basinsDrainage = new float[width][height];
     }
 
     /**
@@ -55,8 +50,8 @@ public class DrainageGenerator extends WorldGenerator {
             for (int y = 0; y < height; y++) {
                 float temperature = (container.getSummerTemperature(x, y) + container.getWinterTemperature(x, y)) / 2f;
                 if (temperature > -10) {
-                    evaporation[x][y] = temperature / container.config.getMaxTemperature();
-                    evaporation[x][y] *= 1-  container.getRainfall(x, y) / container.config.getMaxRainfall();
+                    evaporation[x][y] = temperature / container.config.maxTemperature;
+                    evaporation[x][y] *= 1-  container.getRainfall(x, y) / container.config.maxRainfall;
                 }
             }
         }
@@ -65,7 +60,7 @@ public class DrainageGenerator extends WorldGenerator {
     private void renderDrainage() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if (container.getElevation(x, y) > container.config.getSeaLevel())
+                if (container.getElevation(x, y) > container.config.seaLevel)
                     container.setDrainage(x, y, evaporation[x][y] + slopesDrainage[x][y] + basinsDrainage[x][y]);
             }
         }

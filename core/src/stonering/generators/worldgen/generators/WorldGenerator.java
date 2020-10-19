@@ -1,18 +1,25 @@
 package stonering.generators.worldgen.generators;
 
+import stonering.generators.worldgen.WorldGenConfig;
 import stonering.generators.worldgen.WorldGenContainer;
 
 /**
  * Abstract world generator. Has container of intermediate results.
- * 
+ *
  * @author Alexander Kuzyakov on 26.03.2017.
  */
 public abstract class WorldGenerator {
-	protected final WorldGenContainer container;
+    protected WorldGenContainer container;
+    protected WorldGenConfig config;
 
-	public WorldGenerator(WorldGenContainer container) {
-		this.container = container;
-	}
+    public void execute(WorldGenContainer container) {
+        this.container = container;
+        this.config = container.config;
+        set(container);
+        run();
+    }
 
-	public abstract boolean execute();
+    public abstract void set(WorldGenContainer container);
+
+    public abstract void run();
 }

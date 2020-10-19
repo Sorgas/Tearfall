@@ -14,16 +14,17 @@ public class OceanFiller extends WorldGenerator {
 	private int width;
 	private int height;
 	private float seaLevel;
-	
-	public OceanFiller(WorldGenContainer container) {
-		super(container);
+
+	@Override
+	public void set(WorldGenContainer container) {
 		this.random = container.random;
-		this.width = container.config.getWidth();
-		this.height = container.config.getHeight();
-		seaLevel = container.config.getSeaLevel();
+		this.width = container.config.width;
+		this.height = container.config.height;
+		seaLevel = container.config.seaLevel;
 	}
 
-	public boolean execute() {
+	@Override
+	public void run() {
 		System.out.println("filling oceans");
 		WorldMap map = container.getMap();
 		float oceanCount = 0;
@@ -34,7 +35,5 @@ public class OceanFiller extends WorldGenerator {
 				}
 			}
 		}
-		container.setLandPart(1.0f - oceanCount / (width * height));
-		return false;
 	}
 }

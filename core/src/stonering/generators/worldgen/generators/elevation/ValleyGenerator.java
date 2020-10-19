@@ -26,33 +26,26 @@ public class ValleyGenerator extends WorldGenerator {
     private int topsDensity;
     private float worldBorderDepth;
 
-    public ValleyGenerator(WorldGenContainer container) {
-        super(container);
-    }
-
-    private void extractContainer() {
-        WorldGenConfig config = container.config;
+    @Override
+    public void set(WorldGenContainer container) {
         random = container.random;
-        plateSpeedToDepthModifier = config.getPlateSpeedToDepthModifier();
-        topOffsetModifier = config.getTopOffsetModifier();
-        topsDensity = config.getValleysTopsDensity();
-        worldBorderDepth = config.getWorldBorderDepth();
+        plateSpeedToDepthModifier = config.plateSpeedToDepthModifier;
+        topOffsetModifier = config.topOffsetModifier;
+        topsDensity = config.valleysTopsDensity;
+        worldBorderDepth = config.worldBorderDepth;
 //        edges = container.getEdges();
     }
 
     @Override
-    public boolean execute() {
+    public void run() {
         System.out.println("generating valleys");
-        extractContainer();
-        for (Iterator<Edge> iterator = edges.iterator(); iterator.hasNext(); ) {
-            Edge edge = iterator.next();
+        for (Edge edge : edges) {
             edge.getValleys().clear();
             configureEdge(edge);
             createValleyDepths(edge);
             applyOffsetVectors(edge);
             createValley(edge);
         }
-        return false;
     }
 
     private void createTops(Edge edge) {

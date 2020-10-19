@@ -1,6 +1,7 @@
 package stonering.generators.worldgen.generators.elevation;
 
 import com.badlogic.gdx.math.Vector2;
+
 import stonering.entity.world.TectonicPlate;
 import stonering.generators.worldgen.WorldGenConfig;
 import stonering.generators.worldgen.WorldGenContainer;
@@ -31,37 +32,31 @@ public class PlateGenerator extends WorldGenerator {
     private float centerMargin;
     private List<Position> centers;
 
-    public PlateGenerator(WorldGenContainer container) {
-        super(container);
-    }
-
-    public boolean execute() {
-        System.out.println("generating tectonicPlates");
-        boolean rejected = false;
-        extractContainer();
-        createPlates();
-        createAggregationCenters();
-        createPlateSpeed();
-        if (mergeEdges()) return true;
-        applyVectorsToEdges();
-        return rejected;
-    }
-
-    private void extractContainer() {
+    @Override
+    public void set(WorldGenContainer container) {
         config = container.config;
         random = container.random;
-        plateNum = config.getPlateDensity();
-        minPlateSpeed = config.getMinPlateSpeed();
-        maxPlateSpeed = config.getMaxPlateSpeed();
+        plateNum = config.plateDensity;
+        minPlateSpeed = config.minPlateSpeed;
+        maxPlateSpeed = config.maxPlateSpeed;
 //        edges = container.getEdges();
         tectonicPlates = container.getTectonicPlates();
         centers = new ArrayList<>();
-        centerMargin = config.getCenterMargin();
+        centerMargin = config.centerMargin;
+    }
+
+    @Override
+    public void run() {
+        System.out.println("generating tectonicPlates");
+        createPlates();
+        createAggregationCenters();
+        createPlateSpeed();
+        if (!mergeEdges()) applyVectorsToEdges();
     }
 
     private void createPlates() {
-        int width = container.config.getWidth();
-        int height = container.config.getHeight();
+        int width = container.config.width;
+        int height = container.config.height;
 
         PowerDiagram diagram = new PowerDiagram();
 
@@ -79,8 +74,8 @@ public class PlateGenerator extends WorldGenerator {
     }
 
     private ArrayList<Site> generatePlateCenters() {
-        int width = container.config.getWidth();
-        int height = container.config.getHeight();
+        int width = container.config.width;
+        int height = container.config.width;
         int widthMargin = (int) (width * centerMargin);
         int heightMargin = (int) (height * centerMargin);
         ArrayList<Site> sites = new ArrayList<Site>();
@@ -114,8 +109,8 @@ public class PlateGenerator extends WorldGenerator {
 
     private void createAggregationCenters() {
         int centerNum = plateNum / 3;
-        int width = container.config.getWidth();
-        int height = container.config.getHeight();
+        int width = container.config.width;
+        int height = container.config.height;
         int widthMargin = (int) (width * centerMargin);
         int heightMargin = (int) (height * centerMargin);
         for (int i = 0; centers.size() < centerNum && i < plateNum * 2; i++) {
@@ -138,7 +133,7 @@ public class PlateGenerator extends WorldGenerator {
         for (Iterator<TectonicPlate> iterator = tectonicPlates.iterator(); iterator.hasNext(); ) {
             TectonicPlate plate = iterator.next();
             Position center = plate.getCenter();
-            double minDistance = config.getHeight();
+            double minDistance = config.height;
             Position nearestCenter = centers.get(0);
             for (Position acenter : centers) {
                 double distance = Math.sqrt(Math.pow(center.x - acenter.x, 2) + Math.pow(center.y - acenter.y, 2));

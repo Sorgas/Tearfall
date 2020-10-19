@@ -19,29 +19,24 @@ public class RainfallGenerator extends WorldGenerator {
     private float[][] rainfallBuffer;
     private boolean[][] rainfallSet;
 
-    public RainfallGenerator(WorldGenContainer container) {
-        super(container);
-    }
-
-    private void extractContainer() {
-        width = container.config.getWidth();
-        height = container.config.getHeight();
-        seaLevel = container.config.getSeaLevel();
-        minRainfall = container.config.getMinRainfall();
-        maxRainfall = container.config.getMaxRainfall();
+    @Override
+    public void set(WorldGenContainer container) {
+        width = container.config.width;
+        height = container.config.height;
+        seaLevel = container.config.seaLevel;
+        minRainfall = container.config.minRainfall;
+        maxRainfall = container.config.maxRainfall;
         rainfallBuffer = new float[width][height];
         rainfallSet = new boolean[width][height];
     }
 
     @Override
-    public boolean execute() {
+    public void run() {
         System.out.println("generating rainfall");
-        extractContainer();
         addMainGradientOnWater();
         fillEmptyInBuffer();
         addPerlinNoise();
         ensureBounds();
-        return false;
     }
 
     /**

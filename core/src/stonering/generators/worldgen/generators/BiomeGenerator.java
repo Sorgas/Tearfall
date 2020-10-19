@@ -14,24 +14,15 @@ public class BiomeGenerator extends WorldGenerator {
     private int height;
     private float seaLevel;
 
-    public BiomeGenerator(WorldGenContainer container) {
-        super(container);
+    @Override
+    public void set(WorldGenContainer container) {
+        width = container.config.width;
+        height = container.config.height;
+        seaLevel = container.config.seaLevel;
     }
 
     @Override
-    public boolean execute() {
-        extractContainer();
-        fetchCells();
-        return false;
-    }
-
-    private void extractContainer() {
-        width = container.config.getWidth();
-        height = container.config.getHeight();
-        seaLevel = container.config.getSeaLevel();
-    }
-
-    private void fetchCells() {
+    public void run() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 markBiome(countBiome(x, y), x, y);

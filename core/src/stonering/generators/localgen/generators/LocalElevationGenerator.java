@@ -15,12 +15,12 @@ import java.util.Random;
  *
  * @author Alexander Kuzyakov on 21.08.2017.
  */
-public class LocalHeightsGenerator extends LocalGenerator {
+public class LocalElevationGenerator extends LocalGenerator {
     private WorldMap worldMap;
     private int localAreaSize;
     private float[][] localHightMap;
 
-    public LocalHeightsGenerator(LocalGenContainer container) {
+    public LocalElevationGenerator(LocalGenContainer container) {
         super(container);
         this.worldMap = container.model.get(World.class).worldMap;
         localAreaSize = config.areaSize;
@@ -201,7 +201,7 @@ public class LocalHeightsGenerator extends LocalGenerator {
         for (int x = 0; x < localHightMap.length; x++) {
             for (int y = 0; y < localHightMap.length; y++) {
                 result[x][y] = Math.round(localHightMap[x][y]);
-                max = result[x][y] > max ? result[x][y] : max;
+                max = Math.max(result[x][y], max);
             }
         }
         return result;

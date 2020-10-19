@@ -20,25 +20,21 @@ public class BrookGenerator extends WorldGenerator {
     private float seaLevel;
     private Vector2[][] slopes;
 
-    public BrookGenerator(WorldGenContainer container) {
-        super(container);
-    }
-
-    private void extractContainer(WorldGenContainer container) {
-        width = container.config.getWidth();
-        height = container.config.getHeight();
-        seaLevel = container.config.getSeaLevel();
+    @Override
+    public void set(WorldGenContainer container) {
+        width = container.config.width;
+        height = container.config.height;
+        seaLevel = container.config.seaLevel;
         slopes = new Vector2[width][height];
     }
 
-    public boolean execute() {
+    @Override
+    public void run() {
         System.out.println("generating brooks");
-        extractContainer(container);
         countAngles();
         createBrookStartPositions().forEach(position -> {
             addBrookToContainer(runBrook(position));
         });
-        return false;
     }
 
     private Brook runBrook(Position start) {

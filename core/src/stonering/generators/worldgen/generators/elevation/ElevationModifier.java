@@ -14,18 +14,17 @@ public class ElevationModifier extends WorldGenerator {
     private int width;
     private int height;
     private Int2dBounds bounds;
-    
-    public ElevationModifier(WorldGenContainer container) {
-        super(container);
-        width = container.config.getWidth();
-        height = container.config.getHeight();
+
+    @Override
+    public void set(WorldGenContainer container) {
+        width = container.config.width;
+        height = container.config.height;
         bounds = new Int2dBounds(width, height);
     }
 
     @Override
-    public boolean execute() {
+    public void run() {
         generateAddition(7, 0.5f, 0.03f, 0.05f);
-        return false;
     }
 
     private void generateAddition(int octaves, float roughness, float scale, float amplitude) {

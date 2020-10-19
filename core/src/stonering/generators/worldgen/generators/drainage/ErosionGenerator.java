@@ -34,24 +34,20 @@ public class ErosionGenerator extends WorldGenerator {
 
     private List<Drop> drops = new ArrayList<>();
 
-    public ErosionGenerator(WorldGenContainer container) {
-        super(container);
+    @Override
+    public void set(WorldGenContainer container) {
+        width = container.config.width;
+        height = container.config.height;
+        bounds = new Int2dBounds(0, 0, width - 1, height - 1);
     }
 
-    public boolean execute() {
+    @Override
+    public void run() {
         System.out.println("generating erosion");
-        extractContainer();
         expandMap();
         putDrops();
         runDrops();
         reduceMap();
-        return false;
-    }
-
-    private void extractContainer() {
-        width = container.config.width;
-        height = container.config.height;
-        bounds = new Int2dBounds(0, 0, width - 1, height - 1);
     }
 
     private void expandMap() {
@@ -182,7 +178,7 @@ public class ErosionGenerator extends WorldGenerator {
     private boolean outOfMap(float x, float y) {
         return x < 0 || y < 0 || x >= expandedWidth || y >= expandedHeight;
     }
-    
+
     /**
      * Represents unit of waterflow. Has direction. Can carry sediment, evaporates over time.
      */

@@ -12,7 +12,7 @@ import stonering.generators.worldgen.generators.temperature.TemperatureGenerator
  */
 public class WorldGenSequence {
     public WorldGenContainer container; // container for generation intermediate results 
-    public WorldGenConfig config;
+    public final WorldGenConfig config;
     
     private ElevationGenerator elevationGenerator;
     private OceanFiller oceanFiller;
@@ -28,42 +28,36 @@ public class WorldGenSequence {
     private CelestialBodiesGenerator celestialBodiesGenerator;
 
     public WorldGenSequence(WorldGenConfig config) {
-        container = new WorldGenContainer(config);
-        oceanFiller = new OceanFiller(container);
-        riverGenerator = new RiverGenerator(container);
-        brookGenerator = new BrookGenerator(container);
-        temperatureGenerator = new TemperatureGenerator(container);
-        elevationGenerator = new ElevationGenerator(container);
-        rainfallGenerator = new RainfallGenerator(container);
-        erosionGenerator = new ErosionGenerator(container);
-        elevationModifier = new ElevationModifier(container);
-        lakeGenerator = new LakeGenerator(container);
-        drainageGenerator = new DrainageGenerator(container);
-        biomeGenerator = new BiomeGenerator(container);
-        celestialBodiesGenerator = new CelestialBodiesGenerator(container);
+        this.config = config;
+        oceanFiller = new OceanFiller();
+        riverGenerator = new RiverGenerator();
+        brookGenerator = new BrookGenerator();
+        temperatureGenerator = new TemperatureGenerator();
+        elevationGenerator = new ElevationGenerator();
+        rainfallGenerator = new RainfallGenerator();
+        erosionGenerator = new ErosionGenerator();
+        elevationModifier = new ElevationModifier();
+        lakeGenerator = new LakeGenerator();
+        drainageGenerator = new DrainageGenerator();
+        biomeGenerator = new BiomeGenerator();
+        celestialBodiesGenerator = new CelestialBodiesGenerator();
     }
 
     public void runGenerators() {
-        celestialBodiesGenerator.execute();
-        elevationGenerator.execute();
+        container = new WorldGenContainer(config);
+        celestialBodiesGenerator.execute(container);
+        elevationGenerator.execute(container);
         container.fillMap();
-        oceanFiller.execute();
-        erosionGenerator.execute();
-        temperatureGenerator.execute();
-        rainfallGenerator.execute();
-//        elevationModifier.execute();
-        riverGenerator.execute();
-//        brookGenerator.execute();
-//        lakeGenerator.execute();
-//        drainageGenerator.execute();
-//        biomeGenerator.execute();
+        oceanFiller.execute(container);
+        erosionGenerator.execute(container);
+        temperatureGenerator.execute(container);
+        rainfallGenerator.execute(container);
+//        elevationModifier.execute(container);
+        riverGenerator.execute(container);
+//        brookGenerator.execute(container);
+//        lakeGenerator.execute(container);
+//        drainageGenerator.execute(container);
+//        biomeGenerator.execute(container);
         container.fillMap();
-    }
-
-    /**
-     * Returns world map from container.
-     */
-    public World getWorld() {
-        return container.world;
     }
 }

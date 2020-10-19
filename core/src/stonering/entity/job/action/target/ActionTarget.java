@@ -44,7 +44,6 @@ public abstract class ActionTarget {
         }
     }
 
-    //TODO check passing for neighbour
     private int getDistance(Position current) {
         Position target = getPosition();
         if (current.equals(target)) return 0;

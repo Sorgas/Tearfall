@@ -148,7 +148,7 @@ public class MapDrawer {
         WorldMap map = container.getMap();
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
-                if (map.getElevation(x, y) < container.config.getSeaLevel()) {
+                if (map.getElevation(x, y) < container.config.seaLevel) {
                     shapeRenderer.setColor(0, 0, 0.005f * Math.abs((container.getSlopeAngles(x, y) % 360) - 180), 1);
                 } else {
                     shapeRenderer.setColor(0, 0.005f * Math.abs((container.getSlopeAngles(x, y) % 360) - 180), 0, 1);
@@ -175,8 +175,8 @@ public class MapDrawer {
     }
 
     private void drawTemperature() {
-        for (int x = 0; x < container.config.getWidth(); x++) {
-            for (int y = 0; y < container.config.getHeight(); y++) {
+        for (int x = 0; x < container.config.width; x++) {
+            for (int y = 0; y < container.config.height; y++) {
                 if (container.getSummerTemperature(x, y) < -12) {
                     shapeRenderer.setColor(1, 1, 1, 1); //
                 } else if (container.getSummerTemperature(x, y) < -0) {

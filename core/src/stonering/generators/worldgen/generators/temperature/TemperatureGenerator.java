@@ -24,34 +24,28 @@ public class TemperatureGenerator extends WorldGenerator {
     private float elevationInfluence;
     private float seasonalDeviation;     // summer and winter temperature differs from year by this.
 
-    public TemperatureGenerator(WorldGenContainer container) {
-        super(container);
-    }
-
-    private void extractContainer(WorldGenContainer container) {
-        WorldGenConfig config = container.config;
-        width = config.getWidth();
-        height = config.getHeight();
-        seaLevel = config.getSeaLevel();
-        polarLineWidth = config.getPolarLineWidth();
-        equatorLineWidth = config.getEquatorLineWidth();
-        maxSummerTemperature = config.getMaxTemperature();
-        minWinterTemperature = config.getMinTemperature();
-        seasonalDeviation = config.getSeasonalDeviation();
+    @Override
+    public void set(WorldGenContainer container) {
+        width = config.width;
+        height = config.height;
+        seaLevel = config.seaLevel;
+        polarLineWidth = config.polarLineWidth;
+        equatorLineWidth = config.equatorLineWidth;
+        maxSummerTemperature = config.maxTemperature;
+        minWinterTemperature = config.minTemperature;
+        seasonalDeviation = config.seasonalDeviation;
         maxYearTemperature = maxSummerTemperature - seasonalDeviation;
         minYearTemperature = minWinterTemperature + seasonalDeviation;
         yearTemperature = new float[width][height];
-        elevationInfluence = config.getElevationInfluence();
+        elevationInfluence = config.elevationInfluence;
     }
 
     @Override
-    public boolean execute() {
-        extractContainer(container);
+    public void run() {
         createGradient();
         addNoiseAndElevation();
         ensureBounds();
         renderTemperature();
-        return false;
     }
 
     /**

@@ -21,7 +21,7 @@ public class LocalTemperatureGenerator extends LocalGenerator {
     public void execute() {
         Logger.GENERATION.logDebug("generating temperature");
         Position location = container.config.getLocation();
-        WorldMap worldMap = container.model.get(World.class).getWorldMap();
+        WorldMap worldMap = container.model.get(World.class).worldMap;
         float summerTemp = worldMap.getSummerTemperature(location.x, location.y);
         float winterTemp = worldMap.getWinterTemperature(location.x, location.y);
         float yearMiddleTemp = (summerTemp + winterTemp) / 2f;

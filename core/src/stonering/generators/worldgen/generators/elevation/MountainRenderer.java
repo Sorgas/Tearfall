@@ -16,13 +16,16 @@ public class MountainRenderer extends WorldGenerator {
     private float[][] elevation;
     private float[][] smoothElevation;
 
-    public MountainRenderer(WorldGenContainer container) {
-        super(container);
-        extractContainer();
+    @Override
+    public void set(WorldGenContainer container) {
+        this.width = container.config.width;
+        this.height = container.config.height;
+        elevation = new float[width][height];
+        smoothElevation = new float[width][height];
     }
 
     @Override
-    public boolean execute() {
+    public void run() {
         System.out.println("rendering mountains");
 //        for (Edge edge : container.getEdges()) {
 //            for (Mountain mountain : edge.getMountains()) {
@@ -38,14 +41,6 @@ public class MountainRenderer extends WorldGenerator {
                 container.setElevation(x, y, container.getElevation(x, y) + elevation[x][y]);
             }
         }
-        return false;
-    }
-
-    private void extractContainer() {
-        this.width = container.config.getWidth();
-        this.height = container.config.getHeight();
-        elevation = new float[width][height];
-        smoothElevation = new float[width][height];
     }
 
     private void renderMountain(Mountain mountain) {

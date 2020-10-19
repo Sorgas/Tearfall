@@ -128,8 +128,8 @@ public class LocationSelectMenu extends Table {
         int x = minimap.getFocus().x;
         int y = minimap.getFocus().y;
         worldInfoLabel.setText("qwer" + worldCellInfo.getCellInfo(x, y,
-                Math.round(world.getWorldMap().getElevation(x, y)),
-                world.getWorldMap().getSummerTemperature(x, y),
-                world.getWorldMap().getRainfall(x, y)));
+                Math.round(world.worldMap.getElevation(x, y)),
+                world.worldMap.getSummerTemperature(x, y),
+                world.worldMap.getRainfall(x, y)));
     }
 }

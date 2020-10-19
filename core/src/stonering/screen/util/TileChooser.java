@@ -31,8 +31,8 @@ public class TileChooser {
 
     public TextureRegion getTile(int x, int y) {
         int elevation = Math.round(map.getElevation(x, y));
-        if (elevation < config.getSeaLevel()) {
-            if (elevation < config.getSeaLevel() - 8) {
+        if (elevation < config.seaLevel) {
+            if (elevation < config.seaLevel - 8) {
                 return ocean;
             } else {
                 return sea;
@@ -41,11 +41,11 @@ public class TileChooser {
 //            if (map.getRivers().containsKey(new Position(x, y, 0))) {
 //                return river;
 //            } else
-                if (elevation < config.getSeaLevel() + 10) {
+                if (elevation < config.seaLevel + 10) {
                 return hill;
-            } else if (elevation < config.getSeaLevel() + 20) {
+            } else if (elevation < config.seaLevel + 20) {
                 return forest;
-            } else if (elevation < config.getSeaLevel() + 40) {
+            } else if (elevation < config.seaLevel + 40) {
                 return mountain;
             } else {
                 return pike;

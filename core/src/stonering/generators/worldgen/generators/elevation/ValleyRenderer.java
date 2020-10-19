@@ -20,17 +20,17 @@ public class ValleyRenderer  extends WorldGenerator {
 	private int smoothIterations = 0;
 	private int smoothRadius = 1;
 
-	public ValleyRenderer(WorldGenContainer container) {
-		super(container);
-		this.width = container.config.getWidth();
-		this.height = container.config.getHeight();
-		this.smoothIterations = container.config.getSmoothIterations();
-		this.smoothRadius = container.config.getSmoothRadius();
+	@Override
+	public void set(WorldGenContainer container) {
+		this.width = container.config.width;
+		this.height = container.config.height;
+		this.smoothIterations = container.config.smoothIterations;
+		this.smoothRadius = container.config.smoothRadius;
 		elevation = new float[width][height];
 	}
 
 	@Override
-	public boolean execute() {
+	public void run() {
 		System.out.println("rendering valleys");
 //		for (Iterator<Edge> edgeIterator = container.getEdges().iterator(); edgeIterator.hasNext(); ) {
 //			for (Iterator<Mountain> iterator = edgeIterator.next().getValleys().iterator(); iterator.hasNext(); ) {
@@ -44,7 +44,6 @@ public class ValleyRenderer  extends WorldGenerator {
 				container.setElevation(x, y, container.getElevation(x,y) + elevation[x][y]);
 			}
 		}
-		return false;
 	}
 
 	private void renderValley(Mountain valley) {

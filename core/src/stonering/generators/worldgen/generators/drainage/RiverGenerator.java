@@ -26,32 +26,27 @@ public class RiverGenerator extends WorldGenerator {
     private float seaLevel;
     private float riverStartLevel;
 
-    public RiverGenerator(WorldGenContainer container) {
-        super(container);
-    }
-
-    private void extractContainer(WorldGenContainer container) {
+    @Override
+    public void set(WorldGenContainer container) {
         random = container.random;
-        width = container.config.getWidth();
-        height = container.config.getHeight();
+        width = container.config.width;
+        height = container.config.height;
         slopeInclination = new Vector2[width][height];
         endPoints = new Vector2[width][height];
         inflows = new Vector2[width][height];
         riverVectors = new Vector2[width][height];
         waterAmount = new float[width][height];
-        seaLevel = container.config.getSeaLevel();
-        riverStartLevel = container.config.getLargeRiverStartLevel();
+        seaLevel = container.config.seaLevel;
+        riverStartLevel = container.config.largeRiverStartLevel;
     }
 
     @Override
-    public boolean execute() {
+    public void run() {
         System.out.println("generating rivers");
-        extractContainer(container);
         countAngles();
         countWaterAmount();
         countRiverVectors();
-        elevationStartPoints().forEach((point) -> runRiverFromStart(point));
-        return false;
+        elevationStartPoints().forEach(this::runRiverFromStart);
     }
 
     private void countAngles() {

@@ -15,7 +15,7 @@ import stonering.generators.localgen.generators.flora.LocalSubstrateGenerator;
  */
 public class LocalGeneratorContainer {
     private LocalGenContainer localGenContainer;
-    private LocalHeightsGenerator localHeightsGenerator;
+    private LocalElevationGenerator localElevationGenerator;
     private LocalStoneLayersGenerator localStoneLayersGenerator;
     private LocalRiverGenerator localRiverGenerator;
     private LocalCaveGenerator localCaveGenerator;
@@ -38,7 +38,7 @@ public class LocalGeneratorContainer {
     }
 
     private void createGenerators() {
-        localHeightsGenerator = new LocalHeightsGenerator(localGenContainer);
+        localElevationGenerator = new LocalElevationGenerator(localGenContainer);
         localStoneLayersGenerator = new LocalStoneLayersGenerator(localGenContainer);
 //        localOresGenerator = new
         localCaveGenerator = new LocalCaveGenerator(localGenContainer);
@@ -56,7 +56,7 @@ public class LocalGeneratorContainer {
 
     public void execute() {
         //landscape
-        localHeightsGenerator.execute(); //creates heights map
+        localElevationGenerator.execute(); //creates heights map
         localStoneLayersGenerator.execute(); //fills localmap with blocks by heightsmap
         localCaveGenerator.execute(); //digs caves
         //water
